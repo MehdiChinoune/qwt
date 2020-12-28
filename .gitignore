@@ -1,0 +1,11 @@
+Makefile
+.qmake.stash
+obj
+moc
+rcc
+lib
+bin
+html
+plugins
+resources
+Doxygen.log
