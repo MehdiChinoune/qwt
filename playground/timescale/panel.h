@@ -1,0 +1,37 @@
+/*****************************************************************************
+ * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+ * This file may be used under the terms of the 3-clause BSD License
+ *****************************************************************************/
+
+#ifndef PANEL_H
+#define PANEL_H
+
+#include "settings.h"
+#include <qwidget.h>
+
+class QDateTimeEdit;
+class QSpinBox;
+
+class Panel: public QWidget
+{
+    Q_OBJECT
+
+public:
+    Panel( QWidget *parent = NULL );
+
+    void setSettings( const Settings &);
+    Settings settings() const;
+
+Q_SIGNALS:
+    void edited();
+
+private:
+    QDateTimeEdit* d_startDateTime;
+    QDateTimeEdit* d_endDateTime;
+
+    QSpinBox *d_maxMajorSteps;
+    QSpinBox *d_maxMinorSteps;
+    QSpinBox *d_maxWeeks;
+};
+
+#endif

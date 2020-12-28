@@ -1,0 +1,59 @@
+/*****************************************************************************
+ * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+ * This file may be used under the terms of the 3-clause BSD License
+ *****************************************************************************/
+
+#ifndef PANEL_H
+#define PANEL_H
+
+#include "settings.h"
+#include <qtabwidget.h>
+
+class QComboBox;
+class SpinBox;
+class CheckBox;
+
+class Panel: public QTabWidget
+{
+    Q_OBJECT
+
+public:
+    Panel( QWidget * = NULL );
+
+    Settings settings() const;
+    void setSettings( const Settings & );
+
+Q_SIGNALS:
+    void settingsChanged( const Settings & );
+
+private Q_SLOTS:
+    void edited();
+
+private:
+    QWidget *createPlotTab( QWidget * );
+    QWidget *createCanvasTab( QWidget * );
+    QWidget *createCurveTab( QWidget * );
+
+    SpinBox *d_numPoints;
+    SpinBox *d_updateInterval;
+    QComboBox *d_updateType;
+
+    QComboBox *d_gridStyle;
+    CheckBox *d_paintCache;
+    CheckBox *d_paintOnScreen;
+    CheckBox *d_immediatePaint;
+#ifndef QWT_NO_OPENGL
+    CheckBox *d_openGL;
+#endif
+
+    QComboBox *d_curveType;
+    CheckBox *d_curveAntialiasing;
+    CheckBox *d_curveClipping;
+    QComboBox *d_curveWeeding;
+    CheckBox *d_lineSplitting;
+    SpinBox  *d_curveWidth;
+    QComboBox *d_curvePen;
+    CheckBox *d_curveFilled;
+};
+
+#endif
