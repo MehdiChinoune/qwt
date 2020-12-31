@@ -9,3 +9,4 @@ html
 plugins
 resources
 Doxygen.log
+*.swp
