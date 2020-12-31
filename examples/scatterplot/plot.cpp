@@ -47,7 +47,7 @@ public:
 
 Plot::Plot( QWidget *parent ):
     QwtPlot( parent ),
-    d_curve( NULL )
+    m_curve( NULL )
 {
     canvas()->setStyleSheet(
         "border: 2px solid Black;"
@@ -57,14 +57,14 @@ Plot::Plot( QWidget *parent ):
     );
 
     // attach curve
-    d_curve = new QwtPlotCurve( "Scattered Points" );
-    d_curve->setPen( QColor( "Purple" ) );
+    m_curve = new QwtPlotCurve( "Scattered Points" );
+    m_curve->setPen( QColor( "Purple" ) );
 
     // when using QwtPlotCurve::ImageBuffer simple dots can be
     // rendered in parallel on multicore systems.
-    d_curve->setRenderThreadCount( 0 ); // 0: use QThread::idealThreadCount()
+    m_curve->setRenderThreadCount( 0 ); // 0: use QThread::idealThreadCount()
 
-    d_curve->attach( this );
+    m_curve->attach( this );
 
     setSymbol( NULL );
 
@@ -83,20 +83,20 @@ Plot::Plot( QWidget *parent ):
 
 void Plot::setSymbol( QwtSymbol *symbol )
 {
-    d_curve->setSymbol( symbol );
+    m_curve->setSymbol( symbol );
 
     if ( symbol == NULL )
     {
-        d_curve->setStyle( QwtPlotCurve::Dots );
+        m_curve->setStyle( QwtPlotCurve::Dots );
     }
 }
 
 void Plot::setSamples( const QVector<QPointF> &samples )
 {
-    d_curve->setPaintAttribute(
+    m_curve->setPaintAttribute(
         QwtPlotCurve::ImageBuffer, samples.size() > 1000 );
 
-    d_curve->setSamples( samples );
+    m_curve->setSamples( samples );
 }
 
 #include "moc_plot.cpp"

@@ -447,12 +447,12 @@ QwtPlotRasterItem::QwtPlotRasterItem( const QwtText& title ):
 //! Destructor
 QwtPlotRasterItem::~QwtPlotRasterItem()
 {
-    delete d_data;
+    delete m_data;
 }
 
 void QwtPlotRasterItem::init()
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 
     setItemAttribute( QwtPlotItem::AutoScale, true );
     setItemAttribute( QwtPlotItem::Legend, false );
@@ -470,9 +470,9 @@ void QwtPlotRasterItem::init()
 void QwtPlotRasterItem::setPaintAttribute( PaintAttribute attribute, bool on )
 {
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 }
 
 /*!
@@ -481,7 +481,7 @@ void QwtPlotRasterItem::setPaintAttribute( PaintAttribute attribute, bool on )
 */
 bool QwtPlotRasterItem::testPaintAttribute( PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute );
+    return ( m_data->paintAttributes & attribute );
 }
 
 /*!
@@ -515,9 +515,9 @@ void QwtPlotRasterItem::setAlpha( int alpha )
     if ( alpha > 255 )
         alpha = 255;
 
-    if ( alpha != d_data->alpha )
+    if ( alpha != m_data->alpha )
     {
-        d_data->alpha = alpha;
+        m_data->alpha = alpha;
 
         itemChanged();
     }
@@ -529,7 +529,7 @@ void QwtPlotRasterItem::setAlpha( int alpha )
 */
 int QwtPlotRasterItem::alpha() const
 {
-    return d_data->alpha;
+    return m_data->alpha;
 }
 
 /*!
@@ -543,9 +543,9 @@ int QwtPlotRasterItem::alpha() const
 void QwtPlotRasterItem::setCachePolicy(
     QwtPlotRasterItem::CachePolicy policy )
 {
-    if ( d_data->cache.policy != policy )
+    if ( m_data->cache.policy != policy )
     {
-        d_data->cache.policy = policy;
+        m_data->cache.policy = policy;
 
         invalidateCache();
         itemChanged();
@@ -558,7 +558,7 @@ void QwtPlotRasterItem::setCachePolicy(
 */
 QwtPlotRasterItem::CachePolicy QwtPlotRasterItem::cachePolicy() const
 {
-    return d_data->cache.policy;
+    return m_data->cache.policy;
 }
 
 /*!
@@ -567,9 +567,9 @@ QwtPlotRasterItem::CachePolicy QwtPlotRasterItem::cachePolicy() const
 */
 void QwtPlotRasterItem::invalidateCache()
 {
-    d_data->cache.image = QImage();
-    d_data->cache.area = QRect();
-    d_data->cache.size = QSize();
+    m_data->cache.image = QImage();
+    m_data->cache.area = QRect();
+    m_data->cache.size = QSize();
 }
 
 /*!
@@ -615,10 +615,10 @@ void QwtPlotRasterItem::draw( QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     const QRectF &canvasRect ) const
 {
-    if ( canvasRect.isEmpty() || d_data->alpha == 0 )
+    if ( canvasRect.isEmpty() || m_data->alpha == 0 )
         return;
 
-    const bool doCache = qwtUseCache( d_data->cache.policy, painter );
+    const bool doCache = qwtUseCache( m_data->cache.policy, painter );
 
     const QwtInterval xInterval = interval( Qt::XAxis );
     const QwtInterval yInterval = interval( Qt::YAxis );
@@ -835,11 +835,11 @@ QImage QwtPlotRasterItem::compose(
 
     if ( doCache )
     {
-        if ( !d_data->cache.image.isNull()
-            && d_data->cache.area == imageArea
-            && d_data->cache.size == paintRect.size() )
+        if ( !m_data->cache.image.isNull()
+            && m_data->cache.area == imageArea
+            && m_data->cache.size == paintRect.size() )
         {
-            image = d_data->cache.image;
+            image = m_data->cache.image;
         }
     }
 
@@ -863,13 +863,13 @@ QImage QwtPlotRasterItem::compose(
 
         if ( doCache )
         {
-            d_data->cache.area = imageArea;
-            d_data->cache.size = paintRect.size();
-            d_data->cache.image = image;
+            m_data->cache.area = imageArea;
+            m_data->cache.size = paintRect.size();
+            m_data->cache.image = image;
         }
     }
 
-    if ( d_data->alpha >= 0 && d_data->alpha < 255 )
+    if ( m_data->alpha >= 0 && m_data->alpha < 255 )
     {
         QImage alphaImage( image.size(), QImage::Format_ARGB32 );
 
@@ -893,19 +893,19 @@ QImage QwtPlotRasterItem::compose(
             if ( i == numThreads - 1 )
             {
                 tile.setHeight( image.height() - i * numRows );
-                qwtToRgba( &image, &alphaImage, tile, d_data->alpha );
+                qwtToRgba( &image, &alphaImage, tile, m_data->alpha );
             }
             else
             {
                 futures += QtConcurrent::run(
-                    &qwtToRgba, &image, &alphaImage, tile, d_data->alpha );
+                    &qwtToRgba, &image, &alphaImage, tile, m_data->alpha );
             }
         }
         for ( int i = 0; i < futures.size(); i++ )
             futures[i].waitForFinished();
 #else
         const QRect tile( 0, 0, image.width(), image.height() );
-        qwtToRgba( &image, &alphaImage, tile, d_data->alpha );
+        qwtToRgba( &image, &alphaImage, tile, m_data->alpha );
 #endif
         image = alphaImage;
     }

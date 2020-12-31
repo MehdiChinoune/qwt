@@ -44,8 +44,8 @@
 
 #include <cstring>
 
-bool QwtPainter::d_polylineSplitting = true;
-bool QwtPainter::d_roundingAlignment = true;
+bool QwtPainter::m_polylineSplitting = true;
+bool QwtPainter::m_roundingAlignment = true;
 
 static inline bool qwtIsRasterPaintEngineBuggy()
 {
@@ -314,7 +314,7 @@ bool QwtPainter::isAligning( const QPainter *painter )
 */
 void QwtPainter::setRoundingAlignment( bool enable )
 {
-    d_roundingAlignment = enable;
+    m_roundingAlignment = enable;
 }
 
 /*!
@@ -334,7 +334,7 @@ void QwtPainter::setRoundingAlignment( bool enable )
 */
 void QwtPainter::setPolylineSplitting( bool enable )
 {
-    d_polylineSplitting = enable;
+    m_polylineSplitting = enable;
 }
 
 //! Wrapper for QPainter::drawPath()
@@ -585,12 +585,12 @@ void QwtPainter::drawPolyline( QPainter *painter, const QPolygonF &polygon )
         const QPolygonF cpa = QwtClipper::clippedPolygonF( clipRect, polygon );
 
         qwtDrawPolyline<QPointF>( painter,
-            cpa.constData(), cpa.size(), d_polylineSplitting );
+            cpa.constData(), cpa.size(), m_polylineSplitting );
     }
     else
     {
         qwtDrawPolyline<QPointF>( painter,
-            polygon.constData(), polygon.size(), d_polylineSplitting );
+            polygon.constData(), polygon.size(), m_polylineSplitting );
     }
 }
 
@@ -608,11 +608,11 @@ void QwtPainter::drawPolyline( QPainter *painter,
 
         QwtClipper::clipPolygonF( clipRect, polygon );
         qwtDrawPolyline<QPointF>( painter,
-            polygon.constData(), polygon.size(), d_polylineSplitting );
+            polygon.constData(), polygon.size(), m_polylineSplitting );
     }
     else
     {
-        qwtDrawPolyline<QPointF>( painter, points, pointCount, d_polylineSplitting );
+        qwtDrawPolyline<QPointF>( painter, points, pointCount, m_polylineSplitting );
     }
 }
 
@@ -644,12 +644,12 @@ void QwtPainter::drawPolyline( QPainter *painter, const QPolygon &polygon )
         const QPolygon cpa = QwtClipper::clippedPolygon( clipRect, polygon );
 
         qwtDrawPolyline<QPoint>( painter,
-            cpa.constData(), cpa.size(), d_polylineSplitting );
+            cpa.constData(), cpa.size(), m_polylineSplitting );
     }
     else
     {
         qwtDrawPolyline<QPoint>( painter,
-            polygon.constData(), polygon.size(), d_polylineSplitting );
+            polygon.constData(), polygon.size(), m_polylineSplitting );
     }
 }
 
@@ -667,11 +667,11 @@ void QwtPainter::drawPolyline( QPainter *painter,
 
         QwtClipper::clipPolygon( clipRect, polygon );
         qwtDrawPolyline<QPoint>( painter,
-            polygon.constData(), polygon.size(), d_polylineSplitting );
+            polygon.constData(), polygon.size(), m_polylineSplitting );
     }
     else
     {
-        qwtDrawPolyline<QPoint>( painter, points, pointCount, d_polylineSplitting );
+        qwtDrawPolyline<QPoint>( painter, points, pointCount, m_polylineSplitting );
     }
 }
 

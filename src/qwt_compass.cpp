@@ -27,12 +27,12 @@ public:
  */
 QwtCompassScaleDraw::QwtCompassScaleDraw()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     enableComponent( QwtAbstractScaleDraw::Backbone, false );
     enableComponent( QwtAbstractScaleDraw::Ticks, false );
 
-    QMap<double, QString> &map = d_data->labelMap;
+    QMap<double, QString> &map = m_data->labelMap;
 
     map.insert( 0.0, QString::fromLatin1( "N" ) );
     map.insert( 45.0, QString::fromLatin1( "NE" ) );
@@ -62,8 +62,8 @@ QwtCompassScaleDraw::QwtCompassScaleDraw()
  */
 QwtCompassScaleDraw::QwtCompassScaleDraw( const QMap<double, QString> &map )
 {
-    d_data = new PrivateData;
-    d_data->labelMap = map;
+    m_data = new PrivateData;
+    m_data->labelMap = map;
 
     enableComponent( QwtAbstractScaleDraw::Backbone, false );
     enableComponent( QwtAbstractScaleDraw::Ticks, false );
@@ -72,7 +72,7 @@ QwtCompassScaleDraw::QwtCompassScaleDraw( const QMap<double, QString> &map )
 //!  Destructor
 QwtCompassScaleDraw::~QwtCompassScaleDraw()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -89,7 +89,7 @@ QwtCompassScaleDraw::~QwtCompassScaleDraw()
 */
 void QwtCompassScaleDraw::setLabelMap( const QMap<double, QString> &map )
 {
-    d_data->labelMap = map;
+    m_data->labelMap = map;
 }
 
 /*!
@@ -98,7 +98,7 @@ void QwtCompassScaleDraw::setLabelMap( const QMap<double, QString> &map )
 */
 QMap<double, QString> QwtCompassScaleDraw::labelMap() const
 {
-    return d_data->labelMap;
+    return m_data->labelMap;
 }
 
 /*!
@@ -122,9 +122,9 @@ QwtText QwtCompassScaleDraw::label( double value ) const
         value += 360.0;
 
     QMap<double, QString>::const_iterator it =
-        d_data->labelMap.constFind( value );
+        m_data->labelMap.constFind( value );
 
-    if ( it != d_data->labelMap.constEnd() )
+    if ( it != m_data->labelMap.constEnd() )
         return *it;
 
     return QwtText();
@@ -158,7 +158,7 @@ public:
 QwtCompass::QwtCompass( QWidget* parent ):
     QwtDial( parent )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setScaleDraw( new QwtCompassScaleDraw() );
 
@@ -175,7 +175,7 @@ QwtCompass::QwtCompass( QWidget* parent ):
 //!  Destructor
 QwtCompass::~QwtCompass()
 {
-    delete d_data;
+    delete m_data;
 }
 
 
@@ -218,8 +218,8 @@ void QwtCompass::drawScaleContents( QPainter *painter,
 void QwtCompass::drawRose( QPainter *painter, const QPointF &center,
     double radius, double north, QPalette::ColorGroup cg ) const
 {
-    if ( d_data->rose )
-        d_data->rose->draw( painter, center, radius, north,  cg );
+    if ( m_data->rose )
+        m_data->rose->draw( painter, center, radius, north,  cg );
 }
 
 /*!
@@ -231,12 +231,12 @@ void QwtCompass::drawRose( QPainter *painter, const QPointF &center,
 */
 void QwtCompass::setRose( QwtCompassRose *rose )
 {
-    if ( rose != d_data->rose )
+    if ( rose != m_data->rose )
     {
-        if ( d_data->rose )
-            delete d_data->rose;
+        if ( m_data->rose )
+            delete m_data->rose;
 
-        d_data->rose = rose;
+        m_data->rose = rose;
         update();
     }
 }
@@ -247,7 +247,7 @@ void QwtCompass::setRose( QwtCompassRose *rose )
 */
 const QwtCompassRose *QwtCompass::rose() const
 {
-    return d_data->rose;
+    return m_data->rose;
 }
 
 /*!
@@ -256,7 +256,7 @@ const QwtCompassRose *QwtCompass::rose() const
 */
 QwtCompassRose *QwtCompass::rose()
 {
-    return d_data->rose;
+    return m_data->rose;
 }
 
 /*!

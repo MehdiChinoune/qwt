@@ -26,8 +26,8 @@ public Q_SLOTS:
     void mirror();
 
 private:
-    QwtPolarGrid *d_grid;
-    QwtPolarSpectrogram *d_spectrogram;
+    QwtPolarGrid *m_grid;
+    QwtPolarSpectrogram *m_spectrogram;
 };
 
 #endif

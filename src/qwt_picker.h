@@ -333,7 +333,7 @@ private:
     void setMouseTracking( bool );
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

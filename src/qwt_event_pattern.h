@@ -217,8 +217,8 @@ private:
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    QVector<MousePattern> d_mousePattern;
-    QVector<KeyPattern> d_keyPattern;
+    QVector<MousePattern> m_mousePattern;
+    QVector<KeyPattern> m_keyPattern;
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif

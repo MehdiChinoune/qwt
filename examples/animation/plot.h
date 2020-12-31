@@ -27,9 +27,9 @@ private:
     void updateCurves();
 
     enum { CurveCount = 4 };
-    Curve *d_curves[CurveCount];
+    Curve *m_curves[CurveCount];
 
-    QElapsedTimer d_timer;
+    QElapsedTimer m_timer;
 };
 
 #endif

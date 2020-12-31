@@ -44,7 +44,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!
@@ -81,7 +81,7 @@ protected:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

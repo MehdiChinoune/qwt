@@ -15,7 +15,7 @@
   \sa type()
 */
 QwtSplineParametrization::QwtSplineParametrization( int type ):
-    d_type( type )
+    m_type( type )
 {
 }
 
@@ -35,7 +35,7 @@ QwtSplineParametrization::~QwtSplineParametrization()
 double QwtSplineParametrization::valueIncrement(
     const QPointF &point1, const QPointF &point2 ) const
 {
-    switch( d_type )
+    switch( m_type )
     {
         case QwtSplineParametrization::ParameterX:
         {
@@ -71,5 +71,5 @@ double QwtSplineParametrization::valueIncrement(
 //! \return Parametrization type
 int QwtSplineParametrization::type() const
 {
-    return d_type;
+    return m_type;
 }

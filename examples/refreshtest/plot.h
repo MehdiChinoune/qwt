@@ -30,15 +30,15 @@ protected:
 private:
     void alignScales();
 
-    QwtPlotGrid *d_grid;
-    QwtPlotCurve *d_curve;
+    QwtPlotGrid *m_grid;
+    QwtPlotCurve *m_curve;
 
-    QwtSystemClock d_clock;
-    double d_interval;
+    QwtSystemClock m_clock;
+    double m_interval;
 
-    int d_timerId;
+    int m_timerId;
 
-    Settings d_settings;
+    Settings m_settings;
 };
 
 #endif

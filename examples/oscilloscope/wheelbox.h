@@ -35,11 +35,11 @@ Q_SIGNALS:
     double valueChanged( double );
 
 private:
-    QLCDNumber *d_number;
-    QwtWheel *d_wheel;
-    QLabel *d_label;
+    QLCDNumber *m_number;
+    QwtWheel *m_wheel;
+    QLabel *m_label;
 
-    QString d_unit;
+    QString m_unit;
 };
 
 #endif

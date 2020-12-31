@@ -155,7 +155,7 @@ private:
     void showNumber( double );
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

@@ -29,13 +29,13 @@ protected:
     virtual void timerEvent( QTimerEvent * ) QWT_OVERRIDE;
 
 private:
-    Knob *d_knbVolume;
-    Knob *d_knbBalance;
-    Knob *d_knbTreble;
-    Knob *d_knbBass;
-    Thermo *d_thmLeft;
-    Thermo *d_thmRight;
-    double d_master;
+    Knob *m_knbVolume;
+    Knob *m_knbBalance;
+    Knob *m_knbTreble;
+    Knob *m_knbBass;
+    Thermo *m_thmLeft;
+    Thermo *m_thmRight;
+    double m_master;
 };
 
 #endif

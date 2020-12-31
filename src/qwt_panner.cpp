@@ -87,7 +87,7 @@ public:
 QwtPanner::QwtPanner( QWidget *parent ):
     QWidget( parent )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 
     setAttribute( Qt::WA_TransparentForMouseEvents );
     setAttribute( Qt::WA_NoSystemBackground );
@@ -100,7 +100,7 @@ QwtPanner::QwtPanner( QWidget *parent ):
 //! Destructor
 QwtPanner::~QwtPanner()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -110,16 +110,16 @@ QwtPanner::~QwtPanner()
 void QwtPanner::setMouseButton( Qt::MouseButton button,
     Qt::KeyboardModifiers modifiers )
 {
-    d_data->button = button;
-    d_data->buttonModifiers = modifiers;
+    m_data->button = button;
+    m_data->buttonModifiers = modifiers;
 }
 
 //! Get mouse button and modifiers used for panning
 void QwtPanner::getMouseButton( Qt::MouseButton &button,
     Qt::KeyboardModifiers &modifiers ) const
 {
-    button = d_data->button;
-    modifiers = d_data->buttonModifiers;
+    button = m_data->button;
+    modifiers = m_data->buttonModifiers;
 }
 
 /*!
@@ -132,16 +132,16 @@ void QwtPanner::getMouseButton( Qt::MouseButton &button,
 void QwtPanner::setAbortKey( int key,
     Qt::KeyboardModifiers modifiers )
 {
-    d_data->abortKey = key;
-    d_data->abortKeyModifiers = modifiers;
+    m_data->abortKey = key;
+    m_data->abortKeyModifiers = modifiers;
 }
 
 //! Get the abort key and modifiers
 void QwtPanner::getAbortKey( int &key,
     Qt::KeyboardModifiers &modifiers ) const
 {
-    key = d_data->abortKey;
-    modifiers = d_data->abortKeyModifiers;
+    key = m_data->abortKey;
+    modifiers = m_data->abortKeyModifiers;
 }
 
 /*!
@@ -155,7 +155,7 @@ void QwtPanner::getAbortKey( int &key,
 #ifndef QT_NO_CURSOR
 void QwtPanner::setCursor( const QCursor &cursor )
 {
-    d_data->cursor = new QCursor( cursor );
+    m_data->cursor = new QCursor( cursor );
 }
 #endif
 
@@ -166,8 +166,8 @@ void QwtPanner::setCursor( const QCursor &cursor )
 #ifndef QT_NO_CURSOR
 const QCursor QwtPanner::cursor() const
 {
-    if ( d_data->cursor )
-        return *d_data->cursor;
+    if ( m_data->cursor )
+        return *m_data->cursor;
 
     if ( parentWidget() )
         return parentWidget()->cursor();
@@ -187,14 +187,14 @@ const QCursor QwtPanner::cursor() const
 */
 void QwtPanner::setEnabled( bool on )
 {
-    if ( d_data->isEnabled != on )
+    if ( m_data->isEnabled != on )
     {
-        d_data->isEnabled = on;
+        m_data->isEnabled = on;
 
         QWidget *w = parentWidget();
         if ( w )
         {
-            if ( d_data->isEnabled )
+            if ( m_data->isEnabled )
             {
                 w->installEventFilter( this );
             }
@@ -215,13 +215,13 @@ void QwtPanner::setEnabled( bool on )
 */
 void QwtPanner::setOrientations( Qt::Orientations o )
 {
-    d_data->orientations = o;
+    m_data->orientations = o;
 }
 
 //! Return the orientation, where paning is enabled
 Qt::Orientations QwtPanner::orientations() const
 {
-    return d_data->orientations;
+    return m_data->orientations;
 }
 
 /*!
@@ -230,7 +230,7 @@ Qt::Orientations QwtPanner::orientations() const
 */
 bool QwtPanner::isOrientationEnabled( Qt::Orientation o ) const
 {
-    return d_data->orientations & o;
+    return m_data->orientations & o;
 }
 
 /*!
@@ -239,7 +239,7 @@ bool QwtPanner::isOrientationEnabled( Qt::Orientation o ) const
 */
 bool QwtPanner::isEnabled() const
 {
-    return d_data->isEnabled;
+    return m_data->isEnabled;
 }
 
 /*!
@@ -252,11 +252,11 @@ bool QwtPanner::isEnabled() const
 */
 void QwtPanner::paintEvent( QPaintEvent *event )
 {
-    int dx = d_data->pos.x() - d_data->initialPos.x();
-    int dy = d_data->pos.y() - d_data->initialPos.y();
+    int dx = m_data->pos.x() - m_data->initialPos.x();
+    int dy = m_data->pos.y() - m_data->initialPos.y();
 
     QRectF r;
-    r.setSize( d_data->pixmap.size() / QwtPainter::devicePixelRatio( &d_data->pixmap ) );
+    r.setSize( m_data->pixmap.size() / QwtPainter::devicePixelRatio( &m_data->pixmap ) );
     r.moveCenter( QPointF( r.center().x() + dx, r.center().y() + dy ) );
 
     QPixmap pm = QwtPainter::backingStore( this, size() );
@@ -264,21 +264,21 @@ void QwtPanner::paintEvent( QPaintEvent *event )
 
     QPainter painter( &pm );
 
-    if ( !d_data->contentsMask.isNull() )
+    if ( !m_data->contentsMask.isNull() )
     {
-        QPixmap masked = d_data->pixmap;
-        masked.setMask( d_data->contentsMask );
+        QPixmap masked = m_data->pixmap;
+        masked.setMask( m_data->contentsMask );
         painter.drawPixmap( r.toRect(), masked );
     }
     else
     {
-        painter.drawPixmap( r.toRect(), d_data->pixmap );
+        painter.drawPixmap( r.toRect(), m_data->pixmap );
     }
 
     painter.end();
 
-    if ( !d_data->contentsMask.isNull() )
-        pm.setMask( d_data->contentsMask );
+    if ( !m_data->contentsMask.isNull() )
+        pm.setMask( m_data->contentsMask );
 
     painter.begin( this );
     painter.setClipRegion( event->region() );
@@ -380,8 +380,8 @@ bool QwtPanner::eventFilter( QObject *object, QEvent *event )
 */
 void QwtPanner::widgetMousePressEvent( QMouseEvent *mouseEvent )
 {
-    if ( ( mouseEvent->button() != d_data->button )
-        || ( mouseEvent->modifiers() != d_data->buttonModifiers ) )
+    if ( ( mouseEvent->button() != m_data->button )
+        || ( mouseEvent->modifiers() != m_data->buttonModifiers ) )
     {
         return;
     }
@@ -394,7 +394,7 @@ void QwtPanner::widgetMousePressEvent( QMouseEvent *mouseEvent )
     showCursor( true );
 #endif
 
-    d_data->initialPos = d_data->pos = mouseEvent->pos();
+    m_data->initialPos = m_data->pos = mouseEvent->pos();
 
     setGeometry( parentWidget()->rect() );
 
@@ -403,8 +403,8 @@ void QwtPanner::widgetMousePressEvent( QMouseEvent *mouseEvent )
     for ( int i = 0; i < pickers.size(); i++ )
         pickers[i]->setEnabled( false );
 
-    d_data->pixmap = grab();
-    d_data->contentsMask = contentsMask();
+    m_data->pixmap = grab();
+    m_data->contentsMask = contentsMask();
 
     for ( int i = 0; i < pickers.size(); i++ )
         pickers[i]->setEnabled( true );
@@ -425,17 +425,17 @@ void QwtPanner::widgetMouseMoveEvent( QMouseEvent *mouseEvent )
 
     QPoint pos = mouseEvent->pos();
     if ( !isOrientationEnabled( Qt::Horizontal ) )
-        pos.setX( d_data->initialPos.x() );
+        pos.setX( m_data->initialPos.x() );
     if ( !isOrientationEnabled( Qt::Vertical ) )
-        pos.setY( d_data->initialPos.y() );
+        pos.setY( m_data->initialPos.y() );
 
-    if ( pos != d_data->pos && rect().contains( pos ) )
+    if ( pos != m_data->pos && rect().contains( pos ) )
     {
-        d_data->pos = pos;
+        m_data->pos = pos;
         update();
 
-        Q_EMIT moved( d_data->pos.x() - d_data->initialPos.x(),
-            d_data->pos.y() - d_data->initialPos.y() );
+        Q_EMIT moved( m_data->pos.x() - m_data->initialPos.x(),
+            m_data->pos.y() - m_data->initialPos.y() );
     }
 }
 
@@ -457,18 +457,18 @@ void QwtPanner::widgetMouseReleaseEvent( QMouseEvent *mouseEvent )
 
         QPoint pos = mouseEvent->pos();
         if ( !isOrientationEnabled( Qt::Horizontal ) )
-            pos.setX( d_data->initialPos.x() );
+            pos.setX( m_data->initialPos.x() );
         if ( !isOrientationEnabled( Qt::Vertical ) )
-            pos.setY( d_data->initialPos.y() );
+            pos.setY( m_data->initialPos.y() );
 
-        d_data->pixmap = QPixmap();
-        d_data->contentsMask = QBitmap();
-        d_data->pos = pos;
+        m_data->pixmap = QPixmap();
+        m_data->contentsMask = QBitmap();
+        m_data->pos = pos;
 
-        if ( d_data->pos != d_data->initialPos )
+        if ( m_data->pos != m_data->initialPos )
         {
-            Q_EMIT panned( d_data->pos.x() - d_data->initialPos.x(),
-                d_data->pos.y() - d_data->initialPos.y() );
+            Q_EMIT panned( m_data->pos.x() - m_data->initialPos.x(),
+                m_data->pos.y() - m_data->initialPos.y() );
         }
     }
 }
@@ -481,15 +481,15 @@ void QwtPanner::widgetMouseReleaseEvent( QMouseEvent *mouseEvent )
 */
 void QwtPanner::widgetKeyPressEvent( QKeyEvent *keyEvent )
 {
-    if ( ( keyEvent->key() == d_data->abortKey )
-        && ( keyEvent->modifiers() == d_data->abortKeyModifiers ) )
+    if ( ( keyEvent->key() == m_data->abortKey )
+        && ( keyEvent->modifiers() == m_data->abortKeyModifiers ) )
     {
         hide();
 
 #ifndef QT_NO_CURSOR
         showCursor( false );
 #endif
-        d_data->pixmap = QPixmap();
+        m_data->pixmap = QPixmap();
     }
 }
 
@@ -507,31 +507,31 @@ void QwtPanner::widgetKeyReleaseEvent( QKeyEvent *keyEvent )
 #ifndef QT_NO_CURSOR
 void QwtPanner::showCursor( bool on )
 {
-    if ( on == d_data->hasCursor )
+    if ( on == m_data->hasCursor )
         return;
 
     QWidget *w = parentWidget();
-    if ( w == NULL || d_data->cursor == NULL )
+    if ( w == NULL || m_data->cursor == NULL )
         return;
 
-    d_data->hasCursor = on;
+    m_data->hasCursor = on;
 
     if ( on )
     {
         if ( w->testAttribute( Qt::WA_SetCursor ) )
         {
-            delete d_data->restoreCursor;
-            d_data->restoreCursor = new QCursor( w->cursor() );
+            delete m_data->restoreCursor;
+            m_data->restoreCursor = new QCursor( w->cursor() );
         }
-        w->setCursor( *d_data->cursor );
+        w->setCursor( *m_data->cursor );
     }
     else
     {
-        if ( d_data->restoreCursor )
+        if ( m_data->restoreCursor )
         {
-            w->setCursor( *d_data->restoreCursor );
-            delete d_data->restoreCursor;
-            d_data->restoreCursor = NULL;
+            w->setCursor( *m_data->restoreCursor );
+            delete m_data->restoreCursor;
+            m_data->restoreCursor = NULL;
         }
         else
             w->unsetCursor();

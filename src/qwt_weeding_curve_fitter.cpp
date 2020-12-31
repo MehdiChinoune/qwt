@@ -50,14 +50,14 @@ public:
 QwtWeedingCurveFitter::QwtWeedingCurveFitter( double tolerance ):
     QwtCurveFitter( QwtCurveFitter::Polygon )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
     setTolerance( tolerance );
 }
 
 //! Destructor
 QwtWeedingCurveFitter::~QwtWeedingCurveFitter()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -75,7 +75,7 @@ QwtWeedingCurveFitter::~QwtWeedingCurveFitter()
 */
 void QwtWeedingCurveFitter::setTolerance( double tolerance )
 {
-    d_data->tolerance = qwtMaxF( tolerance, 0.0 );
+    m_data->tolerance = qwtMaxF( tolerance, 0.0 );
 }
 
 /*!
@@ -84,7 +84,7 @@ void QwtWeedingCurveFitter::setTolerance( double tolerance )
 */
 double QwtWeedingCurveFitter::tolerance() const
 {
-    return d_data->tolerance;
+    return m_data->tolerance;
 }
 
 /*!
@@ -103,7 +103,7 @@ void QwtWeedingCurveFitter::setChunkSize( uint numPoints )
     if ( numPoints > 0 )
         numPoints = qMax( numPoints, 3U );
 
-    d_data->chunkSize = numPoints;
+    m_data->chunkSize = numPoints;
 }
 
 /*!
@@ -113,7 +113,7 @@ void QwtWeedingCurveFitter::setChunkSize( uint numPoints )
 */
 uint QwtWeedingCurveFitter::chunkSize() const
 {
-    return d_data->chunkSize;
+    return m_data->chunkSize;
 }
 
 /*!
@@ -127,15 +127,15 @@ QPolygonF QwtWeedingCurveFitter::fitCurve( const QPolygonF &points ) const
         return points;
 
     QPolygonF fittedPoints;
-    if ( d_data->chunkSize == 0 )
+    if ( m_data->chunkSize == 0 )
     {
         fittedPoints = simplify( points );
     }
     else
     {
-        for ( int i = 0; i < points.size(); i += d_data->chunkSize )
+        for ( int i = 0; i < points.size(); i += m_data->chunkSize )
         {
-            const QPolygonF p = points.mid( i, d_data->chunkSize );
+            const QPolygonF p = points.mid( i, m_data->chunkSize );
             fittedPoints += simplify( p );
         }
     }
@@ -157,7 +157,7 @@ QPainterPath QwtWeedingCurveFitter::fitCurvePath( const QPolygonF &points ) cons
 
 QPolygonF QwtWeedingCurveFitter::simplify( const QPolygonF &points ) const
 {
-    const double toleranceSqr = d_data->tolerance * d_data->tolerance;
+    const double toleranceSqr = m_data->tolerance * m_data->tolerance;
 
     QStack<Line> stack;
     stack.reserve( 500 );

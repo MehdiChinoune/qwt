@@ -105,7 +105,7 @@ namespace QwtSplineLocalP
         {
             if ( points.size() > 0 )
                 controlPoints.resize( points.size() - 1 );
-            d_cp = controlPoints.data();
+            m_cp = controlPoints.data();
         }
 
         inline void start( const QPointF &, double )
@@ -117,7 +117,7 @@ namespace QwtSplineLocalP
         {
             const double dx3 = ( p2.x() - p1.x() ) / 3.0;
 
-            QLineF &l = *d_cp++;
+            QLineF &l = *m_cp++;
             l.setLine( p1.x() + dx3, p1.y() + m1 * dx3,
                 p2.x() - dx3, p2.y() - m2 * dx3 );
         }
@@ -125,7 +125,7 @@ namespace QwtSplineLocalP
         QVector<QLineF> controlPoints;
 
     private:
-        QLineF *d_cp;
+        QLineF *m_cp;
     };
 
     class SlopeStore
@@ -134,24 +134,24 @@ namespace QwtSplineLocalP
         void init( const QVector<QPointF> &points )
         {
             slopes.resize( points.size() );
-            d_m = slopes.data();
+            m_m = slopes.data();
         }
 
         inline void start( const QPointF &, double m0 )
         {
-            *d_m++ = m0;
+            *m_m++ = m0;
         }
 
         inline void addCubic( const QPointF &, double,
             const QPointF &, double m2 )
         {
-            *d_m++ = m2;
+            *m_m++ = m2;
         }
 
         QVector<double> slopes;
 
     private:
-        double *d_m;
+        double *m_m;
     };
 
     struct slopeCardinal
@@ -448,7 +448,7 @@ static inline SplineStore qwtSplineLocal(
   \sa type()
  */
 QwtSplineLocal::QwtSplineLocal( Type type ):
-    d_type( type )
+    m_type( type )
 {
     setBoundaryCondition( QwtSpline::AtBeginning, QwtSpline::LinearRunout );
     setBoundaryValue( QwtSpline::AtBeginning, 0.0 );
@@ -467,7 +467,7 @@ QwtSplineLocal::~QwtSplineLocal()
  */
 QwtSplineLocal::Type QwtSplineLocal::type() const
 {
-    return d_type;
+    return m_type;
 }
 
 /*!
@@ -551,7 +551,7 @@ QVector<QwtSplinePolynomial> QwtSplineLocal::polynomials( const QPolygonF &point
  */
 uint QwtSplineLocal::locality() const
 {
-    switch ( d_type )
+    switch ( m_type )
     {
         case Akima:
         {

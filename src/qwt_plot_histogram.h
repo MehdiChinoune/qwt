@@ -138,7 +138,7 @@ private:
     void flushPolygon( QPainter *, double baseLine, QPolygonF & ) const;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

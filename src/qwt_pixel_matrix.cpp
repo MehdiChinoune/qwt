@@ -16,7 +16,7 @@
 */
 QwtPixelMatrix::QwtPixelMatrix( const QRect& rect ):
     QBitArray( qMax( rect.width() * rect.height(), 0 ) ),
-    d_rect( rect )
+    m_rect( rect )
 {
 }
 
@@ -34,9 +34,9 @@ QwtPixelMatrix::~QwtPixelMatrix()
  */
 void QwtPixelMatrix::setRect( const QRect& rect )
 {
-    if ( rect != d_rect )
+    if ( rect != m_rect )
     {
-        d_rect = rect;
+        m_rect = rect;
         const int sz = qMax( rect.width() * rect.height(), 0 );
         resize( sz );
     }
@@ -47,5 +47,5 @@ void QwtPixelMatrix::setRect( const QRect& rect )
 //! \return Bounding rectangle
 QRect QwtPixelMatrix::rect() const
 {
-    return d_rect;
+    return m_rect;
 }

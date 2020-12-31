@@ -57,12 +57,12 @@ QwtPlotBarChart::QwtPlotBarChart( const QString &title ):
 //! Destructor
 QwtPlotBarChart::~QwtPlotBarChart()
 {
-    delete d_data;
+    delete m_data;
 }
 
 void QwtPlotBarChart::init()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
     setData( new QwtPointSeriesData() );
 }
 
@@ -133,10 +133,10 @@ void QwtPlotBarChart::setSamples( QwtSeriesData<QPointF> *data )
 */
 void QwtPlotBarChart::setSymbol( QwtColumnSymbol *symbol )
 {
-    if ( symbol != d_data->symbol )
+    if ( symbol != m_data->symbol )
     {
-        delete d_data->symbol;
-        d_data->symbol = symbol;
+        delete m_data->symbol;
+        m_data->symbol = symbol;
 
         legendChanged();
         itemChanged();
@@ -149,7 +149,7 @@ void QwtPlotBarChart::setSymbol( QwtColumnSymbol *symbol )
 */
 const QwtColumnSymbol *QwtPlotBarChart::symbol() const
 {
-    return d_data->symbol;
+    return m_data->symbol;
 }
 
 /*!
@@ -163,9 +163,9 @@ const QwtColumnSymbol *QwtPlotBarChart::symbol() const
  */
 void QwtPlotBarChart::setLegendMode( LegendMode mode )
 {
-    if ( mode != d_data->legendMode )
+    if ( mode != m_data->legendMode )
     {
-        d_data->legendMode = mode;
+        m_data->legendMode = mode;
         legendChanged();
     }
 }
@@ -176,7 +176,7 @@ void QwtPlotBarChart::setLegendMode( LegendMode mode )
  */
 QwtPlotBarChart::LegendMode QwtPlotBarChart::legendMode() const
 {
-    return d_data->legendMode;
+    return m_data->legendMode;
 }
 
 /*!
@@ -347,7 +347,7 @@ void QwtPlotBarChart::drawBar( QPainter *painter,
 
     const QwtColumnSymbol *sym = specialSym;
     if ( sym == NULL )
-        sym = d_data->symbol;
+        sym = m_data->symbol;
 
     if ( sym )
     {
@@ -417,7 +417,7 @@ QList<QwtLegendData> QwtPlotBarChart::legendData() const
 {
     QList<QwtLegendData> list;
 
-    if ( d_data->legendMode == LegendBarTitles )
+    if ( m_data->legendMode == LegendBarTitles )
     {
         const size_t numSamples = dataSize();
         list.reserve( numSamples );
@@ -475,7 +475,7 @@ QwtGraphic QwtPlotBarChart::legendIcon(
         testRenderHint( QwtPlotItem::RenderAntialiased ) );
 
     int barIndex = -1;
-    if ( d_data->legendMode == QwtPlotBarChart::LegendBarTitles )
+    if ( m_data->legendMode == QwtPlotBarChart::LegendBarTitles )
         barIndex = index;
 
     drawBar( &painter, barIndex, QPointF(), column );

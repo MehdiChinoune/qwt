@@ -76,7 +76,7 @@ QwtPlotTradingCurve::QwtPlotTradingCurve( const QString &title ):
 //! Destructor
 QwtPlotTradingCurve::~QwtPlotTradingCurve()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! Initialize internal members
@@ -85,7 +85,7 @@ void QwtPlotTradingCurve::init()
     setItemAttribute( QwtPlotItem::Legend, true );
     setItemAttribute( QwtPlotItem::AutoScale, true );
 
-    d_data = new PrivateData;
+    m_data = new PrivateData;
     setData( new QwtTradingChartData() );
 
     setZ( 19.0 );
@@ -108,9 +108,9 @@ void QwtPlotTradingCurve::setPaintAttribute(
     PaintAttribute attribute, bool on )
 {
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 }
 
 /*!
@@ -120,7 +120,7 @@ void QwtPlotTradingCurve::setPaintAttribute(
 bool QwtPlotTradingCurve::testPaintAttribute(
     PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute );
+    return ( m_data->paintAttributes & attribute );
 }
 
 /*!
@@ -161,9 +161,9 @@ void QwtPlotTradingCurve::setSamples(
 */
 void QwtPlotTradingCurve::setSymbolStyle( SymbolStyle style )
 {
-    if ( style != d_data->symbolStyle )
+    if ( style != m_data->symbolStyle )
     {
-        d_data->symbolStyle = style;
+        m_data->symbolStyle = style;
 
         legendChanged();
         itemChanged();
@@ -176,7 +176,7 @@ void QwtPlotTradingCurve::setSymbolStyle( SymbolStyle style )
 */
 QwtPlotTradingCurve::SymbolStyle QwtPlotTradingCurve::symbolStyle() const
 {
-    return d_data->symbolStyle;
+    return m_data->symbolStyle;
 }
 
 /*!
@@ -208,9 +208,9 @@ void QwtPlotTradingCurve::setSymbolPen(
 */
 void QwtPlotTradingCurve::setSymbolPen( const QPen &pen )
 {
-    if ( pen != d_data->symbolPen )
+    if ( pen != m_data->symbolPen )
     {
-        d_data->symbolPen = pen;
+        m_data->symbolPen = pen;
 
         legendChanged();
         itemChanged();
@@ -223,7 +223,7 @@ void QwtPlotTradingCurve::setSymbolPen( const QPen &pen )
 */
 QPen QwtPlotTradingCurve::symbolPen() const
 {
-    return d_data->symbolPen;
+    return m_data->symbolPen;
 }
 
 /*!
@@ -243,9 +243,9 @@ void QwtPlotTradingCurve::setSymbolBrush(
     if ( index < 0 || index >= 2 )
         return;
 
-    if ( brush != d_data->symbolBrush[ index ] )
+    if ( brush != m_data->symbolBrush[ index ] )
     {
-        d_data->symbolBrush[ index ] = brush;
+        m_data->symbolBrush[ index ] = brush;
 
         legendChanged();
         itemChanged();
@@ -265,7 +265,7 @@ QBrush QwtPlotTradingCurve::symbolBrush( Direction direction ) const
     if ( index < 0 || index >= 2 )
         return QBrush();
 
-    return d_data->symbolBrush[ index ];
+    return m_data->symbolBrush[ index ];
 }
 
 /*!
@@ -284,9 +284,9 @@ QBrush QwtPlotTradingCurve::symbolBrush( Direction direction ) const
 void QwtPlotTradingCurve::setSymbolExtent( double extent )
 {
     extent = qwtMaxF( 0.0, extent );
-    if ( extent != d_data->symbolExtent )
+    if ( extent != m_data->symbolExtent )
     {
-        d_data->symbolExtent = extent;
+        m_data->symbolExtent = extent;
 
         legendChanged();
         itemChanged();
@@ -300,7 +300,7 @@ void QwtPlotTradingCurve::setSymbolExtent( double extent )
 */
 double QwtPlotTradingCurve::symbolExtent() const
 {
-    return d_data->symbolExtent;
+    return m_data->symbolExtent;
 }
 
 /*!
@@ -312,9 +312,9 @@ double QwtPlotTradingCurve::symbolExtent() const
 void QwtPlotTradingCurve::setMinSymbolWidth( double width )
 {
     width = qwtMaxF( width, 0.0 );
-    if ( width != d_data->minSymbolWidth )
+    if ( width != m_data->minSymbolWidth )
     {
-        d_data->minSymbolWidth = width;
+        m_data->minSymbolWidth = width;
 
         legendChanged();
         itemChanged();
@@ -327,7 +327,7 @@ void QwtPlotTradingCurve::setMinSymbolWidth( double width )
  */
 double QwtPlotTradingCurve::minSymbolWidth() const
 {
-    return d_data->minSymbolWidth;
+    return m_data->minSymbolWidth;
 }
 
 /*!
@@ -340,9 +340,9 @@ double QwtPlotTradingCurve::minSymbolWidth() const
  */
 void QwtPlotTradingCurve::setMaxSymbolWidth( double width )
 {
-    if ( width != d_data->maxSymbolWidth )
+    if ( width != m_data->maxSymbolWidth )
     {
-        d_data->maxSymbolWidth = width;
+        m_data->maxSymbolWidth = width;
 
         legendChanged();
         itemChanged();
@@ -355,7 +355,7 @@ void QwtPlotTradingCurve::setMaxSymbolWidth( double width )
  */
 double QwtPlotTradingCurve::maxSymbolWidth() const
 {
-    return d_data->maxSymbolWidth;
+    return m_data->maxSymbolWidth;
 }
 
 /*!
@@ -399,7 +399,7 @@ void QwtPlotTradingCurve::drawSeries( QPainter *painter,
 
     painter->save();
 
-    if ( d_data->symbolStyle != QwtPlotTradingCurve::NoSymbol )
+    if ( m_data->symbolStyle != QwtPlotTradingCurve::NoSymbol )
         drawSymbols( painter, xMap, yMap, canvasRect, from, to );
 
     painter->restore();
@@ -449,14 +449,14 @@ void QwtPlotTradingCurve::drawSymbols( QPainter *painter,
     }
 
     const bool inverted = timeMap->isInverting();
-    const bool doClip = d_data->paintAttributes & ClipSymbols;
+    const bool doClip = m_data->paintAttributes & ClipSymbols;
     const bool doAlign = QwtPainter::roundingAlignment( painter );
 
     double symbolWidth = scaledSymbolWidth( xMap, yMap, canvasRect );
     if ( doAlign )
         symbolWidth = std::floor( 0.5 * symbolWidth ) * 2.0;
 
-    QPen pen = d_data->symbolPen;
+    QPen pen = m_data->symbolPen;
     pen.setCapStyle( Qt::FlatCap );
 
     painter->setPen( pen );
@@ -488,7 +488,7 @@ void QwtPlotTradingCurve::drawSymbols( QPainter *painter,
                 translatedSample.close = qRound( translatedSample.close );
             }
 
-            switch( d_data->symbolStyle )
+            switch( m_data->symbolStyle )
             {
                 case Bar:
                 {
@@ -498,17 +498,17 @@ void QwtPlotTradingCurve::drawSymbols( QPainter *painter,
                 }
                 case CandleStick:
                 {
-                    painter->setBrush( d_data->symbolBrush[ brushIndex ] );
+                    painter->setBrush( m_data->symbolBrush[ brushIndex ] );
                     drawCandleStick( painter, translatedSample,
                         orient, symbolWidth );
                     break;
                 }
                 default:
                 {
-                    if ( d_data->symbolStyle >= UserSymbol )
+                    if ( m_data->symbolStyle >= UserSymbol )
                     {
-                        painter->setBrush( d_data->symbolBrush[ brushIndex ] );
-                        drawUserSymbol( painter, d_data->symbolStyle,
+                        painter->setBrush( m_data->symbolBrush[ brushIndex ] );
+                        drawUserSymbol( painter, m_data->symbolStyle,
                             translatedSample, orient, inverted, symbolWidth );
                     }
                 }
@@ -643,7 +643,7 @@ QwtGraphic QwtPlotTradingCurve::legendIcon( int index,
     const QSizeF &size ) const
 {
     Q_UNUSED( index );
-    return defaultIcon( d_data->symbolPen.color(), size );
+    return defaultIcon( m_data->symbolPen.color(), size );
 }
 
 /*!
@@ -667,22 +667,22 @@ double QwtPlotTradingCurve::scaledSymbolWidth(
 {
     Q_UNUSED( canvasRect );
 
-    if ( d_data->maxSymbolWidth > 0.0 &&
-        d_data->minSymbolWidth >= d_data->maxSymbolWidth )
+    if ( m_data->maxSymbolWidth > 0.0 &&
+        m_data->minSymbolWidth >= m_data->maxSymbolWidth )
     {
-        return d_data->minSymbolWidth;
+        return m_data->minSymbolWidth;
     }
 
     const QwtScaleMap *map =
         ( orientation() == Qt::Vertical ) ? &xMap : &yMap;
 
-    const double pos = map->transform( map->s1() + d_data->symbolExtent );
+    const double pos = map->transform( map->s1() + m_data->symbolExtent );
 
     double width = qAbs( pos - map->p1() );
 
-    width = qwtMaxF( width,  d_data->minSymbolWidth );
-    if ( d_data->maxSymbolWidth > 0.0 )
-        width = qwtMinF( width, d_data->maxSymbolWidth );
+    width = qwtMaxF( width,  m_data->minSymbolWidth );
+    if ( m_data->maxSymbolWidth > 0.0 )
+        width = qwtMinF( width, m_data->maxSymbolWidth );
 
     return width;
 }

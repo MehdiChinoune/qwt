@@ -120,7 +120,7 @@ QwtTransform *QwtLogTransform::copy() const
 */
 QwtPowerTransform::QwtPowerTransform( double exponent ):
     QwtTransform(),
-    d_exponent( exponent )
+    m_exponent( exponent )
 {
 }
 
@@ -136,9 +136,9 @@ QwtPowerTransform::~QwtPowerTransform()
 double QwtPowerTransform::transform( double value ) const
 {
     if ( value < 0.0 )
-        return -std::pow( -value, 1.0 / d_exponent );
+        return -std::pow( -value, 1.0 / m_exponent );
     else
-        return std::pow( value, 1.0 / d_exponent );
+        return std::pow( value, 1.0 / m_exponent );
 
 }
 
@@ -149,13 +149,13 @@ double QwtPowerTransform::transform( double value ) const
 double QwtPowerTransform::invTransform( double value ) const
 {
     if ( value < 0.0 )
-        return -std::pow( -value, d_exponent );
+        return -std::pow( -value, m_exponent );
     else
-        return std::pow( value, d_exponent );
+        return std::pow( value, m_exponent );
 }
 
 //! \return Clone of the transformation
 QwtTransform *QwtPowerTransform::copy() const
 {
-    return new QwtPowerTransform( d_exponent );
+    return new QwtPowerTransform( m_exponent );
 }

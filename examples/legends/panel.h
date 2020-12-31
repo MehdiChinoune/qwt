@@ -33,7 +33,7 @@ private:
         QCheckBox *checkBox;
         QComboBox *positionBox;
 
-    } d_legend;
+    } m_legend;
 
     struct
     {
@@ -44,14 +44,14 @@ private:
         QComboBox *backgroundBox;
         QSpinBox *sizeBox;
 
-    } d_legendItem;
+    } m_legendItem;
 
     struct
     {
         QSpinBox *numCurves;
         QLineEdit *title;
 
-    } d_curve;
+    } m_curve;
 };
 
 #endif

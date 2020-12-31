@@ -42,10 +42,10 @@ QwtDial *CockpitGrid::createDial( int pos )
     {
         case 0:
         {
-            d_clock = new QwtAnalogClock( this );
+            m_clock = new QwtAnalogClock( this );
 #if 0
             // disable minor ticks
-            d_clock->scaleDraw()->setTickLength( QwtScaleDiv::MinorTick, 0 );
+            m_clock->scaleDraw()->setTickLength( QwtScaleDiv::MinorTick, 0 );
 #endif
 
             const QColor knobColor = QColor( Qt::gray ).lighter( 130 );
@@ -65,48 +65,48 @@ QwtDial *CockpitGrid::createDial( int pos )
                     QwtDialSimpleNeedle::Arrow, true, handColor, knobColor );
                 hand->setWidth( width );
 
-                d_clock->setHand( static_cast<QwtAnalogClock::Hand>( i ), hand );
+                m_clock->setHand( static_cast<QwtAnalogClock::Hand>( i ), hand );
             }
 
-            QTimer *timer = new QTimer( d_clock );
+            QTimer *timer = new QTimer( m_clock );
             timer->connect( timer, SIGNAL( timeout() ),
-                d_clock, SLOT( setCurrentTime() ) );
+                m_clock, SLOT( setCurrentTime() ) );
             timer->start( 1000 );
 
-            dial = d_clock;
+            dial = m_clock;
             break;
         }
         case 1:
         {
-            d_speedo = new SpeedoMeter( this );
-            d_speedo->setScaleStepSize( 20.0 );
-            d_speedo->setScale( 0.0, 240.0 );
-            d_speedo->scaleDraw()->setPenWidthF( 2 );
+            m_speedo = new SpeedoMeter( this );
+            m_speedo->setScaleStepSize( 20.0 );
+            m_speedo->setScale( 0.0, 240.0 );
+            m_speedo->scaleDraw()->setPenWidthF( 2 );
 
-            QTimer *timer = new QTimer( d_speedo );
+            QTimer *timer = new QTimer( m_speedo );
             timer->connect( timer, SIGNAL( timeout() ),
                 this, SLOT( changeSpeed() ) );
             timer->start( 50 );
 
-            dial = d_speedo;
+            dial = m_speedo;
             break;
         }
         case 2:
         {
-            d_ai = new AttitudeIndicator( this );
-            d_ai->scaleDraw()->setPenWidthF( 3 );
+            m_ai = new AttitudeIndicator( this );
+            m_ai->scaleDraw()->setPenWidthF( 3 );
 
-            QTimer *gradientTimer = new QTimer( d_ai );
+            QTimer *gradientTimer = new QTimer( m_ai );
             gradientTimer->connect( gradientTimer, SIGNAL( timeout() ),
                 this, SLOT( changeGradient() ) );
             gradientTimer->start( 100 );
 
-            QTimer *angleTimer = new QTimer( d_ai );
+            QTimer *angleTimer = new QTimer( m_ai );
             angleTimer->connect( angleTimer, SIGNAL( timeout() ),
                 this, SLOT( changeAngle() ) );
             angleTimer->start( 100 );
 
-            dial = d_ai;
+            dial = m_ai;
             break;
         }
 
@@ -139,7 +139,7 @@ void CockpitGrid::changeSpeed()
 {
     static double offset = 0.8;
 
-    double speed = d_speedo->value();
+    double speed = m_speedo->value();
 
     if ( ( speed < 7.0 && offset < 0.0 ) ||
         ( speed > 203.0 && offset > 0.0 ) )
@@ -156,7 +156,7 @@ void CockpitGrid::changeSpeed()
         case 8:
             break;
         default:
-            d_speedo->setValue( speed + offset );
+            m_speedo->setValue( speed + offset );
     }
 }
 
@@ -164,7 +164,7 @@ void CockpitGrid::changeAngle()
 {
     static double offset = 0.05;
 
-    double angle = d_ai->angle();
+    double angle = m_ai->angle();
     if ( angle > 180.0 )
         angle -= 360.0;
 
@@ -174,14 +174,14 @@ void CockpitGrid::changeAngle()
         offset = -offset;
     }
 
-    d_ai->setAngle( angle + offset );
+    m_ai->setAngle( angle + offset );
 }
 
 void CockpitGrid::changeGradient()
 {
     static double offset = 0.005;
 
-    double gradient = d_ai->gradient();
+    double gradient = m_ai->gradient();
 
     if ( ( gradient < -0.05 && offset < 0.0 ) ||
         ( gradient > 0.05 && offset > 0.0 ) )
@@ -189,7 +189,7 @@ void CockpitGrid::changeGradient()
         offset = -offset;
     }
 
-    d_ai->setGradient( gradient + offset );
+    m_ai->setGradient( gradient + offset );
 }
 
 #include "moc_cockpit_grid.cpp"

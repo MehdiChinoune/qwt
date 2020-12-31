@@ -539,13 +539,13 @@ QPolygonF QwtSpline::polygon( const QPolygonF &points, double tolerance ) const
  */
 QwtSpline::QwtSpline()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtSpline::~QwtSpline()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -575,10 +575,10 @@ uint QwtSpline::locality() const
  */
 void QwtSpline::setParametrization( int type )
 {
-    if ( d_data->parametrization->type() != type )
+    if ( m_data->parametrization->type() != type )
     {
-        delete d_data->parametrization;
-        d_data->parametrization = new QwtSplineParametrization( type );
+        delete m_data->parametrization;
+        m_data->parametrization = new QwtSplineParametrization( type );
     }
 }
 
@@ -591,10 +591,10 @@ void QwtSpline::setParametrization( int type )
  */
 void QwtSpline::setParametrization( QwtSplineParametrization *parametrization )
 {
-    if ( ( parametrization != NULL ) && ( d_data->parametrization != parametrization ) )
+    if ( ( parametrization != NULL ) && ( m_data->parametrization != parametrization ) )
     {
-        delete d_data->parametrization;
-        d_data->parametrization = parametrization;
+        delete m_data->parametrization;
+        m_data->parametrization = parametrization;
     }
 }
 
@@ -604,7 +604,7 @@ void QwtSpline::setParametrization( QwtSplineParametrization *parametrization )
  */
 const QwtSplineParametrization *QwtSpline::parametrization() const
 {
-    return d_data->parametrization;
+    return m_data->parametrization;
 }
 
 /*!
@@ -616,7 +616,7 @@ const QwtSplineParametrization *QwtSpline::parametrization() const
  */
 void QwtSpline::setBoundaryType( BoundaryType boundaryType )
 {
-    d_data->boundaryType = boundaryType;
+    m_data->boundaryType = boundaryType;
 }
 
 /*!
@@ -625,7 +625,7 @@ void QwtSpline::setBoundaryType( BoundaryType boundaryType )
  */
 QwtSpline::BoundaryType QwtSpline::boundaryType() const
 {
-    return d_data->boundaryType;
+    return m_data->boundaryType;
 }
 
 /*!
@@ -639,7 +639,7 @@ QwtSpline::BoundaryType QwtSpline::boundaryType() const
 void QwtSpline::setBoundaryCondition( BoundaryPosition position, int condition )
 {
     if ( ( position == QwtSpline::AtBeginning ) || ( position == QwtSpline::AtEnd ) )
-        d_data->boundaryConditions[position].type = condition;
+        m_data->boundaryConditions[position].type = condition;
 }
 
 /*!
@@ -651,9 +651,9 @@ void QwtSpline::setBoundaryCondition( BoundaryPosition position, int condition )
 int QwtSpline::boundaryCondition( BoundaryPosition position ) const
 {
     if ( ( position == QwtSpline::AtBeginning ) || ( position == QwtSpline::AtEnd ) )
-        return d_data->boundaryConditions[position].type;
+        return m_data->boundaryConditions[position].type;
 
-    return d_data->boundaryConditions[0].type; // should never happen
+    return m_data->boundaryConditions[0].type; // should never happen
 }
 
 /*!
@@ -670,7 +670,7 @@ int QwtSpline::boundaryCondition( BoundaryPosition position ) const
 void QwtSpline::setBoundaryValue( BoundaryPosition position, double value )
 {
     if ( ( position == QwtSpline::AtBeginning ) || ( position == QwtSpline::AtEnd ) )
-        d_data->boundaryConditions[position].value = value;
+        m_data->boundaryConditions[position].value = value;
 }
 
 /*!
@@ -682,9 +682,9 @@ void QwtSpline::setBoundaryValue( BoundaryPosition position, double value )
 double QwtSpline::boundaryValue( BoundaryPosition position ) const
 {
     if ( ( position == QwtSpline::AtBeginning ) || ( position == QwtSpline::AtEnd ) )
-        return d_data->boundaryConditions[position].value;
+        return m_data->boundaryConditions[position].value;
 
-    return d_data->boundaryConditions[0].value; // should never happen
+    return m_data->boundaryConditions[0].value; // should never happen
 }
 
 /*!

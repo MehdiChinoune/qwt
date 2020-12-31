@@ -19,22 +19,22 @@
 KnobBox::KnobBox( QWidget *parent, int knobType ):
     QWidget( parent )
 {
-    d_knob = createKnob( knobType );
-    d_knob->setKnobWidth( 100 );
+    m_knob = createKnob( knobType );
+    m_knob->setKnobWidth( 100 );
 
-    d_label = new QLabel( this );
-    d_label->setAlignment( Qt::AlignCenter );
+    m_label = new QLabel( this );
+    m_label->setAlignment( Qt::AlignCenter );
 
     QVBoxLayout *layout = new QVBoxLayout( this );;
     layout->setSpacing( 0 );
-    layout->addWidget( d_knob, 10 );
-    layout->addWidget( d_label );
+    layout->addWidget( m_knob, 10 );
+    layout->addWidget( m_label );
     layout->addStretch( 10 );
 
-    connect( d_knob, SIGNAL( valueChanged( double ) ),
+    connect( m_knob, SIGNAL( valueChanged( double ) ),
         this, SLOT( setNum( double ) ) );
 
-    setNum( d_knob->value() );
+    setNum( m_knob->value() );
 }
 
 QwtKnob *KnobBox::createKnob( int knobType ) const
@@ -126,7 +126,7 @@ void KnobBox::setNum( double v )
     QString text;
     text.setNum( v, 'f', 2 );
 
-    d_label->setText( text );
+    m_label->setText( text );
 }
 
 #include "moc_knobbox.cpp"

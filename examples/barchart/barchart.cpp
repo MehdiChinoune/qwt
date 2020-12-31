@@ -27,12 +27,12 @@ BarChart::BarChart( QWidget *parent ):
     setAxisTitle( QwtPlot::yLeft, "Whatever" );
     setAxisTitle( QwtPlot::xBottom, "Whatever" );
 
-    d_barChartItem = new QwtPlotMultiBarChart( "Bar Chart " );
-    d_barChartItem->setLayoutPolicy( QwtPlotMultiBarChart::AutoAdjustSamples );
-    d_barChartItem->setSpacing( 20 );
-    d_barChartItem->setMargin( 3 );
+    m_barChartItem = new QwtPlotMultiBarChart( "Bar Chart " );
+    m_barChartItem->setLayoutPolicy( QwtPlotMultiBarChart::AutoAdjustSamples );
+    m_barChartItem->setSpacing( 20 );
+    m_barChartItem->setMargin( 3 );
 
-    d_barChartItem->attach( this );
+    m_barChartItem->attach( this );
 
     insertLegend( new QwtLegend() );
 
@@ -55,8 +55,8 @@ void BarChart::populate()
         QString title("Bar %1");
         titles += title.arg( i );
     }
-    d_barChartItem->setBarTitles( titles );
-    d_barChartItem->setLegendIconSize( QSize( 10, 14 ) );
+    m_barChartItem->setBarTitles( titles );
+    m_barChartItem->setLegendIconSize( QSize( 10, 14 ) );
 
     for ( int i = 0; i < numBars; i++ )
     {
@@ -65,7 +65,7 @@ void BarChart::populate()
         symbol->setFrameStyle( QwtColumnSymbol::Raised );
         symbol->setPalette( QPalette( colors[i] ) );
 
-        d_barChartItem->setSymbol( i, symbol );
+        m_barChartItem->setSymbol( i, symbol );
     }
 
     QVector< QVector<double> > series;
@@ -78,18 +78,18 @@ void BarChart::populate()
         series += values;
     }
 
-    d_barChartItem->setSamples( series );
+    m_barChartItem->setSamples( series );
 }
 
 void BarChart::setMode( int mode )
 {
     if ( mode == 0 )
     {
-        d_barChartItem->setStyle( QwtPlotMultiBarChart::Grouped );
+        m_barChartItem->setStyle( QwtPlotMultiBarChart::Grouped );
     }
     else
     {
-        d_barChartItem->setStyle( QwtPlotMultiBarChart::Stacked );
+        m_barChartItem->setStyle( QwtPlotMultiBarChart::Stacked );
     }
 }
 
@@ -102,17 +102,17 @@ void BarChart::setOrientation( int orientation )
         axis1 = QwtPlot::xBottom;
         axis2 = QwtPlot::yLeft;
 
-        d_barChartItem->setOrientation( Qt::Vertical );
+        m_barChartItem->setOrientation( Qt::Vertical );
     }
     else
     {
         axis1 = QwtPlot::yLeft;
         axis2 = QwtPlot::xBottom;
 
-        d_barChartItem->setOrientation( Qt::Horizontal );
+        m_barChartItem->setOrientation( Qt::Horizontal );
     }
 
-    setAxisScale( axis1, 0, d_barChartItem->dataSize() - 1, 1.0 );
+    setAxisScale( axis1, 0, m_barChartItem->dataSize() - 1, 1.0 );
     setAxisAutoScale( axis2 );
 
     QwtScaleDraw *scaleDraw1 = axisScaleDraw( axis1 );

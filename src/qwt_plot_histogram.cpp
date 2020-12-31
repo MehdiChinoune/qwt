@@ -80,13 +80,13 @@ QwtPlotHistogram::QwtPlotHistogram( const QString &title ):
 //! Destructor
 QwtPlotHistogram::~QwtPlotHistogram()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! Initialize data members
 void QwtPlotHistogram::init()
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
     setData( new QwtIntervalSeriesData() );
 
     setItemAttribute( QwtPlotItem::AutoScale, true );
@@ -103,9 +103,9 @@ void QwtPlotHistogram::init()
 */
 void QwtPlotHistogram::setStyle( HistogramStyle style )
 {
-    if ( style != d_data->style )
+    if ( style != m_data->style )
     {
-        d_data->style = style;
+        m_data->style = style;
 
         legendChanged();
         itemChanged();
@@ -118,7 +118,7 @@ void QwtPlotHistogram::setStyle( HistogramStyle style )
 */
 QwtPlotHistogram::HistogramStyle QwtPlotHistogram::style() const
 {
-    return d_data->style;
+    return m_data->style;
 }
 
 /*!
@@ -147,9 +147,9 @@ void QwtPlotHistogram::setPen( const QColor &color, qreal width, Qt::PenStyle st
 */
 void QwtPlotHistogram::setPen( const QPen &pen )
 {
-    if ( pen != d_data->pen )
+    if ( pen != m_data->pen )
     {
-        d_data->pen = pen;
+        m_data->pen = pen;
 
         legendChanged();
         itemChanged();
@@ -162,7 +162,7 @@ void QwtPlotHistogram::setPen( const QPen &pen )
 */
 const QPen &QwtPlotHistogram::pen() const
 {
-    return d_data->pen;
+    return m_data->pen;
 }
 
 /*!
@@ -173,9 +173,9 @@ const QPen &QwtPlotHistogram::pen() const
 */
 void QwtPlotHistogram::setBrush( const QBrush &brush )
 {
-    if ( brush != d_data->brush )
+    if ( brush != m_data->brush )
     {
-        d_data->brush = brush;
+        m_data->brush = brush;
 
         legendChanged();
         itemChanged();
@@ -188,7 +188,7 @@ void QwtPlotHistogram::setBrush( const QBrush &brush )
 */
 const QBrush &QwtPlotHistogram::brush() const
 {
-    return d_data->brush;
+    return m_data->brush;
 }
 
 /*!
@@ -207,10 +207,10 @@ const QBrush &QwtPlotHistogram::brush() const
 */
 void QwtPlotHistogram::setSymbol( const QwtColumnSymbol *symbol )
 {
-    if ( symbol != d_data->symbol )
+    if ( symbol != m_data->symbol )
     {
-        delete d_data->symbol;
-        d_data->symbol = symbol;
+        delete m_data->symbol;
+        m_data->symbol = symbol;
 
         legendChanged();
         itemChanged();
@@ -223,7 +223,7 @@ void QwtPlotHistogram::setSymbol( const QwtColumnSymbol *symbol )
 */
 const QwtColumnSymbol *QwtPlotHistogram::symbol() const
 {
-    return d_data->symbol;
+    return m_data->symbol;
 }
 
 /*!
@@ -239,9 +239,9 @@ const QwtColumnSymbol *QwtPlotHistogram::symbol() const
 */
 void QwtPlotHistogram::setBaseline( double value )
 {
-    if ( d_data->baseline != value )
+    if ( m_data->baseline != value )
     {
-        d_data->baseline = value;
+        m_data->baseline = value;
         itemChanged();
     }
 }
@@ -252,7 +252,7 @@ void QwtPlotHistogram::setBaseline( double value )
 */
 double QwtPlotHistogram::baseline() const
 {
-    return d_data->baseline;
+    return m_data->baseline;
 }
 
 /*!
@@ -270,17 +270,17 @@ QRectF QwtPlotHistogram::boundingRect() const
         rect = QRectF( rect.y(), rect.x(),
             rect.height(), rect.width() );
 
-        if ( rect.left() > d_data->baseline )
-            rect.setLeft( d_data->baseline );
-        else if ( rect.right() < d_data->baseline )
-            rect.setRight( d_data->baseline );
+        if ( rect.left() > m_data->baseline )
+            rect.setLeft( m_data->baseline );
+        else if ( rect.right() < m_data->baseline )
+            rect.setRight( m_data->baseline );
     }
     else
     {
-        if ( rect.bottom() < d_data->baseline )
-            rect.setBottom( d_data->baseline );
-        else if ( rect.top() > d_data->baseline )
-            rect.setTop( d_data->baseline );
+        if ( rect.bottom() < m_data->baseline )
+            rect.setBottom( m_data->baseline );
+        else if ( rect.top() > m_data->baseline )
+            rect.setTop( m_data->baseline );
     }
 
     return rect;
@@ -343,7 +343,7 @@ void QwtPlotHistogram::drawSeries( QPainter *painter,
     if ( to < 0 )
         to = dataSize() - 1;
 
-    switch ( d_data->style )
+    switch ( m_data->style )
     {
         case Outline:
             drawOutline( painter, xMap, yMap, from, to );
@@ -462,8 +462,8 @@ void QwtPlotHistogram::drawColumns( QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     int from, int to ) const
 {
-    painter->setPen( d_data->pen );
-    painter->setBrush( d_data->brush );
+    painter->setPen( m_data->pen );
+    painter->setBrush( m_data->brush );
 
     const QwtSeriesData<QwtIntervalSample> *series = data();
 
@@ -496,7 +496,7 @@ void QwtPlotHistogram::drawLines( QPainter *painter,
 {
     const bool doAlign = QwtPainter::roundingAlignment( painter );
 
-    painter->setPen( d_data->pen );
+    painter->setPen( m_data->pen );
     painter->setBrush( Qt::NoBrush );
 
     const QwtSeriesData<QwtIntervalSample> *series = data();
@@ -560,10 +560,10 @@ void QwtPlotHistogram::flushPolygon( QPainter *painter,
     else
         polygon += QPointF( polygon.last().x(), baseLine );
 
-    if ( d_data->brush.style() != Qt::NoBrush )
+    if ( m_data->brush.style() != Qt::NoBrush )
     {
         painter->setPen( Qt::NoPen );
-        painter->setBrush( d_data->brush );
+        painter->setBrush( m_data->brush );
 
         if ( orientation() == Qt::Horizontal )
         {
@@ -581,10 +581,10 @@ void QwtPlotHistogram::flushPolygon( QPainter *painter,
         polygon.pop_back();
         polygon.pop_back();
     }
-    if ( d_data->pen.style() != Qt::NoPen )
+    if ( m_data->pen.style() != Qt::NoPen )
     {
         painter->setBrush( Qt::NoBrush );
-        painter->setPen( d_data->pen );
+        painter->setPen( m_data->pen );
         QwtPainter::drawPolyline( painter, polygon );
     }
     polygon.clear();
@@ -655,10 +655,10 @@ void QwtPlotHistogram::drawColumn( QPainter *painter,
 {
     Q_UNUSED( sample );
 
-    if ( d_data->symbol &&
-        ( d_data->symbol->style() != QwtColumnSymbol::NoStyle ) )
+    if ( m_data->symbol &&
+        ( m_data->symbol->style() != QwtColumnSymbol::NoStyle ) )
     {
-        d_data->symbol->draw( painter, rect );
+        m_data->symbol->draw( painter, rect );
     }
     else
     {
@@ -688,5 +688,5 @@ void QwtPlotHistogram::drawColumn( QPainter *painter,
 QwtGraphic QwtPlotHistogram::legendIcon( int index, const QSizeF &size ) const
 {
     Q_UNUSED( index );
-    return defaultIcon( d_data->brush, size );
+    return defaultIcon( m_data->brush, size );
 }

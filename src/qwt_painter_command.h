@@ -127,48 +127,48 @@ private:
     void copy( const QwtPainterCommand & );
     void reset();
 
-    Type d_type;
+    Type m_type;
 
     union
     {
-        QPainterPath *d_path;
-        PixmapData *d_pixmapData;
-        ImageData *d_imageData;
-        StateData *d_stateData;
+        QPainterPath *m_path;
+        PixmapData *m_pixmapData;
+        ImageData *m_imageData;
+        StateData *m_stateData;
     };
 };
 
 //! \return Type of the command
 inline QwtPainterCommand::Type QwtPainterCommand::type() const
 {
-    return d_type;
+    return m_type;
 }
 
 //! \return Painter path to be painted
 inline const QPainterPath *QwtPainterCommand::path() const
 {
-    return d_path;
+    return m_path;
 }
 
 //! \return Attributes how to paint a QPixmap
 inline const QwtPainterCommand::PixmapData *
 QwtPainterCommand::pixmapData() const
 {
-    return d_pixmapData;
+    return m_pixmapData;
 }
 
 //! \return Attributes how to paint a QImage
 inline const QwtPainterCommand::ImageData *
 QwtPainterCommand::imageData() const
 {
-    return d_imageData;
+    return m_imageData;
 }
 
 //! \return Attributes of a state change
 inline const QwtPainterCommand::StateData *
 QwtPainterCommand::stateData() const
 {
-    return d_stateData;
+    return m_stateData;
 }
 
 #endif

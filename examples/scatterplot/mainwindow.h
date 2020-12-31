@@ -21,7 +21,7 @@ private:
     void setSamples( int samples );
 
 private:
-    Plot *d_plot;
+    Plot *m_plot;
 };
 
 #endif

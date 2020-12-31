@@ -16,7 +16,7 @@
 MainWindow::MainWindow( QWidget *parent ):
     QMainWindow( parent )
 {
-    d_plot = new Plot();
+    m_plot = new Plot();
 
     Settings settings;
     settings.legend.isEnabled = true;
@@ -26,18 +26,18 @@ MainWindow::MainWindow( QWidget *parent ):
     settings.legendItem.numColumns = 1;
     settings.legendItem.alignment = Qt::AlignRight | Qt::AlignVCenter;
     settings.legendItem.backgroundMode = 0;
-    settings.legendItem.size = d_plot->canvas()->font().pointSize();
+    settings.legendItem.size = m_plot->canvas()->font().pointSize();
 
     settings.curve.numCurves = 4;
     settings.curve.title = "Curve";
 
-    d_panel = new Panel();
-    d_panel->setSettings( settings );
+    m_panel = new Panel();
+    m_panel->setSettings( settings );
 
     QWidget *box = new QWidget( this );
     QHBoxLayout *layout = new QHBoxLayout( box );
-    layout->addWidget( d_plot, 10 );
-    layout->addWidget( d_panel );
+    layout->addWidget( m_plot, 10 );
+    layout->addWidget( m_panel );
 
     setCentralWidget( box );
 
@@ -51,19 +51,19 @@ MainWindow::MainWindow( QWidget *parent ):
 
     updatePlot();
 
-    connect( d_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
+    connect( m_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
     connect( btnExport, SIGNAL( clicked() ), SLOT( exportPlot() ) );
 }
 
 void MainWindow::updatePlot()
 {
-    d_plot->applySettings( d_panel->settings() );
+    m_plot->applySettings( m_panel->settings() );
 }
 
 void MainWindow::exportPlot()
 {
     QwtPlotRenderer renderer;
-    renderer.exportTo( d_plot, "legends.pdf" );
+    renderer.exportTo( m_plot, "legends.pdf" );
 }
 
 #include "moc_mainwindow.cpp"

@@ -135,16 +135,16 @@ protected:
         const QPointF &pole, int from, int to ) const;
 
 private:
-    QwtSeriesData<QwtPointPolar> *d_series;
+    QwtSeriesData<QwtPointPolar> *m_series;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 //! \return the the curve data
 inline const QwtSeriesData<QwtPointPolar> *QwtPolarCurve::data() const
 {
-    return d_series;
+    return m_series;
 }
 
 /*!
@@ -153,7 +153,7 @@ inline const QwtSeriesData<QwtPointPolar> *QwtPolarCurve::data() const
 */
 inline QwtPointPolar QwtPolarCurve::sample( int i ) const
 {
-    return d_series->sample( i );
+    return m_series->sample( i );
 }
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPolarCurve::LegendAttributes )

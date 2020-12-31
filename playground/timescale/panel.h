@@ -26,12 +26,12 @@ Q_SIGNALS:
     void edited();
 
 private:
-    QDateTimeEdit* d_startDateTime;
-    QDateTimeEdit* d_endDateTime;
+    QDateTimeEdit* m_startDateTime;
+    QDateTimeEdit* m_endDateTime;
 
-    QSpinBox *d_maxMajorSteps;
-    QSpinBox *d_maxMinorSteps;
-    QSpinBox *d_maxWeeks;
+    QSpinBox *m_maxMajorSteps;
+    QSpinBox *m_maxMinorSteps;
+    QSpinBox *m_maxWeeks;
 };
 
 #endif

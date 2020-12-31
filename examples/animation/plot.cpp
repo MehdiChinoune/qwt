@@ -19,19 +19,19 @@ class Curve: public QwtPlotCurve
 public:
     void setTransformation( const QTransform &transform )
     {
-        d_transform = transform;
+        m_transform = transform;
     }
 
     virtual void updateSamples( double phase )
     {
-        setSamples( d_transform.map( points( phase ) ) );
+        setSamples( m_transform.map( points( phase ) ) );
     }
 
 private:
     virtual QPolygonF points( double phase ) const = 0;
 
 private:
-    QTransform d_transform;
+    QTransform m_transform;
 };
 
 class Curve1: public Curve
@@ -161,18 +161,18 @@ private:
         const double s = speed * std::sin( phase );
         const double c = std::sqrt( 1.0 - s * s );
 
-        for ( int i = 0; i < d_points.size(); i++ )
+        for ( int i = 0; i < m_points.size(); i++ )
         {
-            const QPointF p = d_points[i];
+            const QPointF p = m_points[i];
 
             const double u = p.x();
             const double v = p.y();
 
-            d_points[i].setX( u * c - v * s );
-            d_points[i].setY( v * c + u * s );
+            m_points[i].setX( u * c - v * s );
+            m_points[i].setY( v * c + u * s );
         }
 
-        return d_points;
+        return m_points;
     }
 
     void initSamples()
@@ -187,12 +187,12 @@ private:
             if ( i % 2 )
                 p *= 0.4;
 
-            d_points += p;
+            m_points += p;
         }
     }
 
 private:
-    mutable QPolygonF d_points;
+    mutable QPolygonF m_points;
 };
 
 Plot::Plot( QWidget *parent ):
@@ -208,17 +208,17 @@ Plot::Plot( QWidget *parent ):
 
     plotLayout()->setCanvasMargin( 10 );
 
-    d_curves[0] = new Curve1();
-    d_curves[1] = new Curve2();
-    d_curves[2] = new Curve3();
-    d_curves[3] = new Curve4();
+    m_curves[0] = new Curve1();
+    m_curves[1] = new Curve2();
+    m_curves[2] = new Curve3();
+    m_curves[3] = new Curve4();
 
     updateCurves();
 
     for ( int i = 0; i < CurveCount; i++ )
-        d_curves[i]->attach( this );
+        m_curves[i]->attach( this );
 
-    d_timer.start();
+    m_timer.start();
     ( void )startTimer( 40 );
 }
 
@@ -232,7 +232,7 @@ void Plot::updateCurves()
 {
     const double speed = 2 * M_PI / 25000.0; // a cycle every 25 seconds
 
-    const double phase = d_timer.elapsed() * speed;
+    const double phase = m_timer.elapsed() * speed;
     for ( int i = 0; i < CurveCount; i++ )
-        d_curves[i]->updateSamples( phase );
+        m_curves[i]->updateSamples( phase );
 }

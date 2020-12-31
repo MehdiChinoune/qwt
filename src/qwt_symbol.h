@@ -226,7 +226,7 @@ private:
     Q_DISABLE_COPY(QwtSymbol)
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!

@@ -35,10 +35,10 @@ private:
     QWidget *createPanel( QWidget * );
     Plot *createPlot( QWidget * );
 
-    QwtPlotRescaler *d_rescaler;
-    QLabel *d_rescaleInfo;
+    QwtPlotRescaler *m_rescaler;
+    QLabel *m_rescaleInfo;
 
-    Plot *d_plot;
+    Plot *m_plot;
 };
 
 #endif

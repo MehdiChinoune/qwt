@@ -84,7 +84,7 @@ private:
         const QList<double> & ) const;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

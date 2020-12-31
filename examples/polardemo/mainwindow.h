@@ -26,10 +26,10 @@ private Q_SLOTS:
     void exportDocument();
 
 private:
-    Plot *d_plot;
-    QwtPolarPanner *d_panner;
-    QwtPolarMagnifier *d_zoomer;
-    SettingsEditor *d_settingsEditor;
+    Plot *m_plot;
+    QwtPolarPanner *m_panner;
+    QwtPolarMagnifier *m_zoomer;
+    SettingsEditor *m_settingsEditor;
 };
 
 #endif

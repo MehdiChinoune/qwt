@@ -27,8 +27,8 @@ private Q_SLOTS:
 private:
     QwtKnob *createKnob( int knobType ) const;
 
-    QwtKnob *d_knob;
-    QLabel *d_label;
+    QwtKnob *m_knob;
+    QLabel *m_label;
 };
 
 #endif

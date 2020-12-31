@@ -41,7 +41,7 @@ class Curve: public QwtPlotCurve
 {
 public:
     Curve( int index ):
-        d_index( index )
+        m_index( index )
     {
         setRenderHint( QwtPlotItem::RenderAntialiased );
         initData();
@@ -50,7 +50,7 @@ public:
     void setCurveTitle( const QString &title )
     {
         QString txt("%1 %2");
-        setTitle( QString( "%1 %2" ).arg( title ).arg( d_index ) );
+        setTitle( QString( "%1 %2" ).arg( title ).arg( m_index ) );
     }
 
     void initData()
@@ -74,14 +74,14 @@ public:
     }
 
 private:
-    const int d_index;
+    const int m_index;
 };
 
 Plot::Plot( QWidget *parent ):
     QwtPlot( parent ),
-    d_externalLegend( NULL ),
-    d_legendItem( NULL ),
-    d_isDirty( false )
+    m_externalLegend( NULL ),
+    m_legendItem( NULL ),
+    m_isDirty( false )
 {
     QwtPlotCanvas *canvas = new QwtPlotCanvas();
     canvas->setFocusIndicator( QwtPlotCanvas::CanvasFocusIndicator );
@@ -108,7 +108,7 @@ Plot::Plot( QWidget *parent ):
 
 Plot::~Plot()
 {
-    delete d_externalLegend;
+    delete m_externalLegend;
 }
 
 void Plot::insertCurve()
@@ -137,7 +137,7 @@ void Plot::insertCurve()
 
 void Plot::applySettings( const Settings &settings )
 {
-    d_isDirty = false;
+    m_isDirty = false;
     setAutoReplot( true );
 
     if ( settings.legend.isEnabled )
@@ -150,20 +150,20 @@ void Plot::applySettings( const Settings &settings )
                 insertLegend( NULL );
             }
 
-            if ( d_externalLegend == NULL )
+            if ( m_externalLegend == NULL )
             {
-                d_externalLegend = new QwtLegend();
-                d_externalLegend->setWindowTitle("Plot Legend");
+                m_externalLegend = new QwtLegend();
+                m_externalLegend->setWindowTitle("Plot Legend");
 
                 connect(
                     this,
                     SIGNAL( legendDataChanged( const QVariant &,
                         const QList<QwtLegendData> & ) ),
-                    d_externalLegend,
+                    m_externalLegend,
                     SLOT( updateLegend( const QVariant &,
                         const QList<QwtLegendData> & ) ) );
 
-                d_externalLegend->show();
+                m_externalLegend->show();
 
                 // populate the new legend
                 updateLegend();
@@ -171,8 +171,8 @@ void Plot::applySettings( const Settings &settings )
         }
         else
         {
-            delete d_externalLegend;
-            d_externalLegend = NULL;
+            delete m_externalLegend;
+            m_externalLegend = NULL;
 
             if ( legend() == NULL ||
                 plotLayout()->legendPosition() != settings.legend.position )
@@ -186,46 +186,46 @@ void Plot::applySettings( const Settings &settings )
     {
         insertLegend( NULL );
 
-        delete d_externalLegend;
-        d_externalLegend = NULL;
+        delete m_externalLegend;
+        m_externalLegend = NULL;
     }
 
     if ( settings.legendItem.isEnabled )
     {
-        if ( d_legendItem == NULL )
+        if ( m_legendItem == NULL )
         {
-            d_legendItem = new LegendItem();
-            d_legendItem->attach( this );
+            m_legendItem = new LegendItem();
+            m_legendItem->attach( this );
         }
 
-        d_legendItem->setMaxColumns( settings.legendItem.numColumns );
-        d_legendItem->setAlignmentInCanvas( Qt::Alignment( settings.legendItem.alignment ) );
-        d_legendItem->setBackgroundMode(
+        m_legendItem->setMaxColumns( settings.legendItem.numColumns );
+        m_legendItem->setAlignmentInCanvas( Qt::Alignment( settings.legendItem.alignment ) );
+        m_legendItem->setBackgroundMode(
             QwtPlotLegendItem::BackgroundMode( settings.legendItem.backgroundMode ) );
         if ( settings.legendItem.backgroundMode ==
             QwtPlotLegendItem::ItemBackground )
         {
-            d_legendItem->setBorderRadius( 4 );
-            d_legendItem->setMargin( 0 );
-            d_legendItem->setSpacing( 4 );
-            d_legendItem->setItemMargin( 2 );
+            m_legendItem->setBorderRadius( 4 );
+            m_legendItem->setMargin( 0 );
+            m_legendItem->setSpacing( 4 );
+            m_legendItem->setItemMargin( 2 );
         }
         else
         {
-            d_legendItem->setBorderRadius( 8 );
-            d_legendItem->setMargin( 4 );
-            d_legendItem->setSpacing( 2 );
-            d_legendItem->setItemMargin( 0 );
+            m_legendItem->setBorderRadius( 8 );
+            m_legendItem->setMargin( 4 );
+            m_legendItem->setSpacing( 2 );
+            m_legendItem->setItemMargin( 0 );
         }
 
-        QFont font = d_legendItem->font();
+        QFont font = m_legendItem->font();
         font.setPointSize( settings.legendItem.size );
-        d_legendItem->setFont( font );
+        m_legendItem->setFont( font );
     }
     else
     {
-        delete d_legendItem;
-        d_legendItem = NULL;
+        delete m_legendItem;
+        m_legendItem = NULL;
     }
 
     QwtPlotItemList curveList = itemList( QwtPlotItem::Rtti_PlotCurve );
@@ -252,9 +252,9 @@ void Plot::applySettings( const Settings &settings )
     }
 
     setAutoReplot( false );
-    if ( d_isDirty )
+    if ( m_isDirty )
     {
-        d_isDirty = false;
+        m_isDirty = false;
         replot();
     }
 }
@@ -263,7 +263,7 @@ void Plot::replot()
 {
     if ( autoReplot() )
     {
-        d_isDirty = true;
+        m_isDirty = true;
         return;
     }
 

@@ -39,11 +39,11 @@ private Q_SLOTS:
 private:
     void showInfo( QString text = QString() );
 
-    Plot *d_plot;
+    Plot *m_plot;
 
-    QwtPlotZoomer *d_zoomer[2];
-    QwtPlotPicker *d_picker;
-    QwtPlotPanner *d_panner;
+    QwtPlotZoomer *m_zoomer[2];
+    QwtPlotPicker *m_picker;
+    QwtPlotPanner *m_panner;
 };
 
 #endif

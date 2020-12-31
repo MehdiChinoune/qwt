@@ -21,7 +21,7 @@ class DistroScaleDraw: public QwtScaleDraw
 {
 public:
     DistroScaleDraw( Qt::Orientation orientation, const QStringList &labels ):
-        d_labels( labels )
+        m_labels( labels )
     {
         setTickLength( QwtScaleDiv::MinorTick, 0 );
         setTickLength( QwtScaleDiv::MediumTick, 0 );
@@ -46,16 +46,16 @@ public:
         QwtText lbl;
 
         const int index = qRound( value );
-        if ( index >= 0 && index < d_labels.size() )
+        if ( index >= 0 && index < m_labels.size() )
         {
-            lbl = d_labels[ index ];
+            lbl = m_labels[ index ];
         }
 
         return lbl;
     }
 
 private:
-    const QStringList d_labels;
+    const QStringList m_labels;
 };
 
 class DistroChartItem: public QwtPlotBarChart
@@ -74,8 +74,8 @@ public:
 
     void addDistro( const QString &distro, const QColor &color )
     {
-        d_colors += color;
-        d_distros += distro;
+        m_colors += color;
+        m_distros += distro;
         itemChanged();
     }
 
@@ -89,8 +89,8 @@ public:
         symbol->setFrameStyle( QwtColumnSymbol::Raised );
 
         QColor c( Qt::white );
-        if ( index >= 0 && index < d_colors.size() )
-            c = d_colors[ index ];
+        if ( index >= 0 && index < m_colors.size() )
+            c = m_colors[ index ];
 
         symbol->setPalette( c );
 
@@ -100,15 +100,15 @@ public:
     virtual QwtText barTitle( int sampleIndex ) const QWT_OVERRIDE
     {
         QwtText title;
-        if ( sampleIndex >= 0 && sampleIndex < d_distros.size() )
-            title = d_distros[ sampleIndex ];
+        if ( sampleIndex >= 0 && sampleIndex < m_distros.size() )
+            title = m_distros[ sampleIndex ];
 
         return title;
     }
 
 private:
-    QList<QColor> d_colors;
-    QList<QString> d_distros;
+    QList<QColor> m_colors;
+    QList<QString> m_distros;
 };
 
 BarChart::BarChart( QWidget *parent ):
@@ -148,22 +148,22 @@ BarChart::BarChart( QWidget *parent ):
 
     setTitle( "DistroWatch Page Hit Ranking, April 2012" );
 
-    d_barChartItem = new DistroChartItem();
+    m_barChartItem = new DistroChartItem();
 
     QVector< double > samples;
 
     for ( uint i = 0; i < sizeof( pageHits ) / sizeof( pageHits[ 0 ] ); i++ )
     {
-        d_distros += pageHits[ i ].distro;
+        m_distros += pageHits[ i ].distro;
         samples += pageHits[ i ].hits;
 
-        d_barChartItem->addDistro(
+        m_barChartItem->addDistro(
             pageHits[ i ].distro, pageHits[ i ].color );
     }
 
-    d_barChartItem->setSamples( samples );
+    m_barChartItem->setSamples( samples );
 
-    d_barChartItem->attach( this );
+    m_barChartItem->attach( this );
 
     insertLegend( new QwtLegend() );
 
@@ -182,11 +182,11 @@ void BarChart::setOrientation( int o )
     if ( orientation == Qt::Horizontal )
         qSwap( axis1, axis2 );
 
-    d_barChartItem->setOrientation( orientation );
+    m_barChartItem->setOrientation( orientation );
 
     setAxisTitle( axis1, "Distros" );
     setAxisMaxMinor( axis1, 3 );
-    setAxisScaleDraw( axis1, new DistroScaleDraw( orientation, d_distros ) );
+    setAxisScaleDraw( axis1, new DistroScaleDraw( orientation, m_distros ) );
 
     setAxisTitle( axis2, "Hits per day ( HPD )" );
     setAxisMaxMinor( axis2, 3 );

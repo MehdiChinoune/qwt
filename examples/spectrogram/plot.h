@@ -46,10 +46,10 @@ private:
     virtual void drawItems( QPainter *, const QRectF &,
         const QwtScaleMap maps[axisCnt] ) const QWT_OVERRIDE;
 
-    QwtPlotSpectrogram *d_spectrogram;
+    QwtPlotSpectrogram *m_spectrogram;
 
-    int d_mapType;
-    int d_alpha;
+    int m_mapType;
+    int m_alpha;
 };
 
 #endif

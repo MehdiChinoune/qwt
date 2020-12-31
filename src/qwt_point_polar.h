@@ -52,8 +52,8 @@ public:
     QwtPointPolar normalized() const;
 
 private:
-    double d_azimuth;
-    double d_radius;
+    double m_azimuth;
+    double m_radius;
 };
 
 /*!
@@ -61,8 +61,8 @@ private:
     \sa QPointF::isNull()
 */
 inline QwtPointPolar::QwtPointPolar():
-    d_azimuth( 0.0 ),
-    d_radius( 0.0 )
+    m_azimuth( 0.0 ),
+    m_radius( 0.0 )
 {
 }
 
@@ -73,57 +73,57 @@ inline QwtPointPolar::QwtPointPolar():
    \param radius Radius
 */
 inline QwtPointPolar::QwtPointPolar( double azimuth, double radius ):
-    d_azimuth( azimuth ),
-    d_radius( radius )
+    m_azimuth( azimuth ),
+    m_radius( radius )
 {
 }
 
 //! Returns true if radius() >= 0.0
 inline bool QwtPointPolar::isValid() const
 {
-    return d_radius >= 0.0;
+    return m_radius >= 0.0;
 }
 
 //! Returns true if radius() >= 0.0
 inline bool QwtPointPolar::isNull() const
 {
-    return d_radius == 0.0;
+    return m_radius == 0.0;
 }
 
 //! Returns the radius.
 inline double QwtPointPolar::radius() const
 {
-    return d_radius;
+    return m_radius;
 }
 
 //! Returns the azimuth.
 inline double QwtPointPolar::azimuth() const
 {
-    return d_azimuth;
+    return m_azimuth;
 }
 
 //! Returns the radius.
 inline double &QwtPointPolar::rRadius()
 {
-    return d_radius;
+    return m_radius;
 }
 
 //! Returns the azimuth.
 inline double &QwtPointPolar::rAzimuth()
 {
-    return d_azimuth;
+    return m_azimuth;
 }
 
 //! Sets the radius to radius.
 inline void QwtPointPolar::setRadius( double radius )
 {
-    d_radius = radius;
+    m_radius = radius;
 }
 
 //! Sets the atimuth to atimuth.
 inline void QwtPointPolar::setAzimuth( double azimuth )
 {
-    d_azimuth = azimuth;
+    m_azimuth = azimuth;
 }
 
 #ifndef QT_NO_DEBUG_STREAM

@@ -29,7 +29,7 @@ public:
 QwtPlotSeriesItem::QwtPlotSeriesItem( const QwtText &title ):
     QwtPlotItem( title )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
     setItemInterest( QwtPlotItem::ScaleInterest, true );
 }
 
@@ -40,14 +40,14 @@ QwtPlotSeriesItem::QwtPlotSeriesItem( const QwtText &title ):
 QwtPlotSeriesItem::QwtPlotSeriesItem( const QString &title ):
     QwtPlotItem( QwtText( title ) )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
     setItemInterest( QwtPlotItem::ScaleInterest, true );
 }
 
 //! Destructor
 QwtPlotSeriesItem::~QwtPlotSeriesItem()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -61,9 +61,9 @@ QwtPlotSeriesItem::~QwtPlotSeriesItem()
 */
 void QwtPlotSeriesItem::setOrientation( Qt::Orientation orientation )
 {
-    if ( d_data->orientation != orientation )
+    if ( m_data->orientation != orientation )
     {
-        d_data->orientation = orientation;
+        m_data->orientation = orientation;
 
         legendChanged();
         itemChanged();
@@ -76,7 +76,7 @@ void QwtPlotSeriesItem::setOrientation( Qt::Orientation orientation )
 */
 Qt::Orientation QwtPlotSeriesItem::orientation() const
 {
-    return d_data->orientation;
+    return m_data->orientation;
 }
 
 /*!

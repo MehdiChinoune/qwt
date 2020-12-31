@@ -59,13 +59,13 @@ private:
     bool needScrollBar( Qt::Orientation ) const;
     int oppositeAxis( int ) const;
 
-    QWidget *d_cornerWidget;
+    QWidget *m_cornerWidget;
 
-    ScrollData *d_hScrollData;
-    ScrollData *d_vScrollData;
+    ScrollData *m_hScrollData;
+    ScrollData *m_vScrollData;
 
-    bool d_inZoom;
-    bool d_alignCanvasToScales[ QwtPlot::axisCnt ];
+    bool m_inZoom;
+    bool m_alignCanvasToScales[ QwtPlot::axisCnt ];
 };
 
 #endif

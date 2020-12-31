@@ -81,11 +81,11 @@ private:
 
 Plot::Plot( QWidget *parent ):
     QwtPlot( parent ),
-    d_paintedPoints( 0 ),
-    d_interval( 0.0, 10.0 ),
-    d_timerId( -1 )
+    m_paintedPoints( 0 ),
+    m_interval( 0.0, 10.0 ),
+    m_timerId( -1 )
 {
-    d_directPainter = new QwtPlotDirectPainter();
+    m_directPainter = new QwtPlotDirectPainter();
 
     setAutoReplot( false );
     setCanvas( new Canvas() );
@@ -93,7 +93,7 @@ Plot::Plot( QWidget *parent ):
     plotLayout()->setAlignCanvasToScales( true );
 
     setAxisTitle( QwtPlot::xBottom, "Time [s]" );
-    setAxisScale( QwtPlot::xBottom, d_interval.minValue(), d_interval.maxValue() );
+    setAxisScale( QwtPlot::xBottom, m_interval.minValue(), m_interval.maxValue() );
     setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
 
     QwtPlotGrid *grid = new QwtPlotGrid();
@@ -104,50 +104,50 @@ Plot::Plot( QWidget *parent ):
     grid->enableYMin( false );
     grid->attach( this );
 
-    d_origin = new QwtPlotMarker();
-    d_origin->setLineStyle( QwtPlotMarker::Cross );
-    d_origin->setValue( d_interval.minValue() + d_interval.width() / 2.0, 0.0 );
-    d_origin->setLinePen( Qt::gray, 0.0, Qt::DashLine );
-    d_origin->attach( this );
+    m_origin = new QwtPlotMarker();
+    m_origin->setLineStyle( QwtPlotMarker::Cross );
+    m_origin->setValue( m_interval.minValue() + m_interval.width() / 2.0, 0.0 );
+    m_origin->setLinePen( Qt::gray, 0.0, Qt::DashLine );
+    m_origin->attach( this );
 
-    d_curve = new QwtPlotCurve();
-    d_curve->setStyle( QwtPlotCurve::Lines );
-    d_curve->setPen( canvas()->palette().color( QPalette::WindowText ) );
-    d_curve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
-    d_curve->setPaintAttribute( QwtPlotCurve::ClipPolygons, false );
-    d_curve->setData( new CurveData() );
-    d_curve->attach( this );
+    m_curve = new QwtPlotCurve();
+    m_curve->setStyle( QwtPlotCurve::Lines );
+    m_curve->setPen( canvas()->palette().color( QPalette::WindowText ) );
+    m_curve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+    m_curve->setPaintAttribute( QwtPlotCurve::ClipPolygons, false );
+    m_curve->setData( new CurveData() );
+    m_curve->attach( this );
 }
 
 Plot::~Plot()
 {
-    delete d_directPainter;
+    delete m_directPainter;
 }
 
 void Plot::start()
 {
-    d_clock.start();
-    d_timerId = startTimer( 10 );
+    m_clock.start();
+    m_timerId = startTimer( 10 );
 }
 
 void Plot::replot()
 {
-    CurveData *curveData = static_cast<CurveData *>( d_curve->data() );
+    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
     curveData->values().lock();
 
     QwtPlot::replot();
-    d_paintedPoints = curveData->size();
+    m_paintedPoints = curveData->size();
 
     curveData->values().unlock();
 }
 
 void Plot::setIntervalLength( double interval )
 {
-    if ( interval > 0.0 && interval != d_interval.width() )
+    if ( interval > 0.0 && interval != m_interval.width() )
     {
-        d_interval.setMaxValue( d_interval.minValue() + interval );
+        m_interval.setMaxValue( m_interval.minValue() + interval );
         setAxisScale( QwtPlot::xBottom,
-            d_interval.minValue(), d_interval.maxValue() );
+            m_interval.minValue(), m_interval.maxValue() );
 
         replot();
     }
@@ -155,11 +155,11 @@ void Plot::setIntervalLength( double interval )
 
 void Plot::updateCurve()
 {
-    CurveData *curveData = static_cast<CurveData *>( d_curve->data() );
+    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
     curveData->values().lock();
 
     const int numPoints = curveData->size();
-    if ( numPoints > d_paintedPoints )
+    if ( numPoints > m_paintedPoints )
     {
         const bool doClip = !canvas()->testAttribute( Qt::WA_PaintOnScreen );
         if ( doClip )
@@ -171,19 +171,19 @@ void Plot::updateCurve()
                 to an unaccelerated frame buffer device.
             */
 
-            const QwtScaleMap xMap = canvasMap( d_curve->xAxis() );
-            const QwtScaleMap yMap = canvasMap( d_curve->yAxis() );
+            const QwtScaleMap xMap = canvasMap( m_curve->xAxis() );
+            const QwtScaleMap yMap = canvasMap( m_curve->yAxis() );
 
             QRectF br = qwtBoundingRect( *curveData,
-                d_paintedPoints - 1, numPoints - 1 );
+                m_paintedPoints - 1, numPoints - 1 );
 
             const QRect clipRect = QwtScaleMap::transform( xMap, yMap, br ).toRect();
-            d_directPainter->setClipRegion( clipRect );
+            m_directPainter->setClipRegion( clipRect );
         }
 
-        d_directPainter->drawSeries( d_curve,
-            d_paintedPoints - 1, numPoints - 1 );
-        d_paintedPoints = numPoints;
+        m_directPainter->drawSeries( m_curve,
+            m_paintedPoints - 1, numPoints - 1 );
+        m_paintedPoints = numPoints;
     }
 
     curveData->values().unlock();
@@ -191,42 +191,42 @@ void Plot::updateCurve()
 
 void Plot::incrementInterval()
 {
-    d_interval = QwtInterval( d_interval.maxValue(),
-        d_interval.maxValue() + d_interval.width() );
+    m_interval = QwtInterval( m_interval.maxValue(),
+        m_interval.maxValue() + m_interval.width() );
 
-    CurveData *curveData = static_cast<CurveData *>( d_curve->data() );
-    curveData->values().clearStaleValues( d_interval.minValue() );
+    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    curveData->values().clearStaleValues( m_interval.minValue() );
 
     // To avoid, that the grid is jumping, we disable
     // the autocalculation of the ticks and shift them
     // manually instead.
 
     QwtScaleDiv scaleDiv = axisScaleDiv( QwtPlot::xBottom );
-    scaleDiv.setInterval( d_interval );
+    scaleDiv.setInterval( m_interval );
 
     for ( int i = 0; i < QwtScaleDiv::NTickTypes; i++ )
     {
         QList<double> ticks = scaleDiv.ticks( i );
         for ( int j = 0; j < ticks.size(); j++ )
-            ticks[j] += d_interval.width();
+            ticks[j] += m_interval.width();
         scaleDiv.setTicks( i, ticks );
     }
     setAxisScaleDiv( QwtPlot::xBottom, scaleDiv );
 
-    d_origin->setValue( d_interval.minValue() + d_interval.width() / 2.0, 0.0 );
+    m_origin->setValue( m_interval.minValue() + m_interval.width() / 2.0, 0.0 );
 
-    d_paintedPoints = 0;
+    m_paintedPoints = 0;
     replot();
 }
 
 void Plot::timerEvent( QTimerEvent *event )
 {
-    if ( event->timerId() == d_timerId )
+    if ( event->timerId() == m_timerId )
     {
         updateCurve();
 
-        const double elapsed = d_clock.elapsed() / 1000.0;
-        if ( elapsed > d_interval.maxValue() )
+        const double elapsed = m_clock.elapsed() / 1000.0;
+        if ( elapsed > m_interval.maxValue() )
             incrementInterval();
 
         return;
@@ -237,7 +237,7 @@ void Plot::timerEvent( QTimerEvent *event )
 
 void Plot::resizeEvent( QResizeEvent *event )
 {
-    d_directPainter->reset();
+    m_directPainter->reset();
     QwtPlot::resizeEvent( event );
 }
 
@@ -251,7 +251,7 @@ bool Plot::eventFilter( QObject *object, QEvent *event )
     if ( object == canvas() &&
         event->type() == QEvent::PaletteChange )
     {
-        d_curve->setPen( canvas()->palette().color( QPalette::WindowText ) );
+        m_curve->setPen( canvas()->palette().color( QPalette::WindowText ) );
     }
 
     return QwtPlot::eventFilter( object, event );

@@ -69,8 +69,8 @@ public:
 PlotMatrix::PlotMatrix( int numRows, int numColumns, QWidget *parent ):
     QFrame( parent )
 {
-    d_data = new PrivateData();
-    d_data->plotWidgets.resize( numRows * numColumns );
+    m_data = new PrivateData();
+    m_data->plotWidgets.resize( numRows * numColumns );
 
     QGridLayout *layout = new QGridLayout( this );
     layout->setSpacing( 5 );
@@ -89,7 +89,7 @@ PlotMatrix::PlotMatrix( int numRows, int numColumns, QWidget *parent ):
                     SIGNAL( scaleDivChanged() ), SLOT( scaleDivChanged() ),
                     Qt::QueuedConnection );
             }
-            d_data->plotWidgets[row * numColumns + col] = plot;
+            m_data->plotWidgets[row * numColumns + col] = plot;
         }
     }
 
@@ -98,7 +98,7 @@ PlotMatrix::PlotMatrix( int numRows, int numColumns, QWidget *parent ):
 
 PlotMatrix::~PlotMatrix()
 {
-    delete d_data;
+    delete m_data;
 }
 
 int PlotMatrix::numRows() const
@@ -121,8 +121,8 @@ int PlotMatrix::numColumns() const
 QwtPlot* PlotMatrix::plotAt( int row, int column )
 {
     const int index = row * numColumns() + column;
-    if ( index < d_data->plotWidgets.size() )
-        return d_data->plotWidgets[index];
+    if ( index < m_data->plotWidgets.size() )
+        return m_data->plotWidgets[index];
 
     return NULL;
 }
@@ -130,8 +130,8 @@ QwtPlot* PlotMatrix::plotAt( int row, int column )
 const QwtPlot* PlotMatrix::plotAt( int row, int column ) const
 {
     const int index = row * numColumns() + column;
-    if ( index < d_data->plotWidgets.size() )
-        return d_data->plotWidgets[index];
+    if ( index < m_data->plotWidgets.size() )
+        return m_data->plotWidgets[index];
 
     return NULL;
 }
@@ -140,9 +140,9 @@ void PlotMatrix::enableAxis( int axis, bool tf )
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
     {
-        if ( tf != d_data->isAxisEnabled[axis] )
+        if ( tf != m_data->isAxisEnabled[axis] )
         {
-            d_data->isAxisEnabled[axis] = tf;
+            m_data->isAxisEnabled[axis] = tf;
             updateLayout();
         }
     }
@@ -151,7 +151,7 @@ void PlotMatrix::enableAxis( int axis, bool tf )
 bool PlotMatrix::axisEnabled( int axis ) const
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
-        return d_data->isAxisEnabled[axis];
+        return m_data->isAxisEnabled[axis];
 
     return false;
 }
@@ -177,10 +177,10 @@ void PlotMatrix::setAxisScale( int axis, int rowOrColumn,
 
 void PlotMatrix::scaleDivChanged()
 {
-    if ( d_data->inScaleSync )
+    if ( m_data->inScaleSync )
         return;
 
-    d_data->inScaleSync = true;
+    m_data->inScaleSync = true;
 
     QwtPlot *plt = NULL;
     int axisId = -1;
@@ -242,7 +242,7 @@ void PlotMatrix::scaleDivChanged()
         updateLayout();
     }
 
-    d_data->inScaleSync = false;
+    m_data->inScaleSync = false;
 }
 
 void PlotMatrix::updateLayout()

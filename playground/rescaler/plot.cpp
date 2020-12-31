@@ -54,54 +54,54 @@ public:
     };
 
     RectItem( Type type ):
-        d_type( type )
+        m_type( type )
     {
     }
 
     void setPen( const QPen &pen )
     {
-        if ( pen != d_pen )
+        if ( pen != m_pen )
         {
-            d_pen = pen;
+            m_pen = pen;
             itemChanged();
         }
     }
 
     void setBrush( const QBrush &brush )
     {
-        if ( brush != d_brush )
+        if ( brush != m_brush )
         {
-            d_brush = brush;
+            m_brush = brush;
             itemChanged();
         }
     }
     void setRect( const QRectF &rect )
     {
-        if ( d_rect != rect )
+        if ( m_rect != rect )
         {
-            d_rect = rect;
+            m_rect = rect;
             itemChanged();
         }
     }
 
     virtual QRectF boundingRect() const QWT_OVERRIDE
     {
-        return d_rect;
+        return m_rect;
     }
 
     virtual void draw( QPainter *painter,
         const QwtScaleMap &xMap, const QwtScaleMap &yMap,
         const QRectF & ) const QWT_OVERRIDE
     {
-        if ( d_rect.isValid() )
+        if ( m_rect.isValid() )
         {
             const QRectF rect = QwtScaleMap::transform(
-                xMap, yMap, d_rect );
+                xMap, yMap, m_rect );
 
-            painter->setPen( d_pen );
-            painter->setBrush( d_brush );
+            painter->setPen( m_pen );
+            painter->setBrush( m_brush );
 
-            if ( d_type == Ellipse )
+            if ( m_type == Ellipse )
                 QwtPainter::drawEllipse( painter, rect );
             else
                 QwtPainter::drawRect( painter, rect );
@@ -109,10 +109,10 @@ public:
     }
 
 private:
-    QPen d_pen;
-    QBrush d_brush;
-    QRectF d_rect;
-    Type d_type;
+    QPen m_pen;
+    QBrush m_brush;
+    QRectF m_rect;
+    Type m_type;
 };
 
 Plot::Plot( QWidget *parent, const QwtInterval &interval ):
@@ -155,12 +155,12 @@ Plot::Plot( QWidget *parent, const QwtInterval &interval ):
     textItem->setText( "Navigation Example" );
     textItem->attach( this );
 
-    d_rectOfInterest = new RectItem( RectItem::Rect );
-    d_rectOfInterest->setPen( Qt::NoPen );
+    m_rectOfInterest = new RectItem( RectItem::Rect );
+    m_rectOfInterest->setPen( Qt::NoPen );
     QColor c = Qt::gray;
     c.setAlpha( 100 );
-    d_rectOfInterest->setBrush( QBrush( c ) );
-    d_rectOfInterest->attach( this );
+    m_rectOfInterest->setBrush( QBrush( c ) );
+    m_rectOfInterest->attach( this );
 }
 
 void Plot::updateLayout()
@@ -184,7 +184,7 @@ void Plot::updateLayout()
 
 void Plot::setRectOfInterest( const QRectF &rect )
 {
-    d_rectOfInterest->setRect( rect );
+    m_rectOfInterest->setRect( rect );
 }
 
 #include "moc_plot.cpp"

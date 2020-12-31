@@ -128,7 +128,7 @@ public:
 QwtPlotPanner::QwtPlotPanner( QWidget *canvas ):
     QwtPanner( canvas )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 
     connect( this, SIGNAL(panned(int,int)),
         SLOT(moveCanvas(int,int)) );
@@ -137,7 +137,7 @@ QwtPlotPanner::QwtPlotPanner( QWidget *canvas ):
 //! Destructor
 QwtPlotPanner::~QwtPlotPanner()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -154,7 +154,7 @@ QwtPlotPanner::~QwtPlotPanner()
 void QwtPlotPanner::setAxisEnabled( int axis, bool on )
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
-        d_data->isAxisEnabled[axis] = on;
+        m_data->isAxisEnabled[axis] = on;
 }
 
 /*!
@@ -168,7 +168,7 @@ void QwtPlotPanner::setAxisEnabled( int axis, bool on )
 bool QwtPlotPanner::isAxisEnabled( int axis ) const
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
-        return d_data->isAxisEnabled[axis];
+        return m_data->isAxisEnabled[axis];
 
     return true;
 }
@@ -227,7 +227,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
 
     for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
     {
-        if ( !d_data->isAxisEnabled[axis] )
+        if ( !m_data->isAxisEnabled[axis] )
             continue;
 
         const QwtScaleMap map = plot->canvasMap( axis );

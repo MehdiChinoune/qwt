@@ -19,11 +19,11 @@
 */
 QwtInterval QwtInterval::normalized() const
 {
-    if ( d_minValue > d_maxValue )
+    if ( m_minValue > m_maxValue )
     {
         return inverted();
     }
-    if ( d_minValue == d_maxValue && d_borderFlags == ExcludeMinimum )
+    if ( m_minValue == m_maxValue && m_borderFlags == ExcludeMinimum )
     {
         return inverted();
     }
@@ -40,13 +40,13 @@ QwtInterval QwtInterval::inverted() const
 {
     BorderFlags borderFlags = IncludeBorders;
 
-    if ( d_borderFlags & ExcludeMinimum )
+    if ( m_borderFlags & ExcludeMinimum )
         borderFlags |= ExcludeMaximum;
 
-    if ( d_borderFlags & ExcludeMaximum )
+    if ( m_borderFlags & ExcludeMaximum )
         borderFlags |= ExcludeMinimum;
 
-    return QwtInterval( d_maxValue, d_minValue, borderFlags );
+    return QwtInterval( m_maxValue, m_minValue, borderFlags );
 }
 
 /*!
@@ -60,13 +60,13 @@ bool QwtInterval::contains( double value ) const
     if ( !isValid() )
         return false;
 
-    if ( ( value < d_minValue ) || ( value > d_maxValue ) )
+    if ( ( value < m_minValue ) || ( value > m_maxValue ) )
         return false;
 
-    if ( ( value == d_minValue ) && ( d_borderFlags & ExcludeMinimum ) )
+    if ( ( value == m_minValue ) && ( m_borderFlags & ExcludeMinimum ) )
         return false;
 
-    if ( ( value == d_maxValue ) && ( d_borderFlags & ExcludeMaximum ) )
+    if ( ( value == m_maxValue ) && ( m_borderFlags & ExcludeMaximum ) )
         return false;
 
     return true;
@@ -83,24 +83,24 @@ bool QwtInterval::contains( const QwtInterval& interval ) const
     if ( !isValid() || !interval.isValid() )
         return false;
 
-    if ( ( interval.d_minValue < d_minValue ) || ( interval.d_maxValue > d_maxValue ) )
+    if ( ( interval.m_minValue < m_minValue ) || ( interval.m_maxValue > m_maxValue ) )
         return false;
 
-    if ( d_borderFlags )
+    if ( m_borderFlags )
     {
-        if ( interval.d_minValue == d_minValue )
+        if ( interval.m_minValue == m_minValue )
         {
-            if ( ( d_borderFlags & ExcludeMinimum )
-                && !( interval.d_borderFlags & ExcludeMinimum ) )
+            if ( ( m_borderFlags & ExcludeMinimum )
+                && !( interval.m_borderFlags & ExcludeMinimum ) )
             {
                 return false;
             }
         }
 
-        if ( interval.d_maxValue == d_maxValue )
+        if ( interval.m_maxValue == m_maxValue )
         {
-            if ( ( d_borderFlags & ExcludeMaximum )
-                && !( interval.d_borderFlags & ExcludeMaximum ) )
+            if ( ( m_borderFlags & ExcludeMaximum )
+                && !( interval.m_borderFlags & ExcludeMaximum ) )
             {
                 return false;
             }
@@ -131,37 +131,37 @@ QwtInterval QwtInterval::unite( const QwtInterval &other ) const
     BorderFlags flags = IncludeBorders;
 
     // minimum
-    if ( d_minValue < other.minValue() )
+    if ( m_minValue < other.minValue() )
     {
-        united.setMinValue( d_minValue );
-        flags &= d_borderFlags & ExcludeMinimum;
+        united.setMinValue( m_minValue );
+        flags &= m_borderFlags & ExcludeMinimum;
     }
-    else if ( other.minValue() < d_minValue )
+    else if ( other.minValue() < m_minValue )
     {
         united.setMinValue( other.minValue() );
         flags &= other.borderFlags() & ExcludeMinimum;
     }
-    else // d_minValue == other.minValue()
+    else // m_minValue == other.minValue()
     {
-        united.setMinValue( d_minValue );
-        flags &= ( d_borderFlags & other.borderFlags() ) & ExcludeMinimum;
+        united.setMinValue( m_minValue );
+        flags &= ( m_borderFlags & other.borderFlags() ) & ExcludeMinimum;
     }
 
     // maximum
-    if ( d_maxValue > other.maxValue() )
+    if ( m_maxValue > other.maxValue() )
     {
-        united.setMaxValue( d_maxValue );
-        flags &= d_borderFlags & ExcludeMaximum;
+        united.setMaxValue( m_maxValue );
+        flags &= m_borderFlags & ExcludeMaximum;
     }
-    else if ( other.maxValue() > d_maxValue )
+    else if ( other.maxValue() > m_maxValue )
     {
         united.setMaxValue( other.maxValue() );
         flags &= other.borderFlags() & ExcludeMaximum;
     }
-    else // d_maxValue == other.maxValue() )
+    else // m_maxValue == other.maxValue() )
     {
-        united.setMaxValue( d_maxValue );
-        flags &= d_borderFlags & other.borderFlags() & ExcludeMaximum;
+        united.setMaxValue( m_maxValue );
+        flags &= m_borderFlags & other.borderFlags() & ExcludeMaximum;
     }
 
     united.setBorderFlags( flags );
@@ -311,7 +311,7 @@ QwtInterval QwtInterval::symmetrize( double value ) const
         return *this;
 
     const double delta =
-        qMax( qAbs( value - d_maxValue ), qAbs( value - d_minValue ) );
+        qMax( qAbs( value - m_maxValue ), qAbs( value - m_minValue ) );
 
     return QwtInterval( value - delta, value + delta );
 }
@@ -329,13 +329,13 @@ QwtInterval QwtInterval::limited( double lowerBound, double upperBound ) const
     if ( !isValid() || lowerBound > upperBound )
         return QwtInterval();
 
-    double minValue = qMax( d_minValue, lowerBound );
+    double minValue = qMax( m_minValue, lowerBound );
     minValue = qMin( minValue, upperBound );
 
-    double maxValue = qMax( d_maxValue, lowerBound );
+    double maxValue = qMax( m_maxValue, lowerBound );
     maxValue = qMin( maxValue, upperBound );
 
-    return QwtInterval( minValue, maxValue, d_borderFlags );
+    return QwtInterval( minValue, maxValue, m_borderFlags );
 }
 
 /*!
@@ -356,8 +356,8 @@ QwtInterval QwtInterval::extend( double value ) const
     if ( !isValid() )
         return *this;
 
-    return QwtInterval( qMin( value, d_minValue ),
-        qMax( value, d_maxValue ), d_borderFlags );
+    return QwtInterval( qMin( value, m_minValue ),
+        qMax( value, m_maxValue ), m_borderFlags );
 }
 
 /*!

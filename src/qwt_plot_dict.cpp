@@ -68,8 +68,8 @@ public:
 */
 QwtPlotDict::QwtPlotDict()
 {
-    d_data = new QwtPlotDict::PrivateData;
-    d_data->autoDelete = true;
+    m_data = new QwtPlotDict::PrivateData;
+    m_data->autoDelete = true;
 }
 
 /*!
@@ -80,8 +80,8 @@ QwtPlotDict::QwtPlotDict()
 */
 QwtPlotDict::~QwtPlotDict()
 {
-    detachItems( QwtPlotItem::Rtti_PlotItem, d_data->autoDelete );
-    delete d_data;
+    detachItems( QwtPlotItem::Rtti_PlotItem, m_data->autoDelete );
+    delete m_data;
 }
 
 /*!
@@ -94,7 +94,7 @@ QwtPlotDict::~QwtPlotDict()
 */
 void QwtPlotDict::setAutoDelete( bool autoDelete )
 {
-    d_data->autoDelete = autoDelete;
+    m_data->autoDelete = autoDelete;
 }
 
 /*!
@@ -103,7 +103,7 @@ void QwtPlotDict::setAutoDelete( bool autoDelete )
 */
 bool QwtPlotDict::autoDelete() const
 {
-    return d_data->autoDelete;
+    return m_data->autoDelete;
 }
 
 /*!
@@ -114,7 +114,7 @@ bool QwtPlotDict::autoDelete() const
  */
 void QwtPlotDict::insertItem( QwtPlotItem *item )
 {
-    d_data->itemList.insertItem( item );
+    m_data->itemList.insertItem( item );
 }
 
 /*!
@@ -125,7 +125,7 @@ void QwtPlotDict::insertItem( QwtPlotItem *item )
  */
 void QwtPlotDict::removeItem( QwtPlotItem *item )
 {
-    d_data->itemList.removeItem( item );
+    m_data->itemList.removeItem( item );
 }
 
 /*!
@@ -137,7 +137,7 @@ void QwtPlotDict::removeItem( QwtPlotItem *item )
 */
 void QwtPlotDict::detachItems( int rtti, bool autoDelete )
 {
-    PrivateData::ItemList list = d_data->itemList;
+    PrivateData::ItemList list = m_data->itemList;
     QwtPlotItemIterator it = list.constBegin();
     while ( it != list.constEnd() )
     {
@@ -165,7 +165,7 @@ void QwtPlotDict::detachItems( int rtti, bool autoDelete )
 */
 const QwtPlotItemList &QwtPlotDict::itemList() const
 {
-    return d_data->itemList;
+    return m_data->itemList;
 }
 
 /*!
@@ -176,11 +176,11 @@ const QwtPlotItemList &QwtPlotDict::itemList() const
 QwtPlotItemList QwtPlotDict::itemList( int rtti ) const
 {
     if ( rtti == QwtPlotItem::Rtti_PlotItem )
-        return d_data->itemList;
+        return m_data->itemList;
 
     QwtPlotItemList items;
 
-    PrivateData::ItemList list = d_data->itemList;
+    PrivateData::ItemList list = m_data->itemList;
     for ( QwtPlotItemIterator it = list.constBegin(); it != list.constEnd(); ++it )
     {
         QwtPlotItem *item = *it;

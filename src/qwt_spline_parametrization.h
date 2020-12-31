@@ -120,7 +120,7 @@ public:
     static double valueIncrementManhattan( const QPointF &, const QPointF & );
 
 private:
-    const int d_type;
+    const int m_type;
 };
 
 /*!

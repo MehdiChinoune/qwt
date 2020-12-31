@@ -26,8 +26,8 @@ public Q_SLOTS:
     void showSymbols( bool );
 
 private:
-    QwtPlotCurve *d_curve;
-    QwtPlotDirectPainter *d_directPainter;
+    QwtPlotCurve *m_curve;
+    QwtPlotDirectPainter *m_directPainter;
 };
 
 #endif

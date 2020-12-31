@@ -25,7 +25,7 @@ public Q_SLOTS:
 private:
     void populate();
 
-    QwtPlotMultiBarChart *d_barChartItem;
+    QwtPlotMultiBarChart *m_barChartItem;
 };
 
 #endif

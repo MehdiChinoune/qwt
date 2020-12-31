@@ -46,20 +46,20 @@ public:
         if ( !prefix.isEmpty() )
             layout->addWidget( new QLabel( prefix + " ", this ) );
 
-        d_counter = new QSpinBox( this );
-        d_counter->setRange( min, max );
-        d_counter->setSingleStep( step );
-        layout->addWidget( d_counter );
+        m_counter = new QSpinBox( this );
+        m_counter->setRange( min, max );
+        m_counter->setSingleStep( step );
+        layout->addWidget( m_counter );
 
         if ( !suffix.isEmpty() )
             layout->addWidget( new QLabel( QString( " " ) + suffix, this ) );
     }
 
-    void setValue( int value ) { d_counter->setValue( value ); }
-    int value() const { return d_counter->value(); }
+    void setValue( int value ) { m_counter->setValue( value ); }
+    int value() const { return m_counter->value(); }
 
 private:
-    QSpinBox *d_counter;
+    QSpinBox *m_counter;
 };
 
 MainWindow::MainWindow()
@@ -69,17 +69,17 @@ MainWindow::MainWindow()
     ( void )statusBar();
 #endif
 
-    d_plot = new RandomPlot( this );
+    m_plot = new RandomPlot( this );
     const int margin = 4;
-    d_plot->setContentsMargins( margin, margin, margin, margin );
+    m_plot->setContentsMargins( margin, margin, margin, margin );
 
-    setCentralWidget( d_plot );
+    setCentralWidget( m_plot );
 
-    connect( d_startAction, SIGNAL( toggled( bool ) ), this, SLOT( appendPoints( bool ) ) );
-    connect( d_clearAction, SIGNAL( triggered() ), d_plot, SLOT( clear() ) );
-    connect( d_symbolType, SIGNAL( toggled( bool ) ), d_plot, SLOT( showSymbols( bool ) ) );
-    connect( d_plot, SIGNAL( running( bool ) ), this, SLOT( showRunning( bool ) ) );
-    connect( d_plot, SIGNAL( elapsed( int ) ), this, SLOT( showElapsed( int ) ) );
+    connect( m_startAction, SIGNAL( toggled( bool ) ), this, SLOT( appendPoints( bool ) ) );
+    connect( m_clearAction, SIGNAL( triggered() ), m_plot, SLOT( clear() ) );
+    connect( m_symbolType, SIGNAL( toggled( bool ) ), m_plot, SLOT( showSymbols( bool ) ) );
+    connect( m_plot, SIGNAL( running( bool ) ), this, SLOT( showRunning( bool ) ) );
+    connect( m_plot, SIGNAL( elapsed( int ) ), this, SLOT( showElapsed( int ) ) );
 
     initWhatsThis();
 
@@ -93,39 +93,39 @@ QToolBar *MainWindow::toolBar()
     toolBar->setAllowedAreas( Qt::TopToolBarArea | Qt::BottomToolBarArea );
     setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
 
-    d_startAction = new QAction( QPixmap( start_xpm ), "Start", toolBar );
-    d_startAction->setCheckable( true );
-    d_clearAction = new QAction( QPixmap( clear_xpm ), "Clear", toolBar );
+    m_startAction = new QAction( QPixmap( start_xpm ), "Start", toolBar );
+    m_startAction->setCheckable( true );
+    m_clearAction = new QAction( QPixmap( clear_xpm ), "Clear", toolBar );
     QAction *whatsThisAction = QWhatsThis::createAction( toolBar );
     whatsThisAction->setText( "Help" );
 
-    toolBar->addAction( d_startAction );
-    toolBar->addAction( d_clearAction );
+    toolBar->addAction( m_startAction );
+    toolBar->addAction( m_clearAction );
     toolBar->addAction( whatsThisAction );
 
     setIconSize( QSize( 22, 22 ) );
 
     QWidget *hBox = new QWidget( toolBar );
 
-    d_symbolType = new QCheckBox( "Symbols", hBox );
-    d_symbolType->setChecked( true );
+    m_symbolType = new QCheckBox( "Symbols", hBox );
+    m_symbolType->setChecked( true );
 
-    d_randomCount = new Counter( hBox, "Points", QString(), 1, 100000, 100 );
-    d_randomCount->setValue( 1000 );
+    m_randomCount = new Counter( hBox, "Points", QString(), 1, 100000, 100 );
+    m_randomCount->setValue( 1000 );
 
-    d_timerCount = new Counter( hBox, "Delay", "ms", 0, 100000, 100 );
-    d_timerCount->setValue( 0 );
+    m_timerCount = new Counter( hBox, "Delay", "ms", 0, 100000, 100 );
+    m_timerCount->setValue( 0 );
 
     QHBoxLayout *layout = new QHBoxLayout( hBox );
     layout->setContentsMargins( QMargins() );
     layout->setSpacing( 0 );
     layout->addSpacing( 10 );
     layout->addWidget( new QWidget( hBox ), 10 ); // spacer
-    layout->addWidget( d_symbolType );
+    layout->addWidget( m_symbolType );
     layout->addSpacing( 5 );
-    layout->addWidget( d_randomCount );
+    layout->addWidget( m_randomCount );
     layout->addSpacing( 5 );
-    layout->addWidget( d_timerCount );
+    layout->addWidget( m_timerCount );
 
     showRunning( false );
 
@@ -137,18 +137,18 @@ QToolBar *MainWindow::toolBar()
 void MainWindow::appendPoints( bool on )
 {
     if ( on )
-        d_plot->append( d_timerCount->value(),
-                        d_randomCount->value() );
+        m_plot->append( m_timerCount->value(),
+                        m_randomCount->value() );
     else
-        d_plot->stop();
+        m_plot->stop();
 }
 
 void MainWindow::showRunning( bool running )
 {
-    d_randomCount->setEnabled( !running );
-    d_timerCount->setEnabled( !running );
-    d_startAction->setChecked( running );
-    d_startAction->setText( running ? "Stop" : "Start" );
+    m_randomCount->setEnabled( !running );
+    m_timerCount->setEnabled( !running );
+    m_startAction->setChecked( running );
+    m_startAction->setText( running ? "Stop" : "Start" );
 }
 
 void MainWindow::showElapsed( int ms )
@@ -189,11 +189,11 @@ void MainWindow::initWhatsThis()
 
     const char *text5 = "Remove all points.";
 
-    d_plot->setWhatsThis( text1 );
-    d_randomCount->setWhatsThis( text2 );
-    d_timerCount->setWhatsThis( text3 );
-    d_startAction->setWhatsThis( text4 );
-    d_clearAction->setWhatsThis( text5 );
+    m_plot->setWhatsThis( text1 );
+    m_randomCount->setWhatsThis( text2 );
+    m_timerCount->setWhatsThis( text3 );
+    m_startAction->setWhatsThis( text4 );
+    m_clearAction->setWhatsThis( text5 );
 }
 
 #include "moc_mainwindow.cpp"

@@ -86,7 +86,7 @@ public:
 private:
     Q_DISABLE_COPY(QwtColorMap)
 
-    Format d_format;
+    Format m_format;
 };
 
 /*!
@@ -138,7 +138,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!
@@ -163,7 +163,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!
@@ -199,7 +199,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!
@@ -234,7 +234,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!
@@ -257,7 +257,7 @@ inline QColor QwtColorMap::color(
 */
 inline QwtColorMap::Format QwtColorMap::format() const
 {
-    return d_format;
+    return m_format;
 }
 
 #endif

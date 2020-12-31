@@ -27,8 +27,8 @@ private Q_SLOTS:
 private:
     QwtDial *createDial( int type ) const;
 
-    QwtDial *d_dial;
-    QLabel *d_label;
+    QwtDial *m_dial;
+    QLabel *m_label;
 };
 
 #endif

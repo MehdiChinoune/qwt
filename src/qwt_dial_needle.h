@@ -62,7 +62,7 @@ protected:
 private:
     Q_DISABLE_COPY(QwtDialNeedle)
 
-    QPalette d_palette;
+    QPalette m_palette;
 };
 
 /*!
@@ -102,9 +102,9 @@ protected:
         QPalette::ColorGroup ) const QWT_OVERRIDE;
 
 private:
-    Style d_style;
-    bool d_hasKnob;
-    double d_width;
+    Style m_style;
+    bool m_hasKnob;
+    double m_width;
 };
 
 /*!
@@ -145,7 +145,7 @@ protected:
         double length, QPalette::ColorGroup ) const QWT_OVERRIDE;
 
 private:
-    Style d_style;
+    Style m_style;
 };
 
 /*!
@@ -182,7 +182,7 @@ protected:
         double length, QPalette::ColorGroup ) const QWT_OVERRIDE;
 
 private:
-    Style d_style;
+    Style m_style;
 };
 
 #endif

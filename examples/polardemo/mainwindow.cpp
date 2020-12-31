@@ -23,23 +23,23 @@ MainWindow::MainWindow( QWidget *parent ):
 {
     QWidget *w = new QWidget( this );
 
-    d_plot = new Plot( w );
+    m_plot = new Plot( w );
 
-    d_panner = new QwtPolarPanner( d_plot->canvas() );
-    d_panner->setEnabled( false );
+    m_panner = new QwtPolarPanner( m_plot->canvas() );
+    m_panner->setEnabled( false );
 
-    d_zoomer = new QwtPolarMagnifier( d_plot->canvas() );
-    d_zoomer->setEnabled( false );
+    m_zoomer = new QwtPolarMagnifier( m_plot->canvas() );
+    m_zoomer->setEnabled( false );
 
-    d_settingsEditor = new SettingsEditor( w );
+    m_settingsEditor = new SettingsEditor( w );
 
-    d_settingsEditor->showSettings( d_plot->settings() );
-    connect( d_settingsEditor, SIGNAL( edited( const PlotSettings & ) ),
-        d_plot, SLOT( applySettings( const PlotSettings & ) ) );
+    m_settingsEditor->showSettings( m_plot->settings() );
+    connect( m_settingsEditor, SIGNAL( edited( const PlotSettings & ) ),
+        m_plot, SLOT( applySettings( const PlotSettings & ) ) );
 
     QHBoxLayout *layout = new QHBoxLayout( w );
-    layout->addWidget( d_settingsEditor, 0 );
-    layout->addWidget( d_plot, 10 );
+    layout->addWidget( m_settingsEditor, 0 );
+    layout->addWidget( m_plot, 10 );
 
     setCentralWidget( w );
 
@@ -82,7 +82,7 @@ void MainWindow::printDocument()
 {
     QPrinter printer( QPrinter::HighResolution );
 
-    QString docName = d_plot->title().text();
+    QString docName = m_plot->title().text();
     if ( !docName.isEmpty() )
     {
         docName.replace ( "\n", " -- " );
@@ -100,7 +100,7 @@ void MainWindow::printDocument()
     if ( dialog.exec() )
     {
         QwtPolarRenderer renderer;
-        renderer.renderTo( d_plot, printer );
+        renderer.renderTo( m_plot, printer );
     }
 }
 
@@ -109,13 +109,13 @@ void MainWindow::exportDocument()
     QString fileName = "polarplot.pdf";
 
     QwtPolarRenderer renderer;
-    renderer.exportTo( d_plot, "polarplot.pdf" );
+    renderer.exportTo( m_plot, "polarplot.pdf" );
 }
 
 void MainWindow::enableZoomMode( bool on )
 {
-    d_panner->setEnabled( on );
-    d_zoomer->setEnabled( on );
+    m_panner->setEnabled( on );
+    m_zoomer->setEnabled( on );
 }
 
 #include "moc_mainwindow.cpp"

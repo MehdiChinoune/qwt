@@ -77,7 +77,7 @@ private:
 	virtual void clearBackingStore() QWT_OVERRIDE;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

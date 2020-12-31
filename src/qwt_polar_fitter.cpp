@@ -30,14 +30,14 @@ public:
 QwtPolarFitter::QwtPolarFitter( int stepCount )
     : QwtCurveFitter( QwtPolarFitter::Polygon )
 {
-    d_data = new PrivateData;
-    d_data->stepCount = stepCount;
+    m_data = new PrivateData;
+    m_data->stepCount = stepCount;
 }
 
 //! Destructor
 QwtPolarFitter::~QwtPolarFitter()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -50,7 +50,7 @@ QwtPolarFitter::~QwtPolarFitter()
 */
 void QwtPolarFitter::setStepCount( int stepCount )
 {
-    d_data->stepCount = qMax( stepCount, 0 );
+    m_data->stepCount = qMax( stepCount, 0 );
 }
 
 /*!
@@ -59,7 +59,7 @@ void QwtPolarFitter::setStepCount( int stepCount )
 */
 int QwtPolarFitter::stepCount() const
 {
-    return d_data->stepCount;
+    return m_data->stepCount;
 }
 
 /*!
@@ -71,12 +71,12 @@ int QwtPolarFitter::stepCount() const
 */
 QPolygonF QwtPolarFitter::fitCurve( const QPolygonF &points ) const
 {
-    if ( d_data->stepCount <= 0 || points.size() <= 1 )
+    if ( m_data->stepCount <= 0 || points.size() <= 1 )
         return points;
 
     QPolygonF fittedPoints;
 
-    int numPoints = points.size() + ( points.size() - 1 ) * d_data->stepCount;
+    int numPoints = points.size() + ( points.size() - 1 ) * m_data->stepCount;
 
     fittedPoints.resize( numPoints );
 
@@ -87,9 +87,9 @@ QPolygonF QwtPolarFitter::fitCurve( const QPolygonF &points ) const
         const QPointF &p1 = points[i-1];
         const QPointF &p2 = points[i];
 
-        const double dx = ( p2.x() - p1.x() ) / d_data->stepCount;
-        const double dy = ( p2.y() - p1.y() ) / d_data->stepCount;
-        for ( int j = 1; j <= d_data->stepCount; j++ )
+        const double dx = ( p2.x() - p1.x() ) / m_data->stepCount;
+        const double dy = ( p2.y() - p1.y() ) / m_data->stepCount;
+        for ( int j = 1; j <= m_data->stepCount; j++ )
         {
             const double x = p1.x() + j * dx;
             const double y = p1.y() + j * dy;

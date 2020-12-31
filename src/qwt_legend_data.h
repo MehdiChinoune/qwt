@@ -82,7 +82,7 @@ public:
     Mode mode() const;
 
 private:
-    QMap<int, QVariant> d_map;
+    QMap<int, QVariant> m_map;
 };
 
 #endif

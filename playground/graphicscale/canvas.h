@@ -32,11 +32,11 @@ protected:
 private:
     void render( QPainter *, const QRect & ) const;
 
-    const Mode d_mode;
+    const Mode m_mode;
     union
     {
-        QSvgRenderer *d_renderer;
-        QwtGraphic *d_graphic;
+        QSvgRenderer *m_renderer;
+        QwtGraphic *m_graphic;
     };
 };
 

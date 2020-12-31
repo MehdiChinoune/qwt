@@ -48,7 +48,7 @@ public Q_SLOTS:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

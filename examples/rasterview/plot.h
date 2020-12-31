@@ -22,7 +22,7 @@ public Q_SLOTS:
     void setResampleMode( int );
 
 private:
-    QwtPlotSpectrogram *d_spectrogram;
+    QwtPlotSpectrogram *m_spectrogram;
 };
 
 #endif

@@ -32,7 +32,7 @@ private:
         ShapeFactory::Shape, const QColor &,
         const QPointF &, const QSizeF & );
 
-    Editor *d_editor;
+    Editor *m_editor;
 };
 
 #endif

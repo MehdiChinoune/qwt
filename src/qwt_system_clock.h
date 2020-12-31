@@ -31,7 +31,7 @@ public:
     double elapsed() const;
 
 private:
-    QElapsedTimer d_timer;
+    QElapsedTimer m_timer;
 };
 
 #endif

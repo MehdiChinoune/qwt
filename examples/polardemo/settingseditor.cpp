@@ -22,8 +22,8 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     for ( int i = PlotSettings::AxisBegin;
         i <= PlotSettings::Logarithmic; i++ )
     {
-        d_checkBox[i] = new QCheckBox( axesBox );
-        axesBoxLayout->addWidget( d_checkBox[i] );
+        m_checkBox[i] = new QCheckBox( axesBox );
+        axesBoxLayout->addWidget( m_checkBox[i] );
     }
 
     QGroupBox *gridBox = new QGroupBox( "Grids", this );
@@ -33,12 +33,12 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
         int idx = PlotSettings::MajorGridBegin + scaleId;
-        d_checkBox[idx] = new QCheckBox( gridBox );
-        gridBoxLayout->addWidget( d_checkBox[idx] );
+        m_checkBox[idx] = new QCheckBox( gridBox );
+        gridBoxLayout->addWidget( m_checkBox[idx] );
 
         idx = PlotSettings::MinorGridBegin + scaleId;
-        d_checkBox[idx] = new QCheckBox( gridBox );
-        gridBoxLayout->addWidget( d_checkBox[idx] );
+        m_checkBox[idx] = new QCheckBox( gridBox );
+        gridBoxLayout->addWidget( m_checkBox[idx] );
     }
     gridBoxLayout->addStretch( 10 );
 
@@ -49,8 +49,8 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     for ( int i = PlotSettings::Logarithmic + 1;
         i < PlotSettings::NumFlags; i++ )
     {
-        d_checkBox[i] = new QCheckBox( otherBox );
-        otherBoxLayout->addWidget( d_checkBox[i] );
+        m_checkBox[i] = new QCheckBox( otherBox );
+        otherBoxLayout->addWidget( m_checkBox[i] );
     }
     otherBoxLayout->addStretch( 10 );
 
@@ -62,8 +62,8 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
 
     for ( int i = 0; i < PlotSettings::NumFlags; i++ )
     {
-        d_checkBox[i]->setText( label( i ) );
-        connect( d_checkBox[i], SIGNAL( clicked() ), this, SLOT( edited() ) );
+        m_checkBox[i]->setText( label( i ) );
+        connect( m_checkBox[i], SIGNAL( clicked() ), this, SLOT( edited() ) );
     }
 }
 
@@ -71,7 +71,7 @@ void SettingsEditor::showSettings( const PlotSettings &settings )
 {
     blockSignals( true );
     for ( int i = 0; i < PlotSettings::NumFlags; i++ )
-        d_checkBox[i]->setChecked( settings.flags[i] );
+        m_checkBox[i]->setChecked( settings.flags[i] );
 
     blockSignals( false );
     updateEditor();
@@ -81,7 +81,7 @@ PlotSettings SettingsEditor::settings() const
 {
     PlotSettings s;
     for ( int i = 0; i < PlotSettings::NumFlags; i++ )
-        s.flags[i] = d_checkBox[i]->isChecked();
+        s.flags[i] = m_checkBox[i]->isChecked();
     return s;
 }
 
@@ -97,8 +97,8 @@ void SettingsEditor::updateEditor()
 {
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
-        d_checkBox[PlotSettings::MinorGridBegin+scaleId]->setEnabled(
-            d_checkBox[PlotSettings::MajorGridBegin+scaleId]->isChecked() );
+        m_checkBox[PlotSettings::MinorGridBegin+scaleId]->setEnabled(
+            m_checkBox[PlotSettings::MajorGridBegin+scaleId]->isChecked() );
     }
 }
 

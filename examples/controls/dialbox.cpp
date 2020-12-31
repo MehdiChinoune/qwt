@@ -21,20 +21,20 @@
 DialBox::DialBox( QWidget *parent, int type ):
     QWidget( parent )
 {
-    d_dial = createDial( type );
+    m_dial = createDial( type );
 
-    d_label = new QLabel( this );
-    d_label->setAlignment( Qt::AlignCenter );
+    m_label = new QLabel( this );
+    m_label->setAlignment( Qt::AlignCenter );
 
     QVBoxLayout *layout = new QVBoxLayout( this );;
     layout->setSpacing( 0 );
-    layout->addWidget( d_dial, 10 );
-    layout->addWidget( d_label );
+    layout->addWidget( m_dial, 10 );
+    layout->addWidget( m_label );
 
-    connect( d_dial, SIGNAL( valueChanged( double ) ),
+    connect( m_dial, SIGNAL( valueChanged( double ) ),
         this, SLOT( setNum( double ) ) );
 
-    setNum( d_dial->value() );
+    setNum( m_dial->value() );
 }
 
 QwtDial *DialBox::createDial( int type ) const
@@ -170,7 +170,7 @@ void DialBox::setNum( double v )
     QString text;
     text.setNum( v, 'f', 2 );
 
-    d_label->setText( text );
+    m_label->setText( text );
 }
 
 #include "moc_dialbox.cpp"

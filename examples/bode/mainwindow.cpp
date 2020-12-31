@@ -59,35 +59,35 @@ public:
 MainWindow::MainWindow( QWidget *parent ):
     QMainWindow( parent )
 {
-    d_plot = new Plot( this );
+    m_plot = new Plot( this );
 
     const int margin = 5;
-    d_plot->setContentsMargins( margin, margin, margin, 0 );
+    m_plot->setContentsMargins( margin, margin, margin, 0 );
 
     setContextMenuPolicy( Qt::NoContextMenu );
 
-    d_zoomer[0] = new Zoomer( QwtPlot::xBottom, QwtPlot::yLeft,
-        d_plot->canvas() );
-    d_zoomer[0]->setRubberBand( QwtPicker::RectRubberBand );
-    d_zoomer[0]->setRubberBandPen( QColor( Qt::green ) );
-    d_zoomer[0]->setTrackerMode( QwtPicker::ActiveOnly );
-    d_zoomer[0]->setTrackerPen( QColor( Qt::white ) );
+    m_zoomer[0] = new Zoomer( QwtPlot::xBottom, QwtPlot::yLeft,
+        m_plot->canvas() );
+    m_zoomer[0]->setRubberBand( QwtPicker::RectRubberBand );
+    m_zoomer[0]->setRubberBandPen( QColor( Qt::green ) );
+    m_zoomer[0]->setTrackerMode( QwtPicker::ActiveOnly );
+    m_zoomer[0]->setTrackerPen( QColor( Qt::white ) );
 
-    d_zoomer[1] = new Zoomer( QwtPlot::xTop, QwtPlot::yRight,
-         d_plot->canvas() );
+    m_zoomer[1] = new Zoomer( QwtPlot::xTop, QwtPlot::yRight,
+         m_plot->canvas() );
 
-    d_panner = new QwtPlotPanner( d_plot->canvas() );
-    d_panner->setMouseButton( Qt::MiddleButton );
+    m_panner = new QwtPlotPanner( m_plot->canvas() );
+    m_panner->setMouseButton( Qt::MiddleButton );
 
-    d_picker = new QwtPlotPicker( QwtPlot::xBottom, QwtPlot::yLeft,
+    m_picker = new QwtPlotPicker( QwtPlot::xBottom, QwtPlot::yLeft,
         QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn,
-        d_plot->canvas() );
-    d_picker->setStateMachine( new QwtPickerDragPointMachine() );
-    d_picker->setRubberBandPen( QColor( Qt::green ) );
-    d_picker->setRubberBand( QwtPicker::CrossRubberBand );
-    d_picker->setTrackerPen( QColor( Qt::white ) );
+        m_plot->canvas() );
+    m_picker->setStateMachine( new QwtPickerDragPointMachine() );
+    m_picker->setRubberBandPen( QColor( Qt::green ) );
+    m_picker->setRubberBand( QwtPicker::CrossRubberBand );
+    m_picker->setTrackerPen( QColor( Qt::white ) );
 
-    setCentralWidget( d_plot );
+    setCentralWidget( m_plot );
 
     QToolBar *toolBar = new QToolBar( this );
 
@@ -143,11 +143,11 @@ MainWindow::MainWindow( QWidget *parent ):
     showInfo();
 
     connect( cntDamp, SIGNAL( valueChanged( double ) ),
-        d_plot, SLOT( setDamp( double ) ) );
+        m_plot, SLOT( setDamp( double ) ) );
 
-    connect( d_picker, SIGNAL( moved( const QPoint & ) ),
+    connect( m_picker, SIGNAL( moved( const QPoint & ) ),
         SLOT( moved( const QPoint & ) ) );
-    connect( d_picker, SIGNAL( selected( const QPolygon & ) ),
+    connect( m_picker, SIGNAL( selected( const QPolygon & ) ),
         SLOT( selected( const QPolygon & ) ) );
 }
 
@@ -157,7 +157,7 @@ void MainWindow::print()
 {
     QPrinter printer( QPrinter::HighResolution );
 
-    QString docName = d_plot->title().text();
+    QString docName = m_plot->title().text();
     if ( !docName.isEmpty() )
     {
         docName.replace ( "\n", " -- " );
@@ -184,7 +184,7 @@ void MainWindow::print()
             renderer.setLayoutFlag( QwtPlotRenderer::FrameWithScales );
         }
 
-        renderer.renderTo( d_plot, printer );
+        renderer.renderTo( m_plot, printer );
     }
 }
 
@@ -193,20 +193,20 @@ void MainWindow::print()
 void MainWindow::exportDocument()
 {
     QwtPlotRenderer renderer;
-    renderer.exportTo( d_plot, "bode.pdf" );
+    renderer.exportTo( m_plot, "bode.pdf" );
 }
 
 void MainWindow::enableZoomMode( bool on )
 {
-    d_panner->setEnabled( on );
+    m_panner->setEnabled( on );
 
-    d_zoomer[0]->setEnabled( on );
-    d_zoomer[0]->zoom( 0 );
+    m_zoomer[0]->setEnabled( on );
+    m_zoomer[0]->zoom( 0 );
 
-    d_zoomer[1]->setEnabled( on );
-    d_zoomer[1]->zoom( 0 );
+    m_zoomer[1]->setEnabled( on );
+    m_zoomer[1]->zoom( 0 );
 
-    d_picker->setEnabled( !on );
+    m_picker->setEnabled( !on );
 
     showInfo();
 }
@@ -215,7 +215,7 @@ void MainWindow::showInfo( QString text )
 {
     if ( text.isEmpty() )
     {
-        if ( d_picker->rubberBand() )
+        if ( m_picker->rubberBand() )
             text = "Cursor Pos: Press left mouse button in plot region";
         else
             text = "Zoom: Press mouse button and drag";
@@ -229,9 +229,9 @@ void MainWindow::showInfo( QString text )
 void MainWindow::moved( const QPoint &pos )
 {
     QString info( "Freq=%1, Ampl=%2, Phase=%3" );
-    info = info.arg( d_plot->invTransform( QwtPlot::xBottom, pos.x() ) );
-    info = info.arg( d_plot->invTransform( QwtPlot::yLeft, pos.y() ) );
-    info = info.arg( d_plot->invTransform( QwtPlot::yRight, pos.y() ) );
+    info = info.arg( m_plot->invTransform( QwtPlot::xBottom, pos.x() ) );
+    info = info.arg( m_plot->invTransform( QwtPlot::yLeft, pos.y() ) );
+    info = info.arg( m_plot->invTransform( QwtPlot::yRight, pos.y() ) );
 
     showInfo( info );
 }

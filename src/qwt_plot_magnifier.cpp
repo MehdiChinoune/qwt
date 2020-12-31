@@ -30,13 +30,13 @@ public:
 QwtPlotMagnifier::QwtPlotMagnifier( QWidget *canvas ):
     QwtMagnifier( canvas )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 }
 
 //! Destructor
 QwtPlotMagnifier::~QwtPlotMagnifier()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -53,7 +53,7 @@ QwtPlotMagnifier::~QwtPlotMagnifier()
 void QwtPlotMagnifier::setAxisEnabled( int axis, bool on )
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
-        d_data->isAxisEnabled[axis] = on;
+        m_data->isAxisEnabled[axis] = on;
 }
 
 /*!
@@ -67,7 +67,7 @@ void QwtPlotMagnifier::setAxisEnabled( int axis, bool on )
 bool QwtPlotMagnifier::isAxisEnabled( int axis ) const
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
-        return d_data->isAxisEnabled[axis];
+        return m_data->isAxisEnabled[axis];
 
     return true;
 }

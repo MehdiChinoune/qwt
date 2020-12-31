@@ -221,7 +221,7 @@ public:
  */
 QwtScaleEngine::QwtScaleEngine( uint base )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
     setBase( base );
 }
 
@@ -229,7 +229,7 @@ QwtScaleEngine::QwtScaleEngine( uint base )
 //! Destructor
 QwtScaleEngine::~QwtScaleEngine ()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -247,10 +247,10 @@ QwtScaleEngine::~QwtScaleEngine ()
  */
 void QwtScaleEngine::setTransformation( QwtTransform *transform )
 {
-    if ( transform != d_data->transform )
+    if ( transform != m_data->transform )
     {
-        delete d_data->transform;
-        d_data->transform = transform;
+        delete m_data->transform;
+        m_data->transform = transform;
     }
 }
 
@@ -265,8 +265,8 @@ void QwtScaleEngine::setTransformation( QwtTransform *transform )
 QwtTransform *QwtScaleEngine::transformation() const
 {
     QwtTransform *transform = NULL;
-    if ( d_data->transform )
-        transform = d_data->transform->copy();
+    if ( m_data->transform )
+        transform = m_data->transform->copy();
 
     return transform;
 }
@@ -279,7 +279,7 @@ QwtTransform *QwtScaleEngine::transformation() const
 */
 double QwtScaleEngine::lowerMargin() const
 {
-    return d_data->lowerMargin;
+    return m_data->lowerMargin;
 }
 
 /*!
@@ -290,7 +290,7 @@ double QwtScaleEngine::lowerMargin() const
 */
 double QwtScaleEngine::upperMargin() const
 {
-    return d_data->upperMargin;
+    return m_data->upperMargin;
 }
 
 /*!
@@ -311,8 +311,8 @@ double QwtScaleEngine::upperMargin() const
 
 void QwtScaleEngine::setMargins( double lower, double upper )
 {
-    d_data->lowerMargin = qwtMaxF( lower, 0.0 );
-    d_data->upperMargin = qwtMaxF( upper, 0.0 );
+    m_data->lowerMargin = qwtMaxF( lower, 0.0 );
+    m_data->upperMargin = qwtMaxF( upper, 0.0 );
 }
 
 /*!
@@ -327,7 +327,7 @@ double QwtScaleEngine::divideInterval(
     double intervalSize, int numSteps ) const
 {
     return QwtScaleArithmetic::divideInterval(
-        intervalSize, numSteps, d_data->base );
+        intervalSize, numSteps, m_data->base );
 }
 
 /*!
@@ -417,9 +417,9 @@ QwtInterval QwtScaleEngine::buildInterval( double value ) const
 void QwtScaleEngine::setAttribute( Attribute attribute, bool on )
 {
     if ( on )
-        d_data->attributes |= attribute;
+        m_data->attributes |= attribute;
     else
-        d_data->attributes &= ~attribute;
+        m_data->attributes &= ~attribute;
 }
 
 /*!
@@ -430,7 +430,7 @@ void QwtScaleEngine::setAttribute( Attribute attribute, bool on )
 */
 bool QwtScaleEngine::testAttribute( Attribute attribute ) const
 {
-    return ( d_data->attributes & attribute );
+    return ( m_data->attributes & attribute );
 }
 
 /*!
@@ -441,7 +441,7 @@ bool QwtScaleEngine::testAttribute( Attribute attribute ) const
 */
 void QwtScaleEngine::setAttributes( Attributes attributes )
 {
-    d_data->attributes = attributes;
+    m_data->attributes = attributes;
 }
 
 /*!
@@ -450,7 +450,7 @@ void QwtScaleEngine::setAttributes( Attributes attributes )
 */
 QwtScaleEngine::Attributes QwtScaleEngine::attributes() const
 {
-    return d_data->attributes;
+    return m_data->attributes;
 }
 
 /*!
@@ -464,7 +464,7 @@ QwtScaleEngine::Attributes QwtScaleEngine::attributes() const
 */
 void QwtScaleEngine::setReference( double reference )
 {
-    d_data->referenceValue = reference;
+    m_data->referenceValue = reference;
 }
 
 /*!
@@ -473,7 +473,7 @@ void QwtScaleEngine::setReference( double reference )
 */
 double QwtScaleEngine::reference() const
 {
-    return d_data->referenceValue;
+    return m_data->referenceValue;
 }
 
 /*!
@@ -490,7 +490,7 @@ double QwtScaleEngine::reference() const
  */
 void QwtScaleEngine::setBase( uint base )
 {
-    d_data->base = qMax( base, 2U );
+    m_data->base = qMax( base, 2U );
 }
 
 /*!
@@ -499,7 +499,7 @@ void QwtScaleEngine::setBase( uint base )
  */
 uint QwtScaleEngine::base() const
 {
-    return d_data->base;
+    return m_data->base;
 }
 
 /*!

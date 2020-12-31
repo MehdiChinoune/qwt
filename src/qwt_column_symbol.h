@@ -138,7 +138,7 @@ private:
     Q_DISABLE_COPY(QwtColumnSymbol)
 
     class PrivateData;
-    PrivateData* d_data;
+    PrivateData* m_data;
 };
 
 #endif

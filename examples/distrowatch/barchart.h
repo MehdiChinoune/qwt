@@ -28,8 +28,8 @@ private:
     void exportPNG( int width, int height );
     void render( QPainter* painter, const QRectF & targetRect );
 
-    DistroChartItem *d_barChartItem;
-    QStringList d_distros;
+    DistroChartItem *m_barChartItem;
+    QStringList m_distros;
 };
 
 #endif

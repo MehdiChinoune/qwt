@@ -40,21 +40,21 @@ void QwtPlot::initAxesData()
     int axisId;
 
     for ( axisId = 0; axisId < axisCnt; axisId++ )
-        d_axisData[axisId] = new AxisData;
+        m_axisData[axisId] = new AxisData;
 
-    d_axisData[yLeft]->scaleWidget =
+    m_axisData[yLeft]->scaleWidget =
         new QwtScaleWidget( QwtScaleDraw::LeftScale, this );
-    d_axisData[yRight]->scaleWidget =
+    m_axisData[yRight]->scaleWidget =
         new QwtScaleWidget( QwtScaleDraw::RightScale, this );
-    d_axisData[xTop]->scaleWidget =
+    m_axisData[xTop]->scaleWidget =
         new QwtScaleWidget( QwtScaleDraw::TopScale, this );
-    d_axisData[xBottom]->scaleWidget =
+    m_axisData[xBottom]->scaleWidget =
         new QwtScaleWidget( QwtScaleDraw::BottomScale, this );
 
-    d_axisData[yLeft]->scaleWidget->setObjectName( "QwtPlotAxisYLeft" );
-    d_axisData[yRight]->scaleWidget->setObjectName( "QwtPlotAxisYRight" );
-    d_axisData[xTop]->scaleWidget->setObjectName( "QwtPlotAxisXTop" );
-    d_axisData[xBottom]->scaleWidget->setObjectName( "QwtPlotAxisXBottom" );
+    m_axisData[yLeft]->scaleWidget->setObjectName( "QwtPlotAxisYLeft" );
+    m_axisData[yRight]->scaleWidget->setObjectName( "QwtPlotAxisYRight" );
+    m_axisData[xTop]->scaleWidget->setObjectName( "QwtPlotAxisXTop" );
+    m_axisData[xBottom]->scaleWidget->setObjectName( "QwtPlotAxisXBottom" );
 
 #if 1
     // better find the font sizes from the application font
@@ -64,7 +64,7 @@ void QwtPlot::initAxesData()
 
     for ( axisId = 0; axisId < axisCnt; axisId++ )
     {
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
 
         d.scaleEngine = new QwtLinearScaleEngine;
 
@@ -91,19 +91,19 @@ void QwtPlot::initAxesData()
         d.isValid = false;
     }
 
-    d_axisData[yLeft]->isEnabled = true;
-    d_axisData[yRight]->isEnabled = false;
-    d_axisData[xBottom]->isEnabled = true;
-    d_axisData[xTop]->isEnabled = false;
+    m_axisData[yLeft]->isEnabled = true;
+    m_axisData[yRight]->isEnabled = false;
+    m_axisData[xBottom]->isEnabled = true;
+    m_axisData[xTop]->isEnabled = false;
 }
 
 void QwtPlot::deleteAxesData()
 {
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
     {
-        delete d_axisData[axisId]->scaleEngine;
-        delete d_axisData[axisId];
-        d_axisData[axisId] = NULL;
+        delete m_axisData[axisId]->scaleEngine;
+        delete m_axisData[axisId];
+        m_axisData[axisId] = NULL;
     }
 }
 
@@ -114,7 +114,7 @@ void QwtPlot::deleteAxesData()
 const QwtScaleWidget *QwtPlot::axisWidget( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->scaleWidget;
+        return m_axisData[axisId]->scaleWidget;
 
     return NULL;
 }
@@ -126,7 +126,7 @@ const QwtScaleWidget *QwtPlot::axisWidget( int axisId ) const
 QwtScaleWidget *QwtPlot::axisWidget( int axisId )
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->scaleWidget;
+        return m_axisData[axisId]->scaleWidget;
 
     return NULL;
 }
@@ -143,12 +143,12 @@ void QwtPlot::setAxisScaleEngine( int axisId, QwtScaleEngine *scaleEngine )
 {
     if ( axisValid( axisId ) && scaleEngine != NULL )
     {
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
 
         delete d.scaleEngine;
         d.scaleEngine = scaleEngine;
 
-        d_axisData[axisId]->scaleWidget->setTransformation(
+        m_axisData[axisId]->scaleWidget->setTransformation(
             scaleEngine->transformation() );
 
         d.isValid = false;
@@ -164,7 +164,7 @@ void QwtPlot::setAxisScaleEngine( int axisId, QwtScaleEngine *scaleEngine )
 QwtScaleEngine *QwtPlot::axisScaleEngine( int axisId )
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->scaleEngine;
+        return m_axisData[axisId]->scaleEngine;
     else
         return NULL;
 }
@@ -176,7 +176,7 @@ QwtScaleEngine *QwtPlot::axisScaleEngine( int axisId )
 const QwtScaleEngine *QwtPlot::axisScaleEngine( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->scaleEngine;
+        return m_axisData[axisId]->scaleEngine;
     else
         return NULL;
 }
@@ -187,7 +187,7 @@ const QwtScaleEngine *QwtPlot::axisScaleEngine( int axisId ) const
 bool QwtPlot::axisAutoScale( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->doAutoScale;
+        return m_axisData[axisId]->doAutoScale;
     else
         return false;
 }
@@ -199,7 +199,7 @@ bool QwtPlot::axisAutoScale( int axisId ) const
 bool QwtPlot::axisEnabled( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->isEnabled;
+        return m_axisData[axisId]->isEnabled;
     else
         return false;
 }
@@ -225,7 +225,7 @@ QFont QwtPlot::axisFont( int axisId ) const
 int QwtPlot::axisMaxMajor( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->maxMajor;
+        return m_axisData[axisId]->maxMajor;
     else
         return 0;
 }
@@ -238,7 +238,7 @@ int QwtPlot::axisMaxMajor( int axisId ) const
 int QwtPlot::axisMaxMinor( int axisId ) const
 {
     if ( axisValid( axisId ) )
-        return d_axisData[axisId]->maxMinor;
+        return m_axisData[axisId]->maxMinor;
     else
         return 0;
 }
@@ -256,7 +256,7 @@ int QwtPlot::axisMaxMinor( int axisId ) const
 */
 const QwtScaleDiv &QwtPlot::axisScaleDiv( int axisId ) const
 {
-    return d_axisData[axisId]->scaleDiv;
+    return m_axisData[axisId]->scaleDiv;
 }
 
 /*!
@@ -302,7 +302,7 @@ double QwtPlot::axisStepSize( int axisId ) const
     if ( !axisValid( axisId ) )
         return 0;
 
-    return d_axisData[axisId]->stepSize;
+    return m_axisData[axisId]->stepSize;
 }
 
 /*!
@@ -320,7 +320,7 @@ QwtInterval QwtPlot::axisInterval( int axisId ) const
     if ( !axisValid( axisId ) )
         return QwtInterval();
 
-    return d_axisData[axisId]->scaleDiv.interval();
+    return m_axisData[axisId]->scaleDiv.interval();
 }
 
 /*!
@@ -350,9 +350,9 @@ QwtText QwtPlot::axisTitle( int axisId ) const
 */
 void QwtPlot::enableAxis( int axisId, bool tf )
 {
-    if ( axisValid( axisId ) && tf != d_axisData[axisId]->isEnabled )
+    if ( axisValid( axisId ) && tf != m_axisData[axisId]->isEnabled )
     {
-        d_axisData[axisId]->isEnabled = tf;
+        m_axisData[axisId]->isEnabled = tf;
         updateLayout();
     }
 }
@@ -423,9 +423,9 @@ void QwtPlot::setAxisFont( int axisId, const QFont &font )
 */
 void QwtPlot::setAxisAutoScale( int axisId, bool on )
 {
-    if ( axisValid( axisId ) && ( d_axisData[axisId]->doAutoScale != on ) )
+    if ( axisValid( axisId ) && ( m_axisData[axisId]->doAutoScale != on ) )
     {
-        d_axisData[axisId]->doAutoScale = on;
+        m_axisData[axisId]->doAutoScale = on;
         autoRefresh();
     }
 }
@@ -449,7 +449,7 @@ void QwtPlot::setAxisScale( int axisId, double min, double max, double stepSize 
 {
     if ( axisValid( axisId ) )
     {
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
 
         d.doAutoScale = false;
         d.isValid = false;
@@ -478,7 +478,7 @@ void QwtPlot::setAxisScaleDiv( int axisId, const QwtScaleDiv &scaleDiv )
 {
     if ( axisValid( axisId ) )
     {
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
 
         d.doAutoScale = false;
         d.scaleDiv = scaleDiv;
@@ -556,7 +556,7 @@ void QwtPlot::setAxisMaxMinor( int axisId, int maxMinor )
     {
         maxMinor = qBound( 0, maxMinor, 100 );
 
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
         if ( maxMinor != d.maxMinor )
         {
             d.maxMinor = maxMinor;
@@ -580,7 +580,7 @@ void QwtPlot::setAxisMaxMajor( int axisId, int maxMajor )
     {
         maxMajor = qBound( 1, maxMajor, 10000 );
 
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
         if ( maxMajor != d.maxMajor )
         {
             d.maxMajor = maxMajor;
@@ -674,7 +674,7 @@ void QwtPlot::updateAxes()
 
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
     {
-        AxisData &d = *d_axisData[axisId];
+        AxisData &d = *m_axisData[axisId];
 
         double minValue = d.minValue;
         double maxValue = d.maxValue;

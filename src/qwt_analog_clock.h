@@ -87,7 +87,7 @@ private:
     // use setHand instead
     void setNeedle( QwtDialNeedle * );
 
-    QwtDialNeedle *d_hand[NHands];
+    QwtDialNeedle *m_hand[NHands];
 };
 
 #endif

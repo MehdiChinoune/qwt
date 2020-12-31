@@ -29,9 +29,9 @@ private:
     QwtPlot *plot();
     const QwtPlot *plot() const;
 
-    QwtPlotCurve *d_selectedCurve;
-    int d_selectedPoint;
-    const bool d_sortedX;
+    QwtPlotCurve *m_selectedCurve;
+    int m_selectedPoint;
+    const bool m_sortedX;
 };
 
 #endif

@@ -126,7 +126,7 @@ private:
     void initSlider( Qt::Orientation );
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

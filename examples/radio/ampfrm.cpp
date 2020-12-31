@@ -25,23 +25,23 @@ public:
     Knob( const QString &title, double min, double max, QWidget *parent ):
         QWidget( parent )
     {
-        d_knob = new QwtKnob( this );
-        d_knob->setScale( min, max );
-        d_knob->setTotalSteps( 0 ); // disable
-        d_knob->setScaleMaxMajor( 10 );
+        m_knob = new QwtKnob( this );
+        m_knob->setScale( min, max );
+        m_knob->setTotalSteps( 0 ); // disable
+        m_knob->setScaleMaxMajor( 10 );
 
-        d_knob->setKnobStyle( QwtKnob::Raised );
-        d_knob->setKnobWidth( 50 );
-        d_knob->setBorderWidth( 2 );
-        d_knob->setMarkerStyle( QwtKnob::Notch );
-        d_knob->setMarkerSize( 8 );
+        m_knob->setKnobStyle( QwtKnob::Raised );
+        m_knob->setKnobWidth( 50 );
+        m_knob->setBorderWidth( 2 );
+        m_knob->setMarkerStyle( QwtKnob::Notch );
+        m_knob->setMarkerSize( 8 );
 
-        d_knob->scaleDraw()->setTickLength( QwtScaleDiv::MinorTick, 4 );
-        d_knob->scaleDraw()->setTickLength( QwtScaleDiv::MediumTick, 4 );
-        d_knob->scaleDraw()->setTickLength( QwtScaleDiv::MajorTick, 6 );
+        m_knob->scaleDraw()->setTickLength( QwtScaleDiv::MinorTick, 4 );
+        m_knob->scaleDraw()->setTickLength( QwtScaleDiv::MediumTick, 4 );
+        m_knob->scaleDraw()->setTickLength( QwtScaleDiv::MajorTick, 6 );
 
-        d_label = new QLabel( title, this );
-        d_label->setAlignment( Qt::AlignTop | Qt::AlignHCenter );
+        m_label = new QLabel( title, this );
+        m_label->setAlignment( Qt::AlignTop | Qt::AlignHCenter );
 
         setSizePolicy( QSizePolicy::MinimumExpanding,
             QSizePolicy::MinimumExpanding );
@@ -49,13 +49,13 @@ public:
 
     virtual QSize sizeHint() const QWT_OVERRIDE
     {
-        QSize sz1 = d_knob->sizeHint();
-        QSize sz2 = d_label->sizeHint();
+        QSize sz1 = m_knob->sizeHint();
+        QSize sz2 = m_label->sizeHint();
 
         const int w = qMax( sz1.width(), sz2.width() );
         const int h = sz1.height() + sz2.height();
 
-        int off = qCeil( d_knob->scaleDraw()->extent( d_knob->font() ) );
+        int off = qCeil( m_knob->scaleDraw()->extent( m_knob->font() ) );
         off -= 10; // spacing
 
         return QSize( w, h - off );
@@ -63,12 +63,12 @@ public:
 
     void setValue( double value )
     {
-        d_knob->setValue( value );
+        m_knob->setValue( value );
     }
 
     double value() const
     {
-        return d_knob->value();
+        return m_knob->value();
     }
 
 protected:
@@ -76,21 +76,21 @@ protected:
     {
         const QSize sz = event->size();
 
-        int h = d_label->sizeHint().height();
+        int h = m_label->sizeHint().height();
 
-        d_label->setGeometry( 0, sz.height() - h, sz.width(), h );
+        m_label->setGeometry( 0, sz.height() - h, sz.width(), h );
 
-        h = d_knob->sizeHint().height();
-        int off = qCeil( d_knob->scaleDraw()->extent( d_knob->font() ) );
+        h = m_knob->sizeHint().height();
+        int off = qCeil( m_knob->scaleDraw()->extent( m_knob->font() ) );
         off -= 10; // spacing
 
-        d_knob->setGeometry( 0, d_label->pos().y() - h + off,
+        m_knob->setGeometry( 0, m_label->pos().y() - h + off,
             sz.width(), h );
     }
 
 private:
-    QwtKnob *d_knob;
-    QLabel *d_label;
+    QwtKnob *m_knob;
+    QLabel *m_label;
 };
 
 class Thermo: public QWidget
@@ -99,13 +99,13 @@ public:
     Thermo( const QString &title, QWidget *parent ):
         QWidget( parent )
     {
-        d_thermo = new QwtThermo( this );
-        d_thermo->setPipeWidth( 6 );
-        d_thermo->setScale( -40, 10 );
-        d_thermo->setFillBrush( Qt::green );
-        d_thermo->setAlarmBrush( Qt::red );
-        d_thermo->setAlarmLevel( 0.0 );
-        d_thermo->setAlarmEnabled( true );
+        m_thermo = new QwtThermo( this );
+        m_thermo->setPipeWidth( 6 );
+        m_thermo->setScale( -40, 10 );
+        m_thermo->setFillBrush( Qt::green );
+        m_thermo->setAlarmBrush( Qt::red );
+        m_thermo->setAlarmLevel( 0.0 );
+        m_thermo->setAlarmEnabled( true );
 
         QLabel *label = new QLabel( title, this );
         label->setAlignment( Qt::AlignTop | Qt::AlignLeft );
@@ -113,44 +113,44 @@ public:
         QVBoxLayout *layout = new QVBoxLayout( this );
         layout->setContentsMargins( QMargins() );
         layout->setSpacing( 0 );
-        layout->addWidget( d_thermo, 10 );
+        layout->addWidget( m_thermo, 10 );
         layout->addWidget( label );
     }
 
     void setValue( double value )
     {
-        d_thermo->setValue( value );
+        m_thermo->setValue( value );
     }
 
 private:
-    QwtThermo *d_thermo;
+    QwtThermo *m_thermo;
 };
 
 AmpFrame::AmpFrame( QWidget *p ):
     QFrame( p )
 {
-    d_knbVolume = new Knob( "Volume", 0.0, 10.0, this );
-    d_knbBalance = new Knob( "Balance", -10.0, 10.0, this );
-    d_knbTreble = new Knob( "Treble", -10.0, 10.0, this );
-    d_knbBass = new Knob( "Bass", -10.0, 10.0, this );
+    m_knbVolume = new Knob( "Volume", 0.0, 10.0, this );
+    m_knbBalance = new Knob( "Balance", -10.0, 10.0, this );
+    m_knbTreble = new Knob( "Treble", -10.0, 10.0, this );
+    m_knbBass = new Knob( "Bass", -10.0, 10.0, this );
 
-    d_thmLeft = new Thermo( "Left [dB]", this );
-    d_thmRight = new Thermo( "Right [dB]", this );
+    m_thmLeft = new Thermo( "Left [dB]", this );
+    m_thmRight = new Thermo( "Right [dB]", this );
 
     QHBoxLayout *layout = new QHBoxLayout( this );
     layout->setSpacing( 0 );
     layout->setContentsMargins( 10, 10, 10, 10 );
-    layout->addWidget( d_knbVolume );
-    layout->addWidget( d_knbBalance);
-    layout->addWidget( d_knbTreble);
-    layout->addWidget( d_knbBass );
+    layout->addWidget( m_knbVolume );
+    layout->addWidget( m_knbBalance);
+    layout->addWidget( m_knbTreble);
+    layout->addWidget( m_knbBass );
     layout->addSpacing( 20 );
     layout->addStretch( 10 );
-    layout->addWidget( d_thmLeft );
+    layout->addWidget( m_thmLeft );
     layout->addSpacing( 10 );
-    layout->addWidget( d_thmRight );
+    layout->addWidget( m_thmRight );
 
-    d_knbVolume->setValue( 7.0 );
+    m_knbVolume->setValue( 7.0 );
     ( void )startTimer( 50 );
 }
 
@@ -162,21 +162,21 @@ void AmpFrame::timerEvent( QTimerEvent * )
     //  This amplifier generates its own input signal...
     //
 
-    const double sig_bass = ( 1.0 + 0.1 * d_knbBass->value() )
+    const double sig_bass = ( 1.0 + 0.1 * m_knbBass->value() )
         * std::sin( 13.0 * phs );
-    const double sig_mid_l = std::sin( 17.0 * phs );
-    const double sig_mid_r = std::cos( 17.5 * phs );
-    const double sig_trbl_l = 0.5 * ( 1.0 + 0.1 * d_knbTreble->value() )
+    const double sig_mim_l = std::sin( 17.0 * phs );
+    const double sig_mim_r = std::cos( 17.5 * phs );
+    const double sig_trbl_l = 0.5 * ( 1.0 + 0.1 * m_knbTreble->value() )
         * std::sin( 35.0 * phs );
-    const double sig_trbl_r = 0.5 * ( 1.0 + 0.1 * d_knbTreble->value() )
+    const double sig_trbl_r = 0.5 * ( 1.0 + 0.1 * m_knbTreble->value() )
         * std::sin( 34.0 * phs );
 
-    double sig_l = 0.05 * d_master * d_knbVolume->value()
-        * qwtSqr( sig_bass + sig_mid_l + sig_trbl_l );
-    double sig_r = 0.05 * d_master * d_knbVolume->value()
-        * qwtSqr( sig_bass + sig_mid_r + sig_trbl_r );
+    double sig_l = 0.05 * m_master * m_knbVolume->value()
+        * qwtSqr( sig_bass + sig_mim_l + sig_trbl_l );
+    double sig_r = 0.05 * m_master * m_knbVolume->value()
+        * qwtSqr( sig_bass + sig_mim_r + sig_trbl_r );
 
-    double balance = 0.1 * d_knbBalance->value();
+    double balance = 0.1 * m_knbBalance->value();
     if ( balance > 0 )
         sig_l *= ( 1.0 - balance );
     else
@@ -192,8 +192,8 @@ void AmpFrame::timerEvent( QTimerEvent * )
     else
         sig_r = - 40.0;
 
-    d_thmLeft->setValue( sig_l );
-    d_thmRight->setValue( sig_r );
+    m_thmLeft->setValue( sig_l );
+    m_thmRight->setValue( sig_r );
 
     phs += M_PI / 100;
     if ( phs > M_PI )
@@ -202,7 +202,7 @@ void AmpFrame::timerEvent( QTimerEvent * )
 
 void AmpFrame::setMaster( double v )
 {
-    d_master = v;
+    m_master = v;
 }
 
 #include "moc_ampfrm.cpp"

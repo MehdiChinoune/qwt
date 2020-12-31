@@ -128,8 +128,8 @@ public:
     static QFont scaledFont( const QFont&, const QPaintDevice* = nullptr );
 
 private:
-    static bool d_polylineSplitting;
-    static bool d_roundingAlignment;
+    static bool m_polylineSplitting;
+    static bool m_roundingAlignment;
 };
 
 //!  Wrapper for QPainter::drawPoint()
@@ -169,7 +169,7 @@ inline void QwtPainter::drawLine( QPainter *painter, const QLineF &line )
 */
 inline bool QwtPainter::polylineSplitting()
 {
-    return d_polylineSplitting;
+    return m_polylineSplitting;
 }
 
 /*!
@@ -182,7 +182,7 @@ inline bool QwtPainter::polylineSplitting()
 */
 inline bool QwtPainter::roundingAlignment()
 {
-    return d_roundingAlignment;
+    return m_roundingAlignment;
 }
 
 /*!
@@ -191,7 +191,7 @@ inline bool QwtPainter::roundingAlignment()
 */
 inline bool QwtPainter::roundingAlignment( const QPainter *painter )
 {
-    return d_roundingAlignment && isAligning(painter);
+    return m_roundingAlignment && isAligning(painter);
 }
 
 /*!

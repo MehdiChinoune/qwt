@@ -45,9 +45,9 @@ public:
     bool operator!=( const QwtPoint3D & ) const;
 
 private:
-    double d_x;
-    double d_y;
-    double d_z;
+    double m_x;
+    double m_y;
+    double m_z;
 };
 
 Q_DECLARE_TYPEINFO(QwtPoint3D, Q_MOVABLE_TYPE);
@@ -61,17 +61,17 @@ QWT_EXPORT QDebug operator<<( QDebug, const QwtPoint3D & );
     \sa isNull()
 */
 inline QwtPoint3D::QwtPoint3D():
-    d_x( 0.0 ),
-    d_y( 0.0 ),
-    d_z( 0.0 )
+    m_x( 0.0 ),
+    m_y( 0.0 ),
+    m_z( 0.0 )
 {
 }
 
 //! Constructs a point with coordinates specified by x, y and z.
 inline QwtPoint3D::QwtPoint3D( double x, double y, double z = 0.0 ):
-    d_x( x ),
-    d_y( y ),
-    d_z( z )
+    m_x( x ),
+    m_y( y ),
+    m_z( z )
 {
 }
 
@@ -80,9 +80,9 @@ inline QwtPoint3D::QwtPoint3D( double x, double y, double z = 0.0 ):
     and a z coordinate of 0.
 */
 inline QwtPoint3D::QwtPoint3D( const QPointF &other ):
-    d_x( other.x() ),
-    d_y( other.y() ),
-    d_z( 0.0 )
+    m_x( other.x() ),
+    m_y( other.y() ),
+    m_z( 0.0 )
 {
 }
 
@@ -94,61 +94,61 @@ inline QwtPoint3D::QwtPoint3D( const QPointF &other ):
 */
 inline bool QwtPoint3D::isNull() const
 {
-    return d_x == 0.0 && d_y == 0.0 && d_z == 0.0;
+    return m_x == 0.0 && m_y == 0.0 && m_z == 0.0;
 }
 
 //! \return The x-coordinate of the point.
 inline double QwtPoint3D::x() const
 {
-    return d_x;
+    return m_x;
 }
 
 //! \return The y-coordinate of the point.
 inline double QwtPoint3D::y() const
 {
-    return d_y;
+    return m_y;
 }
 
 //! \return The z-coordinate of the point.
 inline double QwtPoint3D::z() const
 {
-    return d_z;
+    return m_z;
 }
 
 //! \return A reference to the x-coordinate of the point.
 inline double &QwtPoint3D::rx()
 {
-    return d_x;
+    return m_x;
 }
 
 //! \return A reference to the y-coordinate of the point.
 inline double &QwtPoint3D::ry()
 {
-    return d_y;
+    return m_y;
 }
 
 //! \return A reference to the z-coordinate of the point.
 inline double &QwtPoint3D::rz()
 {
-    return d_z;
+    return m_z;
 }
 
 //! Sets the x-coordinate of the point to the value specified by x.
 inline void QwtPoint3D::setX( double x )
 {
-    d_x = x;
+    m_x = x;
 }
 
 //! Sets the y-coordinate of the point to the value specified by y.
 inline void QwtPoint3D::setY( double y )
 {
-    d_y = y;
+    m_y = y;
 }
 
 //! Sets the z-coordinate of the point to the value specified by z.
 inline void QwtPoint3D::setZ( double z )
 {
-    d_z = z;
+    m_z = z;
 }
 
 /*!
@@ -156,13 +156,13 @@ inline void QwtPoint3D::setZ( double z )
 */
 inline QPointF QwtPoint3D::toPoint() const
 {
-    return QPointF( d_x, d_y );
+    return QPointF( m_x, m_y );
 }
 
 //! \return True, if this point and other are equal; otherwise returns false.
 inline bool QwtPoint3D::operator==( const QwtPoint3D &other ) const
 {
-    return ( d_x == other.d_x ) && ( d_y == other.d_y ) && ( d_z == other.d_z );
+    return ( m_x == other.m_x ) && ( m_y == other.m_y ) && ( m_z == other.m_z );
 }
 
 //! \return True if this rect and other are different; otherwise returns false.

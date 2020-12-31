@@ -61,14 +61,14 @@ private:
     QRegion maskHint( QwtPlotShapeItem * ) const;
     void setItemVisible( QwtPlotShapeItem *item, bool on );
 
-    bool d_isEnabled;
-    QPointer<QwtWidgetOverlay> d_overlay;
+    bool m_isEnabled;
+    QPointer<QwtWidgetOverlay> m_overlay;
 
     // Mouse positions
-    QPointF d_currentPos;
-    QwtPlotShapeItem* d_editedItem;
+    QPointF m_currentPos;
+    QwtPlotShapeItem* m_editedItem;
 
-    Mode d_mode;
+    Mode m_mode;
 };
 
 #endif

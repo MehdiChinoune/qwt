@@ -163,7 +163,7 @@ private:
     void drawNeedle( QPainter * ) const;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

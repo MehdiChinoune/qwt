@@ -58,7 +58,7 @@ public:
 QwtPolarSpectrogram::QwtPolarSpectrogram():
     QwtPolarItem( QwtText( "Spectrogram" ) )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setItemAttribute( QwtPolarItem::AutoScale );
     setItemAttribute( QwtPolarItem::Legend, false );
@@ -69,7 +69,7 @@ QwtPolarSpectrogram::QwtPolarSpectrogram():
 //! Destructor
 QwtPolarSpectrogram::~QwtPolarSpectrogram()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! \return QwtPolarItem::Rtti_PolarSpectrogram
@@ -90,10 +90,10 @@ int QwtPolarSpectrogram::rtti() const
 */
 void QwtPolarSpectrogram::setData( QwtRasterData *data )
 {
-    if ( data != d_data->data )
+    if ( data != m_data->data )
     {
-        delete d_data->data;
-        d_data->data = data;
+        delete m_data->data;
+        m_data->data = data;
 
         itemChanged();
     }
@@ -105,7 +105,7 @@ void QwtPolarSpectrogram::setData( QwtRasterData *data )
 */
 const QwtRasterData *QwtPolarSpectrogram::data() const
 {
-    return d_data->data;
+    return m_data->data;
 }
 
 /*!
@@ -121,10 +121,10 @@ const QwtRasterData *QwtPolarSpectrogram::data() const
 */
 void QwtPolarSpectrogram::setColorMap( QwtColorMap *colorMap )
 {
-    if ( d_data->colorMap != colorMap )
+    if ( m_data->colorMap != colorMap )
     {
-        delete d_data->colorMap;
-        d_data->colorMap = colorMap;
+        delete m_data->colorMap;
+        m_data->colorMap = colorMap;
     }
 
     itemChanged();
@@ -136,7 +136,7 @@ void QwtPolarSpectrogram::setColorMap( QwtColorMap *colorMap )
 */
 const QwtColorMap *QwtPolarSpectrogram::colorMap() const
 {
-    return d_data->colorMap;
+    return m_data->colorMap;
 }
 
 /*!
@@ -149,9 +149,9 @@ const QwtColorMap *QwtPolarSpectrogram::colorMap() const
 void QwtPolarSpectrogram::setPaintAttribute( PaintAttribute attribute, bool on )
 {
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 }
 
 /*!
@@ -161,7 +161,7 @@ void QwtPolarSpectrogram::setPaintAttribute( PaintAttribute attribute, bool on )
 */
 bool QwtPolarSpectrogram::testPaintAttribute( PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute );
+    return ( m_data->paintAttributes & attribute );
 }
 
 /*!
@@ -236,18 +236,18 @@ QImage QwtPolarSpectrogram::renderImage(
     const QwtScaleMap &azimuthMap, const QwtScaleMap &radialMap,
     const QPointF &pole, const QRect &rect ) const
 {
-    if ( d_data->data == NULL || d_data->colorMap == NULL )
+    if ( m_data->data == NULL || m_data->colorMap == NULL )
         return QImage();
 
-    QImage image( rect.size(), d_data->colorMap->format() == QwtColorMap::RGB
+    QImage image( rect.size(), m_data->colorMap->format() == QwtColorMap::RGB
                   ? QImage::Format_ARGB32 : QImage::Format_Indexed8 );
 
-    const QwtInterval intensityRange = d_data->data->interval( Qt::ZAxis );
+    const QwtInterval intensityRange = m_data->data->interval( Qt::ZAxis );
     if ( !intensityRange.isValid() )
         return image;
 
-    if ( d_data->colorMap->format() == QwtColorMap::Indexed )
-        image.setColorTable( d_data->colorMap->colorTable256() );
+    if ( m_data->colorMap->format() == QwtColorMap::Indexed )
+        image.setColorTable( m_data->colorMap->colorTable256() );
 
     /*
      For the moment we only announce the composition of the image by
@@ -255,7 +255,7 @@ QImage QwtPolarSpectrogram::renderImage(
      ( How to map rect into something, that is useful to initialize a matrix
        of values in polar coordinates ? )
      */
-    d_data->data->initRaster( QRectF(), QSize() );
+    m_data->data->initRaster( QRectF(), QSize() );
 
 
 #if !defined(QT_NO_QFUTURE)
@@ -311,7 +311,7 @@ QImage QwtPolarSpectrogram::renderImage(
     renderTile( azimuthMap, radialMap, pole, rect.topLeft(), rect, &image );
 #endif
 
-    d_data->data->discardRaster();
+    m_data->data->discardRaster();
 
     return image;
 }
@@ -345,7 +345,7 @@ void QwtPolarSpectrogram::renderTile(
     const QPointF &pole, const QPoint &imagePos,
     const QRect &tile, QImage *image ) const
 {
-    const QwtInterval intensityRange = d_data->data->interval( Qt::ZAxis );
+    const QwtInterval intensityRange = m_data->data->interval( Qt::ZAxis );
     if ( !intensityRange.isValid() )
         return;
 
@@ -359,7 +359,7 @@ void QwtPolarSpectrogram::renderTile(
     const int x1 = tile.left();
     const int x2 = tile.right();
 
-    if ( d_data->colorMap->format() == QwtColorMap::RGB )
+    if ( m_data->colorMap->format() == QwtColorMap::RGB )
     {
         for ( int y = y1; y <= y2; y++ )
         {
@@ -386,19 +386,19 @@ void QwtPolarSpectrogram::renderTile(
                 const double azimuth = azimuthMap.invTransform( a );
                 const double radius = radialMap.invTransform( r );
 
-                const double value = d_data->data->value( azimuth, radius );
+                const double value = m_data->data->value( azimuth, radius );
                 if ( qIsNaN( value ) )
                 {
                     *line++ = 0u;
                 }
                 else
                 {
-                    *line++ = d_data->colorMap->rgb( intensityRange, value );
+                    *line++ = m_data->colorMap->rgb( intensityRange, value );
                 }
             }
         }
     }
-    else if ( d_data->colorMap->format() == QwtColorMap::Indexed )
+    else if ( m_data->colorMap->format() == QwtColorMap::Indexed )
     {
         for ( int y = y1; y <= y2; y++ )
         {
@@ -422,9 +422,9 @@ void QwtPolarSpectrogram::renderTile(
                 const double azimuth = azimuthMap.invTransform( a );
                 const double radius = radialMap.invTransform( r );
 
-                const double value = d_data->data->value( azimuth, radius );
+                const double value = m_data->data->value( azimuth, radius );
 
-                const uint index = d_data->colorMap->colorIndex( 256, intensityRange, value );
+                const uint index = m_data->colorMap->colorIndex( 256, intensityRange, value );
                 *line++ = static_cast<unsigned char>( index );
             }
         }
@@ -443,7 +443,7 @@ void QwtPolarSpectrogram::renderTile(
 QwtInterval QwtPolarSpectrogram::boundingInterval( int scaleId ) const
 {
     if ( scaleId == QwtPolar::ScaleRadius )
-        return d_data->data->interval( Qt::YAxis );
+        return m_data->data->interval( Qt::YAxis );
 
     return QwtPolarItem::boundingInterval( scaleId );
 }

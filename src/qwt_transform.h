@@ -134,7 +134,7 @@ public:
     virtual QwtTransform *copy() const QWT_OVERRIDE;
 
 private:
-    const double d_exponent;
+    const double m_exponent;
 };
 
 #endif

@@ -34,26 +34,26 @@ public:
 
 ScrollZoomer::ScrollZoomer( QWidget *canvas ):
     QwtPlotZoomer( canvas ),
-    d_cornerWidget( NULL ),
-    d_hScrollData( NULL ),
-    d_vScrollData( NULL ),
-    d_inZoom( false )
+    m_cornerWidget( NULL ),
+    m_hScrollData( NULL ),
+    m_vScrollData( NULL ),
+    m_inZoom( false )
 {
     for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
-        d_alignCanvasToScales[ axis ] = false;
+        m_alignCanvasToScales[ axis ] = false;
 
     if ( !canvas )
         return;
 
-    d_hScrollData = new ScrollData;
-    d_vScrollData = new ScrollData;
+    m_hScrollData = new ScrollData;
+    m_vScrollData = new ScrollData;
 }
 
 ScrollZoomer::~ScrollZoomer()
 {
-    delete d_cornerWidget;
-    delete d_vScrollData;
-    delete d_hScrollData;
+    delete m_cornerWidget;
+    delete m_vScrollData;
+    delete m_hScrollData;
 }
 
 void ScrollZoomer::rescale()
@@ -63,7 +63,7 @@ void ScrollZoomer::rescale()
 
     if ( zoomRectIndex() <= 0 )
     {
-        if ( d_inZoom )
+        if ( m_inZoom )
         {
             xScale->setMinBorderDist( 0, 0 );
             yScale->setMinBorderDist( 0, 0 );
@@ -71,14 +71,14 @@ void ScrollZoomer::rescale()
             QwtPlotLayout *layout = plot()->plotLayout();
 
             for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
-                layout->setAlignCanvasToScale( axis, d_alignCanvasToScales[ axis ] );
+                layout->setAlignCanvasToScale( axis, m_alignCanvasToScales[ axis ] );
 
-            d_inZoom = false;
+            m_inZoom = false;
         }
     }
     else
     {
-        if ( !d_inZoom )
+        if ( !m_inZoom )
         {
             /*
              We set a minimum border distance.
@@ -99,13 +99,13 @@ void ScrollZoomer::rescale()
             QwtPlotLayout *layout = plot()->plotLayout();
             for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
             {
-                d_alignCanvasToScales[axis] =
+                m_alignCanvasToScales[axis] =
                     layout->alignCanvasToScale( axis );
             }
 
             layout->setAlignCanvasToScales( false );
 
-            d_inZoom = true;
+            m_inZoom = true;
         }
     }
 
@@ -116,7 +116,7 @@ void ScrollZoomer::rescale()
 ScrollBar *ScrollZoomer::scrollBar( Qt::Orientation orientation )
 {
     ScrollBar *&sb = ( orientation == Qt::Vertical )
-        ? d_vScrollData->scrollBar : d_hScrollData->scrollBar;
+        ? m_vScrollData->scrollBar : m_hScrollData->scrollBar;
 
     if ( sb == NULL )
     {
@@ -131,19 +131,19 @@ ScrollBar *ScrollZoomer::scrollBar( Qt::Orientation orientation )
 
 ScrollBar *ScrollZoomer::horizontalScrollBar() const
 {
-    return d_hScrollData->scrollBar;
+    return m_hScrollData->scrollBar;
 }
 
 ScrollBar *ScrollZoomer::verticalScrollBar() const
 {
-    return d_vScrollData->scrollBar;
+    return m_vScrollData->scrollBar;
 }
 
 void ScrollZoomer::setHScrollBarMode( Qt::ScrollBarPolicy mode )
 {
     if ( hScrollBarMode() != mode )
     {
-        d_hScrollData->mode = mode;
+        m_hScrollData->mode = mode;
         updateScrollBars();
     }
 }
@@ -152,59 +152,59 @@ void ScrollZoomer::setVScrollBarMode( Qt::ScrollBarPolicy mode )
 {
     if ( vScrollBarMode() != mode )
     {
-        d_vScrollData->mode = mode;
+        m_vScrollData->mode = mode;
         updateScrollBars();
     }
 }
 
 Qt::ScrollBarPolicy ScrollZoomer::hScrollBarMode() const
 {
-    return d_hScrollData->mode;
+    return m_hScrollData->mode;
 }
 
 Qt::ScrollBarPolicy ScrollZoomer::vScrollBarMode() const
 {
-    return d_vScrollData->mode;
+    return m_vScrollData->mode;
 }
 
 void ScrollZoomer::setHScrollBarPosition( ScrollBarPosition pos )
 {
-    if ( d_hScrollData->position != pos )
+    if ( m_hScrollData->position != pos )
     {
-        d_hScrollData->position = pos;
+        m_hScrollData->position = pos;
         updateScrollBars();
     }
 }
 
 void ScrollZoomer::setVScrollBarPosition( ScrollBarPosition pos )
 {
-    if ( d_vScrollData->position != pos )
+    if ( m_vScrollData->position != pos )
     {
-        d_vScrollData->position = pos;
+        m_vScrollData->position = pos;
         updateScrollBars();
     }
 }
 
 ScrollZoomer::ScrollBarPosition ScrollZoomer::hScrollBarPosition() const
 {
-    return d_hScrollData->position;
+    return m_hScrollData->position;
 }
 
 ScrollZoomer::ScrollBarPosition ScrollZoomer::vScrollBarPosition() const
 {
-    return d_vScrollData->position;
+    return m_vScrollData->position;
 }
 
 void ScrollZoomer::setCornerWidget( QWidget *w )
 {
-    if ( w != d_cornerWidget )
+    if ( w != m_cornerWidget )
     {
         if ( canvas() )
         {
-            delete d_cornerWidget;
-            d_cornerWidget = w;
-            if ( d_cornerWidget->parent() != canvas() )
-                d_cornerWidget->setParent( canvas() );
+            delete m_cornerWidget;
+            m_cornerWidget = w;
+            if ( m_cornerWidget->parent() != canvas() )
+                m_cornerWidget->setParent( canvas() );
 
             updateScrollBars();
         }
@@ -213,7 +213,7 @@ void ScrollZoomer::setCornerWidget( QWidget *w )
 
 QWidget *ScrollZoomer::cornerWidget() const
 {
-    return d_cornerWidget;
+    return m_cornerWidget;
 }
 
 bool ScrollZoomer::eventFilter( QObject *object, QEvent *event )
@@ -238,12 +238,12 @@ bool ScrollZoomer::eventFilter( QObject *object, QEvent *event )
                 const QObject *child =
                     static_cast<QChildEvent *>( event )->child();
 
-                if ( child == d_cornerWidget )
-                    d_cornerWidget = NULL;
-                else if ( child == d_hScrollData->scrollBar )
-                    d_hScrollData->scrollBar = NULL;
-                else if ( child == d_vScrollData->scrollBar )
-                    d_vScrollData->scrollBar = NULL;
+                if ( child == m_cornerWidget )
+                    m_cornerWidget = NULL;
+                else if ( child == m_hScrollData->scrollBar )
+                    m_hScrollData->scrollBar = NULL;
+                else if ( child == m_vScrollData->scrollBar )
+                    m_vScrollData->scrollBar = NULL;
                 break;
             }
             default:
@@ -260,7 +260,7 @@ bool ScrollZoomer::needScrollBar( Qt::Orientation orientation ) const
 
     if ( orientation == Qt::Horizontal )
     {
-        mode = d_hScrollData->mode;
+        mode = m_hScrollData->mode;
         baseMin = zoomBase().left();
         baseMax = zoomBase().right();
         zoomMin = zoomRect().left();
@@ -268,7 +268,7 @@ bool ScrollZoomer::needScrollBar( Qt::Orientation orientation ) const
     }
     else
     {
-        mode = d_vScrollData->mode;
+        mode = m_vScrollData->mode;
         baseMin = zoomBase().top();
         baseMax = zoomBase().bottom();
         zoomMin = zoomRect().top();
@@ -367,18 +367,18 @@ void ScrollZoomer::updateScrollBars()
 
     if ( showHScrollBar && showVScrollBar )
     {
-        if ( d_cornerWidget == NULL )
+        if ( m_cornerWidget == NULL )
         {
-            d_cornerWidget = new QWidget( canvas() );
-            d_cornerWidget->setAutoFillBackground( true );
-            d_cornerWidget->setPalette( plot()->palette() );
+            m_cornerWidget = new QWidget( canvas() );
+            m_cornerWidget->setAutoFillBackground( true );
+            m_cornerWidget->setPalette( plot()->palette() );
         }
-        d_cornerWidget->show();
+        m_cornerWidget->show();
     }
     else
     {
-        if ( d_cornerWidget )
-            d_cornerWidget->hide();
+        if ( m_cornerWidget )
+            m_cornerWidget->hide();
     }
 
     layoutScrollBars( canvas()->contentsRect() );
@@ -442,12 +442,12 @@ void ScrollZoomer::layoutScrollBars( const QRect &rect )
     if ( hScrollBar && hScrollBar->isVisible() &&
         vScrollBar && vScrollBar->isVisible() )
     {
-        if ( d_cornerWidget )
+        if ( m_cornerWidget )
         {
             QRect cornerRect(
                 vScrollBar->pos().x(), hScrollBar->pos().y(),
                 vdim, hdim );
-            d_cornerWidget->setGeometry( cornerRect );
+            m_cornerWidget->setGeometry( cornerRect );
         }
     }
 }

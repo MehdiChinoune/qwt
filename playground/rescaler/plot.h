@@ -25,7 +25,7 @@ Q_SIGNALS:
     void resized( double xRatio, double yRatio );
 
 private:
-    RectItem *d_rectOfInterest;
+    RectItem *m_rectOfInterest;
 };
 
 #endif

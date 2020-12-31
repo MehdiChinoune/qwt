@@ -27,41 +27,41 @@ MainWindow::MainWindow( QWidget *parent ):
     settings.maxMinorSteps = 8;
     settings.maxWeeks = -1;
 
-    d_plot = new Plot();
-    d_panel = new Panel();
-    d_panel->setSettings( settings );
+    m_plot = new Plot();
+    m_panel = new Panel();
+    m_panel->setSettings( settings );
 
     QWidget *box = new QWidget( this );
 
     QHBoxLayout *layout = new QHBoxLayout( box );
-    layout->addWidget( d_plot, 10 );
-    layout->addWidget( d_panel );
+    layout->addWidget( m_plot, 10 );
+    layout->addWidget( m_panel );
 
     setCentralWidget( box );
 
     updatePlot();
 
-    connect( d_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
-    connect( d_plot->axisWidget( QwtPlot::yLeft ),
+    connect( m_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
+    connect( m_plot->axisWidget( QwtPlot::yLeft ),
         SIGNAL( scaleDivChanged() ), SLOT( updatePanel() ) );
 }
 
 void MainWindow::updatePlot()
 {
-    d_plot->blockSignals( true );
-    d_plot->applySettings( d_panel->settings() );
-    d_plot->blockSignals( false );
+    m_plot->blockSignals( true );
+    m_plot->applySettings( m_panel->settings() );
+    m_plot->blockSignals( false );
 }
 
 void MainWindow::updatePanel()
 {
-    const QwtScaleDiv scaleDiv = d_plot->axisScaleDiv( QwtPlot::yLeft );
+    const QwtScaleDiv scaleDiv = m_plot->axisScaleDiv( QwtPlot::yLeft );
 
-    Settings settings = d_panel->settings();
+    Settings settings = m_panel->settings();
     settings.startDateTime = QwtDate::toDateTime( scaleDiv.lowerBound(), Qt::LocalTime );
     settings.endDateTime = QwtDate::toDateTime( scaleDiv.upperBound(), Qt::LocalTime );
 
-    d_panel->setSettings( settings );
+    m_panel->setSettings( settings );
 }
 
 #include "moc_mainwindow.cpp"

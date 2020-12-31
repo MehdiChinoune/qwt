@@ -21,30 +21,30 @@ public:
 
     virtual QRectF boundingRect() const QWT_OVERRIDE
     {
-        if ( d_boundingRect.width() < 0.0 )
-            d_boundingRect = qwtBoundingRect( *this );
+        if ( cachedBoundingRect.width() < 0.0 )
+            cachedBoundingRect = qwtBoundingRect( *this );
 
-        return d_boundingRect;
+        return cachedBoundingRect;
     }
 
     inline void append( const QPointF &point )
     {
-        d_samples += point;
+        m_samples += point;
     }
 
     void clear()
     {
-        d_samples.clear();
-        d_samples.squeeze();
-        d_boundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
+        m_samples.clear();
+        m_samples.squeeze();
+        cachedBoundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
     }
 };
 
 IncrementalPlot::IncrementalPlot( QWidget *parent ):
     QwtPlot( parent ),
-    d_curve( NULL )
+    m_curve( NULL )
 {
-    d_directPainter = new QwtPlotDirectPainter( this );
+    m_directPainter = new QwtPlotDirectPainter( this );
 
     if ( QwtPainter::isX11GraphicsSystem() )
     {
@@ -54,23 +54,23 @@ IncrementalPlot::IncrementalPlot( QWidget *parent ):
         canvas()->setAttribute( Qt::WA_PaintOnScreen, true );
     }
 
-    d_curve = new QwtPlotCurve( "Test Curve" );
-    d_curve->setData( new CurveData() );
+    m_curve = new QwtPlotCurve( "Test Curve" );
+    m_curve->setData( new CurveData() );
     showSymbols( true );
 
-    d_curve->attach( this );
+    m_curve->attach( this );
 
     setAutoReplot( false );
 }
 
 IncrementalPlot::~IncrementalPlot()
 {
-    delete d_curve;
+    delete m_curve;
 }
 
 void IncrementalPlot::appendPoint( const QPointF &point )
 {
-    CurveData *curveData = static_cast<CurveData *>( d_curve->data() );
+    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
     curveData->append( point );
 
     const bool doClip = !canvas()->testAttribute( Qt::WA_PaintOnScreen );
@@ -82,12 +82,12 @@ void IncrementalPlot::appendPoint( const QPointF &point )
            part of the backing store that has to be copied out - maybe
            to an unaccelerated frame buffer device.
          */
-        const QwtScaleMap xMap = canvasMap( d_curve->xAxis() );
-        const QwtScaleMap yMap = canvasMap( d_curve->yAxis() );
+        const QwtScaleMap xMap = canvasMap( m_curve->xAxis() );
+        const QwtScaleMap yMap = canvasMap( m_curve->yAxis() );
 
         QRegion clipRegion;
 
-        const QSize symbolSize = d_curve->symbol()->size();
+        const QSize symbolSize = m_curve->symbol()->size();
         QRect r( 0, 0, symbolSize.width() + 2, symbolSize.height() + 2 );
 
         const QPointF center =
@@ -95,16 +95,16 @@ void IncrementalPlot::appendPoint( const QPointF &point )
         r.moveCenter( center.toPoint() );
         clipRegion += r;
 
-        d_directPainter->setClipRegion( clipRegion );
+        m_directPainter->setClipRegion( clipRegion );
     }
 
-    d_directPainter->drawSeries( d_curve,
+    m_directPainter->drawSeries( m_curve,
         curveData->size() - 1, curveData->size() - 1 );
 }
 
 void IncrementalPlot::clearPoints()
 {
-    CurveData *curveData = static_cast<CurveData *>( d_curve->data() );
+    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
     curveData->clear();
 
     replot();
@@ -114,15 +114,15 @@ void IncrementalPlot::showSymbols( bool on )
 {
     if ( on )
     {
-        d_curve->setStyle( QwtPlotCurve::NoCurve );
-        d_curve->setSymbol( new QwtSymbol( QwtSymbol::XCross,
+        m_curve->setStyle( QwtPlotCurve::NoCurve );
+        m_curve->setSymbol( new QwtSymbol( QwtSymbol::XCross,
             Qt::NoBrush, QPen( Qt::white ), QSize( 4, 4 ) ) );
     }
     else
     {
-        d_curve->setPen( Qt::white );
-        d_curve->setStyle( QwtPlotCurve::Dots );
-        d_curve->setSymbol( NULL );
+        m_curve->setPen( Qt::white );
+        m_curve->setStyle( QwtPlotCurve::Dots );
+        m_curve->setSymbol( NULL );
     }
 
     replot();

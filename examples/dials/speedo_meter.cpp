@@ -12,7 +12,7 @@
 
 SpeedoMeter::SpeedoMeter( QWidget *parent ):
     QwtDial( parent ),
-    d_label( "km/h" )
+    m_label( "km/h" )
 {
     QwtRoundScaleDraw *scaleDraw = new QwtRoundScaleDraw();
     scaleDraw->setSpacing( 8 );
@@ -36,13 +36,13 @@ SpeedoMeter::SpeedoMeter( QWidget *parent ):
 
 void SpeedoMeter::setLabel( const QString &label )
 {
-    d_label = label;
+    m_label = label;
     update();
 }
 
 QString SpeedoMeter::label() const
 {
-    return d_label;
+    return m_label;
 }
 
 void SpeedoMeter::drawScaleContents( QPainter *painter,
@@ -55,5 +55,5 @@ void SpeedoMeter::drawScaleContents( QPainter *painter,
     painter->setPen( color );
 
     const int flags = Qt::AlignBottom | Qt::AlignHCenter;
-    painter->drawText( rect, flags, d_label );
+    painter->drawText( rect, flags, m_label );
 }

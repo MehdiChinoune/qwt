@@ -17,7 +17,7 @@ class Wheel: public QwtWheel
 public:
     Wheel( WheelBox *parent ):
         QwtWheel( parent ),
-        d_ignoreWheelEvent( false )
+        m_ignoreWheelEvent( false )
     {
         setFocusPolicy( Qt::WheelFocus );
         parent->installEventFilter( this );
@@ -25,7 +25,7 @@ public:
 
     virtual bool eventFilter( QObject *object, QEvent *event ) QWT_OVERRIDE
     {
-        if ( event->type() == QEvent::Wheel && !d_ignoreWheelEvent )
+        if ( event->type() == QEvent::Wheel && !m_ignoreWheelEvent )
         {
             const QWheelEvent *we = static_cast<QWheelEvent *>( event );
 
@@ -44,9 +44,9 @@ public:
                 we->orientation() );
 #endif
 
-            d_ignoreWheelEvent = true;
+            m_ignoreWheelEvent = true;
             QApplication::sendEvent( this, &wheelEvent );
-            d_ignoreWheelEvent = false;
+            m_ignoreWheelEvent = false;
 
             return true;
         }
@@ -54,7 +54,7 @@ public:
         return QwtWheel::eventFilter( object, event );
     }
 private:
-    bool d_ignoreWheelEvent;
+    bool m_ignoreWheelEvent;
 };
 
 WheelBox::WheelBox( const QString &title,
@@ -62,67 +62,67 @@ WheelBox::WheelBox( const QString &title,
     QWidget( parent )
 {
 
-    d_number = new QLCDNumber( this );
-    d_number->setSegmentStyle( QLCDNumber::Filled );
-    d_number->setAutoFillBackground( true );
-    d_number->setFixedHeight( d_number->sizeHint().height() * 2 );
-    d_number->setFocusPolicy( Qt::WheelFocus );
+    m_number = new QLCDNumber( this );
+    m_number->setSegmentStyle( QLCDNumber::Filled );
+    m_number->setAutoFillBackground( true );
+    m_number->setFixedHeight( m_number->sizeHint().height() * 2 );
+    m_number->setFocusPolicy( Qt::WheelFocus );
 
     QPalette pal( Qt::black );
     pal.setColor( QPalette::WindowText, Qt::green );
-    d_number->setPalette( pal );
+    m_number->setPalette( pal );
 
-    d_wheel = new Wheel( this );
-    d_wheel->setOrientation( Qt::Vertical );
-    d_wheel->setInverted( true );
-    d_wheel->setRange( min, max );
-    d_wheel->setSingleStep( stepSize );
-    d_wheel->setPageStepCount( 5 );
-    d_wheel->setFixedHeight( d_number->height() );
+    m_wheel = new Wheel( this );
+    m_wheel->setOrientation( Qt::Vertical );
+    m_wheel->setInverted( true );
+    m_wheel->setRange( min, max );
+    m_wheel->setSingleStep( stepSize );
+    m_wheel->setPageStepCount( 5 );
+    m_wheel->setFixedHeight( m_number->height() );
 
-    d_number->setFocusProxy( d_wheel );
+    m_number->setFocusProxy( m_wheel );
 
     QFont font( "Helvetica", 10 );
     font.setBold( true );
 
-    d_label = new QLabel( title, this );
-    d_label->setFont( font );
+    m_label = new QLabel( title, this );
+    m_label->setFont( font );
 
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->setContentsMargins( 0, 0, 0, 0 );
     hLayout->setSpacing( 2 );
-    hLayout->addWidget( d_number, 10 );
-    hLayout->addWidget( d_wheel );
+    hLayout->addWidget( m_number, 10 );
+    hLayout->addWidget( m_wheel );
 
     QVBoxLayout *vLayout = new QVBoxLayout( this );
     vLayout->addLayout( hLayout, 10 );
-    vLayout->addWidget( d_label, 0, Qt::AlignTop | Qt::AlignHCenter );
+    vLayout->addWidget( m_label, 0, Qt::AlignTop | Qt::AlignHCenter );
 
-    connect( d_wheel, SIGNAL( valueChanged( double ) ),
-        d_number, SLOT( display( double ) ) );
-    connect( d_wheel, SIGNAL( valueChanged( double ) ),
+    connect( m_wheel, SIGNAL( valueChanged( double ) ),
+        m_number, SLOT( display( double ) ) );
+    connect( m_wheel, SIGNAL( valueChanged( double ) ),
         this, SIGNAL( valueChanged( double ) ) );
 }
 
 void WheelBox::setTheme( const QColor &color )
 {
-    d_wheel->setPalette( color );
+    m_wheel->setPalette( color );
 }
 
 QColor WheelBox::theme() const
 {
-    return d_wheel->palette().color( QPalette::Window );
+    return m_wheel->palette().color( QPalette::Window );
 }
 
 void WheelBox::setValue( double value )
 {
-    d_wheel->setValue( value );
-    d_number->display( value );
+    m_wheel->setValue( value );
+    m_number->display( value );
 }
 
 double WheelBox::value() const
 {
-    return d_wheel->value();
+    return m_wheel->value();
 }
 
 #include "moc_wheelbox.cpp"

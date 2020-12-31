@@ -546,13 +546,13 @@ public:
 //! Constructor
 QwtPointMapper::QwtPointMapper()
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 }
 
 //! Destructor
 QwtPointMapper::~QwtPointMapper()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -563,7 +563,7 @@ QwtPointMapper::~QwtPointMapper()
  */
 void QwtPointMapper::setFlags( TransformationFlags flags )
 {
-    d_data->flags = flags;
+    m_data->flags = flags;
 }
 
 /*!
@@ -572,7 +572,7 @@ void QwtPointMapper::setFlags( TransformationFlags flags )
  */
 QwtPointMapper::TransformationFlags QwtPointMapper::flags() const
 {
-    return d_data->flags;
+    return m_data->flags;
 }
 
 /*!
@@ -586,9 +586,9 @@ QwtPointMapper::TransformationFlags QwtPointMapper::flags() const
 void QwtPointMapper::setFlag( TransformationFlag flag, bool on )
 {
     if ( on )
-        d_data->flags |= flag;
+        m_data->flags |= flag;
     else
-        d_data->flags &= ~flag;
+        m_data->flags &= ~flag;
 }
 
 /*!
@@ -598,7 +598,7 @@ void QwtPointMapper::setFlag( TransformationFlag flag, bool on )
  */
 bool QwtPointMapper::testFlag( TransformationFlag flag ) const
 {
-    return d_data->flags & flag;
+    return m_data->flags & flag;
 }
 
 /*!
@@ -611,7 +611,7 @@ bool QwtPointMapper::testFlag( TransformationFlag flag ) const
  */
 void QwtPointMapper::setBoundingRect( const QRectF &rect )
 {
-    d_data->boundingRect = rect;
+    m_data->boundingRect = rect;
 }
 
 /*!
@@ -620,7 +620,7 @@ void QwtPointMapper::setBoundingRect( const QRectF &rect )
  */
 QRectF QwtPointMapper::boundingRect() const
 {
-    return d_data->boundingRect;
+    return m_data->boundingRect;
 }
 
 /*!
@@ -650,14 +650,14 @@ QPolygonF QwtPointMapper::toPolygonF(
 {
     QPolygonF polyline;
 
-    if ( d_data->flags & RoundPoints )
+    if ( m_data->flags & RoundPoints )
     {
-        if ( d_data->flags & WeedOutIntermediatePoints )
+        if ( m_data->flags & WeedOutIntermediatePoints )
         {
             polyline = qwtMapPointsQuad<QPolygonF, QPointF>(
                 xMap, yMap, series, from, to );
         }
-        else if ( d_data->flags & WeedOutPoints )
+        else if ( m_data->flags & WeedOutPoints )
         {
             polyline = qwtToPolylineFilteredF(
                 xMap, yMap, series, from, to, QwtRoundF() );
@@ -670,7 +670,7 @@ QPolygonF QwtPointMapper::toPolygonF(
     }
     else
     {
-        if ( d_data->flags & WeedOutPoints )
+        if ( m_data->flags & WeedOutPoints )
         {
             polyline = qwtToPolylineFilteredF(
                 xMap, yMap, series, from, to, QwtNoRoundF() );
@@ -705,13 +705,13 @@ QPolygon QwtPointMapper::toPolygon(
 {
     QPolygon polyline;
 
-    if ( d_data->flags & WeedOutIntermediatePoints )
+    if ( m_data->flags & WeedOutIntermediatePoints )
     {
         // TODO WeedOutIntermediatePointsY ...
         polyline = qwtMapPointsQuad<QPolygon, QPoint>(
             xMap, yMap, series, from, to );
     }
-    else if ( d_data->flags & WeedOutPoints )
+    else if ( m_data->flags & WeedOutPoints )
     {
         polyline = qwtToPolylineFilteredI(
             xMap, yMap, series, from, to );
@@ -762,13 +762,13 @@ QPolygonF QwtPointMapper::toPointsF(
 {
     QPolygonF points;
 
-    if ( d_data->flags & WeedOutPoints )
+    if ( m_data->flags & WeedOutPoints )
     {
-        if ( d_data->flags & RoundPoints )
+        if ( m_data->flags & RoundPoints )
         {
-            if ( d_data->boundingRect.isValid() )
+            if ( m_data->boundingRect.isValid() )
             {
-                points = qwtToPointsFilteredF( d_data->boundingRect,
+                points = qwtToPointsFilteredF( m_data->boundingRect,
                     xMap, yMap, series, from, to );
             }
             else
@@ -792,14 +792,14 @@ QPolygonF QwtPointMapper::toPointsF(
     }
     else
     {
-        if ( d_data->flags & RoundPoints )
+        if ( m_data->flags & RoundPoints )
         {
-            points = qwtToPointsF( d_data->boundingRect,
+            points = qwtToPointsF( m_data->boundingRect,
                 xMap, yMap, series, from, to, QwtRoundF() );
         }
         else
         {
-            points = qwtToPointsF( d_data->boundingRect,
+            points = qwtToPointsF( m_data->boundingRect,
                 xMap, yMap, series, from, to, QwtNoRoundF() );
         }
     }
@@ -836,11 +836,11 @@ QPolygon QwtPointMapper::toPoints(
 {
     QPolygon points;
 
-    if ( d_data->flags & WeedOutPoints )
+    if ( m_data->flags & WeedOutPoints )
     {
-        if ( d_data->boundingRect.isValid() )
+        if ( m_data->boundingRect.isValid() )
         {
-            points = qwtToPointsFilteredI( d_data->boundingRect,
+            points = qwtToPointsFilteredI( m_data->boundingRect,
                 xMap, yMap, series, from, to );
         }
         else
@@ -855,7 +855,7 @@ QPolygon QwtPointMapper::toPoints(
     else
     {
         points = qwtToPointsI(
-            d_data->boundingRect, xMap, yMap, series, from, to );
+            m_data->boundingRect, xMap, yMap, series, from, to );
     }
 
     return points;
@@ -900,7 +900,7 @@ QImage QwtPointMapper::toImage(
     // a very special optimization for scatter plots
     // where every sample is mapped to one pixel only.
 
-    const QRect rect = d_data->boundingRect.toAlignedRect();
+    const QRect rect = m_data->boundingRect.toAlignedRect();
 
     QImage image( rect.size(), QImage::Format_ARGB32 );
     image.fill( Qt::transparent );

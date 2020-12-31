@@ -70,8 +70,8 @@ public:
 */
 QwtPolarItemDict::QwtPolarItemDict()
 {
-    d_data = new QwtPolarItemDict::PrivateData;
-    d_data->autoDelete = true;
+    m_data = new QwtPolarItemDict::PrivateData;
+    m_data->autoDelete = true;
 }
 
 /*!
@@ -82,8 +82,8 @@ QwtPolarItemDict::QwtPolarItemDict()
 */
 QwtPolarItemDict::~QwtPolarItemDict()
 {
-    detachItems( QwtPolarItem::Rtti_PolarItem, d_data->autoDelete );
-    delete d_data;
+    detachItems( QwtPolarItem::Rtti_PolarItem, m_data->autoDelete );
+    delete m_data;
 }
 
 /*!
@@ -96,7 +96,7 @@ QwtPolarItemDict::~QwtPolarItemDict()
 */
 void QwtPolarItemDict::setAutoDelete( bool autoDelete )
 {
-    d_data->autoDelete = autoDelete;
+    m_data->autoDelete = autoDelete;
 }
 
 /*!
@@ -105,7 +105,7 @@ void QwtPolarItemDict::setAutoDelete( bool autoDelete )
 */
 bool QwtPolarItemDict::autoDelete() const
 {
-    return d_data->autoDelete;
+    return m_data->autoDelete;
 }
 
 /*!
@@ -116,7 +116,7 @@ bool QwtPolarItemDict::autoDelete() const
  */
 void QwtPolarItemDict::insertItem( QwtPolarItem *item )
 {
-    d_data->itemList.insertItem( item );
+    m_data->itemList.insertItem( item );
 }
 
 /*!
@@ -127,7 +127,7 @@ void QwtPolarItemDict::insertItem( QwtPolarItem *item )
  */
 void QwtPolarItemDict::removeItem( QwtPolarItem *item )
 {
-    d_data->itemList.removeItem( item );
+    m_data->itemList.removeItem( item );
 }
 
 /*!
@@ -139,7 +139,7 @@ void QwtPolarItemDict::removeItem( QwtPolarItem *item )
 */
 void QwtPolarItemDict::detachItems( int rtti, bool autoDelete )
 {
-    PrivateData::ItemList list = d_data->itemList;
+    PrivateData::ItemList list = m_data->itemList;
     QwtPolarItemIterator it = list.constBegin();
     while ( it != list.constEnd() )
     {
@@ -167,5 +167,5 @@ void QwtPolarItemDict::detachItems( int rtti, bool autoDelete )
 */
 const QwtPolarItemList &QwtPolarItemDict::itemList() const
 {
-    return d_data->itemList;
+    return m_data->itemList;
 }

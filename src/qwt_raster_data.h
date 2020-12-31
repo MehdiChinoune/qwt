@@ -122,7 +122,7 @@ private:
     Q_DISABLE_COPY(QwtRasterData)
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtRasterData::ConrecFlags )

@@ -39,16 +39,16 @@ private:
     void updateCurve();
     void incrementInterval();
 
-    QwtPlotMarker *d_origin;
-    QwtPlotCurve *d_curve;
-    int d_paintedPoints;
+    QwtPlotMarker *m_origin;
+    QwtPlotCurve *m_curve;
+    int m_paintedPoints;
 
-    QwtPlotDirectPainter *d_directPainter;
+    QwtPlotDirectPainter *m_directPainter;
 
-    QwtInterval d_interval;
-    int d_timerId;
+    QwtInterval m_interval;
+    int m_timerId;
 
-    QwtSystemClock d_clock;
+    QwtSystemClock m_clock;
 };
 
 #endif

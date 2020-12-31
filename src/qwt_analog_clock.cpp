@@ -101,7 +101,7 @@ QwtAnalogClock::QwtAnalogClock( QWidget *parent ):
             QwtDialSimpleNeedle::Arrow, true, handColor, knobColor );
         hand->setWidth( width );
 
-        d_hand[i] = NULL;
+        m_hand[i] = NULL;
         setHand( static_cast<Hand>( i ), hand );
     }
 }
@@ -110,7 +110,7 @@ QwtAnalogClock::QwtAnalogClock( QWidget *parent ):
 QwtAnalogClock::~QwtAnalogClock()
 {
     for ( int i = 0; i < NHands; i++ )
-        delete d_hand[i];
+        delete m_hand[i];
 }
 
 /*!
@@ -133,8 +133,8 @@ void QwtAnalogClock::setHand( Hand hand, QwtDialNeedle *needle )
 {
     if ( hand >= 0 && hand < NHands )
     {
-        delete d_hand[hand];
-        d_hand[hand] = needle;
+        delete m_hand[hand];
+        m_hand[hand] = needle;
     }
 }
 
@@ -148,7 +148,7 @@ QwtDialNeedle *QwtAnalogClock::hand( Hand hd )
     if ( hd < 0 || hd >= NHands )
         return NULL;
 
-    return d_hand[hd];
+    return m_hand[hd];
 }
 
 /*!

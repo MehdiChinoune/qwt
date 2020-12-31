@@ -54,7 +54,7 @@ public:
 */
 QwtPlotItem::QwtPlotItem()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 /*!
@@ -63,8 +63,8 @@ QwtPlotItem::QwtPlotItem()
 */
 QwtPlotItem::QwtPlotItem( const QString &title )
 {
-    d_data = new PrivateData;
-    d_data->title = title;
+    m_data = new PrivateData;
+    m_data->title = title;
 }
 
 /*!
@@ -73,15 +73,15 @@ QwtPlotItem::QwtPlotItem( const QString &title )
 */
 QwtPlotItem::QwtPlotItem( const QwtText &title )
 {
-    d_data = new PrivateData;
-    d_data->title = title;
+    m_data = new PrivateData;
+    m_data->title = title;
 }
 
 //! Destroy the QwtPlotItem
 QwtPlotItem::~QwtPlotItem()
 {
     attach( NULL );
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -97,16 +97,16 @@ QwtPlotItem::~QwtPlotItem()
 */
 void QwtPlotItem::attach( QwtPlot *plot )
 {
-    if ( plot == d_data->plot )
+    if ( plot == m_data->plot )
         return;
 
-    if ( d_data->plot )
-        d_data->plot->attachItem( this, false );
+    if ( m_data->plot )
+        m_data->plot->attachItem( this, false );
 
-    d_data->plot = plot;
+    m_data->plot = plot;
 
-    if ( d_data->plot )
-        d_data->plot->attachItem( this, true );
+    if ( m_data->plot )
+        m_data->plot->attachItem( this, true );
 }
 
 /*!
@@ -141,7 +141,7 @@ int QwtPlotItem::rtti() const
 //! Return attached plot
 QwtPlot *QwtPlotItem::plot() const
 {
-    return d_data->plot;
+    return m_data->plot;
 }
 
 /*!
@@ -151,7 +151,7 @@ QwtPlot *QwtPlotItem::plot() const
 */
 double QwtPlotItem::z() const
 {
-    return d_data->z;
+    return m_data->z;
 }
 
 /*!
@@ -164,15 +164,15 @@ double QwtPlotItem::z() const
 */
 void QwtPlotItem::setZ( double z )
 {
-    if ( d_data->z != z )
+    if ( m_data->z != z )
     {
-        if ( d_data->plot ) // update the z order
-            d_data->plot->attachItem( this, false );
+        if ( m_data->plot ) // update the z order
+            m_data->plot->attachItem( this, false );
 
-        d_data->z = z;
+        m_data->z = z;
 
-        if ( d_data->plot )
-            d_data->plot->attachItem( this, true );
+        if ( m_data->plot )
+            m_data->plot->attachItem( this, true );
 
         itemChanged();
     }
@@ -197,9 +197,9 @@ void QwtPlotItem::setTitle( const QString &title )
 */
 void QwtPlotItem::setTitle( const QwtText &title )
 {
-    if ( d_data->title != title )
+    if ( m_data->title != title )
     {
-        d_data->title = title;
+        m_data->title = title;
 
         legendChanged();
 #if 0
@@ -214,7 +214,7 @@ void QwtPlotItem::setTitle( const QwtText &title )
 */
 const QwtText &QwtPlotItem::title() const
 {
-    return d_data->title;
+    return m_data->title;
 }
 
 /*!
@@ -227,12 +227,12 @@ const QwtText &QwtPlotItem::title() const
 */
 void QwtPlotItem::setItemAttribute( ItemAttribute attribute, bool on )
 {
-    if ( d_data->attributes.testFlag( attribute ) != on )
+    if ( m_data->attributes.testFlag( attribute ) != on )
     {
         if ( on )
-            d_data->attributes |= attribute;
+            m_data->attributes |= attribute;
         else
-            d_data->attributes &= ~attribute;
+            m_data->attributes &= ~attribute;
 
         if ( attribute == QwtPlotItem::Legend )
         {
@@ -247,8 +247,8 @@ void QwtPlotItem::setItemAttribute( ItemAttribute attribute, bool on )
                     the legend we can't use legendChanged() as
                     it depends on QwtPlotItem::Legend being enabled
                  */
-                if ( d_data->plot )
-                    d_data->plot->updateLegend( this );
+                if ( m_data->plot )
+                    m_data->plot->updateLegend( this );
             }
         }
 
@@ -265,7 +265,7 @@ void QwtPlotItem::setItemAttribute( ItemAttribute attribute, bool on )
 */
 bool QwtPlotItem::testItemAttribute( ItemAttribute attribute ) const
 {
-    return d_data->attributes.testFlag( attribute );
+    return m_data->attributes.testFlag( attribute );
 }
 
 /*!
@@ -278,12 +278,12 @@ bool QwtPlotItem::testItemAttribute( ItemAttribute attribute ) const
 */
 void QwtPlotItem::setItemInterest( ItemInterest interest, bool on )
 {
-    if ( d_data->interests.testFlag( interest ) != on )
+    if ( m_data->interests.testFlag( interest ) != on )
     {
         if ( on )
-            d_data->interests |= interest;
+            m_data->interests |= interest;
         else
-            d_data->interests &= ~interest;
+            m_data->interests &= ~interest;
 
         itemChanged();
     }
@@ -298,7 +298,7 @@ void QwtPlotItem::setItemInterest( ItemInterest interest, bool on )
 */
 bool QwtPlotItem::testItemInterest( ItemInterest interest ) const
 {
-    return d_data->interests.testFlag( interest );
+    return m_data->interests.testFlag( interest );
 }
 
 /*!
@@ -311,12 +311,12 @@ bool QwtPlotItem::testItemInterest( ItemInterest interest ) const
 */
 void QwtPlotItem::setRenderHint( RenderHint hint, bool on )
 {
-    if ( d_data->renderHints.testFlag( hint ) != on )
+    if ( m_data->renderHints.testFlag( hint ) != on )
     {
         if ( on )
-            d_data->renderHints |= hint;
+            m_data->renderHints |= hint;
         else
-            d_data->renderHints &= ~hint;
+            m_data->renderHints &= ~hint;
 
         itemChanged();
     }
@@ -331,7 +331,7 @@ void QwtPlotItem::setRenderHint( RenderHint hint, bool on )
 */
 bool QwtPlotItem::testRenderHint( RenderHint hint ) const
 {
-    return d_data->renderHints.testFlag( hint );
+    return m_data->renderHints.testFlag( hint );
 }
 
 /*!
@@ -349,7 +349,7 @@ bool QwtPlotItem::testRenderHint( RenderHint hint ) const
 */
 void QwtPlotItem::setRenderThreadCount( uint numThreads )
 {
-    d_data->renderThreadCount = numThreads;
+    m_data->renderThreadCount = numThreads;
 }
 
 /*!
@@ -359,7 +359,7 @@ void QwtPlotItem::setRenderThreadCount( uint numThreads )
 */
 uint QwtPlotItem::renderThreadCount() const
 {
-    return d_data->renderThreadCount;
+    return m_data->renderThreadCount;
 }
 
 /*!
@@ -372,9 +372,9 @@ uint QwtPlotItem::renderThreadCount() const
 */
 void QwtPlotItem::setLegendIconSize( const QSize &size )
 {
-    if ( d_data->legendIconSize != size )
+    if ( m_data->legendIconSize != size )
     {
-        d_data->legendIconSize = size;
+        m_data->legendIconSize = size;
         legendChanged();
     }
 }
@@ -385,7 +385,7 @@ void QwtPlotItem::setLegendIconSize( const QSize &size )
 */
 QSize QwtPlotItem::legendIconSize() const
 {
-    return d_data->legendIconSize;
+    return m_data->legendIconSize;
 }
 
 /*!
@@ -456,9 +456,9 @@ void QwtPlotItem::hide()
 */
 void QwtPlotItem::setVisible( bool on )
 {
-    if ( on != d_data->isVisible )
+    if ( on != m_data->isVisible )
     {
-        d_data->isVisible = on;
+        m_data->isVisible = on;
         itemChanged();
     }
 }
@@ -469,7 +469,7 @@ void QwtPlotItem::setVisible( bool on )
 */
 bool QwtPlotItem::isVisible() const
 {
-    return d_data->isVisible;
+    return m_data->isVisible;
 }
 
 /*!
@@ -480,8 +480,8 @@ bool QwtPlotItem::isVisible() const
 */
 void QwtPlotItem::itemChanged()
 {
-    if ( d_data->plot )
-        d_data->plot->autoRefresh();
+    if ( m_data->plot )
+        m_data->plot->autoRefresh();
 }
 
 /*!
@@ -490,8 +490,8 @@ void QwtPlotItem::itemChanged()
 */
 void QwtPlotItem::legendChanged()
 {
-    if ( testItemAttribute( QwtPlotItem::Legend ) && d_data->plot )
-        d_data->plot->updateLegend( this );
+    if ( testItemAttribute( QwtPlotItem::Legend ) && m_data->plot )
+        m_data->plot->updateLegend( this );
 }
 
 /*!
@@ -507,10 +507,10 @@ void QwtPlotItem::legendChanged()
 void QwtPlotItem::setAxes( int xAxis, int yAxis )
 {
     if ( xAxis == QwtPlot::xBottom || xAxis == QwtPlot::xTop )
-        d_data->xAxis = xAxis;
+        m_data->xAxis = xAxis;
 
     if ( yAxis == QwtPlot::yLeft || yAxis == QwtPlot::yRight )
-        d_data->yAxis = yAxis;
+        m_data->yAxis = yAxis;
 
     itemChanged();
 }
@@ -527,7 +527,7 @@ void QwtPlotItem::setXAxis( int axis )
 {
     if ( axis == QwtPlot::xBottom || axis == QwtPlot::xTop )
     {
-        d_data->xAxis = axis;
+        m_data->xAxis = axis;
         itemChanged();
     }
 }
@@ -544,7 +544,7 @@ void QwtPlotItem::setYAxis( int axis )
 {
     if ( axis == QwtPlot::yLeft || axis == QwtPlot::yRight )
     {
-        d_data->yAxis = axis;
+        m_data->yAxis = axis;
         itemChanged();
     }
 }
@@ -552,13 +552,13 @@ void QwtPlotItem::setYAxis( int axis )
 //! Return xAxis
 int QwtPlotItem::xAxis() const
 {
-    return d_data->xAxis;
+    return m_data->xAxis;
 }
 
 //! Return yAxis
 int QwtPlotItem::yAxis() const
 {
-    return d_data->yAxis;
+    return m_data->yAxis;
 }
 
 /*!

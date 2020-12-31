@@ -365,16 +365,16 @@ inline QwtNullPaintDevice *QwtNullPaintDevice::PaintEngine::nullDevice()
 
 //! Constructor
 QwtNullPaintDevice::QwtNullPaintDevice():
-    d_engine( NULL )
+    m_engine( NULL )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtNullPaintDevice::~QwtNullPaintDevice()
 {
-    delete d_engine;
-    delete d_data;
+    delete m_engine;
+    delete m_data;
 }
 
 /*!
@@ -385,7 +385,7 @@ QwtNullPaintDevice::~QwtNullPaintDevice()
  */
 void QwtNullPaintDevice::setMode( Mode mode )
 {
-    d_data->mode = mode;
+    m_data->mode = mode;
 }
 
 /*!
@@ -394,21 +394,21 @@ void QwtNullPaintDevice::setMode( Mode mode )
 */
 QwtNullPaintDevice::Mode QwtNullPaintDevice::mode() const
 {
-    return d_data->mode;
+    return m_data->mode;
 }
 
 //! See QPaintDevice::paintEngine()
 QPaintEngine *QwtNullPaintDevice::paintEngine() const
 {
-    if ( d_engine == NULL )
+    if ( m_engine == NULL )
     {
         QwtNullPaintDevice *that =
             const_cast< QwtNullPaintDevice * >( this );
 
-        that->d_engine = new PaintEngine();
+        that->m_engine = new PaintEngine();
     }
 
-    return d_engine;
+    return m_engine;
 }
 
 /*!

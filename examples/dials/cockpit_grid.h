@@ -30,9 +30,9 @@ private:
     QPalette colorTheme( const QColor & ) const;
     QwtDial *createDial( int pos );
 
-    QwtAnalogClock *d_clock;
-    SpeedoMeter *d_speedo;
-    AttitudeIndicator *d_ai;
+    QwtAnalogClock *m_clock;
+    SpeedoMeter *m_speedo;
+    AttitudeIndicator *m_ai;
 };
 
 #endif

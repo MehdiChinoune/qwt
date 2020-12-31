@@ -30,9 +30,9 @@ private:
     QWidget *createBox( Qt::Orientation, int type );
 
 private:
-    QwtWheel *d_wheel;
-    QwtThermo *d_thermo;
-    QLabel *d_label;
+    QwtWheel *m_wheel;
+    QwtThermo *m_thermo;
+    QLabel *m_label;
 };
 
 #endif

@@ -27,8 +27,8 @@ private Q_SLOTS:
 private:
     QwtSlider *createSlider( int sliderType ) const;
 
-    QwtSlider *d_slider;
-    QLabel *d_label;
+    QwtSlider *m_slider;
+    QLabel *m_label;
 };
 
 #endif

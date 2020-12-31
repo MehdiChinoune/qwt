@@ -42,7 +42,7 @@ QwtPlotCanvas::QwtPlotCanvas( QwtPlot *plot ):
     QFrame( plot ),
     QwtPlotAbstractCanvas( this )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setPaintAttribute( QwtPlotCanvas::BackingStore, true );
     setPaintAttribute( QwtPlotCanvas::Opaque, true );
@@ -52,7 +52,7 @@ QwtPlotCanvas::QwtPlotCanvas( QwtPlot *plot ):
 //! Destructor
 QwtPlotCanvas::~QwtPlotCanvas()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -65,13 +65,13 @@ QwtPlotCanvas::~QwtPlotCanvas()
 */
 void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 {
-    if ( bool( d_data->paintAttributes & attribute ) == on )
+    if ( bool( m_data->paintAttributes & attribute ) == on )
         return;
 
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 
     switch ( attribute )
     {
@@ -79,23 +79,23 @@ void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
         {
             if ( on )
             {
-                if ( d_data->backingStore == NULL )
-                    d_data->backingStore = new QPixmap();
+                if ( m_data->backingStore == NULL )
+                    m_data->backingStore = new QPixmap();
 
                 if ( isVisible() )
                 {
 #if QT_VERSION >= 0x050000
-                    *d_data->backingStore = grab( rect() );
+                    *m_data->backingStore = grab( rect() );
 #else
-                    *d_data->backingStore =
+                    *m_data->backingStore =
                         QPixmap::grabWidget( this, rect() );
 #endif
                 }
             }
             else
             {
-                delete d_data->backingStore;
-                d_data->backingStore = NULL;
+                delete m_data->backingStore;
+                m_data->backingStore = NULL;
             }
             break;
         }
@@ -122,20 +122,20 @@ void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 */
 bool QwtPlotCanvas::testPaintAttribute( PaintAttribute attribute ) const
 {
-    return d_data->paintAttributes & attribute;
+    return m_data->paintAttributes & attribute;
 }
 
 //! \return Backing store, might be null
 const QPixmap *QwtPlotCanvas::backingStore() const
 {
-    return d_data->backingStore;
+    return m_data->backingStore;
 }
 
 //! Invalidate the internal backing store
 void QwtPlotCanvas::invalidateBackingStore()
 {
-    if ( d_data->backingStore )
-        *d_data->backingStore = QPixmap();
+    if ( m_data->backingStore )
+        *m_data->backingStore = QPixmap();
 }
 
 /*!
@@ -177,9 +177,9 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
     painter.setClipRegion( event->region() );
 
     if ( testPaintAttribute( QwtPlotCanvas::BackingStore ) &&
-        d_data->backingStore != NULL )
+        m_data->backingStore != NULL )
     {
-        QPixmap &bs = *d_data->backingStore;
+        QPixmap &bs = *m_data->backingStore;
         if ( bs.size() != size() * QwtPainter::devicePixelRatio( &bs ) )
         {
             bs = QwtPainter::backingStore( this, size() );
@@ -209,7 +209,7 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
             }
         }
 
-        painter.drawPixmap( 0, 0, *d_data->backingStore );
+        painter.drawPixmap( 0, 0, *m_data->backingStore );
     }
     else
     {

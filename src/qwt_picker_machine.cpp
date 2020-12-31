@@ -14,8 +14,8 @@
 
 //! Constructor
 QwtPickerMachine::QwtPickerMachine( SelectionType type ):
-    d_selectionType( type ),
-    d_state( 0 )
+    m_selectionType( type ),
+    m_state( 0 )
 {
 }
 
@@ -27,19 +27,19 @@ QwtPickerMachine::~QwtPickerMachine()
 //! Return the selection type
 QwtPickerMachine::SelectionType QwtPickerMachine::selectionType() const
 {
-    return d_selectionType;
+    return m_selectionType;
 }
 
 //! Return the current state
 int QwtPickerMachine::state() const
 {
-    return d_state;
+    return m_state;
 }
 
 //! Change the current state
 void QwtPickerMachine::setState( int state )
 {
-    d_state = state;
+    m_state = state;
 }
 
 //! Set the current state to 0.

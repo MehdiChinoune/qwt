@@ -136,7 +136,7 @@ private:
     void init( bool doReplot );
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

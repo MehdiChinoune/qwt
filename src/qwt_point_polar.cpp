@@ -17,8 +17,8 @@
 */
 QwtPointPolar::QwtPointPolar( const QPointF &p )
 {
-    d_radius = std::sqrt( qwtSqr( p.x() ) + qwtSqr( p.y() ) );
-    d_azimuth = std::atan2( p.y(), p.x() );
+    m_radius = std::sqrt( qwtSqr( p.x() ) + qwtSqr( p.y() ) );
+    m_azimuth = std::atan2( p.y(), p.x() );
 }
 
 /*!
@@ -27,8 +27,8 @@ QwtPointPolar::QwtPointPolar( const QPointF &p )
 */
 void QwtPointPolar::setPoint( const QPointF &p )
 {
-    d_radius = std::sqrt( qwtSqr( p.x() ) + qwtSqr( p.y() ) );
-    d_azimuth = std::atan2( p.y(), p.x() );
+    m_radius = std::sqrt( qwtSqr( p.x() ) + qwtSqr( p.y() ) );
+    m_azimuth = std::atan2( p.y(), p.x() );
 }
 
 /*!
@@ -41,11 +41,11 @@ void QwtPointPolar::setPoint( const QPointF &p )
 */
 QPointF QwtPointPolar::toPoint() const
 {
-    if ( d_radius <= 0.0 )
+    if ( m_radius <= 0.0 )
         return QPointF( 0.0, 0.0 );
 
-    const double x = d_radius * std::cos( d_azimuth );
-    const double y = d_radius * std::sin( d_azimuth );
+    const double x = m_radius * std::cos( m_azimuth );
+    const double y = m_radius * std::sin( m_azimuth );
 
     return QPointF( x, y );
 }
@@ -63,7 +63,7 @@ QPointF QwtPointPolar::toPoint() const
 */
 bool QwtPointPolar::operator==( const QwtPointPolar &other ) const
 {
-    return d_radius == other.d_radius && d_azimuth == other.d_azimuth;
+    return m_radius == other.m_radius && m_azimuth == other.m_azimuth;
 }
 
 /*!
@@ -78,7 +78,7 @@ bool QwtPointPolar::operator==( const QwtPointPolar &other ) const
 */
 bool QwtPointPolar::operator!=( const QwtPointPolar &other ) const
 {
-    return d_radius != other.d_radius || d_azimuth != other.d_azimuth;
+    return m_radius != other.m_radius || m_azimuth != other.m_azimuth;
 }
 
 /*!
@@ -91,11 +91,11 @@ bool QwtPointPolar::operator!=( const QwtPointPolar &other ) const
 */
 QwtPointPolar QwtPointPolar::normalized() const
 {
-    const double radius = qwtMaxF( d_radius, 0.0 );
+    const double radius = qwtMaxF( m_radius, 0.0 );
 
-    double azimuth = d_azimuth;
+    double azimuth = m_azimuth;
     if ( azimuth < -2.0 * M_PI || azimuth >= 2 * M_PI )
-        azimuth = std::fmod( d_azimuth, 2 * M_PI );
+        azimuth = std::fmod( m_azimuth, 2 * M_PI );
 
     if ( azimuth < 0.0 )
         azimuth += 2 * M_PI;

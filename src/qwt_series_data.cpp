@@ -265,10 +265,10 @@ QwtPointSeriesData::QwtPointSeriesData(
 */
 QRectF QwtPointSeriesData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }
 
 /*!
@@ -291,10 +291,10 @@ QwtPoint3DSeriesData::QwtPoint3DSeriesData(
 */
 QRectF QwtPoint3DSeriesData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }
 
 /*!
@@ -317,10 +317,10 @@ QwtIntervalSeriesData::QwtIntervalSeriesData(
 */
 QRectF QwtIntervalSeriesData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }
 
 /*!
@@ -330,7 +330,7 @@ QRectF QwtIntervalSeriesData::boundingRect() const
 QwtVectorFieldData::QwtVectorFieldData(
         const QVector<QwtVectorFieldSample> &samples ):
     QwtArraySeriesData<QwtVectorFieldSample>( samples ),
-    d_maxMagnitude( -1.0 )
+    m_maxMagnitude( -1.0 )
 {
 }
 
@@ -344,15 +344,15 @@ QwtVectorFieldData::QwtVectorFieldData(
 */
 QRectF QwtVectorFieldData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }
 
 double QwtVectorFieldData::maxMagnitude() const
 {
-    if ( d_maxMagnitude < 0.0 )
+    if ( m_maxMagnitude < 0.0 )
     {
         double max = 0.0;
 
@@ -365,10 +365,10 @@ double QwtVectorFieldData::maxMagnitude() const
                 max = l;
         }
 
-        d_maxMagnitude = std::sqrt( max );
+        m_maxMagnitude = std::sqrt( max );
     }
 
-    return d_maxMagnitude;
+    return m_maxMagnitude;
 }
 
 /*!
@@ -391,10 +391,10 @@ QwtSetSeriesData::QwtSetSeriesData(
 */
 QRectF QwtSetSeriesData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }
 
 /*!
@@ -417,8 +417,8 @@ QwtTradingChartData::QwtTradingChartData(
 */
 QRectF QwtTradingChartData::boundingRect() const
 {
-    if ( d_boundingRect.width() < 0.0 )
-        d_boundingRect = qwtBoundingRect( *this );
+    if ( cachedBoundingRect.width() < 0.0 )
+        cachedBoundingRect = qwtBoundingRect( *this );
 
-    return d_boundingRect;
+    return cachedBoundingRect;
 }

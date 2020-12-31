@@ -74,7 +74,7 @@ Plot::Plot( QWidget *parent ):
     for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
         setAxisAutoScale( axis, false );
 
-    d_editor = new Editor( this );
+    m_editor = new Editor( this );
     ( void ) new QwtPlotMagnifier( canvas );
 }
 
@@ -125,7 +125,7 @@ void Plot::exportPlot()
 
 void Plot::setMode( int mode )
 {
-    d_editor->setMode( static_cast<Editor::Mode>( mode ) );
+    m_editor->setMode( static_cast<Editor::Mode>( mode ) );
 }
 
 #include "moc_plot.cpp"

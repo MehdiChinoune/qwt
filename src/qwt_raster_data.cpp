@@ -170,13 +170,13 @@ public:
 //! Constructor
 QwtRasterData::QwtRasterData()
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 }
 
 //! Destructor
 QwtRasterData::~QwtRasterData()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -189,9 +189,9 @@ QwtRasterData::~QwtRasterData()
 void QwtRasterData::setAttribute( Attribute attribute, bool on )
 {
     if ( on )
-        d_data->attributes |= attribute;
+        m_data->attributes |= attribute;
     else
-        d_data->attributes &= ~attribute;
+        m_data->attributes &= ~attribute;
 }
 
 /*!
@@ -200,7 +200,7 @@ void QwtRasterData::setAttribute( Attribute attribute, bool on )
 */
 bool QwtRasterData::testAttribute( Attribute attribute ) const
 {
-    return d_data->attributes & attribute;
+    return m_data->attributes & attribute;
 }
 
 /*!

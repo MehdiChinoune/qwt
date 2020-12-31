@@ -56,8 +56,8 @@ public Q_SLOTS:
 private:
     QwtPolarCurve *createCurve( int id ) const;
 
-    QwtPolarGrid *d_grid;
-    QwtPolarCurve *d_curve[PlotSettings::NumCurves];
+    QwtPolarGrid *m_grid;
+    QwtPolarCurve *m_curve[PlotSettings::NumCurves];
 };
 
 #endif

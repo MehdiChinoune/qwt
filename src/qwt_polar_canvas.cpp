@@ -77,7 +77,7 @@ public:
 QwtPolarCanvas::QwtPolarCanvas( QwtPolarPlot *plot ):
     QFrame( plot )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
 #ifndef QT_NO_CURSOR
     setCursor( Qt::CrossCursor );
@@ -90,7 +90,7 @@ QwtPolarCanvas::QwtPolarCanvas( QwtPolarPlot *plot ):
 //! Destructor
 QwtPolarCanvas::~QwtPolarCanvas()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! \return Parent plot widget
@@ -117,13 +117,13 @@ const QwtPolarPlot *QwtPolarCanvas::plot() const
 */
 void QwtPolarCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 {
-    if ( bool( d_data->paintAttributes & attribute ) == on )
+    if ( bool( m_data->paintAttributes & attribute ) == on )
         return;
 
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 
     switch( attribute )
     {
@@ -131,23 +131,23 @@ void QwtPolarCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
         {
             if ( on )
             {
-                if ( d_data->backingStore == NULL )
-                    d_data->backingStore = new QPixmap();
+                if ( m_data->backingStore == NULL )
+                    m_data->backingStore = new QPixmap();
 
                 if ( isVisible() )
                 {
                     const QRect cr = contentsRect();
 #if QT_VERSION >= 0x050000
-                    *d_data->backingStore = grab( cr );
+                    *m_data->backingStore = grab( cr );
 #else
-                    *d_data->backingStore = QPixmap::grabWidget( this, cr );
+                    *m_data->backingStore = QPixmap::grabWidget( this, cr );
 #endif
                 }
             }
             else
             {
-                delete d_data->backingStore;
-                d_data->backingStore = NULL;
+                delete m_data->backingStore;
+                m_data->backingStore = NULL;
             }
             break;
         }
@@ -163,20 +163,20 @@ void QwtPolarCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 */
 bool QwtPolarCanvas::testPaintAttribute( PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute ) != 0;
+    return ( m_data->paintAttributes & attribute ) != 0;
 }
 
 //! \return Backing store, might be null
 const QPixmap *QwtPolarCanvas::backingStore() const
 {
-    return d_data->backingStore;
+    return m_data->backingStore;
 }
 
 //! Invalidate the internal backing store
 void QwtPolarCanvas::invalidateBackingStore()
 {
-    if ( d_data->backingStore )
-        *d_data->backingStore = QPixmap();
+    if ( m_data->backingStore )
+        *m_data->backingStore = QPixmap();
 }
 
 /*!
@@ -188,10 +188,10 @@ void QwtPolarCanvas::paintEvent( QPaintEvent *event )
     QPainter painter( this );
     painter.setClipRegion( event->region() );
 
-    if ( ( d_data->paintAttributes & BackingStore )
-        && d_data->backingStore != NULL )
+    if ( ( m_data->paintAttributes & BackingStore )
+        && m_data->backingStore != NULL )
     {
-        QPixmap &bs = *d_data->backingStore;
+        QPixmap &bs = *m_data->backingStore;
         if ( bs.size() != size() )
         {
             bs = QPixmap( size() );
@@ -231,7 +231,7 @@ void QwtPolarCanvas::paintEvent( QPaintEvent *event )
                 drawFrame( &p );
         }
 
-        painter.drawPixmap( 0, 0, *d_data->backingStore );
+        painter.drawPixmap( 0, 0, *m_data->backingStore );
     }
     else
     {

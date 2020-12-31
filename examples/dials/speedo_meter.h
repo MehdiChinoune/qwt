@@ -22,7 +22,7 @@ protected:
         const QPointF &center, double radius ) const QWT_OVERRIDE;
 
 private:
-    QString d_label;
+    QString m_label;
 };
 
 #endif

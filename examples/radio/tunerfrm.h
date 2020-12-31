@@ -32,9 +32,9 @@ private Q_SLOTS:
     void adjustFreq( double frq );
 
 private:
-    QwtWheel *d_wheelFrequency;
-    TuningThermo *d_thermoTune;
-    QwtSlider *d_sliderFrequency;
+    QwtWheel *m_wheelFrequency;
+    TuningThermo *m_thermoTune;
+    QwtSlider *m_sliderFrequency;
 };
 
 #endif

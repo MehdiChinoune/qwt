@@ -14,7 +14,7 @@
    \param mode Preferred fitting mode
  */
 QwtCurveFitter::QwtCurveFitter( Mode mode ):
-    d_mode( mode )
+    m_mode( mode )
 {
 }
 
@@ -26,5 +26,5 @@ QwtCurveFitter::~QwtCurveFitter()
 //! \return Preferred fitting mode
 QwtCurveFitter::Mode QwtCurveFitter::mode() const
 {
-    return d_mode;
+    return m_mode;
 }

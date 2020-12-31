@@ -213,7 +213,7 @@ private:
 
     class ScaleData;
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

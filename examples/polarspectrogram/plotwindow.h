@@ -16,11 +16,11 @@ class PlotWindow: public QWidget
 public:
     PlotWindow( QWidget * = NULL );
 
-    Plot *plot() { return d_plot; }
+    Plot *plot() { return m_plot; }
 
 private:
-    Plot *d_plot;
-    QwtScaleWidget *d_colorScale;
+    Plot *m_plot;
+    QwtScaleWidget *m_colorScale;
 };
 
 #endif

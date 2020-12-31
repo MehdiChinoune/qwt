@@ -30,12 +30,12 @@ private:
     void initWhatsThis();
 
 private:
-    Counter *d_randomCount;
-    Counter *d_timerCount;
-    QCheckBox *d_symbolType;
-    QAction *d_startAction;
-    QAction *d_clearAction;
-    RandomPlot *d_plot;
+    Counter *m_randomCount;
+    Counter *m_timerCount;
+    QCheckBox *m_symbolType;
+    QAction *m_startAction;
+    QAction *m_clearAction;
+    RandomPlot *m_plot;
 };
 
 #endif

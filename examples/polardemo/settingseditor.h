@@ -31,7 +31,7 @@ private:
     void updateEditor();
     QString label( int flag ) const;
 
-    QCheckBox *d_checkBox[PlotSettings::NumFlags];
+    QCheckBox *m_checkBox[PlotSettings::NumFlags];
 };
 
 #endif

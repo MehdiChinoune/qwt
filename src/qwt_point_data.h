@@ -32,8 +32,8 @@ public:
     const QVector<T> &yData() const;
 
 private:
-    QVector<T> d_x;
-    QVector<T> d_y;
+    QVector<T> m_x;
+    QVector<T> m_y;
 };
 
 /*!
@@ -52,9 +52,9 @@ public:
     const T *yData() const;
 
 private:
-    const T *d_x;
-    const T *d_y;
-    size_t d_size;
+    const T *m_x;
+    const T *m_y;
+    size_t m_size;
 };
 
 /*!
@@ -76,7 +76,7 @@ public:
     const QVector<T> &yData() const;
 
 private:
-    QVector<T> d_y;
+    QVector<T> m_y;
 };
 
 /*!
@@ -97,8 +97,8 @@ public:
     const T *yData() const;
 
 private:
-    const T *d_y;
-    size_t d_size;
+    const T *m_y;
+    size_t m_size;
 };
 
 /*!
@@ -182,10 +182,10 @@ public:
     QRectF rectOfInterest() const;
 
 private:
-    size_t d_size;
-    QwtInterval d_interval;
-    QRectF d_rectOfInterest;
-    QwtInterval d_intervalOfInterest;
+    size_t m_size;
+    QwtInterval m_interval;
+    QRectF m_rectOfInterest;
+    QwtInterval m_intervalOfInterest;
 };
 
 /*!
@@ -199,8 +199,8 @@ private:
 template <typename T>
 QwtPointArrayData<T>::QwtPointArrayData(
         const QVector<T> &x, const QVector<T> &y ):
-    d_x( x ),
-    d_y( y )
+    m_x( x ),
+    m_y( y )
 {
 }
 
@@ -216,18 +216,18 @@ template <typename T>
 QwtPointArrayData<T>::QwtPointArrayData(
     const T *x, const T *y, size_t size )
 {
-    d_x.resize( size );
-    std::memcpy( d_x.data(), x, size * sizeof( T ) );
+    m_x.resize( size );
+    std::memcpy( m_x.data(), x, size * sizeof( T ) );
 
-    d_y.resize( size );
-    std::memcpy( d_y.data(), y, size * sizeof( T ) );
+    m_y.resize( size );
+    std::memcpy( m_y.data(), y, size * sizeof( T ) );
 }
 
 //! \return Size of the data set
 template <typename T>
 size_t QwtPointArrayData<T>::size() const
 {
-    return qMin( d_x.size(), d_y.size() );
+    return qMin( m_x.size(), m_y.size() );
 }
 
 /*!
@@ -239,21 +239,21 @@ size_t QwtPointArrayData<T>::size() const
 template <typename T>
 QPointF QwtPointArrayData<T>::sample( size_t index ) const
 {
-    return QPointF( d_x[int( index )], d_y[int( index )] );
+    return QPointF( m_x[int( index )], m_y[int( index )] );
 }
 
 //! \return Array of the x-values
 template <typename T>
 const QVector<T> &QwtPointArrayData<T>::xData() const
 {
-    return d_x;
+    return m_x;
 }
 
 //! \return Array of the y-values
 template <typename T>
 const QVector<T> &QwtPointArrayData<T>::yData() const
 {
-    return d_y;
+    return m_y;
 }
 
 /*!
@@ -265,7 +265,7 @@ const QVector<T> &QwtPointArrayData<T>::yData() const
 */
 template <typename T>
 QwtValuePointData<T>::QwtValuePointData( const QVector<T> &y ):
-    d_y( y )
+    m_y( y )
 {
 }
 
@@ -280,15 +280,15 @@ QwtValuePointData<T>::QwtValuePointData( const QVector<T> &y ):
 template <typename T>
 QwtValuePointData<T>::QwtValuePointData( const T *y, size_t size )
 {
-    d_y.resize( size );
-    std::memcpy( d_y.data(), y, size * sizeof( T ) );
+    m_y.resize( size );
+    std::memcpy( m_y.data(), y, size * sizeof( T ) );
 }
 
 //! \return Size of the data set
 template <typename T>
 size_t QwtValuePointData<T>::size() const
 {
-    return d_y.size();
+    return m_y.size();
 }
 
 /*!
@@ -300,14 +300,14 @@ size_t QwtValuePointData<T>::size() const
 template <typename T>
 QPointF QwtValuePointData<T>::sample( size_t index ) const
 {
-    return QPointF( index, d_y[int( index )] );
+    return QPointF( index, m_y[int( index )] );
 }
 
 //! \return Array of the y-values
 template <typename T>
 const QVector<T> &QwtValuePointData<T>::yData() const
 {
-    return d_y;
+    return m_y;
 }
 
 /*!
@@ -326,9 +326,9 @@ const QVector<T> &QwtValuePointData<T>::yData() const
 
 template <typename T>
 QwtCPointerData<T>::QwtCPointerData( const T *x, const T *y, size_t size ):
-    d_x( x ),
-    d_y( y ),
-    d_size( size )
+    m_x( x ),
+    m_y( y ),
+    m_size( size )
 {
 }
 
@@ -336,7 +336,7 @@ QwtCPointerData<T>::QwtCPointerData( const T *x, const T *y, size_t size ):
 template <typename T>
 size_t QwtCPointerData<T>::size() const
 {
-    return d_size;
+    return m_size;
 }
 
 /*!
@@ -348,21 +348,21 @@ size_t QwtCPointerData<T>::size() const
 template <typename T>
 QPointF QwtCPointerData<T>::sample( size_t index ) const
 {
-    return QPointF( d_x[int( index )], d_y[int( index )] );
+    return QPointF( m_x[int( index )], m_y[int( index )] );
 }
 
 //! \return Array of the x-values
 template <typename T>
 const T *QwtCPointerData<T>::xData() const
 {
-    return d_x;
+    return m_x;
 }
 
 //! \return Array of the y-values
 template <typename T>
 const T *QwtCPointerData<T>::yData() const
 {
-    return d_y;
+    return m_y;
 }
 
 /*!
@@ -380,8 +380,8 @@ const T *QwtCPointerData<T>::yData() const
 
 template <typename T>
 QwtCPointerValueData<T>::QwtCPointerValueData( const T *y, size_t size ):
-    d_y( y ),
-    d_size( size )
+    m_y( y ),
+    m_size( size )
 {
 }
 
@@ -389,7 +389,7 @@ QwtCPointerValueData<T>::QwtCPointerValueData( const T *y, size_t size ):
 template <typename T>
 size_t QwtCPointerValueData<T>::size() const
 {
-    return d_size;
+    return m_size;
 }
 
 /*!
@@ -401,14 +401,14 @@ size_t QwtCPointerValueData<T>::size() const
 template <typename T>
 QPointF QwtCPointerValueData<T>::sample( size_t index ) const
 {
-    return QPointF( index, d_y[ int( index ) ] );
+    return QPointF( index, m_y[ int( index ) ] );
 }
 
 //! \return Array of the y-values
 template <typename T>
 const T *QwtCPointerValueData<T>::yData() const
 {
-    return d_y;
+    return m_y;
 }
 
 #endif

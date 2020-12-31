@@ -35,10 +35,10 @@ private Q_SLOTS:
 private:
     void initCurve();
 
-    QTimer *d_timer;
-    int d_timerCount;
+    QTimer *m_timer;
+    int m_timerCount;
 
-    QElapsedTimer d_timeStamp;
+    QElapsedTimer m_timeStamp;
 };
 
 #endif

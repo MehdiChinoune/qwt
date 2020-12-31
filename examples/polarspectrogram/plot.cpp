@@ -115,38 +115,38 @@ Plot::Plot( QWidget *parent ):
     setScaleMaxMinor( QwtPolar::Radius, 2 );
 
     // grids
-    d_grid = new QwtPolarGrid();
-    d_grid->setPen( QPen( Qt::white ) );
+    m_grid = new QwtPolarGrid();
+    m_grid->setPen( QPen( Qt::white ) );
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
-        d_grid->showGrid( scaleId );
-        d_grid->showMinorGrid( scaleId );
+        m_grid->showGrid( scaleId );
+        m_grid->showMinorGrid( scaleId );
 
         QPen minorPen( Qt::gray );
-        d_grid->setMinorGridPen( scaleId, minorPen );
+        m_grid->setMinorGridPen( scaleId, minorPen );
     }
-    d_grid->setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
-    d_grid->setAzimuthScaleDraw( new AzimuthScaleDraw() );
-    d_grid->showAxis( QwtPolar::AxisAzimuth, true );
-    d_grid->showAxis( QwtPolar::AxisLeft, false );
-    d_grid->showAxis( QwtPolar::AxisRight, true );
-    d_grid->showAxis( QwtPolar::AxisTop, false );
-    d_grid->showAxis( QwtPolar::AxisBottom, false );
-    d_grid->showGrid( QwtPolar::Azimuth, true );
-    d_grid->showGrid( QwtPolar::Radius, true );
-    d_grid->attach( this );
+    m_grid->setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
+    m_grid->setAzimuthScaleDraw( new AzimuthScaleDraw() );
+    m_grid->showAxis( QwtPolar::AxisAzimuth, true );
+    m_grid->showAxis( QwtPolar::AxisLeft, false );
+    m_grid->showAxis( QwtPolar::AxisRight, true );
+    m_grid->showAxis( QwtPolar::AxisTop, false );
+    m_grid->showAxis( QwtPolar::AxisBottom, false );
+    m_grid->showGrid( QwtPolar::Azimuth, true );
+    m_grid->showGrid( QwtPolar::Radius, true );
+    m_grid->attach( this );
 
     // spectrogram
 
-    d_spectrogram = new QwtPolarSpectrogram();
-    d_spectrogram->setPaintAttribute(
+    m_spectrogram = new QwtPolarSpectrogram();
+    m_spectrogram->setPaintAttribute(
         QwtPolarSpectrogram::ApproximatedAtan, true );
-    d_spectrogram->setRenderThreadCount( 0 ); // use multi threading
-    d_spectrogram->setData( new SpectrogramData() );
-    d_spectrogram->attach( this );
+    m_spectrogram->setRenderThreadCount( 0 ); // use multi threading
+    m_spectrogram->setData( new SpectrogramData() );
+    m_spectrogram->attach( this );
 
-    d_spectrogram->setZ( 1.0 );
-    d_grid->setZ( 2.0 );
+    m_spectrogram->setZ( 1.0 );
+    m_grid->setZ( 2.0 );
 
     QwtPolarPicker *picker = new MyPicker( canvas() );
     picker->setMousePattern( QwtEventPattern::MouseSelect1, Qt::RightButton );
@@ -159,7 +159,7 @@ Plot::Plot( QWidget *parent ):
 
 QwtPolarSpectrogram *Plot::spectrogram()
 {
-    return d_spectrogram;
+    return m_spectrogram;
 }
 
 void Plot::rotate()
@@ -190,7 +190,7 @@ void Plot::exportDocument()
 
 void Plot::showGrid( bool on )
 {
-    d_grid->setVisible( on );
+    m_grid->setVisible( on );
     replot();
 }
 

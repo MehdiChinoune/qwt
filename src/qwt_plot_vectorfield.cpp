@@ -302,7 +302,7 @@ QwtPlotVectorField::QwtPlotVectorField( const QString &title ):
 //! Destructor
 QwtPlotVectorField::~QwtPlotVectorField()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -313,7 +313,7 @@ void QwtPlotVectorField::init()
     setItemAttribute( QwtPlotItem::Legend );
     setItemAttribute( QwtPlotItem::AutoScale );
 
-    d_data = new PrivateData;
+    m_data = new PrivateData;
     setData( new QwtVectorFieldData() );
 
     setZ( 20.0 );
@@ -321,9 +321,9 @@ void QwtPlotVectorField::init()
 
 void QwtPlotVectorField::setPen( const QPen &pen )
 {
-    if ( d_data->pen != pen )
+    if ( m_data->pen != pen )
     {
-        d_data->pen = pen;
+        m_data->pen = pen;
 
         itemChanged();
         legendChanged();
@@ -332,14 +332,14 @@ void QwtPlotVectorField::setPen( const QPen &pen )
 
 QPen QwtPlotVectorField::pen() const
 {
-    return d_data->pen;
+    return m_data->pen;
 }
 
 void QwtPlotVectorField::setBrush( const QBrush &brush )
 {
-    if ( d_data->brush != brush )
+    if ( m_data->brush != brush )
     {
-        d_data->brush = brush;
+        m_data->brush = brush;
 
         itemChanged();
         legendChanged();
@@ -348,50 +348,50 @@ void QwtPlotVectorField::setBrush( const QBrush &brush )
 
 QBrush QwtPlotVectorField::brush() const
 {
-    return d_data->brush;
+    return m_data->brush;
 }
 
 void QwtPlotVectorField::setIndicatorOrigin( IndicatorOrigin origin )
 {
-    d_data->indicatorOrigin = origin;
-    if ( d_data->indicatorOrigin != origin )
+    m_data->indicatorOrigin = origin;
+    if ( m_data->indicatorOrigin != origin )
     {
-        d_data->indicatorOrigin = origin;
+        m_data->indicatorOrigin = origin;
         itemChanged();
     }
 }
 
 QwtPlotVectorField::IndicatorOrigin QwtPlotVectorField::indicatorOrigin() const
 {
-    return d_data->indicatorOrigin;
+    return m_data->indicatorOrigin;
 }
 
 void QwtPlotVectorField::setMagnitudeScaleFactor( double factor )
 {
-    if ( factor != d_data->magnitudeScaleFactor )
+    if ( factor != m_data->magnitudeScaleFactor )
     {
-        d_data->magnitudeScaleFactor = factor;
+        m_data->magnitudeScaleFactor = factor;
         itemChanged();
     }
 }
 
 double QwtPlotVectorField::magnitudeScaleFactor() const
 {
-    return d_data->magnitudeScaleFactor;
+    return m_data->magnitudeScaleFactor;
 }
 
 void QwtPlotVectorField::setRasterSize( const QSizeF& size )
 {
-    if ( size != d_data->rasterSize )
+    if ( size != m_data->rasterSize )
     {
-        d_data->rasterSize = size;
+        m_data->rasterSize = size;
         itemChanged();
     }
 }
 
 QSizeF QwtPlotVectorField::rasterSize() const
 {
-    return d_data->rasterSize;
+    return m_data->rasterSize;
 }
 
 /*!
@@ -404,16 +404,16 @@ QSizeF QwtPlotVectorField::rasterSize() const
 void QwtPlotVectorField::setPaintAttribute(
     PaintAttribute attribute, bool on )
 {
-    PaintAttributes attributes = d_data->paintAttributes;
+    PaintAttributes attributes = m_data->paintAttributes;
 
     if ( on )
         attributes |= attribute;
     else
         attributes &= ~attribute;
 
-    if ( d_data->paintAttributes != attributes )
+    if ( m_data->paintAttributes != attributes )
     {
-        d_data->paintAttributes = attributes;
+        m_data->paintAttributes = attributes;
         itemChanged();
     }
 }
@@ -425,7 +425,7 @@ void QwtPlotVectorField::setPaintAttribute(
 bool QwtPlotVectorField::testPaintAttribute(
     PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute );
+    return ( m_data->paintAttributes & attribute );
 }
 
 //! \return QwtPlotItem::Rtti_PlotField
@@ -440,23 +440,23 @@ void QwtPlotVectorField::setMagnitudeMode( MagnitudeMode mode, bool on )
         return;
 
     if ( on )
-        d_data->magnitudeModes |= mode;
+        m_data->magnitudeModes |= mode;
     else
-        d_data->magnitudeModes &= ~mode;
+        m_data->magnitudeModes &= ~mode;
 
     itemChanged();
 }
 
 bool QwtPlotVectorField::testMagnitudeMode( MagnitudeMode mode ) const
 {
-    return d_data->magnitudeModes & mode;
+    return m_data->magnitudeModes & mode;
 }
 
 void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
 {
-    if ( d_data->magnitudeModes != modes )
+    if ( m_data->magnitudeModes != modes )
     {
-        d_data->magnitudeModes = modes;
+        m_data->magnitudeModes = modes;
         itemChanged();
     }
 }
@@ -467,11 +467,11 @@ void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
  */
 void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol * symbol )
 {
-    if ( d_data->symbol == symbol )
+    if ( m_data->symbol == symbol )
         return;
 
-    delete d_data->symbol;
-    d_data->symbol = symbol;
+    delete m_data->symbol;
+    m_data->symbol = symbol;
 
     itemChanged();
     legendChanged();
@@ -479,12 +479,12 @@ void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol * symbol )
 
 const QwtVectorFieldSymbol* QwtPlotVectorField::symbol() const
 {
-    return d_data->symbol;
+    return m_data->symbol;
 }
 
 QwtPlotVectorField::MagnitudeModes QwtPlotVectorField::magnitudeModes() const
 {
-    return d_data->magnitudeModes;
+    return m_data->magnitudeModes;
 }
 
 /*!
@@ -527,10 +527,10 @@ void QwtPlotVectorField::setColorMap( QwtColorMap *colorMap )
     if ( colorMap == NULL )
         return;
 
-    if ( colorMap != d_data->colorMap )
+    if ( colorMap != m_data->colorMap )
     {
-        delete d_data->colorMap;
-        d_data->colorMap = colorMap;
+        delete m_data->colorMap;
+        m_data->colorMap = colorMap;
     }
 
     legendChanged();
@@ -543,7 +543,7 @@ void QwtPlotVectorField::setColorMap( QwtColorMap *colorMap )
 */
 const QwtColorMap *QwtPlotVectorField::colorMap() const
 {
-    return d_data->colorMap;
+    return m_data->colorMap;
 }
 
 /*!
@@ -553,7 +553,7 @@ const QwtColorMap *QwtPlotVectorField::colorMap() const
  */
 void QwtPlotVectorField::setMagnitudeRange( const QwtInterval & magnitudeRange )
 {
-    d_data->magnitudeRange = magnitudeRange;
+    m_data->magnitudeRange = magnitudeRange;
 }
 
 /*!
@@ -576,11 +576,11 @@ double QwtPlotVectorField::arrowLength( double magnitude ) const
        will always lead to a reasonable display on screen.
     */
     const QwtVectorFieldData * vectorData = dynamic_cast<const QwtVectorFieldData *>(data());
-    if (d_data->magnitudeRange.maxValue() > 0)
-        magnitude /= d_data->magnitudeRange.maxValue();
+    if (m_data->magnitudeRange.maxValue() > 0)
+        magnitude /= m_data->magnitudeRange.maxValue();
 #endif
-    double l = magnitude * d_data->magnitudeScaleFactor;
-    if ( d_data->paintAttributes & LimitLength )
+    double l = magnitude * m_data->magnitudeScaleFactor;
+    if ( m_data->paintAttributes & LimitLength )
     {
         // TODO : make 30 a parameter? or leave this to user code and remove LimitLength altogether?
         l = qMin(l, 50.0);
@@ -621,11 +621,11 @@ QwtGraphic QwtPlotVectorField::legendIcon(
 
     painter.translate( -size.width(), -0.5 * size.height() );
 
-    painter.setPen( d_data->pen );
-    painter.setBrush( d_data->brush );
+    painter.setPen( m_data->pen );
+    painter.setBrush( m_data->brush );
 
-    d_data->symbol->setLength( size.width() - 2 );
-    d_data->symbol->paint( &painter );
+    m_data->symbol->setLength( size.width() - 2 );
+    m_data->symbol->paint( &painter );
 
     return icon;
 }
@@ -683,20 +683,20 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
 
     const QwtSeriesData<QwtVectorFieldSample> *series = data();
 
-    if ( d_data->magnitudeModes & MagnitudeAsColor )
+    if ( m_data->magnitudeModes & MagnitudeAsColor )
     {
         // user input error, can't draw without color map
         // TODO: Discuss! Without colormap, silently fall back to uniform colors?
-        if ( d_data->colorMap == NULL)
+        if ( m_data->colorMap == NULL)
             return;
     }
     else
     {
-        painter->setPen( d_data->pen );
-        painter->setBrush( d_data->brush );
+        painter->setPen( m_data->pen );
+        painter->setBrush( m_data->brush );
     }
 
-    if ( ( d_data->paintAttributes & FilterVectors ) && !d_data->rasterSize.isEmpty() )
+    if ( ( m_data->paintAttributes & FilterVectors ) && !m_data->rasterSize.isEmpty() )
     {
         const QRectF dataRect = QwtScaleMap::transform(
             xMap, yMap, boundingRect() );
@@ -706,7 +706,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
         //       or "rastersize in plotcoordinetes" a user option?
 #if 1
         // define filter matrix based on screen/print coordinates
-        FilterMatrix matrix( dataRect, canvasRect, d_data->rasterSize );
+        FilterMatrix matrix( dataRect, canvasRect, m_data->rasterSize );
 #else
         // define filter matrix based on real coordinates
 
@@ -719,7 +719,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
         if (yMap.sDist() != 0)
             yScale = yMap.pDist() / yMap.sDist();
 
-        QSizeF canvasRasterSize(xScale*d_data->rasterSize.width(), yScale*d_data->rasterSize.height());
+        QSizeF canvasRasterSize(xScale*m_data->rasterSize.width(), yScale*m_data->rasterSize.height());
         FilterMatrix matrix( dataRect, canvasRect, canvasRasterSize );
 #endif
 
@@ -801,43 +801,43 @@ void QwtPlotVectorField::drawSymbol( QPainter *painter,
     QTransform transform = qwtSymbolTransformation( oldTransform,
         x, y, vx, vy, magnitude );
 
-    QwtVectorFieldSymbol *symbol = d_data->symbol;
+    QwtVectorFieldSymbol *symbol = m_data->symbol;
 
     double length = 0.0;
 
-    if ( d_data->magnitudeModes & MagnitudeAsLength )
+    if ( m_data->magnitudeModes & MagnitudeAsLength )
     {
         length = arrowLength( magnitude );
     }
 
     symbol->setLength( length );
 
-    if( d_data->indicatorOrigin == OriginTail )
+    if( m_data->indicatorOrigin == OriginTail )
     {
         const qreal dx = symbol->length();
         transform.translate( dx, 0.0 );
     }
-    else if ( d_data->indicatorOrigin == OriginCenter )
+    else if ( m_data->indicatorOrigin == OriginCenter )
     {
         const qreal dx = symbol->length();
         transform.translate( 0.5 * dx, 0.0 );
     }
 
-    if ( d_data->magnitudeModes & MagnitudeAsColor )
+    if ( m_data->magnitudeModes & MagnitudeAsColor )
     {
         // Determine color for arrow if colored by magnitude.
 
-        QwtInterval range = d_data->magnitudeRange;
+        QwtInterval range = m_data->magnitudeRange;
 
         if ( !range.isValid() )
         {
-            if ( !d_data->boundingMagnitudeRange.isValid() )
-                d_data->boundingMagnitudeRange = qwtMagnitudeRange( data() );
+            if ( !m_data->boundingMagnitudeRange.isValid() )
+                m_data->boundingMagnitudeRange = qwtMagnitudeRange( data() );
 
-            range = d_data->boundingMagnitudeRange;
+            range = m_data->boundingMagnitudeRange;
         }
 
-        const QColor c = d_data->colorMap->rgb( range, magnitude );
+        const QColor c = m_data->colorMap->rgb( range, magnitude );
 
 #if 1
         painter->setBrush( c );
@@ -852,6 +852,6 @@ void QwtPlotVectorField::drawSymbol( QPainter *painter,
 
 void QwtPlotVectorField::dataChanged()
 {
-    d_data->boundingMagnitudeRange.invalidate();
+    m_data->boundingMagnitudeRange.invalidate();
     QwtPlotSeriesItem::dataChanged();
 }

@@ -42,7 +42,7 @@ class QwtPointPolar;
      the data. You can use qwtBoundingRect() for an implementation
      but often it is possible to implement a more efficient algorithm
      depending on the characteristics of the series.
-     The member d_boundingRect is intended for caching the calculated rectangle.
+     The member cachedBoundingRect is intended for caching the calculated rectangle.
 
 */
 template <typename T>
@@ -85,7 +85,7 @@ public:
     // Needed for generating the python bindings, but not for using them !
     virtual size_t size() const { return 0; }
     virtual T sample( size_t i ) const { return T(); }
-    virtual QRectF boundingRect() const { return d_boundingRect; }
+    virtual QRectF boundingRect() const { return cachedBoundingRect; }
 #endif
 
     /*!
@@ -103,7 +103,7 @@ public:
 
 protected:
     //! Can be used to cache a calculated bounding rectangle
-    mutable QRectF d_boundingRect;
+    mutable QRectF cachedBoundingRect;
 
 private:
     QwtSeriesData<T> &operator=( const QwtSeriesData<T> & );
@@ -111,7 +111,7 @@ private:
 
 template <typename T>
 QwtSeriesData<T>::QwtSeriesData():
-    d_boundingRect( 0.0, 0.0, -1.0, -1.0 )
+    cachedBoundingRect( 0.0, 0.0, -1.0, -1.0 )
 {
 }
 
@@ -166,7 +166,7 @@ public:
 
 protected:
     //! Vector of samples
-    QVector<T> d_samples;
+    QVector<T> m_samples;
 };
 
 template <typename T>
@@ -176,33 +176,33 @@ QwtArraySeriesData<T>::QwtArraySeriesData()
 
 template <typename T>
 QwtArraySeriesData<T>::QwtArraySeriesData( const QVector<T> &samples ):
-    d_samples( samples )
+    m_samples( samples )
 {
 }
 
 template <typename T>
 void QwtArraySeriesData<T>::setSamples( const QVector<T> &samples )
 {
-    QwtSeriesData<T>::d_boundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
-    d_samples = samples;
+    QwtSeriesData<T>::cachedBoundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
+    m_samples = samples;
 }
 
 template <typename T>
 const QVector<T> QwtArraySeriesData<T>::samples() const
 {
-    return d_samples;
+    return m_samples;
 }
 
 template <typename T>
 size_t QwtArraySeriesData<T>::size() const
 {
-    return d_samples.size();
+    return m_samples.size();
 }
 
 template <typename T>
 T QwtArraySeriesData<T>::sample( size_t i ) const
 {
-    return d_samples[ static_cast<int>( i ) ];
+    return m_samples[ static_cast<int>( i ) ];
 }
 
 //! Interface for iterating over an array of points
@@ -255,7 +255,7 @@ public:
     virtual double maxMagnitude() const;
 
 protected:
-    mutable double d_maxMagnitude;
+    mutable double m_maxMagnitude;
 };
 
 /*!

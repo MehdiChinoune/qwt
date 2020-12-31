@@ -68,13 +68,13 @@ public:
 private:
     void updateFactor();
 
-    double d_s1, d_s2;     // scale interval boundaries
-    double d_p1, d_p2;     // paint device interval boundaries
+    double m_s1, m_s2;     // scale interval boundaries
+    double m_p1, m_p2;     // paint device interval boundaries
 
-    double d_cnv;       // conversion factor
-    double d_ts1;
+    double m_cnv;       // conversion factor
+    double m_ts1;
 
-    QwtTransform *d_transform;
+    QwtTransform *m_transform;
 };
 
 /*!
@@ -82,7 +82,7 @@ private:
 */
 inline double QwtScaleMap::s1() const
 {
-    return d_s1;
+    return m_s1;
 }
 
 /*!
@@ -90,7 +90,7 @@ inline double QwtScaleMap::s1() const
 */
 inline double QwtScaleMap::s2() const
 {
-    return d_s2;
+    return m_s2;
 }
 
 /*!
@@ -98,7 +98,7 @@ inline double QwtScaleMap::s2() const
 */
 inline double QwtScaleMap::p1() const
 {
-    return d_p1;
+    return m_p1;
 }
 
 /*!
@@ -106,7 +106,7 @@ inline double QwtScaleMap::p1() const
 */
 inline double QwtScaleMap::p2() const
 {
-    return d_p2;
+    return m_p2;
 }
 
 /*!
@@ -114,7 +114,7 @@ inline double QwtScaleMap::p2() const
 */
 inline double QwtScaleMap::pDist() const
 {
-    return qAbs( d_p2 - d_p1 );
+    return qAbs( m_p2 - m_p1 );
 }
 
 /*!
@@ -122,7 +122,7 @@ inline double QwtScaleMap::pDist() const
 */
 inline double QwtScaleMap::sDist() const
 {
-    return qAbs( d_s2 - d_s1 );
+    return qAbs( m_s2 - m_s1 );
 }
 
 /*!
@@ -136,10 +136,10 @@ inline double QwtScaleMap::sDist() const
 */
 inline double QwtScaleMap::transform( double s ) const
 {
-    if ( d_transform )
-        s = d_transform->transform( s );
+    if ( m_transform )
+        s = m_transform->transform( s );
 
-    return d_p1 + ( s - d_ts1 ) * d_cnv;
+    return m_p1 + ( s - m_ts1 ) * m_cnv;
 }
 
 /*!
@@ -153,9 +153,9 @@ inline double QwtScaleMap::transform( double s ) const
 */
 inline double QwtScaleMap::invTransform( double p ) const
 {
-    double s = d_ts1 + ( p - d_p1 ) / d_cnv;
-    if ( d_transform )
-        s = d_transform->invTransform( s );
+    double s = m_ts1 + ( p - m_p1 ) / m_cnv;
+    if ( m_transform )
+        s = m_transform->invTransform( s );
 
     return s;
 }
@@ -163,7 +163,7 @@ inline double QwtScaleMap::invTransform( double p ) const
 //! \return True, when ( p1() < p2() ) != ( s1() < s2() )
 inline bool QwtScaleMap::isInverting() const
 {
-    return ( ( d_p1 < d_p2 ) != ( d_s1 < d_s2 ) );
+    return ( ( m_p1 < m_p2 ) != ( m_s1 < m_s2 ) );
 }
 
 #ifndef QT_NO_DEBUG_STREAM

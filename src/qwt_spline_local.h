@@ -77,7 +77,7 @@ public:
     virtual QVector<double> slopes( const QPolygonF & ) const QWT_OVERRIDE;
 
 private:
-    const Type d_type;
+    const Type m_type;
 };
 
 #endif

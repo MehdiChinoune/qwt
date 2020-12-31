@@ -41,7 +41,7 @@ private:
     void alignScaleBorder( int rowOrColumn, int axis );
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

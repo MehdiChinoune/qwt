@@ -66,8 +66,8 @@ public:
 
 RandomPlot::RandomPlot( QWidget *parent ):
     IncrementalPlot( parent ),
-    d_timer( 0 ),
-    d_timerCount( 0 )
+    m_timer( 0 ),
+    m_timerCount( 0 )
 {
     setFrameStyle( QFrame::NoFrame );
     setLineWidth( 0 );
@@ -105,36 +105,36 @@ void RandomPlot::appendPoint()
 
     IncrementalPlot::appendPoint( QPointF( x, y ) );
 
-    if ( --d_timerCount <= 0 )
+    if ( --m_timerCount <= 0 )
         stop();
 }
 
 void RandomPlot::append( int timeout, int count )
 {
-    if ( !d_timer )
+    if ( !m_timer )
     {
-        d_timer = new QTimer( this );
-        connect( d_timer, SIGNAL( timeout() ), SLOT( appendPoint() ) );
+        m_timer = new QTimer( this );
+        connect( m_timer, SIGNAL( timeout() ), SLOT( appendPoint() ) );
     }
 
-    d_timerCount = count;
+    m_timerCount = count;
 
     Q_EMIT running( true );
-    d_timeStamp.start();
+    m_timeStamp.start();
 
     QwtPlotCanvas *plotCanvas = qobject_cast<QwtPlotCanvas *>( canvas() );
     plotCanvas->setPaintAttribute( QwtPlotCanvas::BackingStore, false );
 
-    d_timer->start( timeout );
+    m_timer->start( timeout );
 }
 
 void RandomPlot::stop()
 {
-    Q_EMIT elapsed( d_timeStamp.elapsed() );
+    Q_EMIT elapsed( m_timeStamp.elapsed() );
 
-    if ( d_timer )
+    if ( m_timer )
     {
-        d_timer->stop();
+        m_timer->stop();
         Q_EMIT running( false );
     }
 

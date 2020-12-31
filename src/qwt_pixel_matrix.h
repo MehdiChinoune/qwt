@@ -36,7 +36,7 @@ public:
     int index( int x, int y ) const;
 
 private:
-    QRect d_rect;
+    QRect m_rect;
 };
 
 /*!
@@ -85,15 +85,15 @@ inline bool QwtPixelMatrix::testAndSetPixel( int x, int y, bool on )
  */
 inline int QwtPixelMatrix::index( int x, int y ) const
 {
-    const int dx = x - d_rect.x();
-    if ( dx < 0 || dx >= d_rect.width() )
+    const int dx = x - m_rect.x();
+    if ( dx < 0 || dx >= m_rect.width() )
         return -1;
 
-    const int dy = y - d_rect.y();
-    if ( dy < 0 || dy >= d_rect.height() )
+    const int dy = y - m_rect.y();
+    if ( dy < 0 || dy >= m_rect.height() )
         return -1;
 
-    return dy * d_rect.width() + dx;
+    return dy * m_rect.width() + dx;
 }
 
 #endif

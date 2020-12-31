@@ -56,16 +56,16 @@ namespace QwtDesignerPlugin
         virtual void initialize( QDesignerFormEditorInterface * ) QWT_OVERRIDE;
 
     protected:
-        QString d_name;
-        QString d_include;
-        QString d_toolTip;
-        QString d_whatsThis;
-        QString d_domXml;
-        QString d_codeTemplate;
-        QIcon d_icon;
+        QString m_name;
+        QString m_include;
+        QString m_toolTip;
+        QString m_whatsThis;
+        QString m_domXml;
+        QString m_codeTemplate;
+        QIcon m_icon;
 
     private:
-        bool d_isInitialized;
+        bool m_isInitialized;
     };
 
     class CustomWidgetCollectionInterface: public QObject,
@@ -84,7 +84,7 @@ namespace QwtDesignerPlugin
         virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const QWT_OVERRIDE;
 
     private:
-        QList<QDesignerCustomWidgetInterface*> d_plugins;
+        QList<QDesignerCustomWidgetInterface*> m_plugins;
     };
 
     QWT_DESIGNER_INTERFACE( TextLabelInterface )
@@ -139,8 +139,8 @@ namespace QwtDesignerPlugin
         void applyProperties( const QString & );
 
     private:
-        QAction *d_editAction;
-        QWidget *d_widget;
+        QAction *m_editAction;
+        QWidget *m_widget;
     };
 }
 

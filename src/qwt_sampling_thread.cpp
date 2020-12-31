@@ -24,15 +24,15 @@ public:
 QwtSamplingThread::QwtSamplingThread( QObject *parent ):
     QThread( parent )
 {
-    d_data = new PrivateData;
-    d_data->interval = 1000; // 1 second
-    d_data->isStopped = true;
+    m_data = new PrivateData;
+    m_data->interval = 1000; // 1 second
+    m_data->isStopped = true;
 }
 
 //! Destructor
 QwtSamplingThread::~QwtSamplingThread()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -47,7 +47,7 @@ void QwtSamplingThread::setInterval( double interval )
     if ( interval < 0.0 )
         interval = 0.0;
 
-    d_data->interval = interval;
+    m_data->interval = interval;
 }
 
 /*!
@@ -56,7 +56,7 @@ void QwtSamplingThread::setInterval( double interval )
 */
 double QwtSamplingThread::interval() const
 {
-    return d_data->interval;
+    return m_data->interval;
 }
 
 /*!
@@ -65,10 +65,10 @@ double QwtSamplingThread::interval() const
 */
 double QwtSamplingThread::elapsed() const
 {
-    if ( d_data->isStopped )
+    if ( m_data->isStopped )
         return 0.0;
 
-    return d_data->clock.elapsed();
+    return m_data->clock.elapsed();
 }
 
 /*!
@@ -77,7 +77,7 @@ double QwtSamplingThread::elapsed() const
 */
 void QwtSamplingThread::stop()
 {
-    d_data->isStopped = true;
+    m_data->isStopped = true;
 }
 
 /*!
@@ -86,18 +86,18 @@ void QwtSamplingThread::stop()
 */
 void QwtSamplingThread::run()
 {
-    d_data->clock.start();
-    d_data->isStopped = false;
+    m_data->clock.start();
+    m_data->isStopped = false;
 
-    while ( !d_data->isStopped )
+    while ( !m_data->isStopped )
     {
-        const double elapsed = d_data->clock.elapsed();
+        const double elapsed = m_data->clock.elapsed();
         sample( elapsed / 1000.0 );
 
-        if ( d_data->interval > 0.0 )
+        if ( m_data->interval > 0.0 )
         {
             const double msecs =
-                d_data->interval - ( d_data->clock.elapsed() - elapsed );
+                m_data->interval - ( m_data->clock.elapsed() - elapsed );
 
             if ( msecs > 0.0 )
                 usleep( qRound( 1000.0 * msecs ) );

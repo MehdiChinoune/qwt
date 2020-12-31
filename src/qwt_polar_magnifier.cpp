@@ -34,13 +34,13 @@ public:
 QwtPolarMagnifier::QwtPolarMagnifier( QwtPolarCanvas *canvas ):
     QwtMagnifier( canvas )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 }
 
 //! Destructor
 QwtPolarMagnifier::~QwtPolarMagnifier()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -53,8 +53,8 @@ QwtPolarMagnifier::~QwtPolarMagnifier()
 */
 void QwtPolarMagnifier::setUnzoomKey( int key, int modifiers )
 {
-    d_data->unzoomKey = key;
-    d_data->unzoomKeyModifiers = modifiers;
+    m_data->unzoomKey = key;
+    m_data->unzoomKeyModifiers = modifiers;
 }
 
 /*!
@@ -66,8 +66,8 @@ void QwtPolarMagnifier::setUnzoomKey( int key, int modifiers )
 */
 void QwtPolarMagnifier::getUnzoomKey( int &key, int &modifiers ) const
 {
-    key = d_data->unzoomKey;
-    modifiers = d_data->unzoomKeyModifiers;
+    key = m_data->unzoomKey;
+    modifiers = m_data->unzoomKeyModifiers;
 }
 
 //! \return Observed plot canvas
@@ -112,8 +112,8 @@ void QwtPolarMagnifier::widgetKeyPressEvent( QKeyEvent *event )
     const int key = event->key();
     const int state = event->modifiers();
 
-    if ( key == d_data->unzoomKey &&
-        state == d_data->unzoomKeyModifiers )
+    if ( key == m_data->unzoomKey &&
+        state == m_data->unzoomKeyModifiers )
     {
         unzoom();
         return;

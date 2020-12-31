@@ -41,7 +41,7 @@ private Q_SLOTS:
 private:
     void updateItem( QStandardItem *, const QwtLegendData & );
 
-    LegendTreeView *d_treeView;
+    LegendTreeView *m_treeView;
 };
 
 #endif

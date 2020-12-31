@@ -206,10 +206,10 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 
     class LayoutCache;
-    LayoutCache *d_layoutCache;
+    LayoutCache *m_layoutCache;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtText::PaintAttributes )

@@ -57,7 +57,7 @@ protected:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 //! Move the center of the scale draw, leaving the radius unchanged

@@ -133,13 +133,13 @@ QwtPlotShapeItem::QwtPlotShapeItem( const QwtText& title ):
 //! Destructor
 QwtPlotShapeItem::~QwtPlotShapeItem()
 {
-    delete d_data;
+    delete m_data;
 }
 
 void QwtPlotShapeItem::init()
 {
-    d_data = new PrivateData();
-    d_data->boundingRect = QwtPlotItem::boundingRect();
+    m_data = new PrivateData();
+    m_data->boundingRect = QwtPlotItem::boundingRect();
 
     setItemAttribute( QwtPlotItem::AutoScale, true );
     setItemAttribute( QwtPlotItem::Legend, false );
@@ -163,9 +163,9 @@ int QwtPlotShapeItem::rtti() const
 void QwtPlotShapeItem::setPaintAttribute( PaintAttribute attribute, bool on )
 {
     if ( on )
-        d_data->paintAttributes |= attribute;
+        m_data->paintAttributes |= attribute;
     else
-        d_data->paintAttributes &= ~attribute;
+        m_data->paintAttributes &= ~attribute;
 }
 
 /*!
@@ -174,7 +174,7 @@ void QwtPlotShapeItem::setPaintAttribute( PaintAttribute attribute, bool on )
 */
 bool QwtPlotShapeItem::testPaintAttribute( PaintAttribute attribute ) const
 {
-    return ( d_data->paintAttributes & attribute );
+    return ( m_data->paintAttributes & attribute );
 }
 
 /*!
@@ -185,9 +185,9 @@ bool QwtPlotShapeItem::testPaintAttribute( PaintAttribute attribute ) const
  */
 void QwtPlotShapeItem::setLegendMode( LegendMode mode )
 {
-    if ( mode != d_data->legendMode )
+    if ( mode != m_data->legendMode )
     {
-        d_data->legendMode = mode;
+        m_data->legendMode = mode;
         legendChanged();
     }
 }
@@ -198,13 +198,13 @@ void QwtPlotShapeItem::setLegendMode( LegendMode mode )
  */
 QwtPlotShapeItem::LegendMode QwtPlotShapeItem::legendMode() const
 {
-    return d_data->legendMode;
+    return m_data->legendMode;
 }
 
 //! Bounding rectangle of the shape
 QRectF QwtPlotShapeItem::boundingRect() const
 {
-    return d_data->boundingRect;
+    return m_data->boundingRect;
 }
 
 /*!
@@ -243,16 +243,16 @@ void QwtPlotShapeItem::setPolygon( const QPolygonF &polygon )
  */
 void QwtPlotShapeItem::setShape( const QPainterPath &shape )
 {
-    if ( shape != d_data->shape )
+    if ( shape != m_data->shape )
     {
-        d_data->shape = shape;
+        m_data->shape = shape;
         if ( shape.isEmpty() )
         {
-            d_data->boundingRect = QwtPlotItem::boundingRect();
+            m_data->boundingRect = QwtPlotItem::boundingRect();
         }
         else
         {
-            d_data->boundingRect = shape.boundingRect();
+            m_data->boundingRect = shape.boundingRect();
         }
 
         itemChanged();
@@ -265,7 +265,7 @@ void QwtPlotShapeItem::setShape( const QPainterPath &shape )
  */
 QPainterPath QwtPlotShapeItem::shape() const
 {
-    return d_data->shape;
+    return m_data->shape;
 }
 
 /*!
@@ -296,9 +296,9 @@ void QwtPlotShapeItem::setPen( const QColor &color, qreal width, Qt::PenStyle st
 */
 void QwtPlotShapeItem::setPen( const QPen &pen )
 {
-    if ( pen != d_data->pen )
+    if ( pen != m_data->pen )
     {
-        d_data->pen = pen;
+        m_data->pen = pen;
         itemChanged();
     }
 }
@@ -309,7 +309,7 @@ void QwtPlotShapeItem::setPen( const QPen &pen )
 */
 QPen QwtPlotShapeItem::pen() const
 {
-    return d_data->pen;
+    return m_data->pen;
 }
 
 /*!
@@ -322,9 +322,9 @@ QPen QwtPlotShapeItem::pen() const
 */
 void QwtPlotShapeItem::setBrush( const QBrush &brush )
 {
-    if ( brush != d_data->brush )
+    if ( brush != m_data->brush )
     {
-        d_data->brush = brush;
+        m_data->brush = brush;
         itemChanged();
     }
 }
@@ -335,7 +335,7 @@ void QwtPlotShapeItem::setBrush( const QBrush &brush )
 */
 QBrush QwtPlotShapeItem::brush() const
 {
-    return d_data->brush;
+    return m_data->brush;
 }
 
 /*!
@@ -358,9 +358,9 @@ void QwtPlotShapeItem::setRenderTolerance( double tolerance )
 {
     tolerance = qwtMaxF( tolerance, 0.0 );
 
-    if ( tolerance != d_data->renderTolerance )
+    if ( tolerance != m_data->renderTolerance )
     {
-        d_data->renderTolerance = tolerance;
+        m_data->renderTolerance = tolerance;
         itemChanged();
     }
 }
@@ -371,7 +371,7 @@ void QwtPlotShapeItem::setRenderTolerance( double tolerance )
  */
 double QwtPlotShapeItem::renderTolerance() const
 {
-    return d_data->renderTolerance;
+    return m_data->renderTolerance;
 }
 
 /*!
@@ -386,11 +386,11 @@ void QwtPlotShapeItem::draw( QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     const QRectF &canvasRect ) const
 {
-    if ( d_data->shape.isEmpty() )
+    if ( m_data->shape.isEmpty() )
         return;
 
-    if ( d_data->pen.style() == Qt::NoPen
-        && d_data->brush.style() == Qt::NoBrush )
+    if ( m_data->pen.style() == Qt::NoPen
+        && m_data->brush.style() == Qt::NoBrush )
     {
         return;
     }
@@ -398,7 +398,7 @@ void QwtPlotShapeItem::draw( QPainter *painter,
     const QRectF cr = QwtScaleMap::invTransform(
         xMap, yMap, canvasRect.toRect() );
 
-    const QRectF &br = d_data->boundingRect;
+    const QRectF &br = m_data->boundingRect;
 
     if ( ( br.left() > cr.right() ) || ( br.right() < cr.left() )
         || ( br.top() > cr.bottom() ) || ( br.bottom() < cr.top() ) )
@@ -410,7 +410,7 @@ void QwtPlotShapeItem::draw( QPainter *painter,
     const bool doAlign = QwtPainter::roundingAlignment( painter );
 
     QPainterPath path = qwtTransformPath( xMap, yMap,
-        d_data->shape, doAlign );
+        m_data->shape, doAlign );
 
     if ( testPaintAttribute( QwtPlotShapeItem::ClipPolygons ) )
     {
@@ -431,9 +431,9 @@ void QwtPlotShapeItem::draw( QPainter *painter,
         path = clippedPath;
     }
 
-    if ( d_data->renderTolerance > 0.0 )
+    if ( m_data->renderTolerance > 0.0 )
     {
-        QwtWeedingCurveFitter fitter( d_data->renderTolerance );
+        QwtWeedingCurveFitter fitter( m_data->renderTolerance );
 
         QPainterPath fittedPath;
         fittedPath.setFillRule( path.fillRule() );
@@ -445,8 +445,8 @@ void QwtPlotShapeItem::draw( QPainter *painter,
         path = fittedPath;
     }
 
-    painter->setPen( d_data->pen );
-    painter->setBrush( d_data->brush );
+    painter->setPen( m_data->pen );
+    painter->setBrush( m_data->brush );
 
     painter->drawPath( path );
 }
@@ -471,9 +471,9 @@ QwtGraphic QwtPlotShapeItem::legendIcon( int index,
     if ( size.isEmpty() )
         return icon;
 
-    if ( d_data->legendMode == QwtPlotShapeItem::LegendShape )
+    if ( m_data->legendMode == QwtPlotShapeItem::LegendShape )
     {
-        const QRectF &br = d_data->boundingRect;
+        const QRectF &br = m_data->boundingRect;
 
         QPainter painter( &icon );
         painter.setRenderHint( QPainter::Antialiasing,
@@ -481,17 +481,17 @@ QwtGraphic QwtPlotShapeItem::legendIcon( int index,
 
         painter.translate( -br.topLeft() );
 
-        painter.setPen( d_data->pen );
-        painter.setBrush( d_data->brush );
-        painter.drawPath( d_data->shape );
+        painter.setPen( m_data->pen );
+        painter.setBrush( m_data->brush );
+        painter.drawPath( m_data->shape );
     }
     else
     {
         QColor iconColor;
-        if ( d_data->brush.style() != Qt::NoBrush )
-            iconColor = d_data->brush.color();
+        if ( m_data->brush.style() != Qt::NoBrush )
+            iconColor = m_data->brush.color();
         else
-            iconColor = d_data->pen.color();
+            iconColor = m_data->pen.color();
 
         icon = defaultIcon( iconColor, size );
     }

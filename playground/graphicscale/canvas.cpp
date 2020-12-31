@@ -9,39 +9,39 @@
 
 Canvas::Canvas( Mode mode, QWidget *parent ):
     QWidget( parent ),
-    d_mode( mode )
+    m_mode( mode )
 {
     const int m = 10;
     setContentsMargins( m, m, m, m );
 
-    if ( d_mode == Svg )
-        d_renderer = new QSvgRenderer( this );
+    if ( m_mode == Svg )
+        m_renderer = new QSvgRenderer( this );
     else
-        d_graphic = new QwtGraphic();
+        m_graphic = new QwtGraphic();
 }
 
 Canvas::~Canvas()
 {
-    if ( d_mode == VectorGraphic )
-        delete d_graphic;
+    if ( m_mode == VectorGraphic )
+        delete m_graphic;
 }
 
 void Canvas::setSvg( const QByteArray &svgData )
 {
-    if ( d_mode == VectorGraphic )
+    if ( m_mode == VectorGraphic )
     {
-        d_graphic->reset();
+        m_graphic->reset();
 
         QSvgRenderer renderer;
         renderer.load( svgData );
 
-        QPainter p( d_graphic );
+        QPainter p( m_graphic );
         renderer.render( &p, renderer.viewBoxF() );
         p.end();
     }
     else
     {
-        d_renderer->load( svgData );
+        m_renderer->load( svgData );
     }
 
     update();
@@ -66,12 +66,12 @@ void Canvas::paintEvent( QPaintEvent * )
 
 void Canvas::render( QPainter *painter, const QRect &rect ) const
 {
-    if ( d_mode == Svg )
+    if ( m_mode == Svg )
     {
-        d_renderer->render( painter, rect );
+        m_renderer->render( painter, rect );
     }
     else
     {
-        d_graphic->render( painter, rect );
+        m_graphic->render( painter, rect );
     }
 }

@@ -60,67 +60,67 @@ public:
 
     SplineFitter( Mode mode ):
         QwtCurveFitter( QwtCurveFitter::Path ),
-        d_spline(NULL)
+        m_spline(NULL)
     {
         switch( mode )
         {
             case PleasingSpline:
             {
-                d_spline = new QwtSplinePleasing();
+                m_spline = new QwtSplinePleasing();
                 break;
             }
             case PChipSpline:
             {
-                d_spline = new QwtSplineLocal( QwtSplineLocal::PChip );
+                m_spline = new QwtSplineLocal( QwtSplineLocal::PChip );
                 break;
             }
             case AkimaSpline:
             {
-                d_spline = new QwtSplineLocal( QwtSplineLocal::Akima );
+                m_spline = new QwtSplineLocal( QwtSplineLocal::Akima );
                 break;
             }
             case CubicSpline:
             {
-                d_spline = new QwtSplineCubic();
+                m_spline = new QwtSplineCubic();
                 break;
             }
             case CardinalSpline:
             {
-                d_spline = new QwtSplineLocal( QwtSplineLocal::Cardinal );
+                m_spline = new QwtSplineLocal( QwtSplineLocal::Cardinal );
                 break;
             }
             case ParabolicBlendingSpline:
             {
-                d_spline = new QwtSplineLocal( QwtSplineLocal::ParabolicBlending );
+                m_spline = new QwtSplineLocal( QwtSplineLocal::ParabolicBlending );
                 break;
             }
             case BasisSpline:
             {
-                d_spline = new QwtSplineBasis();
+                m_spline = new QwtSplineBasis();
                 break;
             }
         }
-        if ( d_spline )
-            d_spline->setParametrization( QwtSplineParametrization::ParameterX );
+        if ( m_spline )
+            m_spline->setParametrization( QwtSplineParametrization::ParameterX );
     }
 
     ~SplineFitter()
     {
-        delete d_spline;
+        delete m_spline;
     }
 
     void setClosing( bool on )
     {
-        if ( d_spline == NULL )
+        if ( m_spline == NULL )
             return;
 
-        d_spline->setBoundaryType(
+        m_spline->setBoundaryType(
             on ? QwtSpline::ClosedPolygon : QwtSpline::ConditionalBoundaries );
     }
 
     void setBoundaryCondition( const QString &condition )
     {
-        QwtSplineC2 *splineC2 = dynamic_cast<QwtSplineC2 *>( d_spline );
+        QwtSplineC2 *splineC2 = dynamic_cast<QwtSplineC2 *>( m_spline );
         if ( splineC2 )
         {
             if ( condition == "Cubic Runout" )
@@ -136,7 +136,7 @@ public:
             }
         }
 
-        QwtSplineC1 *splineC1 = dynamic_cast<QwtSplineC1 *>( d_spline );
+        QwtSplineC1 *splineC1 = dynamic_cast<QwtSplineC1 *>( m_spline );
         if ( splineC1 )
         {
             if ( condition == "Linear Runout" )
@@ -178,35 +178,35 @@ public:
             type = QwtSplineParametrization::ParameterManhattan;
         }
 
-        d_spline->setParametrization( type );
+        m_spline->setParametrization( type );
     }
 
     virtual QPolygonF fitCurve( const QPolygonF &points ) const QWT_OVERRIDE
     {
-        return d_spline->polygon( points, 0.5 );
+        return m_spline->polygon( points, 0.5 );
     }
 
     virtual QPainterPath fitCurvePath( const QPolygonF &points ) const QWT_OVERRIDE
     {
-        return d_spline->painterPath( points );
+        return m_spline->painterPath( points );
     }
 
 private:
     void setBoundaryConditions( int condition, double value = 0.0 )
     {
-        if ( d_spline == NULL )
+        if ( m_spline == NULL )
             return;
 
         // always the same at both ends
 
-        d_spline->setBoundaryCondition( QwtSpline::AtBeginning, condition );
-        d_spline->setBoundaryValue( QwtSpline::AtBeginning, value );
+        m_spline->setBoundaryCondition( QwtSpline::AtBeginning, condition );
+        m_spline->setBoundaryValue( QwtSpline::AtBeginning, value );
 
-        d_spline->setBoundaryCondition( QwtSpline::AtEnd, condition );
-        d_spline->setBoundaryValue( QwtSpline::AtEnd, value );
+        m_spline->setBoundaryCondition( QwtSpline::AtEnd, condition );
+        m_spline->setBoundaryValue( QwtSpline::AtEnd, value );
     }
 
-    QwtSpline *d_spline;
+    QwtSpline *m_spline;
 };
 
 class Curve: public QwtPlotCurve
@@ -226,7 +226,7 @@ public:
 
 Plot::Plot( bool parametric, QWidget *parent ):
     QwtPlot( parent ),
-    d_boundaryCondition( QwtSplineC1::Clamped2 )
+    m_boundaryCondition( QwtSplineC1::Clamped2 )
 {
     setTitle( "Points can be dragged using the mouse" );
 
@@ -242,18 +242,18 @@ Plot::Plot( bool parametric, QWidget *parent ):
     connect( legend, SIGNAL( checked( const QVariant &, bool, int ) ),
         SLOT( legendChecked( const QVariant &, bool ) ) );
 
-    d_marker = new QwtPlotMarker( "Marker" );
-    d_marker->setLineStyle( QwtPlotMarker::VLine );
-    d_marker->setLinePen( QPen( Qt::darkRed, 0, Qt::DotLine ) );
+    m_marker = new QwtPlotMarker( "Marker" );
+    m_marker->setLineStyle( QwtPlotMarker::VLine );
+    m_marker->setLinePen( QPen( Qt::darkRed, 0, Qt::DotLine ) );
 
     QwtText text( "click on the axes" );
     text.setBackgroundBrush( Qt::white );
     text.setColor( Qt::darkRed );
 
-    d_marker->setLabel( text );
-    d_marker->setLabelOrientation( Qt::Vertical );
-    d_marker->setXValue( 5 );
-    d_marker->attach( this );
+    m_marker->setLabel( text );
+    m_marker->setLabelOrientation( Qt::Vertical );
+    m_marker->setXValue( 5 );
+    m_marker->attach( this );
     // Avoid jumping when label with 3 digits
     // appear/disappear when scrolling vertically
 
@@ -261,11 +261,11 @@ Plot::Plot( bool parametric, QWidget *parent ):
     sd->setMinimumExtent( sd->extent( axisWidget( QwtPlot::yLeft )->font() ) );
 
     // curves
-    d_curve = new Curve( "Lines", QColor() );
-    d_curve->setStyle( QwtPlotCurve::NoCurve );
-    d_curve->setSymbol( new Symbol() );
-    d_curve->setItemAttribute( QwtPlotItem::Legend, false );
-    d_curve->setZ( 1000 );
+    m_curve = new Curve( "Lines", QColor() );
+    m_curve->setStyle( QwtPlotCurve::NoCurve );
+    m_curve->setSymbol( new Symbol() );
+    m_curve->setItemAttribute( QwtPlotItem::Legend, false );
+    m_curve->setZ( 1000 );
 
     QPolygonF points;
 
@@ -314,8 +314,8 @@ Plot::Plot( bool parametric, QWidget *parent ):
             << QPointF( 82, 30 ) << QPointF( 87, 40 ) << QPointF( 95, 70 );
     }
 
-    d_curve->setSamples( points );
-    d_curve->attach( this );
+    m_curve->setSamples( points );
+    m_curve->attach( this );
 
     //
 
@@ -386,26 +386,26 @@ Plot::Plot( bool parametric, QWidget *parent ):
     // We add a wheel to the canvas
     // ------------------------------------
 
-    d_wheel = new QwtWheel( canvas() );
-    d_wheel->setOrientation( Qt::Vertical );
-    d_wheel->setRange( -100, 100 );
-    d_wheel->setValue( 0.0 );
-    d_wheel->setMass( 0.2 );
-    d_wheel->setTotalAngle( 4 * 360.0 );
-    d_wheel->resize( 16, 60 );
+    m_wheel = new QwtWheel( canvas() );
+    m_wheel->setOrientation( Qt::Vertical );
+    m_wheel->setRange( -100, 100 );
+    m_wheel->setValue( 0.0 );
+    m_wheel->setMass( 0.2 );
+    m_wheel->setTotalAngle( 4 * 360.0 );
+    m_wheel->resize( 16, 60 );
 
     plotLayout()->setAlignCanvasToScale( QwtPlot::xTop, true );
     plotLayout()->setAlignCanvasToScale( QwtPlot::xBottom, true );
     plotLayout()->setAlignCanvasToScale( QwtPlot::yLeft, true );
-    plotLayout()->setCanvasMargin( d_wheel->width() + 4, QwtPlot::yRight );
+    plotLayout()->setCanvasMargin( m_wheel->width() + 4, QwtPlot::yRight );
 
-    connect( d_wheel, SIGNAL( valueChanged( double ) ),
+    connect( m_wheel, SIGNAL( valueChanged( double ) ),
         SLOT( scrollLeftAxis( double ) ) );
 
     // we need the resize events, to lay out the wheel
     canvas()->installEventFilter( this );
 
-    d_wheel->setWhatsThis(
+    m_wheel->setWhatsThis(
         "With the wheel you can move the visible area." );
     axisWidget( xBottom )->setWhatsThis(
         "Selecting a value at the scale will insert a new curve." );
@@ -427,8 +427,8 @@ bool Plot::eventFilter( QObject *object, QEvent *e )
             const int margin = 2;
 
             const QRect cr = canvas()->contentsRect();
-            d_wheel->move( cr.right() - margin - d_wheel->width(),
-                cr.center().y() - ( d_wheel->height() ) / 2 );
+            m_wheel->move( cr.right() - margin - m_wheel->width(),
+                cr.center().y() - ( m_wheel->height() ) / 2 );
         }
     }
 
@@ -439,15 +439,15 @@ void Plot::updateMarker( int axis, double value )
 {
     if ( axis == yLeft || axis == yRight )
     {
-        d_marker->setLineStyle( QwtPlotMarker::HLine );
-        d_marker->setLabelOrientation( Qt::Horizontal );
-        d_marker->setYValue( value );
+        m_marker->setLineStyle( QwtPlotMarker::HLine );
+        m_marker->setLabelOrientation( Qt::Horizontal );
+        m_marker->setYValue( value );
     }
     else
     {
-        d_marker->setLineStyle( QwtPlotMarker::VLine );
-        d_marker->setLabelOrientation( Qt::Vertical );
-        d_marker->setXValue( value );
+        m_marker->setLineStyle( QwtPlotMarker::VLine );
+        m_marker->setLabelOrientation( Qt::Vertical );
+        m_marker->setXValue( value );
     }
 
     replot();
@@ -530,15 +530,15 @@ void Plot::setParametric( const QString &parameterType )
 void Plot::setOverlaying( bool on )
 {
     QPolygonF points;
-    for ( size_t i = 0; i < d_curve->dataSize(); i++ )
-        points += d_curve->sample( i );
+    for ( size_t i = 0; i < m_curve->dataSize(); i++ )
+        points += m_curve->sample( i );
 
     QwtPlotItemList curves = itemList( QwtPlotItem::Rtti_PlotCurve );
 
     for ( int i = 0; i < curves.size(); i++ )
     {
         QwtPlotCurve *curve = static_cast<QwtPlotCurve *>( curves[i] );
-        if ( curve == d_curve )
+        if ( curve == m_curve )
             continue;
 
         QwtSymbol *symbol = NULL;
@@ -553,7 +553,7 @@ void Plot::setOverlaying( bool on )
         curve->setSamples( points );
     }
 
-    d_curve->setVisible( on );
+    m_curve->setVisible( on );
 
     replot();
 }

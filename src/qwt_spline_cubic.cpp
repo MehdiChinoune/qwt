@@ -969,7 +969,7 @@ public:
  */
 QwtSplineCubic::QwtSplineCubic()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     // a natural spline
 
@@ -983,7 +983,7 @@ QwtSplineCubic::QwtSplineCubic()
 //! Destructor
 QwtSplineCubic::~QwtSplineCubic()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!

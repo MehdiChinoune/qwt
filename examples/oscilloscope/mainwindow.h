@@ -31,12 +31,12 @@ Q_SIGNALS:
     void signalIntervalChanged( double );
 
 private:
-    Knob *d_frequencyKnob;
-    Knob *d_amplitudeKnob;
-    WheelBox *d_timerWheel;
-    WheelBox *d_intervalWheel;
+    Knob *m_frequencyKnob;
+    Knob *m_amplitudeKnob;
+    WheelBox *m_timerWheel;
+    WheelBox *m_intervalWheel;
 
-    Plot *d_plot;
+    Plot *m_plot;
 };
 
 #endif

@@ -22,15 +22,15 @@
 
 Plot::Plot( QWidget *parent ):
     QwtPlot( parent ),
-    d_mapItem( NULL ),
-    d_mapRect( 0.0, 0.0, 100.0, 100.0 ) // something
+    m_mapItem( NULL ),
+    m_mapRect( 0.0, 0.0, 100.0, 100.0 ) // something
 {
 #if DEBUG_SCALE
     QwtPlotGrid *grid = new QwtPlotGrid();
     grid->attach( this );
 #else
     /*
-       d_mapRect is only a reference for zooming, but
+       m_mapRect is only a reference for zooming, but
        the ranges are nothing useful for the user. So we
        hide the axes.
      */
@@ -73,10 +73,10 @@ void Plot::loadSVG()
 
 void Plot::loadSVG( const QString &fileName )
 {
-    if ( d_mapItem == NULL )
+    if ( m_mapItem == NULL )
     {
-        d_mapItem = new QwtPlotGraphicItem();
-        d_mapItem->attach( this );
+        m_mapItem = new QwtPlotGraphicItem();
+        m_mapItem->attach( this );
     }
 
     QwtGraphic graphic;
@@ -88,7 +88,7 @@ void Plot::loadSVG( const QString &fileName )
         renderer.render( &p );
     }
 
-    d_mapItem->setGraphic( d_mapRect, graphic );
+    m_mapItem->setGraphic( m_mapRect, graphic );
 
     rescale();
     replot();
@@ -97,9 +97,9 @@ void Plot::loadSVG( const QString &fileName )
 void Plot::rescale()
 {
     setAxisScale( QwtPlot::xBottom,
-        d_mapRect.left(), d_mapRect.right() );
+        m_mapRect.left(), m_mapRect.right() );
     setAxisScale( QwtPlot::yLeft,
-        d_mapRect.top(), d_mapRect.bottom() );
+        m_mapRect.top(), m_mapRect.bottom() );
 }
 
 #include "moc_plot.cpp"

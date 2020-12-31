@@ -19,8 +19,8 @@ public:
     MainWindow( QWidget *parent = 0 );
 
 private:
-    Plot *d_plot;
-    TransformPlot *d_transformPlot;
+    Plot *m_plot;
+    TransformPlot *m_transformPlot;
 };
 
 #endif

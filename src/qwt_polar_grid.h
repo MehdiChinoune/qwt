@@ -178,7 +178,7 @@ private:
     class GridData;
     class AxisData;
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPolarGrid::DisplayFlags )

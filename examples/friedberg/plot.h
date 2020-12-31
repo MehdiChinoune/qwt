@@ -45,8 +45,8 @@ private:
 
     QwtScaleDiv yearScaleDiv() const;
 
-    QwtPlotIntervalCurve *d_intervalCurve;
-    QwtPlotCurve *d_curve;
+    QwtPlotIntervalCurve *m_intervalCurve;
+    QwtPlotCurve *m_curve;
 };
 
 #endif

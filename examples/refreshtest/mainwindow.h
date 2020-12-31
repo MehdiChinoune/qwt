@@ -26,9 +26,9 @@ private Q_SLOTS:
     void applySettings( const Settings & );
 
 private:
-    Plot *d_plot;
-    Panel *d_panel;
-    QLabel *d_frameCount;
+    Plot *m_plot;
+    Panel *m_panel;
+    QLabel *m_frameCount;
 };
 
 #endif

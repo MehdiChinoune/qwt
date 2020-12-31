@@ -26,7 +26,7 @@ private:
     void loadSVG( const QString & );
     void loadPath( const QPainterPath & );
 
-    Canvas *d_canvas[2];
+    Canvas *m_canvas[2];
 };
 
 #endif

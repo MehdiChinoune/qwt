@@ -123,9 +123,9 @@ QwtPlot::~QwtPlot()
     setAutoReplot( false );
     detachItems( QwtPlotItem::Rtti_PlotItem, autoDelete() );
 
-    delete d_data->layout;
+    delete m_data->layout;
     deleteAxesData();
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -134,38 +134,38 @@ QwtPlot::~QwtPlot()
  */
 void QwtPlot::initPlot( const QwtText &title )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
-    d_data->layout = new QwtPlotLayout;
-    d_data->autoReplot = false;
+    m_data->layout = new QwtPlotLayout;
+    m_data->autoReplot = false;
 
     // title
-    d_data->titleLabel = new QwtTextLabel( this );
-    d_data->titleLabel->setObjectName( "QwtPlotTitle" );
-    d_data->titleLabel->setFont( QFont( fontInfo().family(), 14, QFont::Bold ) );
+    m_data->titleLabel = new QwtTextLabel( this );
+    m_data->titleLabel->setObjectName( "QwtPlotTitle" );
+    m_data->titleLabel->setFont( QFont( fontInfo().family(), 14, QFont::Bold ) );
 
     QwtText text( title );
     text.setRenderFlags( Qt::AlignCenter | Qt::TextWordWrap );
-    d_data->titleLabel->setText( text );
+    m_data->titleLabel->setText( text );
 
     // footer
-    d_data->footerLabel = new QwtTextLabel( this );
-    d_data->footerLabel->setObjectName( "QwtPlotFooter" );
+    m_data->footerLabel = new QwtTextLabel( this );
+    m_data->footerLabel->setObjectName( "QwtPlotFooter" );
 
     QwtText footer;
     footer.setRenderFlags( Qt::AlignCenter | Qt::TextWordWrap );
-    d_data->footerLabel->setText( footer );
+    m_data->footerLabel->setText( footer );
 
     // legend
-    d_data->legend = NULL;
+    m_data->legend = NULL;
 
     // axis
     initAxesData();
 
     // canvas
-    d_data->canvas = new QwtPlotCanvas( this );
-    d_data->canvas->setObjectName( "QwtPlotCanvas" );
-    d_data->canvas->installEventFilter( this );
+    m_data->canvas = new QwtPlotCanvas( this );
+    m_data->canvas->setObjectName( "QwtPlotCanvas" );
+    m_data->canvas->installEventFilter( this );
 
     setSizePolicy( QSizePolicy::MinimumExpanding,
         QSizePolicy::MinimumExpanding );
@@ -173,9 +173,9 @@ void QwtPlot::initPlot( const QwtText &title )
     resize( 200, 200 );
 
     QList<QWidget *> focusChain;
-    focusChain << this << d_data->titleLabel << axisWidget( xTop )
-        << axisWidget( yLeft ) << d_data->canvas << axisWidget( yRight )
-        << axisWidget( xBottom ) << d_data->footerLabel;
+    focusChain << this << m_data->titleLabel << axisWidget( xTop )
+        << axisWidget( yLeft ) << m_data->canvas << axisWidget( yRight )
+        << axisWidget( xBottom ) << m_data->footerLabel;
 
     for ( int i = 0; i < focusChain.size() - 1; i++ )
         qwtSetTabOrder( focusChain[i], focusChain[i+1], false );
@@ -209,11 +209,11 @@ void QwtPlot::initPlot( const QwtText &title )
  */
 void QwtPlot::setCanvas( QWidget *canvas )
 {
-    if ( canvas == d_data->canvas )
+    if ( canvas == m_data->canvas )
         return;
 
-    delete d_data->canvas;
-    d_data->canvas = canvas;
+    delete m_data->canvas;
+    m_data->canvas = canvas;
 
     if ( canvas )
     {
@@ -267,7 +267,7 @@ bool QwtPlot::event( QEvent *event )
 */
 bool QwtPlot::eventFilter( QObject *object, QEvent *event )
 {
-    if ( object == d_data->canvas )
+    if ( object == m_data->canvas )
     {
         if ( event->type() == QEvent::Resize )
         {
@@ -285,7 +285,7 @@ bool QwtPlot::eventFilter( QObject *object, QEvent *event )
 //! Replots the plot if autoReplot() is \c true.
 void QwtPlot::autoRefresh()
 {
-    if ( d_data->autoReplot )
+    if ( m_data->autoReplot )
         replot();
 }
 
@@ -306,7 +306,7 @@ void QwtPlot::autoRefresh()
 */
 void QwtPlot::setAutoReplot( bool tf )
 {
-    d_data->autoReplot = tf;
+    m_data->autoReplot = tf;
 }
 
 /*!
@@ -315,7 +315,7 @@ void QwtPlot::setAutoReplot( bool tf )
 */
 bool QwtPlot::autoReplot() const
 {
-    return d_data->autoReplot;
+    return m_data->autoReplot;
 }
 
 /*!
@@ -324,9 +324,9 @@ bool QwtPlot::autoReplot() const
 */
 void QwtPlot::setTitle( const QString &title )
 {
-    if ( title != d_data->titleLabel->text().text() )
+    if ( title != m_data->titleLabel->text().text() )
     {
-        d_data->titleLabel->setText( title );
+        m_data->titleLabel->setText( title );
         updateLayout();
     }
 }
@@ -337,9 +337,9 @@ void QwtPlot::setTitle( const QString &title )
 */
 void QwtPlot::setTitle( const QwtText &title )
 {
-    if ( title != d_data->titleLabel->text() )
+    if ( title != m_data->titleLabel->text() )
     {
-        d_data->titleLabel->setText( title );
+        m_data->titleLabel->setText( title );
         updateLayout();
     }
 }
@@ -347,19 +347,19 @@ void QwtPlot::setTitle( const QwtText &title )
 //! \return Title of the plot
 QwtText QwtPlot::title() const
 {
-    return d_data->titleLabel->text();
+    return m_data->titleLabel->text();
 }
 
 //! \return Title label widget.
 QwtTextLabel *QwtPlot::titleLabel()
 {
-    return d_data->titleLabel;
+    return m_data->titleLabel;
 }
 
 //! \return Title label widget.
 const QwtTextLabel *QwtPlot::titleLabel() const
 {
-    return d_data->titleLabel;
+    return m_data->titleLabel;
 }
 
 /*!
@@ -368,9 +368,9 @@ const QwtTextLabel *QwtPlot::titleLabel() const
 */
 void QwtPlot::setFooter( const QString &text )
 {
-    if ( text != d_data->footerLabel->text().text() )
+    if ( text != m_data->footerLabel->text().text() )
     {
-        d_data->footerLabel->setText( text );
+        m_data->footerLabel->setText( text );
         updateLayout();
     }
 }
@@ -381,9 +381,9 @@ void QwtPlot::setFooter( const QString &text )
 */
 void QwtPlot::setFooter( const QwtText &text )
 {
-    if ( text != d_data->footerLabel->text() )
+    if ( text != m_data->footerLabel->text() )
     {
-        d_data->footerLabel->setText( text );
+        m_data->footerLabel->setText( text );
         updateLayout();
     }
 }
@@ -391,19 +391,19 @@ void QwtPlot::setFooter( const QwtText &text )
 //! \return Text of the footer
 QwtText QwtPlot::footer() const
 {
-    return d_data->footerLabel->text();
+    return m_data->footerLabel->text();
 }
 
 //! \return Footer label widget.
 QwtTextLabel *QwtPlot::footerLabel()
 {
-    return d_data->footerLabel;
+    return m_data->footerLabel;
 }
 
 //! \return Footer label widget.
 const QwtTextLabel *QwtPlot::footerLabel() const
 {
-    return d_data->footerLabel;
+    return m_data->footerLabel;
 }
 
 /*!
@@ -414,10 +414,10 @@ const QwtTextLabel *QwtPlot::footerLabel() const
  */
 void QwtPlot::setPlotLayout( QwtPlotLayout *layout )
 {
-    if ( layout != d_data->layout )
+    if ( layout != m_data->layout )
     {
-        delete d_data->layout;
-        d_data->layout = layout;
+        delete m_data->layout;
+        m_data->layout = layout;
 
         updateLayout();
     }
@@ -426,13 +426,13 @@ void QwtPlot::setPlotLayout( QwtPlotLayout *layout )
 //! \return the plot's layout
 QwtPlotLayout *QwtPlot::plotLayout()
 {
-    return d_data->layout;
+    return m_data->layout;
 }
 
 //! \return the plot's layout
 const QwtPlotLayout *QwtPlot::plotLayout() const
 {
-    return d_data->layout;
+    return m_data->layout;
 }
 
 /*!
@@ -441,7 +441,7 @@ const QwtPlotLayout *QwtPlot::plotLayout() const
 */
 QwtAbstractLegend *QwtPlot::legend()
 {
-    return d_data->legend;
+    return m_data->legend;
 }
 
 /*!
@@ -450,7 +450,7 @@ QwtAbstractLegend *QwtPlot::legend()
 */
 const QwtAbstractLegend *QwtPlot::legend() const
 {
-    return d_data->legend;
+    return m_data->legend;
 }
 
 
@@ -459,7 +459,7 @@ const QwtAbstractLegend *QwtPlot::legend() const
 */
 QWidget *QwtPlot::canvas()
 {
-    return d_data->canvas;
+    return m_data->canvas;
 }
 
 /*!
@@ -467,7 +467,7 @@ QWidget *QwtPlot::canvas()
 */
 const QWidget *QwtPlot::canvas() const
 {
-    return d_data->canvas;
+    return m_data->canvas;
 }
 
 /*!
@@ -511,7 +511,7 @@ QSize QwtPlot::sizeHint() const
 */
 QSize QwtPlot::minimumSizeHint() const
 {
-    QSize hint = d_data->layout->minimumSizeHint( this );
+    QSize hint = m_data->layout->minimumSizeHint( this );
     hint += QSize( 2 * frameWidth(), 2 * frameWidth() );
 
     return hint;
@@ -550,14 +550,14 @@ void QwtPlot::replot()
      */
     QApplication::sendPostedEvents( this, QEvent::LayoutRequest );
 
-    if ( d_data->canvas )
+    if ( m_data->canvas )
     {
         const bool ok = QMetaObject::invokeMethod(
-            d_data->canvas, "replot", Qt::DirectConnection );
+            m_data->canvas, "replot", Qt::DirectConnection );
         if ( !ok )
         {
             // fallback, when canvas has no a replot method
-            d_data->canvas->update( d_data->canvas->contentsRect() );
+            m_data->canvas->update( m_data->canvas->contentsRect() );
         }
     }
 
@@ -570,36 +570,36 @@ void QwtPlot::replot()
 */
 void QwtPlot::updateLayout()
 {
-    d_data->layout->activate( this, contentsRect() );
+    m_data->layout->activate( this, contentsRect() );
 
-    QRect titleRect = d_data->layout->titleRect().toRect();
-    QRect footerRect = d_data->layout->footerRect().toRect();
+    QRect titleRect = m_data->layout->titleRect().toRect();
+    QRect footerRect = m_data->layout->footerRect().toRect();
     QRect scaleRect[QwtPlot::axisCnt];
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
-        scaleRect[axisId] = d_data->layout->scaleRect( axisId ).toRect();
-    QRect legendRect = d_data->layout->legendRect().toRect();
-    QRect canvasRect = d_data->layout->canvasRect().toRect();
+        scaleRect[axisId] = m_data->layout->scaleRect( axisId ).toRect();
+    QRect legendRect = m_data->layout->legendRect().toRect();
+    QRect canvasRect = m_data->layout->canvasRect().toRect();
 
     // resize and show the visible widgets
 
-    if ( !d_data->titleLabel->text().isEmpty() )
+    if ( !m_data->titleLabel->text().isEmpty() )
     {
-        d_data->titleLabel->setGeometry( titleRect );
-        if ( !d_data->titleLabel->isVisibleTo( this ) )
-            d_data->titleLabel->show();
+        m_data->titleLabel->setGeometry( titleRect );
+        if ( !m_data->titleLabel->isVisibleTo( this ) )
+            m_data->titleLabel->show();
     }
     else
-        d_data->titleLabel->hide();
+        m_data->titleLabel->hide();
 
-    if ( !d_data->footerLabel->text().isEmpty() )
+    if ( !m_data->footerLabel->text().isEmpty() )
     {
-        d_data->footerLabel->setGeometry( footerRect );
-        if ( !d_data->footerLabel->isVisibleTo( this ) )
-            d_data->footerLabel->show();
+        m_data->footerLabel->setGeometry( footerRect );
+        if ( !m_data->footerLabel->isVisibleTo( this ) )
+            m_data->footerLabel->show();
     }
     else
     {
-        d_data->footerLabel->hide();
+        m_data->footerLabel->hide();
     }
 
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
@@ -626,20 +626,20 @@ void QwtPlot::updateLayout()
         }
     }
 
-    if ( d_data->legend )
+    if ( m_data->legend )
     {
-        if ( d_data->legend->isEmpty() )
+        if ( m_data->legend->isEmpty() )
         {
-            d_data->legend->hide();
+            m_data->legend->hide();
         }
         else
         {
-            d_data->legend->setGeometry( legendRect );
-            d_data->legend->show();
+            m_data->legend->setGeometry( legendRect );
+            m_data->legend->show();
         }
     }
 
-    d_data->canvas->setGeometry( canvasRect );
+    m_data->canvas->setGeometry( canvasRect );
 }
 
 /*!
@@ -731,7 +731,7 @@ void QwtPlot::drawCanvas( QPainter *painter )
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
         maps[axisId] = canvasMap( axisId );
 
-    drawItems( painter, d_data->canvas->contentsRect(), maps );
+    drawItems( painter, m_data->canvas->contentsRect(), maps );
 }
 
 /*!
@@ -786,7 +786,7 @@ void QwtPlot::drawItems( QPainter *painter, const QRectF &canvasRect,
 QwtScaleMap QwtPlot::canvasMap( int axisId ) const
 {
     QwtScaleMap map;
-    if ( !d_data->canvas )
+    if ( !m_data->canvas )
         return map;
 
     map.setTransformation( axisScaleEngine( axisId )->transformation() );
@@ -799,20 +799,20 @@ QwtScaleMap QwtPlot::canvasMap( int axisId ) const
         const QwtScaleWidget *s = axisWidget( axisId );
         if ( axisId == yLeft || axisId == yRight )
         {
-            double y = s->y() + s->startBorderDist() - d_data->canvas->y();
+            double y = s->y() + s->startBorderDist() - m_data->canvas->y();
             double h = s->height() - s->startBorderDist() - s->endBorderDist();
             map.setPaintInterval( y + h, y );
         }
         else
         {
-            double x = s->x() + s->startBorderDist() - d_data->canvas->x();
+            double x = s->x() + s->startBorderDist() - m_data->canvas->x();
             double w = s->width() - s->startBorderDist() - s->endBorderDist();
             map.setPaintInterval( x, x + w );
         }
     }
     else
     {
-        const QRect &canvasRect = d_data->canvas->contentsRect();
+        const QRect &canvasRect = m_data->canvas->contentsRect();
         if ( axisId == yLeft || axisId == yRight )
         {
             int top = 0;
@@ -856,7 +856,7 @@ QwtScaleMap QwtPlot::canvasMap( int axisId ) const
 */
 void QwtPlot::setCanvasBackground( const QBrush &brush )
 {
-    QPalette pal = d_data->canvas->palette();
+    QPalette pal = m_data->canvas->palette();
     pal.setBrush( QPalette::Window, brush );
 
     canvas()->setPalette( pal );
@@ -920,24 +920,24 @@ bool QwtPlot::axisValid( int axisId )
 void QwtPlot::insertLegend( QwtAbstractLegend *legend,
     QwtPlot::LegendPosition pos, double ratio )
 {
-    d_data->layout->setLegendPosition( pos, ratio );
+    m_data->layout->setLegendPosition( pos, ratio );
 
-    if ( legend != d_data->legend )
+    if ( legend != m_data->legend )
     {
-        if ( d_data->legend && d_data->legend->parent() == this )
-            delete d_data->legend;
+        if ( m_data->legend && m_data->legend->parent() == this )
+            delete m_data->legend;
 
-        d_data->legend = legend;
+        m_data->legend = legend;
 
-        if ( d_data->legend )
+        if ( m_data->legend )
         {
             connect(
                 this, SIGNAL(legendDataChanged(QVariant,QList<QwtLegendData>)),
-                d_data->legend, SLOT(updateLegend(QVariant,QList<QwtLegendData>) )
+                m_data->legend, SLOT(updateLegend(QVariant,QList<QwtLegendData>) )
             );
 
-            if ( d_data->legend->parent() != this )
-                d_data->legend->setParent( this );
+            if ( m_data->legend->parent() != this )
+                m_data->legend->setParent( this );
 
             qwtEnableLegendItems( this, false );
             updateLegend();
@@ -946,7 +946,7 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
             QwtLegend *lgd = qobject_cast<QwtLegend *>( legend );
             if ( lgd )
             {
-                switch ( d_data->layout->legendPosition() )
+                switch ( m_data->layout->legendPosition() )
                 {
                     case LeftLegend:
                     case RightLegend:
@@ -967,7 +967,7 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
             }
 
             QWidget *previousInChain = NULL;
-            switch ( d_data->layout->legendPosition() )
+            switch ( m_data->layout->legendPosition() )
             {
                 case LeftLegend:
                 {

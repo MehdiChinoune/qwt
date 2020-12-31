@@ -90,13 +90,13 @@ public:
 QwtPolarRenderer::QwtPolarRenderer( QObject *parent ):
     QObject( parent )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtPolarRenderer::~QwtPolarRenderer()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -332,7 +332,7 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
         return;
     }
 
-    d_data->plot = plot;
+    m_data->plot = plot;
 
     /*
       The layout engine uses the same methods as they are used
@@ -378,7 +378,7 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
 
     layout->invalidate();
 
-    d_data->plot = NULL;
+    m_data->plot = NULL;
 }
 
 /*!
@@ -390,7 +390,7 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
 
 void QwtPolarRenderer::renderTitle( QPainter *painter, const QRectF &rect ) const
 {
-    QwtTextLabel *title = d_data->plot->titleLabel();
+    QwtTextLabel *title = m_data->plot->titleLabel();
 
     painter->setFont( title->font() );
 

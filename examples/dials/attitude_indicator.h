@@ -27,7 +27,7 @@ public:
     AttitudeIndicator( QWidget *parent = NULL );
 
     double angle() const { return value(); }
-    double gradient() const { return d_gradient; }
+    double gradient() const { return m_gradient; }
 
 public Q_SLOTS:
     void setGradient( double );
@@ -43,7 +43,7 @@ protected:
         const QPointF &center, double radius ) const QWT_OVERRIDE;
 
 private:
-    double d_gradient;
+    double m_gradient;
 };
 
 #endif

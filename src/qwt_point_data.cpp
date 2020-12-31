@@ -19,8 +19,8 @@
 */
 QwtSyntheticPointData::QwtSyntheticPointData(
         size_t size, const QwtInterval &interval ):
-    d_size( size ),
-    d_interval( interval )
+    m_size( size ),
+    m_interval( interval )
 {
 }
 
@@ -32,7 +32,7 @@ QwtSyntheticPointData::QwtSyntheticPointData(
 */
 void QwtSyntheticPointData::setSize( size_t size )
 {
-    d_size = size;
+    m_size = size;
 }
 
 /*!
@@ -41,7 +41,7 @@ void QwtSyntheticPointData::setSize( size_t size )
 */
 size_t QwtSyntheticPointData::size() const
 {
-    return d_size;
+    return m_size;
 }
 
 /*!
@@ -52,7 +52,7 @@ size_t QwtSyntheticPointData::size() const
 */
 void QwtSyntheticPointData::setInterval( const QwtInterval &interval )
 {
-    d_interval = interval.normalized();
+    m_interval = interval.normalized();
 }
 
 /*!
@@ -61,7 +61,7 @@ void QwtSyntheticPointData::setInterval( const QwtInterval &interval )
 */
 QwtInterval QwtSyntheticPointData::interval() const
 {
-    return d_interval;
+    return m_interval;
 }
 
 /*!
@@ -77,8 +77,8 @@ QwtInterval QwtSyntheticPointData::interval() const
 */
 void QwtSyntheticPointData::setRectOfInterest( const QRectF &rect )
 {
-    d_rectOfInterest = rect;
-    d_intervalOfInterest = QwtInterval(
+    m_rectOfInterest = rect;
+    m_intervalOfInterest = QwtInterval(
         rect.left(), rect.right() ).normalized();
 }
 
@@ -88,7 +88,7 @@ void QwtSyntheticPointData::setRectOfInterest( const QRectF &rect )
 */
 QRectF QwtSyntheticPointData::rectOfInterest() const
 {
-    return d_rectOfInterest;
+    return m_rectOfInterest;
 }
 
 /*!
@@ -104,8 +104,8 @@ QRectF QwtSyntheticPointData::rectOfInterest() const
 */
 QRectF QwtSyntheticPointData::boundingRect() const
 {
-    if ( d_size == 0 ||
-        !( d_interval.isValid() || d_intervalOfInterest.isValid() ) )
+    if ( m_size == 0 ||
+        !( m_interval.isValid() || m_intervalOfInterest.isValid() ) )
     {
         return QRectF( 1.0, 1.0, -2.0, -2.0 ); // something invalid
     }
@@ -124,7 +124,7 @@ QRectF QwtSyntheticPointData::boundingRect() const
 */
 QPointF QwtSyntheticPointData::sample( size_t index ) const
 {
-    if ( index >= d_size )
+    if ( index >= m_size )
         return QPointF( 0, 0 );
 
     const double xValue = x( index );
@@ -147,15 +147,15 @@ QPointF QwtSyntheticPointData::sample( size_t index ) const
 */
 double QwtSyntheticPointData::x( uint index ) const
 {
-    const QwtInterval &interval = d_interval.isValid() ?
-        d_interval : d_intervalOfInterest;
+    const QwtInterval &interval = m_interval.isValid() ?
+        m_interval : m_intervalOfInterest;
 
     if ( !interval.isValid() )
         return 0.0;
 
-    if ( d_size <= 1 )
+    if ( m_size <= 1 )
         return interval.minValue();
 
-    const double dx = interval.width() / ( d_size - 1 );
+    const double dx = interval.width() / ( m_size - 1 );
     return interval.minValue() + index * dx;
 }

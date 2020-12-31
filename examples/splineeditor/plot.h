@@ -38,11 +38,11 @@ private Q_SLOTS:
 private:
     void showCurve( QwtPlotItem *, bool on );
 
-    QwtPlotMarker *d_marker;
-    QwtPlotCurve *d_curve;
-    QwtWheel *d_wheel;
+    QwtPlotMarker *m_marker;
+    QwtPlotCurve *m_curve;
+    QwtWheel *m_wheel;
 
-    int d_boundaryCondition;
+    int m_boundaryCondition;
 };
 
 #endif

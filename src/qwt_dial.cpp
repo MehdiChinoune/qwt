@@ -124,7 +124,7 @@ public:
 QwtDial::QwtDial( QWidget* parent ):
     QwtAbstractSlider( parent )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setFocusPolicy( Qt::TabFocus );
 
@@ -158,7 +158,7 @@ QwtDial::QwtDial( QWidget* parent ):
 //!  Destructor
 QwtDial::~QwtDial()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -169,11 +169,11 @@ QwtDial::~QwtDial()
 */
 void QwtDial::setFrameShadow( Shadow shadow )
 {
-    if ( shadow != d_data->frameShadow )
+    if ( shadow != m_data->frameShadow )
     {
         invalidateCache();
 
-        d_data->frameShadow = shadow;
+        m_data->frameShadow = shadow;
         if ( lineWidth() > 0 )
             update();
     }
@@ -185,7 +185,7 @@ void QwtDial::setFrameShadow( Shadow shadow )
 */
 QwtDial::Shadow QwtDial::frameShadow() const
 {
-    return d_data->frameShadow;
+    return m_data->frameShadow;
 }
 
 /*!
@@ -199,11 +199,11 @@ void QwtDial::setLineWidth( int lineWidth )
     if ( lineWidth < 0 )
         lineWidth = 0;
 
-    if ( d_data->lineWidth != lineWidth )
+    if ( m_data->lineWidth != lineWidth )
     {
         invalidateCache();
 
-        d_data->lineWidth = lineWidth;
+        m_data->lineWidth = lineWidth;
         update();
     }
 }
@@ -214,7 +214,7 @@ void QwtDial::setLineWidth( int lineWidth )
 */
 int QwtDial::lineWidth() const
 {
-    return d_data->lineWidth;
+    return m_data->lineWidth;
 }
 
 /*!
@@ -277,11 +277,11 @@ QRect QwtDial::scaleInnerRect() const
 */
 void QwtDial::setMode( Mode mode )
 {
-    if ( mode != d_data->mode )
+    if ( mode != m_data->mode )
     {
         invalidateCache();
 
-        d_data->mode = mode;
+        m_data->mode = mode;
         sliderChange();
     }
 }
@@ -292,7 +292,7 @@ void QwtDial::setMode( Mode mode )
 */
 QwtDial::Mode QwtDial::mode() const
 {
-    return d_data->mode;
+    return m_data->mode;
 }
 
 /*!
@@ -300,7 +300,7 @@ QwtDial::Mode QwtDial::mode() const
  */
 void QwtDial::invalidateCache()
 {
-    d_data->pixmapCache = QPixmap();
+    m_data->pixmapCache = QPixmap();
 }
 
 /*!
@@ -316,7 +316,7 @@ void QwtDial::paintEvent( QPaintEvent *event )
     opt.initFrom(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 
-    if ( d_data->mode == QwtDial::RotateScale )
+    if ( m_data->mode == QwtDial::RotateScale )
     {
         painter.save();
         painter.setRenderHint( QPainter::Antialiasing, true );
@@ -327,28 +327,28 @@ void QwtDial::paintEvent( QPaintEvent *event )
     }
 
     const QRect r = contentsRect();
-    if ( r.size() != d_data->pixmapCache.size() )
+    if ( r.size() != m_data->pixmapCache.size() )
     {
-        d_data->pixmapCache = QwtPainter::backingStore( this, r.size() );
-        d_data->pixmapCache.fill( Qt::transparent );
+        m_data->pixmapCache = QwtPainter::backingStore( this, r.size() );
+        m_data->pixmapCache.fill( Qt::transparent );
 
-        QPainter p( &d_data->pixmapCache );
+        QPainter p( &m_data->pixmapCache );
         p.setRenderHint( QPainter::Antialiasing, true );
         p.translate( -r.topLeft() );
 
-        if ( d_data->mode != QwtDial::RotateScale )
+        if ( m_data->mode != QwtDial::RotateScale )
             drawContents( &p );
 
         if ( lineWidth() > 0 )
             drawFrame( &p );
 
-        if ( d_data->mode != QwtDial::RotateNeedle )
+        if ( m_data->mode != QwtDial::RotateNeedle )
             drawNeedle( &p );
     }
 
-    painter.drawPixmap( r.topLeft(), d_data->pixmapCache );
+    painter.drawPixmap( r.topLeft(), m_data->pixmapCache );
 
-    if ( d_data->mode == QwtDial::RotateNeedle )
+    if ( m_data->mode == QwtDial::RotateNeedle )
         drawNeedle( &painter );
 
     if ( hasFocus() )
@@ -373,7 +373,7 @@ void QwtDial::drawFocusIndicator( QPainter *painter ) const
 void QwtDial::drawFrame( QPainter *painter )
 {
     QwtPainter::drawRoundFrame( painter, boundingRect(),
-        palette(), lineWidth(), d_data->frameShadow );
+        palette(), lineWidth(), m_data->frameShadow );
 }
 
 /*!
@@ -438,10 +438,10 @@ void QwtDial::drawContents( QPainter *painter ) const
 void QwtDial::drawNeedle( QPainter *painter, const QPointF &center,
     double radius, double direction, QPalette::ColorGroup colorGroup ) const
 {
-    if ( d_data->needle )
+    if ( m_data->needle )
     {
         direction = 360.0 - direction; // counter clockwise
-        d_data->needle->draw( painter, center, radius, direction, colorGroup );
+        m_data->needle->draw( painter, center, radius, direction, colorGroup );
     }
 }
 
@@ -521,12 +521,12 @@ void QwtDial::drawScaleContents( QPainter *painter,
 */
 void QwtDial::setNeedle( QwtDialNeedle *needle )
 {
-    if ( needle != d_data->needle )
+    if ( needle != m_data->needle )
     {
-        if ( d_data->needle )
-            delete d_data->needle;
+        if ( m_data->needle )
+            delete m_data->needle;
 
-        d_data->needle = needle;
+        m_data->needle = needle;
         update();
     }
 }
@@ -537,7 +537,7 @@ void QwtDial::setNeedle( QwtDialNeedle *needle )
 */
 const QwtDialNeedle *QwtDial::needle() const
 {
-    return d_data->needle;
+    return m_data->needle;
 }
 
 /*!
@@ -546,7 +546,7 @@ const QwtDialNeedle *QwtDial::needle() const
 */
 QwtDialNeedle *QwtDial::needle()
 {
-    return d_data->needle;
+    return m_data->needle;
 }
 
 //! \return the scale draw
@@ -598,11 +598,11 @@ void QwtDial::setScaleArc( double minArc, double maxArc )
     if ( maxScaleArc - minScaleArc > 360.0 )
         maxScaleArc = minScaleArc + 360.0;
 
-    if ( ( minScaleArc != d_data->minScaleArc ) ||
-        ( maxScaleArc != d_data->maxScaleArc ) )
+    if ( ( minScaleArc != m_data->minScaleArc ) ||
+        ( maxScaleArc != m_data->maxScaleArc ) )
     {
-        d_data->minScaleArc = minScaleArc;
-        d_data->maxScaleArc = maxScaleArc;
+        m_data->minScaleArc = minScaleArc;
+        m_data->maxScaleArc = maxScaleArc;
 
         invalidateCache();
         sliderChange();
@@ -617,7 +617,7 @@ void QwtDial::setScaleArc( double minArc, double maxArc )
  */
 void QwtDial::setMinScaleArc( double min )
 {
-    setScaleArc( min, d_data->maxScaleArc );
+    setScaleArc( min, m_data->maxScaleArc );
 }
 
 /*!
@@ -626,7 +626,7 @@ void QwtDial::setMinScaleArc( double min )
 */
 double QwtDial::minScaleArc() const
 {
-    return d_data->minScaleArc;
+    return m_data->minScaleArc;
 }
 
 /*!
@@ -637,7 +637,7 @@ double QwtDial::minScaleArc() const
  */
 void QwtDial::setMaxScaleArc( double max )
 {
-    setScaleArc( d_data->minScaleArc, max );
+    setScaleArc( m_data->minScaleArc, max );
 }
 
 /*!
@@ -646,7 +646,7 @@ void QwtDial::setMaxScaleArc( double max )
 */
 double QwtDial::maxScaleArc() const
 {
-    return d_data->maxScaleArc;
+    return m_data->maxScaleArc;
 }
 
 /*!
@@ -661,7 +661,7 @@ void QwtDial::setOrigin( double origin )
 {
     invalidateCache();
 
-    d_data->origin = origin;
+    m_data->origin = origin;
     sliderChange();
 }
 
@@ -673,7 +673,7 @@ void QwtDial::setOrigin( double origin )
 */
 double QwtDial::origin() const
 {
-    return d_data->origin;
+    return m_data->origin;
 }
 
 /*!
@@ -724,14 +724,14 @@ bool QwtDial::isScrollPosition( const QPoint &pos ) const
     if ( region.contains( pos ) && ( pos != innerRect().center() ) )
     {
         double angle = QLineF( rect().center(), pos ).angle();
-        if ( d_data->mode == QwtDial::RotateScale )
+        if ( m_data->mode == QwtDial::RotateScale )
             angle = 360.0 - angle;
 
         double valueAngle =
             qwtNormalizeDegrees( 90.0 - scaleMap().transform( value() ) );
 
-        d_data->mouseOffset = qwtNormalizeDegrees( angle - valueAngle );
-        d_data->arcOffset = scaleMap().p1();
+        m_data->mouseOffset = qwtNormalizeDegrees( angle - valueAngle );
+        m_data->arcOffset = scaleMap().p1();
 
         return true;
     }
@@ -751,13 +751,13 @@ bool QwtDial::isScrollPosition( const QPoint &pos ) const
 double QwtDial::scrolledTo( const QPoint &pos ) const
 {
     double angle = QLineF( rect().center(), pos ).angle();
-    if ( d_data->mode == QwtDial::RotateScale )
+    if ( m_data->mode == QwtDial::RotateScale )
     {
-        angle += scaleMap().p1() - d_data->arcOffset;
+        angle += scaleMap().p1() - m_data->arcOffset;
         angle = 360.0 - angle;
     }
 
-    angle = qwtNormalizeDegrees( angle - d_data->mouseOffset );
+    angle = qwtNormalizeDegrees( angle - m_data->mouseOffset );
     angle = qwtNormalizeDegrees( 90.0 - angle );
 
     if ( scaleMap().pDist() >= 360.0 )
@@ -776,7 +776,7 @@ double QwtDial::scrolledTo( const QPoint &pos ) const
                     ? scaleMap().p1() : scaleMap().p2();
             }
 
-            d_data->mouseOffset += ( boundedAngle - angle );
+            m_data->mouseOffset += ( boundedAngle - angle );
 
             angle = boundedAngle;
         }
@@ -787,7 +787,7 @@ double QwtDial::scrolledTo( const QPoint &pos ) const
             qwtBoundedAngle( scaleMap().p1(), angle, scaleMap().p2() );
 
         if ( !wrapping() )
-            d_data->mouseOffset += ( boundedAngle - angle );
+            m_data->mouseOffset += ( boundedAngle - angle );
 
         angle = boundedAngle;
     }
@@ -860,14 +860,14 @@ void QwtDial::scaleChange()
 
 void QwtDial::sliderChange()
 {
-    setAngleRange( d_data->origin + d_data->minScaleArc,
-        d_data->maxScaleArc - d_data->minScaleArc );
+    setAngleRange( m_data->origin + m_data->minScaleArc,
+        m_data->maxScaleArc - m_data->minScaleArc );
 
     if ( mode() == RotateScale )
     {
         const double arc = scaleMap().transform( value() ) - scaleMap().p1();
-        setAngleRange( d_data->origin - arc,
-            d_data->maxScaleArc - d_data->minScaleArc );
+        setAngleRange( m_data->origin - arc,
+            m_data->maxScaleArc - m_data->minScaleArc );
     }
 
     QwtAbstractSlider::sliderChange();

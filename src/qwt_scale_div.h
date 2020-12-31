@@ -93,9 +93,9 @@ public:
     QwtScaleDiv bounded( double lowerBound, double upperBound ) const;
 
 private:
-    double d_lowerBound;
-    double d_upperBound;
-    QList<double> d_ticks[NTickTypes];
+    double m_lowerBound;
+    double m_upperBound;
+    QList<double> m_ticks[NTickTypes];
 };
 
 Q_DECLARE_TYPEINFO( QwtScaleDiv, Q_MOVABLE_TYPE );

@@ -51,15 +51,15 @@ public:
 
         setAttribute( QwtRasterData::WithoutGaps, true );
 
-        d_intervals[ Qt::XAxis ] = QwtInterval( -1.5, 1.5 );
-        d_intervals[ Qt::YAxis ] = QwtInterval( -1.5, 1.5 );
-        d_intervals[ Qt::ZAxis ] = QwtInterval( 0.0, 10.0 );
+        m_intervals[ Qt::XAxis ] = QwtInterval( -1.5, 1.5 );
+        m_intervals[ Qt::YAxis ] = QwtInterval( -1.5, 1.5 );
+        m_intervals[ Qt::ZAxis ] = QwtInterval( 0.0, 10.0 );
     }
 
     virtual QwtInterval interval( Qt::Axis axis ) const QWT_OVERRIDE
     {
         if ( axis >= 0 && axis <= 2 )
-            return d_intervals[ axis ];
+            return m_intervals[ axis ];
 
         return QwtInterval();
     }
@@ -76,7 +76,7 @@ public:
     }
 
 private:
-    QwtInterval d_intervals[3];
+    QwtInterval m_intervals[3];
 };
 
 class LinearColorMap: public QwtLinearColorMap
@@ -165,12 +165,12 @@ class Spectrogram: public QwtPlotSpectrogram
 public:
     int elapsed() const
     {
-        return d_elapsed;
+        return m_elapsed;
     }
 
     QSize renderedSize() const
     {
-        return d_renderedSize;
+        return m_renderedSize;
     }
 
 protected:
@@ -184,34 +184,34 @@ protected:
         QImage image = QwtPlotSpectrogram::renderImage(
             xMap, yMap, area, imageSize );
 
-        d_elapsed = t.elapsed();
-        d_renderedSize = imageSize;
+        m_elapsed = t.elapsed();
+        m_renderedSize = imageSize;
 
         return image;
     }
 
 private:
-    mutable int d_elapsed;
-    mutable QSize d_renderedSize;
+    mutable int m_elapsed;
+    mutable QSize m_renderedSize;
 };
 
 Plot::Plot( QWidget *parent ):
     QwtPlot( parent ),
-    d_alpha(255)
+    m_alpha(255)
 {
-    d_spectrogram = new Spectrogram();
-    d_spectrogram->setRenderThreadCount( 0 ); // use system specific thread count
-    d_spectrogram->setCachePolicy( QwtPlotRasterItem::PaintCache );
+    m_spectrogram = new Spectrogram();
+    m_spectrogram->setRenderThreadCount( 0 ); // use system specific thread count
+    m_spectrogram->setCachePolicy( QwtPlotRasterItem::PaintCache );
 
     QList<double> contourLevels;
     for ( double level = 0.5; level < 10.0; level += 1.0 )
         contourLevels += level;
-    d_spectrogram->setContourLevels( contourLevels );
+    m_spectrogram->setContourLevels( contourLevels );
 
-    d_spectrogram->setData( new SpectrogramData() );
-    d_spectrogram->attach( this );
+    m_spectrogram->setData( new SpectrogramData() );
+    m_spectrogram->attach( this );
 
-    const QwtInterval zInterval = d_spectrogram->data()->interval( Qt::ZAxis );
+    const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
 
     // A color bar on the right axis
     QwtScaleWidget *rightAxis = axisWidget( QwtPlot::yRight );
@@ -255,14 +255,14 @@ Plot::Plot( QWidget *parent ):
 
 void Plot::showContour( bool on )
 {
-    d_spectrogram->setDisplayMode( QwtPlotSpectrogram::ContourMode, on );
+    m_spectrogram->setDisplayMode( QwtPlotSpectrogram::ContourMode, on );
     replot();
 }
 
 void Plot::showSpectrogram( bool on )
 {
-    d_spectrogram->setDisplayMode( QwtPlotSpectrogram::ImageMode, on );
-    d_spectrogram->setDefaultContourPen(
+    m_spectrogram->setDisplayMode( QwtPlotSpectrogram::ImageMode, on );
+    m_spectrogram->setDefaultContourPen(
         on ? QPen( Qt::black, 0 ) : QPen( Qt::NoPen ) );
 
     replot();
@@ -284,61 +284,61 @@ void Plot::setColorTableSize( int type )
             break;
     }
 
-    d_spectrogram->setMaxRGBTableSize( numColors );
+    m_spectrogram->setMaxRGBTableSize( numColors );
     replot();
 }
 
 void Plot::setColorMap( int type )
 {
     QwtScaleWidget *axis = axisWidget( QwtPlot::yRight );
-    const QwtInterval zInterval = d_spectrogram->data()->interval( Qt::ZAxis );
+    const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
 
-    d_mapType = type;
+    m_mapType = type;
 
     const QwtColorMap::Format format = QwtColorMap::RGB;
 
-    int alpha = d_alpha;
+    int alpha = m_alpha;
     switch( type )
     {
         case Plot::HueMap:
         {
-            d_spectrogram->setColorMap( new HueColorMap( format ) );
+            m_spectrogram->setColorMap( new HueColorMap( format ) );
             axis->setColorMap( zInterval, new HueColorMap( format ) );
             break;
         }
         case Plot::SaturationMap:
         {
-            d_spectrogram->setColorMap( new SaturationColorMap( format ) );
+            m_spectrogram->setColorMap( new SaturationColorMap( format ) );
             axis->setColorMap( zInterval, new SaturationColorMap( format ) );
             break;
         }
         case Plot::ValueMap:
         {
-            d_spectrogram->setColorMap( new ValueColorMap( format ) );
+            m_spectrogram->setColorMap( new ValueColorMap( format ) );
             axis->setColorMap( zInterval, new ValueColorMap( format ) );
             break;
         }
         case Plot::SVMap:
         {
-            d_spectrogram->setColorMap( new SVColorMap( format ) );
+            m_spectrogram->setColorMap( new SVColorMap( format ) );
             axis->setColorMap( zInterval, new SVColorMap( format ) );
             break;
         }
         case Plot::AlphaMap:
         {
             alpha = 255;
-            d_spectrogram->setColorMap( new AlphaColorMap( format ) );
+            m_spectrogram->setColorMap( new AlphaColorMap( format ) );
             axis->setColorMap( zInterval, new AlphaColorMap( format ) );
             break;
         }
         case Plot::RGBMap:
         default:
         {
-            d_spectrogram->setColorMap( new LinearColorMap( format ) );
+            m_spectrogram->setColorMap( new LinearColorMap( format ) );
             axis->setColorMap( zInterval, new LinearColorMap( format ) );
         }
     }
-    d_spectrogram->setAlpha( alpha );
+    m_spectrogram->setAlpha( alpha );
 
     replot();
 }
@@ -348,10 +348,10 @@ void Plot::setAlpha( int alpha )
     // setting an alpha value doesn't make sense in combination
     // with a color map interpolating the alpha value
 
-    d_alpha = alpha;
-    if ( d_mapType != Plot::AlphaMap )
+    m_alpha = alpha;
+    if ( m_mapType != Plot::AlphaMap )
     {
-        d_spectrogram->setAlpha( alpha );
+        m_spectrogram->setAlpha( alpha );
         replot();
     }
 }
@@ -361,9 +361,9 @@ void Plot::drawItems( QPainter *painter, const QRectF &canvasRect,
 {
     QwtPlot::drawItems( painter, canvasRect, maps );
 
-    if ( d_spectrogram )
+    if ( m_spectrogram )
     {
-        Spectrogram* spectrogram = static_cast<Spectrogram*>( d_spectrogram );
+        Spectrogram* spectrogram = static_cast<Spectrogram*>( m_spectrogram );
 
         QString info( "%1 x %2 pixels: %3 ms" );
         info = info.arg( spectrogram->renderedSize().width() );

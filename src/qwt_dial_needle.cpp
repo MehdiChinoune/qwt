@@ -180,7 +180,7 @@ static void qwtDrawTriangleNeedle( QPainter *painter,
 
 //! Constructor
 QwtDialNeedle::QwtDialNeedle():
-    d_palette( QApplication::palette() )
+    m_palette( QApplication::palette() )
 {
 }
 
@@ -196,7 +196,7 @@ QwtDialNeedle::~QwtDialNeedle()
 */
 void QwtDialNeedle::setPalette( const QPalette &palette )
 {
-    d_palette = palette;
+    m_palette = palette;
 }
 
 /*!
@@ -204,7 +204,7 @@ void QwtDialNeedle::setPalette( const QPalette &palette )
 */
 const QPalette &QwtDialNeedle::palette() const
 {
-    return d_palette;
+    return m_palette;
 }
 
 /*!
@@ -272,9 +272,9 @@ void QwtDialNeedle::drawKnob( QPainter *painter,
 */
 QwtDialSimpleNeedle::QwtDialSimpleNeedle( Style style, bool hasKnob,
         const QColor &mid, const QColor &base ):
-    d_style( style ),
-    d_hasKnob( hasKnob ),
-    d_width( -1 )
+    m_style( style ),
+    m_hasKnob( hasKnob ),
+    m_width( -1 )
 {
     QPalette palette;
     palette.setColor( QPalette::Mid, mid );
@@ -290,7 +290,7 @@ QwtDialSimpleNeedle::QwtDialSimpleNeedle( Style style, bool hasKnob,
 */
 void QwtDialSimpleNeedle::setWidth( double width )
 {
-    d_width = width;
+    m_width = width;
 }
 
 /*!
@@ -299,7 +299,7 @@ void QwtDialSimpleNeedle::setWidth( double width )
 */
 double QwtDialSimpleNeedle::width() const
 {
-    return d_width;
+    return m_width;
 }
 
 /*!
@@ -313,9 +313,9 @@ void QwtDialSimpleNeedle::drawNeedle( QPainter *painter,
     double length, QPalette::ColorGroup colorGroup ) const
 {
     qreal knobWidth = 0.0;
-    qreal width = d_width;
+    qreal width = m_width;
 
-    if ( d_style == Arrow )
+    if ( m_style == Arrow )
     {
         if ( width <= 0.0 )
             width = qwtMaxF( length * 0.06, 6.0 );
@@ -339,7 +339,7 @@ void QwtDialSimpleNeedle::drawNeedle( QPainter *painter,
         knobWidth = qwtMaxF( width * 3.0, 5.0 );
     }
 
-    if ( d_hasKnob && knobWidth > 0.0 )
+    if ( m_hasKnob && knobWidth > 0.0 )
     {
         drawKnob( painter, knobWidth,
             palette().brush( colorGroup, QPalette::Base ), false );
@@ -349,7 +349,7 @@ void QwtDialSimpleNeedle::drawNeedle( QPainter *painter,
 //! Constructor
 QwtCompassMagnetNeedle::QwtCompassMagnetNeedle( Style style,
         const QColor &light, const QColor &dark ):
-    d_style( style )
+    m_style( style )
 {
     QPalette palette;
     palette.setColor( QPalette::Light, light );
@@ -369,7 +369,7 @@ QwtCompassMagnetNeedle::QwtCompassMagnetNeedle( Style style,
 void QwtCompassMagnetNeedle::drawNeedle( QPainter *painter,
     double length, QPalette::ColorGroup colorGroup ) const
 {
-    if ( d_style == ThinStyle )
+    if ( m_style == ThinStyle )
     {
         const qreal width = qwtMaxF( length / 6.0, 3.0 );
 
@@ -408,7 +408,7 @@ void QwtCompassMagnetNeedle::drawNeedle( QPainter *painter,
 */
 QwtCompassWindArrow::QwtCompassWindArrow( Style style,
         const QColor &light, const QColor &dark ):
-    d_style( style )
+    m_style( style )
 {
     QPalette palette;
     palette.setColor( QPalette::Light, light );
@@ -427,7 +427,7 @@ QwtCompassWindArrow::QwtCompassWindArrow( Style style,
 void QwtCompassWindArrow::drawNeedle( QPainter *painter,
     double length, QPalette::ColorGroup colorGroup ) const
 {
-    if ( d_style == Style1 )
+    if ( m_style == Style1 )
         qwtDrawStyle1Needle( painter, palette(), colorGroup, length );
     else
         qwtDrawStyle2Needle( painter, palette(), colorGroup, length );

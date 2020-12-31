@@ -203,13 +203,13 @@ QSize LegendTreeView::sizeHint() const
 Legend::Legend( QWidget *parent ):
     QwtAbstractLegend( parent )
 {
-    d_treeView = new LegendTreeView( this );
+    m_treeView = new LegendTreeView( this );
 
     QVBoxLayout *layout = new QVBoxLayout( this );
     layout->setContentsMargins( 0, 0, 0, 0 );
-    layout->addWidget( d_treeView );
+    layout->addWidget( m_treeView );
 
-    connect( d_treeView, SIGNAL( clicked( const QModelIndex & ) ),
+    connect( m_treeView, SIGNAL( clicked( const QModelIndex & ) ),
         this, SLOT( handleClick( const QModelIndex & ) ) );
 }
 
@@ -225,7 +225,7 @@ void Legend::renderLegend( QPainter *painter,
         if ( autoFillBackground() ||
             testAttribute( Qt::WA_StyledBackground ) )
         {
-            qwtRenderBackground( painter, rect, d_treeView );
+            qwtRenderBackground( painter, rect, m_treeView );
         }
     }
 
@@ -233,10 +233,10 @@ void Legend::renderLegend( QPainter *painter,
     styleOption.initFrom( this );
     styleOption.decorationAlignment = Qt::AlignCenter;
 
-    const QAbstractItemDelegate *delegate = d_treeView->itemDelegate();
+    const QAbstractItemDelegate *delegate = m_treeView->itemDelegate();
 
     const QStandardItemModel *mdl =
-        qobject_cast<const QStandardItemModel *>( d_treeView->model() );
+        qobject_cast<const QStandardItemModel *>( m_treeView->model() );
 
     painter->save();
     painter->translate( rect.topLeft() );
@@ -245,7 +245,7 @@ void Legend::renderLegend( QPainter *painter,
     {
         const QStandardItem *rootItem = mdl->item( row );
 
-        styleOption.rect = d_treeView->visualRect( rootItem->index() );
+        styleOption.rect = m_treeView->visualRect( rootItem->index() );
         if ( !styleOption.rect.isEmpty() )
             delegate->paint( painter, styleOption, rootItem->index() );
 
@@ -253,7 +253,7 @@ void Legend::renderLegend( QPainter *painter,
         {
             const QStandardItem *item = rootItem->child( i );
 
-            styleOption.rect = d_treeView->visualRect( item->index() );
+            styleOption.rect = m_treeView->visualRect( item->index() );
             if ( !styleOption.rect.isEmpty() )
             {
                 delegate->paint( painter, styleOption, item->index() );
@@ -265,7 +265,7 @@ void Legend::renderLegend( QPainter *painter,
 
 bool Legend::isEmpty() const
 {
-    return d_treeView->model()->rowCount() == 0;
+    return m_treeView->model()->rowCount() == 0;
 }
 
 int Legend::scrollExtent( Qt::Orientation orientation ) const
@@ -280,8 +280,8 @@ void Legend::updateLegend( const QVariant &itemInfo,
 {
     QwtPlotItem *plotItem = qvariant_cast<QwtPlotItem *>( itemInfo );
 
-    QStandardItem *rootItem = d_treeView->rootItem( plotItem->rtti() );
-    QList<QStandardItem *> itemList = d_treeView->itemList( plotItem );
+    QStandardItem *rootItem = m_treeView->rootItem( plotItem->rtti() );
+    QList<QStandardItem *> itemList = m_treeView->itemList( plotItem );
 
     while ( itemList.size() > legendData.size() )
     {
@@ -292,7 +292,7 @@ void Legend::updateLegend( const QVariant &itemInfo,
     if ( !legendData.isEmpty() )
     {
         if ( rootItem == NULL )
-            rootItem = d_treeView->insertRootItem( plotItem->rtti() );
+            rootItem = m_treeView->insertRootItem( plotItem->rtti() );
 
         while ( itemList.size() < legendData.size() )
         {
@@ -313,10 +313,10 @@ void Legend::updateLegend( const QVariant &itemInfo,
     else
     {
         if ( rootItem && rootItem->rowCount() == 0 )
-            d_treeView->model()->removeRow( rootItem->row() );
+            m_treeView->model()->removeRow( rootItem->row() );
     }
 
-    d_treeView->updateGeometry();
+    m_treeView->updateGeometry();
 }
 
 void Legend::updateItem( QStandardItem *item, const QwtLegendData &legendData )
@@ -347,7 +347,7 @@ void Legend::updateItem( QStandardItem *item, const QwtLegendData &legendData )
 void Legend::handleClick( const QModelIndex &index )
 {
     const QStandardItemModel *model =
-        qobject_cast<QStandardItemModel *>( d_treeView->model() );
+        qobject_cast<QStandardItemModel *>( m_treeView->model() );
 
     const QStandardItem *item = model->itemFromIndex( index );
     if ( item->isCheckable() )

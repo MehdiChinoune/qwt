@@ -71,15 +71,15 @@ Plot::Plot( QWidget *parent ):
     grid->attach( this );
 #endif
 
-    d_spectrogram = new QwtPlotSpectrogram();
-    d_spectrogram->setRenderThreadCount( 0 ); // use system specific thread count
+    m_spectrogram = new QwtPlotSpectrogram();
+    m_spectrogram->setRenderThreadCount( 0 ); // use system specific thread count
 
-    d_spectrogram->setColorMap( new ColorMap() );
+    m_spectrogram->setColorMap( new ColorMap() );
 
-    d_spectrogram->setData( new RasterData() );
-    d_spectrogram->attach( this );
+    m_spectrogram->setData( new RasterData() );
+    m_spectrogram->attach( this );
 
-    const QwtInterval zInterval = d_spectrogram->data()->interval( Qt::ZAxis );
+    const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
     // A color bar on the right axis
     QwtScaleWidget *rightAxis = axisWidget( QwtPlot::yRight );
     rightAxis->setColorBarEnabled( true );
@@ -111,7 +111,7 @@ void Plot::exportPlot()
 
 void Plot::setResampleMode( int mode )
 {
-    RasterData *rasterData = static_cast<RasterData *>( d_spectrogram->data() );
+    RasterData *rasterData = static_cast<RasterData *>( m_spectrogram->data() );
     rasterData->setResampleMode(
         static_cast<QwtMatrixRasterData::ResampleMode>( mode ) );
 

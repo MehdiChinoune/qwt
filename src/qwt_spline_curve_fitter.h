@@ -37,7 +37,7 @@ public:
     virtual QPainterPath fitCurvePath( const QPolygonF & ) const QWT_OVERRIDE;
 
 private:
-    QwtSpline *d_spline;
+    QwtSpline *m_spline;
 };
 
 #endif

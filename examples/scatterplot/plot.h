@@ -22,7 +22,7 @@ public:
     void setSamples( const QVector<QPointF> &samples );
 
 private:
-    QwtPlotCurve *d_curve;
+    QwtPlotCurve *m_curve;
 };
 
 #endif

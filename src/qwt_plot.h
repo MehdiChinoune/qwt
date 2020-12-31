@@ -304,10 +304,10 @@ private:
     void initPlot( const QwtText &title );
 
     class AxisData;
-    AxisData *d_axisData[axisCnt];
+    AxisData *m_axisData[axisCnt];
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

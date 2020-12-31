@@ -71,8 +71,8 @@ public:
     SelectionType selectionType() const;
 
 private:
-    const SelectionType d_selectionType;
-    int d_state;
+    const SelectionType m_selectionType;
+    int m_state;
 };
 
 /*!

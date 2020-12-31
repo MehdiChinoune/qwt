@@ -61,27 +61,27 @@ public:
 
 QwtVectorFieldArrow::QwtVectorFieldArrow( qreal headWidth, qreal tailWidth )
 {
-    d_data = new PrivateData( headWidth, tailWidth );
+    m_data = new PrivateData( headWidth, tailWidth );
 }
 
 QwtVectorFieldArrow::~QwtVectorFieldArrow()
 {
-    delete d_data;
+    delete m_data;
 }
 
 void QwtVectorFieldArrow::setLength( qreal length )
 {
-    d_data->setLength( length );
+    m_data->setLength( length );
 }
 
 qreal QwtVectorFieldArrow::length() const
 {
-    return d_data->length;
+    return m_data->length;
 }
 
 void QwtVectorFieldArrow::paint( QPainter *painter ) const
 {
-    painter->drawPath( d_data->path );
+    painter->drawPath( m_data->path );
 }
 
 class QwtVectorFieldThinArrow::PrivateData
@@ -106,21 +106,21 @@ public:
 
 QwtVectorFieldThinArrow::QwtVectorFieldThinArrow( qreal headWidth )
 {
-    d_data = new PrivateData( headWidth );
+    m_data = new PrivateData( headWidth );
 }
 
 QwtVectorFieldThinArrow::~QwtVectorFieldThinArrow()
 {
-    delete d_data;
+    delete m_data;
 }
 
 void QwtVectorFieldThinArrow::setLength( qreal length )
 {
-    d_data->length = length;
+    m_data->length = length;
 
-    const qreal headWidth = qMin( d_data->headWidth, length / 3.0 );
+    const qreal headWidth = qMin( m_data->headWidth, length / 3.0 );
 
-    QPainterPath& path = d_data->path;
+    QPainterPath& path = m_data->path;
 
     path.setElementPositionAt( 1, -headWidth, headWidth * 0.6 );
     path.setElementPositionAt( 3, -headWidth, -headWidth * 0.6 );
@@ -129,10 +129,10 @@ void QwtVectorFieldThinArrow::setLength( qreal length )
 
 qreal QwtVectorFieldThinArrow::length() const
 {
-    return d_data->length;
+    return m_data->length;
 }
 
 void QwtVectorFieldThinArrow::paint(QPainter * p) const
 {
-    p->drawPath( d_data->path );
+    p->drawPath( m_data->path );
 }

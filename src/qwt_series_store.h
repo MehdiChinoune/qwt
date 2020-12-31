@@ -127,46 +127,46 @@ public:
     QwtSeriesData<T> *swapData( QwtSeriesData<T> *series );
 
 private:
-    QwtSeriesData<T> *d_series;
+    QwtSeriesData<T> *m_series;
 };
 
 template <typename T>
 QwtSeriesStore<T>::QwtSeriesStore():
-    d_series( NULL )
+    m_series( NULL )
 {
 }
 
 template <typename T>
 QwtSeriesStore<T>::~QwtSeriesStore()
 {
-    delete d_series;
+    delete m_series;
 }
 
 template <typename T>
 inline QwtSeriesData<T> *QwtSeriesStore<T>::data()
 {
-    return d_series;
+    return m_series;
 }
 
 template <typename T>
 inline const QwtSeriesData<T> *QwtSeriesStore<T>::data() const
 {
-    return d_series;
+    return m_series;
 }
 
 template <typename T>
 inline T QwtSeriesStore<T>::sample( int index ) const
 {
-    return d_series ? d_series->sample( index ) : T();
+    return m_series ? m_series->sample( index ) : T();
 }
 
 template <typename T>
 void QwtSeriesStore<T>::setData( QwtSeriesData<T> *series )
 {
-    if ( d_series != series )
+    if ( m_series != series )
     {
-        delete d_series;
-        d_series = series;
+        delete m_series;
+        m_series = series;
         dataChanged();
     }
 }
@@ -174,33 +174,33 @@ void QwtSeriesStore<T>::setData( QwtSeriesData<T> *series )
 template <typename T>
 size_t QwtSeriesStore<T>::dataSize() const
 {
-    if ( d_series == NULL )
+    if ( m_series == NULL )
         return 0;
 
-    return d_series->size();
+    return m_series->size();
 }
 
 template <typename T>
 QRectF QwtSeriesStore<T>::dataRect() const
 {
-    if ( d_series == NULL )
+    if ( m_series == NULL )
         return QRectF( 1.0, 1.0, -2.0, -2.0 ); // invalid
 
-    return d_series->boundingRect();
+    return m_series->boundingRect();
 }
 
 template <typename T>
 void QwtSeriesStore<T>::setRectOfInterest( const QRectF &rect )
 {
-    if ( d_series )
-        d_series->setRectOfInterest( rect );
+    if ( m_series )
+        m_series->setRectOfInterest( rect );
 }
 
 template <typename T>
 QwtSeriesData<T>* QwtSeriesStore<T>::swapData( QwtSeriesData<T> *series )
 {
-    QwtSeriesData<T> * swappedSeries = d_series;
-    d_series = series;
+    QwtSeriesData<T> * swappedSeries = m_series;
+    m_series = series;
 
     return swappedSeries;
 }

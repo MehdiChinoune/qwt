@@ -48,7 +48,7 @@ public:
 QwtPlotAbstractBarChart::QwtPlotAbstractBarChart( const QwtText &title ):
     QwtPlotSeriesItem( title )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setItemAttribute( QwtPlotItem::Legend, true );
     setItemAttribute( QwtPlotItem::AutoScale, true );
@@ -59,7 +59,7 @@ QwtPlotAbstractBarChart::QwtPlotAbstractBarChart( const QwtText &title ):
 //! Destructor
 QwtPlotAbstractBarChart::~QwtPlotAbstractBarChart()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -72,9 +72,9 @@ QwtPlotAbstractBarChart::~QwtPlotAbstractBarChart()
  */
 void QwtPlotAbstractBarChart::setLayoutPolicy( LayoutPolicy policy )
 {
-    if ( policy != d_data->layoutPolicy )
+    if ( policy != m_data->layoutPolicy )
     {
-        d_data->layoutPolicy = policy;
+        m_data->layoutPolicy = policy;
         itemChanged();
     }
 }
@@ -88,7 +88,7 @@ void QwtPlotAbstractBarChart::setLayoutPolicy( LayoutPolicy policy )
  */
 QwtPlotAbstractBarChart::LayoutPolicy QwtPlotAbstractBarChart::layoutPolicy() const
 {
-    return d_data->layoutPolicy;
+    return m_data->layoutPolicy;
 }
 
 /*!
@@ -102,9 +102,9 @@ QwtPlotAbstractBarChart::LayoutPolicy QwtPlotAbstractBarChart::layoutPolicy() co
 void QwtPlotAbstractBarChart::setLayoutHint( double hint )
 {
     hint = qwtMaxF( 0.0, hint );
-    if ( hint != d_data->layoutHint )
+    if ( hint != m_data->layoutHint )
     {
-        d_data->layoutHint = hint;
+        m_data->layoutHint = hint;
         itemChanged();
     }
 }
@@ -118,7 +118,7 @@ void QwtPlotAbstractBarChart::setLayoutHint( double hint )
 */
 double QwtPlotAbstractBarChart::layoutHint() const
 {
-    return d_data->layoutHint;
+    return m_data->layoutHint;
 }
 
 /*!
@@ -132,9 +132,9 @@ double QwtPlotAbstractBarChart::layoutHint() const
 void QwtPlotAbstractBarChart::setSpacing( int spacing )
 {
     spacing = qMax( spacing, 0 );
-    if ( spacing != d_data->spacing )
+    if ( spacing != m_data->spacing )
     {
-        d_data->spacing = spacing;
+        m_data->spacing = spacing;
         itemChanged();
     }
 }
@@ -145,7 +145,7 @@ void QwtPlotAbstractBarChart::setSpacing( int spacing )
  */
 int QwtPlotAbstractBarChart::spacing() const
 {
-    return d_data->spacing;
+    return m_data->spacing;
 }
 /*!
   \brief Set the margin
@@ -160,9 +160,9 @@ int QwtPlotAbstractBarChart::spacing() const
 void QwtPlotAbstractBarChart::setMargin( int margin )
 {
     margin = qMax( margin, 0 );
-    if ( margin != d_data->margin )
+    if ( margin != m_data->margin )
     {
-        d_data->margin = margin;
+        m_data->margin = margin;
         itemChanged();
     }
 }
@@ -175,7 +175,7 @@ void QwtPlotAbstractBarChart::setMargin( int margin )
  */
 int QwtPlotAbstractBarChart::margin() const
 {
-    return d_data->margin;
+    return m_data->margin;
 }
 
 /*!
@@ -194,9 +194,9 @@ int QwtPlotAbstractBarChart::margin() const
 */
 void QwtPlotAbstractBarChart::setBaseline( double value )
 {
-    if ( value != d_data->baseline )
+    if ( value != m_data->baseline )
     {
-        d_data->baseline = value;
+        m_data->baseline = value;
         itemChanged();
     }
 }
@@ -207,7 +207,7 @@ void QwtPlotAbstractBarChart::setBaseline( double value )
  */
 double QwtPlotAbstractBarChart::baseline() const
 {
-    return d_data->baseline;
+    return m_data->baseline;
 }
 
 /*!
@@ -227,21 +227,21 @@ double QwtPlotAbstractBarChart::sampleWidth( const QwtScaleMap &map,
 {
     double width;
 
-    switch( d_data->layoutPolicy )
+    switch( m_data->layoutPolicy )
     {
         case ScaleSamplesToAxes:
         {
-            width = qwtTransformWidth( map, value, d_data->layoutHint );
+            width = qwtTransformWidth( map, value, m_data->layoutHint );
             break;
         }
         case ScaleSampleToCanvas:
         {
-            width = canvasSize * d_data->layoutHint;
+            width = canvasSize * m_data->layoutHint;
             break;
         }
         case FixedSampleSize:
         {
-            width = d_data->layoutHint;
+            width = m_data->layoutHint;
             break;
         }
         case AutoAdjustSamples:
@@ -256,8 +256,8 @@ double QwtPlotAbstractBarChart::sampleWidth( const QwtScaleMap &map,
             }
 
             width = qwtTransformWidth( map, value, w );
-            width -= d_data->spacing;
-            width = qwtMaxF( width, d_data->layoutHint );
+            width -= m_data->spacing;
+            width = qwtMaxF( width, m_data->layoutHint );
         }
     }
 
@@ -297,15 +297,15 @@ void QwtPlotAbstractBarChart::getCanvasMarginHint( const QwtScaleMap &xMap,
         case ScaleSampleToCanvas:
         {
             if ( orientation() == Qt::Vertical )
-                hint = 0.5 * canvasRect.width() * d_data->layoutHint;
+                hint = 0.5 * canvasRect.width() * m_data->layoutHint;
             else
-                hint = 0.5 * canvasRect.height() * d_data->layoutHint;
+                hint = 0.5 * canvasRect.height() * m_data->layoutHint;
 
             break;
         }
         case FixedSampleSize:
         {
-            hint = 0.5 * d_data->layoutHint;
+            hint = 0.5 * m_data->layoutHint;
             break;
         }
         case AutoAdjustSamples:
@@ -324,11 +324,11 @@ void QwtPlotAbstractBarChart::getCanvasMarginHint( const QwtScaleMap &xMap,
 
             if ( layoutPolicy() == ScaleSamplesToAxes )
             {
-                sampleWidthS = qwtMaxF( d_data->layoutHint, 0.0 );
+                sampleWidthS = qwtMaxF( m_data->layoutHint, 0.0 );
             }
             else
             {
-                spacing = d_data->spacing;
+                spacing = m_data->spacing;
 
                 if ( numSamples > 1 )
                 {
@@ -352,7 +352,7 @@ void QwtPlotAbstractBarChart::getCanvasMarginHint( const QwtScaleMap &xMap,
                 * sampleWidthS / ( ds + sampleWidthS );
 
             hint = 0.5 * sampleWidthP;
-            hint += qMax( d_data->margin, 0 );
+            hint += qMax( m_data->margin, 0 );
         }
     }
 

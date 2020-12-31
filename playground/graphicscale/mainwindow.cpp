@@ -20,25 +20,25 @@ MainWindow::MainWindow()
 {
     QWidget *w = new QWidget( this );
 
-    d_canvas[0] = new Canvas( Canvas::Svg, this );
-    d_canvas[0]->setAutoFillBackground( true );
-    d_canvas[0]->setPalette( Qt::gray );
+    m_canvas[0] = new Canvas( Canvas::Svg, this );
+    m_canvas[0]->setAutoFillBackground( true );
+    m_canvas[0]->setPalette( Qt::gray );
 
-    d_canvas[1] = new Canvas( Canvas::VectorGraphic, this );
-    d_canvas[1]->setAutoFillBackground( true );
-    d_canvas[1]->setPalette( Qt::gray );
+    m_canvas[1] = new Canvas( Canvas::VectorGraphic, this );
+    m_canvas[1]->setAutoFillBackground( true );
+    m_canvas[1]->setPalette( Qt::gray );
 
     QVBoxLayout *vBox1 = new QVBoxLayout();
     vBox1->setContentsMargins( 0, 0, 0, 0 );
     vBox1->setSpacing( 5 );
     vBox1->addWidget( new QLabel( "SVG" ), 0, Qt::AlignCenter );
-    vBox1->addWidget( d_canvas[0], 10 );
+    vBox1->addWidget( m_canvas[0], 10 );
 
     QVBoxLayout *vBox2 = new QVBoxLayout();
     vBox2->setContentsMargins( 0, 0, 0, 0 );
     vBox2->setSpacing( 5 );
     vBox2->addWidget( new QLabel( "Vector Graphic" ), 0, Qt::AlignCenter );
-    vBox2->addWidget( d_canvas[1], 10 );
+    vBox2->addWidget( m_canvas[1], 10 );
 
     QHBoxLayout *layout = new QHBoxLayout( w );
     layout->addLayout( vBox1 );
@@ -91,8 +91,8 @@ void MainWindow::loadSVG( const QString &fileName )
     const QByteArray document = file.readAll();
     file.close();
 
-    d_canvas[0]->setSvg( document );
-    d_canvas[1]->setSvg( document );
+    m_canvas[0]->setSvg( document );
+    m_canvas[1]->setSvg( document );
 }
 
 
@@ -110,8 +110,8 @@ void MainWindow::loadPath( const QPainterPath &path )
     painter.drawPath( path );
     painter.end();
 
-    d_canvas[0]->setSvg( buf.data() );
-    d_canvas[1]->setSvg( buf.data() );
+    m_canvas[0]->setSvg( buf.data() );
+    m_canvas[1]->setSvg( buf.data() );
 }
 
 #include "moc_mainwindow.cpp"

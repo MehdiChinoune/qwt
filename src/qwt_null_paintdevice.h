@@ -118,10 +118,10 @@ protected:
 
 private:
     class PaintEngine;
-    PaintEngine *d_engine;
+    PaintEngine *m_engine;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

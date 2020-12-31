@@ -16,9 +16,9 @@ static double randomValue()
 
 MainWindow::MainWindow()
 {
-    d_plot = new Plot( this );
-    d_plot->setTitle( "Scatter Plot" );
-    setCentralWidget( d_plot );
+    m_plot = new Plot( this );
+    m_plot->setTitle( "Scatter Plot" );
+    setCentralWidget( m_plot );
 
     // a million points
     setSamples( 100000 );
@@ -37,7 +37,7 @@ void MainWindow::setSamples( int numPoints )
         samples += QPointF( x, y );
     }
 
-    d_plot->setSamples( samples );
+    m_plot->setSamples( samples );
 }
 
 #include "moc_mainwindow.cpp"

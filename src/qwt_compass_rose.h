@@ -43,7 +43,7 @@ public:
 private:
     Q_DISABLE_COPY(QwtCompassRose)
 
-    QPalette d_palette;
+    QPalette m_palette;
 };
 
 /*!
@@ -77,7 +77,7 @@ public:
 
 private:
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

@@ -12,22 +12,22 @@
 
 bool QwtSystemClock::isNull() const
 {
-    return d_timer.isValid();
+    return m_timer.isValid();
 }
 
 void QwtSystemClock::start()
 {
-    d_timer.start();
+    m_timer.start();
 }
 
 double QwtSystemClock::restart()
 {
-    const qint64 nsecs = d_timer.restart();
+    const qint64 nsecs = m_timer.restart();
     return nsecs / 1e6;
 }
 
 double QwtSystemClock::elapsed() const
 {
-    const qint64 nsecs = d_timer.nsecsElapsed();
+    const qint64 nsecs = m_timer.nsecsElapsed();
     return nsecs / 1e6;
 }

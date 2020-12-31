@@ -82,7 +82,7 @@ public:
 QwtPlotTextLabel::QwtPlotTextLabel():
     QwtPlotItem( QwtText( "Label" ) )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 
     setItemAttribute( QwtPlotItem::AutoScale, false );
     setItemAttribute( QwtPlotItem::Legend, false );
@@ -93,7 +93,7 @@ QwtPlotTextLabel::QwtPlotTextLabel():
 //! Destructor
 QwtPlotTextLabel::~QwtPlotTextLabel()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! \return QwtPlotItem::Rtti_PlotTextLabel
@@ -114,9 +114,9 @@ int QwtPlotTextLabel::rtti() const
 */
 void QwtPlotTextLabel::setText( const QwtText &text )
 {
-    if ( d_data->text != text )
+    if ( m_data->text != text )
     {
-        d_data->text = text;
+        m_data->text = text;
 
         invalidateCache();
         itemChanged();
@@ -129,7 +129,7 @@ void QwtPlotTextLabel::setText( const QwtText &text )
 */
 QwtText QwtPlotTextLabel::text() const
 {
-    return d_data->text;
+    return m_data->text;
 }
 
 /*!
@@ -146,9 +146,9 @@ QwtText QwtPlotTextLabel::text() const
 void QwtPlotTextLabel::setMargin( int margin )
 {
     margin = qMax( margin, 0 );
-    if ( d_data->margin != margin )
+    if ( m_data->margin != margin )
     {
-        d_data->margin = margin;
+        m_data->margin = margin;
         itemChanged();
     }
 }
@@ -159,7 +159,7 @@ void QwtPlotTextLabel::setMargin( int margin )
 */
 int QwtPlotTextLabel::margin() const
 {
-    return d_data->margin;
+    return m_data->margin;
 }
 
 /*!
@@ -180,10 +180,10 @@ void QwtPlotTextLabel::draw( QPainter *painter,
     Q_UNUSED( xMap );
     Q_UNUSED( yMap );
 
-    const int m = d_data->margin;
+    const int m = m_data->margin;
 
     const QRectF rect = textRect( canvasRect.adjusted( m, m, -m, -m ),
-        d_data->text.textSize( painter->font() ) );
+        m_data->text.textSize( painter->font() ) );
 
     bool doCache = QwtPainter::roundingAlignment( painter );
     if ( doCache )
@@ -209,8 +209,8 @@ void QwtPlotTextLabel::draw( QPainter *painter,
         // we use a cache.
 
         int pw = 0;
-        if ( d_data->text.borderPen().style() != Qt::NoPen )
-            pw = qMax( d_data->text.borderPen().width(), 1 );
+        if ( m_data->text.borderPen().style() != Qt::NoPen )
+            pw = qMax( m_data->text.borderPen().width(), 1 );
 
         QRect pixmapRect;
         pixmapRect.setLeft( qwtFloor( rect.left() ) - pw );
@@ -225,27 +225,27 @@ void QwtPlotTextLabel::draw( QPainter *painter,
         const QSize scaledSize = pixmapRect.size();
 #endif
 
-        if ( d_data->pixmap.isNull() ||
-            ( scaledSize != d_data->pixmap.size() )  )
+        if ( m_data->pixmap.isNull() ||
+            ( scaledSize != m_data->pixmap.size() )  )
         {
-            d_data->pixmap = QPixmap( scaledSize );
+            m_data->pixmap = QPixmap( scaledSize );
 #if QT_VERSION >= 0x050000
-            d_data->pixmap.setDevicePixelRatio( pixelRatio );
+            m_data->pixmap.setDevicePixelRatio( pixelRatio );
 #endif
-            d_data->pixmap.fill( Qt::transparent );
+            m_data->pixmap.fill( Qt::transparent );
 
             const QRect r( pw, pw,
                 pixmapRect.width() - 2 * pw, pixmapRect.height() - 2 * pw );
 
-            QPainter pmPainter( &d_data->pixmap );
-            d_data->text.draw( &pmPainter, r );
+            QPainter pmPainter( &m_data->pixmap );
+            m_data->text.draw( &pmPainter, r );
         }
 
-        painter->drawPixmap( pixmapRect, d_data->pixmap );
+        painter->drawPixmap( pixmapRect, m_data->pixmap );
     }
     else
     {
-        d_data->text.draw( painter, rect );
+        m_data->text.draw( painter, rect );
     }
 }
 
@@ -263,11 +263,11 @@ void QwtPlotTextLabel::draw( QPainter *painter,
 QRectF QwtPlotTextLabel::textRect(
     const QRectF &rect, const QSizeF &textSize ) const
 {
-    return qwtItemRect( d_data->text.renderFlags(), rect, textSize );
+    return qwtItemRect( m_data->text.renderFlags(), rect, textSize );
 }
 
 //!  Invalidate all internal cache
 void QwtPlotTextLabel::invalidateCache()
 {
-    d_data->pixmap = QPixmap();
+    m_data->pixmap = QPixmap();
 }

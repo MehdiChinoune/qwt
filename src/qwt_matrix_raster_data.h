@@ -78,7 +78,7 @@ private:
     void update();
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

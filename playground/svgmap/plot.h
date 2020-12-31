@@ -29,8 +29,8 @@ public Q_SLOTS:
 private:
     void rescale();
 
-    QwtPlotGraphicItem *d_mapItem;
-    const QRectF d_mapRect;
+    QwtPlotGraphicItem *m_mapItem;
+    const QRectF m_mapRect;
 };
 
 #endif

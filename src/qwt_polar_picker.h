@@ -92,7 +92,7 @@ private:
     virtual QPainterPath pickArea() const QWT_OVERRIDE;
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

@@ -28,8 +28,8 @@ protected:
 private:
     virtual double value( double timeStamp ) const;
 
-    double d_frequency;
-    double d_amplitude;
+    double m_frequency;
+    double m_amplitude;
 };
 
 #endif

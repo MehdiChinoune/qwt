@@ -29,9 +29,9 @@ public:
 private:
     void insertCurve();
 
-    QwtLegend *d_externalLegend;
-    LegendItem *d_legendItem;
-    bool d_isDirty;
+    QwtLegend *m_externalLegend;
+    LegendItem *m_legendItem;
+    bool m_isDirty;
 };
 
 #endif

@@ -181,7 +181,7 @@ private:
     Q_DISABLE_COPY(QwtSpline)
 
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 /*!

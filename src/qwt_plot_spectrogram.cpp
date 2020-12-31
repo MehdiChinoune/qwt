@@ -107,7 +107,7 @@ public:
 QwtPlotSpectrogram::QwtPlotSpectrogram( const QString &title ):
     QwtPlotRasterItem( title )
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
 
     setItemAttribute( QwtPlotItem::AutoScale, true );
     setItemAttribute( QwtPlotItem::Legend, false );
@@ -118,7 +118,7 @@ QwtPlotSpectrogram::QwtPlotSpectrogram( const QString &title ):
 //! Destructor
 QwtPlotSpectrogram::~QwtPlotSpectrogram()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! \return QwtPlotItem::Rtti_PlotSpectrogram
@@ -139,12 +139,12 @@ int QwtPlotSpectrogram::rtti() const
 */
 void QwtPlotSpectrogram::setDisplayMode( DisplayMode mode, bool on )
 {
-    if ( on != bool( mode & d_data->displayMode ) )
+    if ( on != bool( mode & m_data->displayMode ) )
     {
         if ( on )
-            d_data->displayMode |= mode;
+            m_data->displayMode |= mode;
         else
-            d_data->displayMode &= ~mode;
+            m_data->displayMode &= ~mode;
     }
 
     legendChanged();
@@ -159,7 +159,7 @@ void QwtPlotSpectrogram::setDisplayMode( DisplayMode mode, bool on )
 */
 bool QwtPlotSpectrogram::testDisplayMode( DisplayMode mode ) const
 {
-    return ( d_data->displayMode & mode );
+    return ( m_data->displayMode & mode );
 }
 
 /*!
@@ -178,13 +178,13 @@ void QwtPlotSpectrogram::setColorMap( QwtColorMap *colorMap )
     if ( colorMap == NULL )
         return;
 
-    if ( colorMap != d_data->colorMap )
+    if ( colorMap != m_data->colorMap )
     {
-        delete d_data->colorMap;
-        d_data->colorMap = colorMap;
+        delete m_data->colorMap;
+        m_data->colorMap = colorMap;
     }
 
-    d_data->updateColorTable();
+    m_data->updateColorTable();
 
     invalidateCache();
 
@@ -198,23 +198,23 @@ void QwtPlotSpectrogram::setColorMap( QwtColorMap *colorMap )
 */
 const QwtColorMap *QwtPlotSpectrogram::colorMap() const
 {
-    return d_data->colorMap;
+    return m_data->colorMap;
 }
 
 void QwtPlotSpectrogram::setMaxRGBTableSize( int numColors )
 {
     numColors = qMax( numColors, 0 );
-    if ( numColors != d_data->maxRGBColorTableSize )
+    if ( numColors != m_data->maxRGBColorTableSize )
     {
-        d_data->maxRGBColorTableSize = numColors;
-        d_data->updateColorTable();
+        m_data->maxRGBColorTableSize = numColors;
+        m_data->updateColorTable();
         invalidateCache();
     }
 }
 
 int QwtPlotSpectrogram::maxRGBTableSize() const
 {
-    return d_data->maxRGBColorTableSize;
+    return m_data->maxRGBColorTableSize;
 }
 
 /*!
@@ -248,9 +248,9 @@ void QwtPlotSpectrogram::setDefaultContourPen(
 */
 void QwtPlotSpectrogram::setDefaultContourPen( const QPen &pen )
 {
-    if ( pen != d_data->defaultContourPen )
+    if ( pen != m_data->defaultContourPen )
     {
-        d_data->defaultContourPen = pen;
+        m_data->defaultContourPen = pen;
 
         legendChanged();
         itemChanged();
@@ -263,7 +263,7 @@ void QwtPlotSpectrogram::setDefaultContourPen( const QPen &pen )
 */
 QPen QwtPlotSpectrogram::defaultContourPen() const
 {
-    return d_data->defaultContourPen;
+    return m_data->defaultContourPen;
 }
 
 /*!
@@ -279,11 +279,11 @@ QPen QwtPlotSpectrogram::defaultContourPen() const
 */
 QPen QwtPlotSpectrogram::contourPen( double level ) const
 {
-    if ( d_data->data == NULL || d_data->colorMap == NULL )
+    if ( m_data->data == NULL || m_data->colorMap == NULL )
         return QPen();
 
-    const QwtInterval intensityRange = d_data->data->interval(Qt::ZAxis);
-    const QColor c( d_data->colorMap->rgb( intensityRange, level ) );
+    const QwtInterval intensityRange = m_data->data->interval(Qt::ZAxis);
+    const QColor c( m_data->colorMap->rgb( intensityRange, level ) );
 
     return QPen( c );
 }
@@ -301,13 +301,13 @@ QPen QwtPlotSpectrogram::contourPen( double level ) const
 void QwtPlotSpectrogram::setConrecFlag(
     QwtRasterData::ConrecFlag flag, bool on )
 {
-    if ( bool( d_data->conrecFlags & flag ) == on )
+    if ( bool( m_data->conrecFlags & flag ) == on )
         return;
 
     if ( on )
-        d_data->conrecFlags |= flag;
+        m_data->conrecFlags |= flag;
     else
-        d_data->conrecFlags &= ~flag;
+        m_data->conrecFlags &= ~flag;
 
     itemChanged();
 }
@@ -327,7 +327,7 @@ void QwtPlotSpectrogram::setConrecFlag(
 bool QwtPlotSpectrogram::testConrecFlag(
     QwtRasterData::ConrecFlag flag ) const
 {
-    return d_data->conrecFlags & flag;
+    return m_data->conrecFlags & flag;
 }
 
 /*!
@@ -341,8 +341,8 @@ bool QwtPlotSpectrogram::testConrecFlag(
 */
 void QwtPlotSpectrogram::setContourLevels( const QList<double> &levels )
 {
-    d_data->contourLevels = levels;
-    std::sort( d_data->contourLevels.begin(), d_data->contourLevels.end() );
+    m_data->contourLevels = levels;
+    std::sort( m_data->contourLevels.begin(), m_data->contourLevels.end() );
 
     legendChanged();
     itemChanged();
@@ -358,7 +358,7 @@ void QwtPlotSpectrogram::setContourLevels( const QList<double> &levels )
 */
 QList<double> QwtPlotSpectrogram::contourLevels() const
 {
-    return d_data->contourLevels;
+    return m_data->contourLevels;
 }
 
 /*!
@@ -369,10 +369,10 @@ QList<double> QwtPlotSpectrogram::contourLevels() const
 */
 void QwtPlotSpectrogram::setData( QwtRasterData *data )
 {
-    if ( data != d_data->data )
+    if ( data != m_data->data )
     {
-        delete d_data->data;
-        d_data->data = data;
+        delete m_data->data;
+        m_data->data = data;
 
         invalidateCache();
         itemChanged();
@@ -385,7 +385,7 @@ void QwtPlotSpectrogram::setData( QwtRasterData *data )
 */
 const QwtRasterData *QwtPlotSpectrogram::data() const
 {
-    return d_data->data;
+    return m_data->data;
 }
 
 /*!
@@ -394,7 +394,7 @@ const QwtRasterData *QwtPlotSpectrogram::data() const
 */
 QwtRasterData *QwtPlotSpectrogram::data()
 {
-    return d_data->data;
+    return m_data->data;
 }
 
 /*!
@@ -408,10 +408,10 @@ QwtRasterData *QwtPlotSpectrogram::data()
 */
 QwtInterval QwtPlotSpectrogram::interval(Qt::Axis axis) const
 {
-    if ( d_data->data == NULL )
+    if ( m_data->data == NULL )
         return QwtInterval();
 
-    return d_data->data->interval( axis );
+    return m_data->data->interval( axis );
 }
 
 /*!
@@ -432,10 +432,10 @@ QwtInterval QwtPlotSpectrogram::interval(Qt::Axis axis) const
 */
 QRectF QwtPlotSpectrogram::pixelHint( const QRectF &area ) const
 {
-    if ( d_data->data == NULL )
+    if ( m_data->data == NULL )
         return QRectF();
 
-    return d_data->data->pixelHint( area );
+    return m_data->data->pixelHint( area );
 }
 
 /*!
@@ -458,25 +458,25 @@ QImage QwtPlotSpectrogram::renderImage(
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     const QRectF &area, const QSize &imageSize ) const
 {
-    if ( imageSize.isEmpty() || d_data->data == NULL
-        || d_data->colorMap == NULL )
+    if ( imageSize.isEmpty() || m_data->data == NULL
+        || m_data->colorMap == NULL )
     {
         return QImage();
     }
 
-    const QwtInterval intensityRange = d_data->data->interval( Qt::ZAxis );
+    const QwtInterval intensityRange = m_data->data->interval( Qt::ZAxis );
     if ( !intensityRange.isValid() )
         return QImage();
 
-    const QImage::Format format = ( d_data->colorMap->format() == QwtColorMap::RGB )
+    const QImage::Format format = ( m_data->colorMap->format() == QwtColorMap::RGB )
         ? QImage::Format_ARGB32 : QImage::Format_Indexed8;
 
     QImage image( imageSize, format );
 
-    if ( d_data->colorMap->format() == QwtColorMap::Indexed )
-        image.setColorTable( d_data->colorMap->colorTable256() );
+    if ( m_data->colorMap->format() == QwtColorMap::Indexed )
+        image.setColorTable( m_data->colorMap->colorTable256() );
 
-    d_data->data->initRaster( area, image.size() );
+    m_data->data->initRaster( area, image.size() );
 
 #if DEBUG_RENDER
     QElapsedTimer time;
@@ -530,7 +530,7 @@ QImage QwtPlotSpectrogram::renderImage(
     qDebug() << "renderImage" << imageSize << elapsed;
 #endif
 
-    d_data->data->discardRaster();
+    m_data->data->discardRaster();
 
     return image;
 }
@@ -550,17 +550,17 @@ void QwtPlotSpectrogram::renderTile(
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     const QRect &tile, QImage *image ) const
 {
-    const QwtInterval range = d_data->data->interval( Qt::ZAxis );
+    const QwtInterval range = m_data->data->interval( Qt::ZAxis );
     if ( range.width() <= 0.0 )
         return;
 
-    const bool hasGaps = !d_data->data->testAttribute( QwtRasterData::WithoutGaps );
+    const bool hasGaps = !m_data->data->testAttribute( QwtRasterData::WithoutGaps );
 
-    if ( d_data->colorMap->format() == QwtColorMap::RGB )
+    if ( m_data->colorMap->format() == QwtColorMap::RGB )
     {
-        const int numColors = d_data->colorTable.size();
-        const QRgb *rgbTable = d_data->colorTable.constData();
-        const QwtColorMap *colorMap = d_data->colorMap;
+        const int numColors = m_data->colorTable.size();
+        const QRgb *rgbTable = m_data->colorTable.constData();
+        const QwtColorMap *colorMap = m_data->colorMap;
 
         for ( int y = tile.top(); y <= tile.bottom(); y++ )
         {
@@ -573,7 +573,7 @@ void QwtPlotSpectrogram::renderTile(
             {
                 const double tx = xMap.invTransform( x );
 
-                const double value = d_data->data->value( tx, ty );
+                const double value = m_data->data->value( tx, ty );
 
                 if ( hasGaps && qwtIsNaN( value ) )
                 {
@@ -591,7 +591,7 @@ void QwtPlotSpectrogram::renderTile(
             }
         }
     }
-    else if ( d_data->colorMap->format() == QwtColorMap::Indexed )
+    else if ( m_data->colorMap->format() == QwtColorMap::Indexed )
     {
         for ( int y = tile.top(); y <= tile.bottom(); y++ )
         {
@@ -604,7 +604,7 @@ void QwtPlotSpectrogram::renderTile(
             {
                 const double tx = xMap.invTransform( x );
 
-                const double value = d_data->data->value( tx, ty );
+                const double value = m_data->data->value( tx, ty );
 
                 if ( hasGaps && qwtIsNaN( value ) )
                 {
@@ -612,7 +612,7 @@ void QwtPlotSpectrogram::renderTile(
                 }
                 else
                 {
-                    const uint index = d_data->colorMap->colorIndex( 256, range, value );
+                    const uint index = m_data->colorMap->colorIndex( 256, range, value );
                     *line++ = static_cast<unsigned char>( index );
                 }
             }
@@ -666,11 +666,11 @@ QSize QwtPlotSpectrogram::contourRasterSize(
 QwtRasterData::ContourLines QwtPlotSpectrogram::renderContourLines(
     const QRectF &rect, const QSize &raster ) const
 {
-    if ( d_data->data == NULL )
+    if ( m_data->data == NULL )
         return QwtRasterData::ContourLines();
 
-    return d_data->data->contourLines( rect, raster,
-        d_data->contourLevels, d_data->conrecFlags );
+    return m_data->data->contourLines( rect, raster,
+        m_data->contourLevels, m_data->conrecFlags );
 }
 
 /*!
@@ -687,13 +687,13 @@ void QwtPlotSpectrogram::drawContourLines( QPainter *painter,
         const QwtScaleMap &xMap, const QwtScaleMap &yMap,
         const QwtRasterData::ContourLines &contourLines ) const
 {
-    if ( d_data->data == NULL )
+    if ( m_data->data == NULL )
         return;
 
-    const int numLevels = d_data->contourLevels.size();
+    const int numLevels = m_data->contourLevels.size();
     for ( int l = 0; l < numLevels; l++ )
     {
-        const double level = d_data->contourLevels[l];
+        const double level = m_data->contourLevels[l];
 
         QPen pen = defaultContourPen();
         if ( pen.style() == Qt::NoPen )
@@ -732,10 +732,10 @@ void QwtPlotSpectrogram::draw( QPainter *painter,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap,
     const QRectF &canvasRect ) const
 {
-    if ( d_data->displayMode & ImageMode )
+    if ( m_data->displayMode & ImageMode )
         QwtPlotRasterItem::draw( painter, xMap, yMap, canvasRect );
 
-    if ( d_data->displayMode & ContourMode )
+    if ( m_data->displayMode & ContourMode )
     {
         // Add some pixels at the borders
         const int margin = 2;

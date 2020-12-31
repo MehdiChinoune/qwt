@@ -78,7 +78,7 @@ protected:
 private:
     Q_DISABLE_COPY(QwtCurveFitter)
 
-    const Mode d_mode;
+    const Mode m_mode;
 };
 
 #endif

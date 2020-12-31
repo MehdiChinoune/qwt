@@ -34,26 +34,26 @@ private:
     QWidget *createCanvasTab( QWidget * );
     QWidget *createCurveTab( QWidget * );
 
-    SpinBox *d_numPoints;
-    SpinBox *d_updateInterval;
-    QComboBox *d_updateType;
+    SpinBox *m_numPoints;
+    SpinBox *m_updateInterval;
+    QComboBox *m_updateType;
 
-    QComboBox *d_gridStyle;
-    CheckBox *d_paintCache;
-    CheckBox *d_paintOnScreen;
-    CheckBox *d_immediatePaint;
+    QComboBox *m_gridStyle;
+    CheckBox *m_paintCache;
+    CheckBox *m_paintOnScreen;
+    CheckBox *m_immediatePaint;
 #ifndef QWT_NO_OPENGL
-    CheckBox *d_openGL;
+    CheckBox *m_openGL;
 #endif
 
-    QComboBox *d_curveType;
-    CheckBox *d_curveAntialiasing;
-    CheckBox *d_curveClipping;
-    QComboBox *d_curveWeeding;
-    CheckBox *d_lineSplitting;
-    SpinBox  *d_curveWidth;
-    QComboBox *d_curvePen;
-    CheckBox *d_curveFilled;
+    QComboBox *m_curveType;
+    CheckBox *m_curveAntialiasing;
+    CheckBox *m_curveClipping;
+    QComboBox *m_curveWeeding;
+    CheckBox *m_lineSplitting;
+    SpinBox  *m_curveWidth;
+    QComboBox *m_curvePen;
+    CheckBox *m_curveFilled;
 };
 
 #endif

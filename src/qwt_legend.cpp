@@ -260,27 +260,27 @@ QwtLegend::QwtLegend( QWidget *parent ):
 {
     setFrameStyle( NoFrame );
 
-    d_data = new QwtLegend::PrivateData;
+    m_data = new QwtLegend::PrivateData;
 
-    d_data->view = new QwtLegend::PrivateData::LegendView( this );
-    d_data->view->setObjectName( "QwtLegendView" );
-    d_data->view->setFrameStyle( NoFrame );
+    m_data->view = new QwtLegend::PrivateData::LegendView( this );
+    m_data->view->setObjectName( "QwtLegendView" );
+    m_data->view->setFrameStyle( NoFrame );
 
     QwtDynGridLayout *gridLayout = new QwtDynGridLayout(
-        d_data->view->contentsWidget );
+        m_data->view->contentsWidget );
     gridLayout->setAlignment( Qt::AlignHCenter | Qt::AlignTop );
 
-    d_data->view->contentsWidget->installEventFilter( this );
+    m_data->view->contentsWidget->installEventFilter( this );
 
     QVBoxLayout *layout = new QVBoxLayout( this );
     layout->setContentsMargins( 0, 0, 0, 0 );
-    layout->addWidget( d_data->view );
+    layout->addWidget( m_data->view );
 }
 
 //! Destructor
 QwtLegend::~QwtLegend()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -296,7 +296,7 @@ QwtLegend::~QwtLegend()
 void QwtLegend::setMaxColumns( uint numColums )
 {
     QwtDynGridLayout *tl = qobject_cast<QwtDynGridLayout *>(
-        d_data->view->contentsWidget->layout() );
+        m_data->view->contentsWidget->layout() );
     if ( tl )
         tl->setMaxColumns( numColums );
 
@@ -312,7 +312,7 @@ uint QwtLegend::maxColumns() const
     uint maxCols = 0;
 
     const QwtDynGridLayout *tl = qobject_cast<const QwtDynGridLayout *>(
-        d_data->view->contentsWidget->layout() );
+        m_data->view->contentsWidget->layout() );
     if ( tl )
         maxCols = tl->maxColumns();
 
@@ -334,7 +334,7 @@ uint QwtLegend::maxColumns() const
  */
 void QwtLegend::setDefaultItemMode( QwtLegendData::Mode mode )
 {
-    d_data->itemMode = mode;
+    m_data->itemMode = mode;
 }
 
 /*!
@@ -343,7 +343,7 @@ void QwtLegend::setDefaultItemMode( QwtLegendData::Mode mode )
 */
 QwtLegendData::Mode QwtLegend::defaultItemMode() const
 {
-    return d_data->itemMode;
+    return m_data->itemMode;
 }
 
 /*!
@@ -354,7 +354,7 @@ QwtLegendData::Mode QwtLegend::defaultItemMode() const
 */
 QWidget *QwtLegend::contentsWidget()
 {
-    return d_data->view->contentsWidget;
+    return m_data->view->contentsWidget;
 }
 
 /*!
@@ -363,7 +363,7 @@ QWidget *QwtLegend::contentsWidget()
 */
 QScrollBar *QwtLegend::horizontalScrollBar() const
 {
-    return d_data->view->horizontalScrollBar();
+    return m_data->view->horizontalScrollBar();
 }
 
 /*!
@@ -372,7 +372,7 @@ QScrollBar *QwtLegend::horizontalScrollBar() const
 */
 QScrollBar *QwtLegend::verticalScrollBar() const
 {
-    return d_data->view->verticalScrollBar();
+    return m_data->view->verticalScrollBar();
 }
 
 /*!
@@ -384,7 +384,7 @@ QScrollBar *QwtLegend::verticalScrollBar() const
 */
 const QWidget *QwtLegend::contentsWidget() const
 {
-    return d_data->view->contentsWidget;
+    return m_data->view->contentsWidget;
 }
 
 /*!
@@ -400,7 +400,7 @@ void QwtLegend::updateLegend( const QVariant &itemInfo,
 
     if ( widgetList.size() != legendData.size() )
     {
-        QLayout *contentsLayout = d_data->view->contentsWidget->layout();
+        QLayout *contentsLayout = m_data->view->contentsWidget->layout();
 
         while ( widgetList.size() > legendData.size() )
         {
@@ -439,11 +439,11 @@ void QwtLegend::updateLegend( const QVariant &itemInfo,
 
         if ( widgetList.isEmpty() )
         {
-            d_data->itemMap.remove( itemInfo );
+            m_data->itemMap.remove( itemInfo );
         }
         else
         {
-            d_data->itemMap.insert( itemInfo, widgetList );
+            m_data->itemMap.insert( itemInfo, widgetList );
         }
 
         updateTabOrder();
@@ -504,7 +504,7 @@ void QwtLegend::updateWidget( QWidget *widget, const QwtLegendData &legendData )
 
 void QwtLegend::updateTabOrder()
 {
-    QLayout *contentsLayout = d_data->view->contentsWidget->layout();
+    QLayout *contentsLayout = m_data->view->contentsWidget->layout();
     if ( contentsLayout )
     {
         // set tab focus chain
@@ -525,7 +525,7 @@ void QwtLegend::updateTabOrder()
 //! Return a size hint.
 QSize QwtLegend::sizeHint() const
 {
-    QSize hint = d_data->view->contentsWidget->sizeHint();
+    QSize hint = m_data->view->contentsWidget->sizeHint();
     hint += QSize( 2 * frameWidth(), 2 * frameWidth() );
 
     return hint;
@@ -539,7 +539,7 @@ int QwtLegend::heightForWidth( int width ) const
 {
     width -= 2 * frameWidth();
 
-    int h = d_data->view->contentsWidget->heightForWidth( width );
+    int h = m_data->view->contentsWidget->heightForWidth( width );
     if ( h >= 0 )
         h += 2 * frameWidth();
 
@@ -558,7 +558,7 @@ int QwtLegend::heightForWidth( int width ) const
 */
 bool QwtLegend::eventFilter( QObject *object, QEvent *event )
 {
-    if ( object == d_data->view->contentsWidget )
+    if ( object == m_data->view->contentsWidget )
     {
         switch ( event->type() )
         {
@@ -575,13 +575,13 @@ bool QwtLegend::eventFilter( QObject *object, QEvent *event )
                         to remove it from the map.
                      */
                     QWidget *w = reinterpret_cast< QWidget * >( ce->child() );
-                    d_data->itemMap.removeWidget( w );
+                    m_data->itemMap.removeWidget( w );
                 }
                 break;
             }
             case QEvent::LayoutRequest:
             {
-                d_data->view->layoutContents();
+                m_data->view->layoutContents();
 
                 if ( parentWidget() && parentWidget()->layout() == NULL )
                 {
@@ -618,11 +618,11 @@ void QwtLegend::itemClicked()
     QWidget *w = qobject_cast<QWidget *>( sender() );
     if ( w )
     {
-        const QVariant itemInfo = d_data->itemMap.itemInfo( w );
+        const QVariant itemInfo = m_data->itemMap.itemInfo( w );
         if ( itemInfo.isValid() )
         {
             const QList<QWidget *> widgetList =
-                d_data->itemMap.legendWidgets( itemInfo );
+                m_data->itemMap.legendWidgets( itemInfo );
 
             const int index = widgetList.indexOf( w );
             if ( index >= 0 )
@@ -640,11 +640,11 @@ void QwtLegend::itemChecked( bool on )
     QWidget *w = qobject_cast<QWidget *>( sender() );
     if ( w )
     {
-        const QVariant itemInfo = d_data->itemMap.itemInfo( w );
+        const QVariant itemInfo = m_data->itemMap.itemInfo( w );
         if ( itemInfo.isValid() )
         {
             const QList<QWidget *> widgetList =
-                d_data->itemMap.legendWidgets( itemInfo );
+                m_data->itemMap.legendWidgets( itemInfo );
 
             const int index = widgetList.indexOf( w );
             if ( index >= 0 )
@@ -665,7 +665,7 @@ void QwtLegend::itemChecked( bool on )
 void QwtLegend::renderLegend( QPainter *painter,
     const QRectF &rect, bool fillBackground ) const
 {
-    if ( d_data->itemMap.isEmpty() )
+    if ( m_data->itemMap.isEmpty() )
         return;
 
     if ( fillBackground )
@@ -776,7 +776,7 @@ void QwtLegend::renderItem( QPainter *painter,
  */
 QList<QWidget *> QwtLegend::legendWidgets( const QVariant &itemInfo ) const
 {
-    return d_data->itemMap.legendWidgets( itemInfo );
+    return m_data->itemMap.legendWidgets( itemInfo );
 }
 
 /*!
@@ -787,7 +787,7 @@ QList<QWidget *> QwtLegend::legendWidgets( const QVariant &itemInfo ) const
 */
 QWidget *QwtLegend::legendWidget( const QVariant &itemInfo ) const
 {
-    const QList<QWidget *> list = d_data->itemMap.legendWidgets( itemInfo );
+    const QList<QWidget *> list = m_data->itemMap.legendWidgets( itemInfo );
     if ( list.isEmpty() )
         return NULL;
 
@@ -803,13 +803,13 @@ QWidget *QwtLegend::legendWidget( const QVariant &itemInfo ) const
  */
 QVariant QwtLegend::itemInfo( const QWidget *widget ) const
 {
-    return d_data->itemMap.itemInfo( widget );
+    return m_data->itemMap.itemInfo( widget );
 }
 
 //! \return True, when no item is inserted
 bool QwtLegend::isEmpty() const
 {
-    return d_data->itemMap.isEmpty();
+    return m_data->itemMap.isEmpty();
 }
 
 /*!

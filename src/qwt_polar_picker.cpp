@@ -29,7 +29,7 @@ public:
 QwtPolarPicker::QwtPolarPicker( QwtPolarCanvas *canvas ):
     QwtPicker( canvas )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 /*!
@@ -49,13 +49,13 @@ QwtPolarPicker::QwtPolarPicker(
         QwtPolarCanvas *canvas ):
     QwtPicker( rubberBand, trackerMode, canvas )
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtPolarPicker::~QwtPolarPicker()
 {
-    delete d_data;
+    delete m_data;
 }
 
 //! \return Observed plot canvas

@@ -35,34 +35,34 @@ public:
 PlotWindow::PlotWindow( QWidget *parent ):
     QWidget( parent )
 {
-    d_plot = new Plot( this );
+    m_plot = new Plot( this );
 
-    d_colorScale = new QwtScaleWidget( this );
-    d_colorScale->setAlignment( QwtScaleDraw::RightScale );
-    d_colorScale->setColorBarEnabled( true );
+    m_colorScale = new QwtScaleWidget( this );
+    m_colorScale->setAlignment( QwtScaleDraw::RightScale );
+    m_colorScale->setColorBarEnabled( true );
 
     QwtText title( "Intensity" );
-    QFont font = d_colorScale->font();
+    QFont font = m_colorScale->font();
     font.setBold( true );
     title.setFont( font );
-    d_colorScale->setTitle( title );
+    m_colorScale->setTitle( title );
 
     const QwtInterval interval =
-        d_plot->spectrogram()->data()->interval( Qt::ZAxis );
+        m_plot->spectrogram()->data()->interval( Qt::ZAxis );
 
-    d_colorScale->setColorMap( interval, new ColorMap() );
-    d_plot->spectrogram()->setColorMap( new ColorMap() );
+    m_colorScale->setColorMap( interval, new ColorMap() );
+    m_plot->spectrogram()->setColorMap( new ColorMap() );
 
     QwtLinearScaleEngine scaleEngine;
-    d_colorScale->setScaleDiv( 
+    m_colorScale->setScaleDiv( 
         scaleEngine.divideScale( interval.minValue(), interval.maxValue(), 8, 5 ) );
 
     int startDist, endDist;
-    d_colorScale->getBorderDistHint( startDist, endDist );
-    d_colorScale->setBorderDist( startDist, endDist );
+    m_colorScale->getBorderDistHint( startDist, endDist );
+    m_colorScale->setBorderDist( startDist, endDist );
 
 
     QHBoxLayout *layout = new QHBoxLayout( this );
-    layout->addWidget( d_plot, 10 );
-    layout->addWidget( d_colorScale, 10 );
+    layout->addWidget( m_plot, 10 );
+    layout->addWidget( m_colorScale, 10 );
 }

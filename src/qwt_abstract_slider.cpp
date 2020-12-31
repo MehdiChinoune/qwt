@@ -91,7 +91,7 @@ public:
 QwtAbstractSlider::QwtAbstractSlider( QWidget *parent ):
     QwtAbstractScale( parent )
 {
-    d_data = new QwtAbstractSlider::PrivateData;
+    m_data = new QwtAbstractSlider::PrivateData;
 
     setScale( 0.0, 100.0 );
     setFocusPolicy( Qt::StrongFocus );
@@ -100,7 +100,7 @@ QwtAbstractSlider::QwtAbstractSlider( QWidget *parent ):
 //! Destructor
 QwtAbstractSlider::~QwtAbstractSlider()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -112,19 +112,19 @@ QwtAbstractSlider::~QwtAbstractSlider()
 */
 void QwtAbstractSlider::setValid( bool on )
 {
-    if ( on != d_data->isValid )
+    if ( on != m_data->isValid )
     {
-        d_data->isValid = on;
+        m_data->isValid = on;
         sliderChange();
 
-        Q_EMIT valueChanged( d_data->value );
+        Q_EMIT valueChanged( m_data->value );
     }
 }
 
 //! \return True, when the value is invalid
 bool QwtAbstractSlider::isValid() const
 {
-    return d_data->isValid;
+    return m_data->isValid;
 }
 
 /*!
@@ -140,9 +140,9 @@ bool QwtAbstractSlider::isValid() const
 */
 void QwtAbstractSlider::setReadOnly( bool on )
 {
-    if ( d_data->readOnly != on )
+    if ( m_data->readOnly != on )
     {
-        d_data->readOnly = on;
+        m_data->readOnly = on;
         setFocusPolicy( on ? Qt::StrongFocus : Qt::NoFocus );
 
         update();
@@ -158,7 +158,7 @@ void QwtAbstractSlider::setReadOnly( bool on )
 */
 bool QwtAbstractSlider::isReadOnly() const
 {
-    return d_data->readOnly;
+    return m_data->readOnly;
 }
 
 /*!
@@ -176,7 +176,7 @@ bool QwtAbstractSlider::isReadOnly() const
 */
 void QwtAbstractSlider::setTracking( bool on )
 {
-    d_data->isTracking = on;
+    m_data->isTracking = on;
 }
 
 /*!
@@ -185,7 +185,7 @@ void QwtAbstractSlider::setTracking( bool on )
 */
 bool QwtAbstractSlider::isTracking() const
 {
-    return d_data->isTracking;
+    return m_data->isTracking;
 }
 
 /*!
@@ -200,14 +200,14 @@ void QwtAbstractSlider::mousePressEvent( QMouseEvent *event )
         return;
     }
 
-    if ( !d_data->isValid || lowerBound() == upperBound() )
+    if ( !m_data->isValid || lowerBound() == upperBound() )
         return;
 
-    d_data->isScrolling = isScrollPosition( event->pos() );
+    m_data->isScrolling = isScrollPosition( event->pos() );
 
-    if ( d_data->isScrolling )
+    if ( m_data->isScrolling )
     {
-        d_data->pendingValueChanged = false;
+        m_data->pendingValueChanged = false;
 
         Q_EMIT sliderPressed();
     }
@@ -225,14 +225,14 @@ void QwtAbstractSlider::mouseMoveEvent( QMouseEvent *event )
         return;
     }
 
-    if ( d_data->isValid && d_data->isScrolling )
+    if ( m_data->isValid && m_data->isScrolling )
     {
         double value = scrolledTo( event->pos() );
-        if ( value != d_data->value )
+        if ( value != m_data->value )
         {
             value = boundedValue( value );
 
-            if ( d_data->stepAlignment )
+            if ( m_data->stepAlignment )
             {
                 value = alignedValue( value );
             }
@@ -241,18 +241,18 @@ void QwtAbstractSlider::mouseMoveEvent( QMouseEvent *event )
                 value = qwtAlignToScaleDiv( this, value );
             }
 
-            if ( value != d_data->value )
+            if ( value != m_data->value )
             {
-                d_data->value = value;
+                m_data->value = value;
 
                 sliderChange();
 
-                Q_EMIT sliderMoved( d_data->value );
+                Q_EMIT sliderMoved( m_data->value );
 
-                if ( d_data->isTracking )
-                    Q_EMIT valueChanged( d_data->value );
+                if ( m_data->isTracking )
+                    Q_EMIT valueChanged( m_data->value );
                 else
-                    d_data->pendingValueChanged = true;
+                    m_data->pendingValueChanged = true;
             }
         }
     }
@@ -270,12 +270,12 @@ void QwtAbstractSlider::mouseReleaseEvent( QMouseEvent *event )
         return;
     }
 
-    if ( d_data->isScrolling && d_data->isValid )
+    if ( m_data->isScrolling && m_data->isValid )
     {
-        d_data->isScrolling = false;
+        m_data->isScrolling = false;
 
-        if ( d_data->pendingValueChanged )
-            Q_EMIT valueChanged( d_data->value );
+        if ( m_data->pendingValueChanged )
+            Q_EMIT valueChanged( m_data->value );
 
         Q_EMIT sliderReleased();
     }
@@ -301,7 +301,7 @@ void QwtAbstractSlider::wheelEvent( QWheelEvent *event )
         return;
     }
 
-    if ( !d_data->isValid || d_data->isScrolling )
+    if ( !m_data->isValid || m_data->isScrolling )
         return;
 
 #if QT_VERSION < 0x050000
@@ -318,27 +318,27 @@ void QwtAbstractSlider::wheelEvent( QWheelEvent *event )
         ( event->modifiers() & Qt::ShiftModifier ) )
     {
         // one page regardless of delta
-        numSteps = d_data->pageSteps;
+        numSteps = m_data->pageSteps;
         if ( wheelDelta < 0 )
             numSteps = -numSteps;
     }
     else
     {
         const int numTurns = ( wheelDelta / 120 );
-        numSteps = numTurns * d_data->singleSteps;
+        numSteps = numTurns * m_data->singleSteps;
     }
 
-    if ( d_data->invertedControls )
+    if ( m_data->invertedControls )
         numSteps = -numSteps;
 
-    const double value = incrementedValue( d_data->value, numSteps );
-    if ( value != d_data->value )
+    const double value = incrementedValue( m_data->value, numSteps );
+    if ( value != m_data->value )
     {
-        d_data->value = value;
+        m_data->value = value;
         sliderChange();
 
-        Q_EMIT sliderMoved( d_data->value );
-        Q_EMIT valueChanged( d_data->value );
+        Q_EMIT sliderMoved( m_data->value );
+        Q_EMIT valueChanged( m_data->value );
     }
 }
 
@@ -375,17 +375,17 @@ void QwtAbstractSlider::keyPressEvent( QKeyEvent *event )
         return;
     }
 
-    if ( !d_data->isValid || d_data->isScrolling )
+    if ( !m_data->isValid || m_data->isScrolling )
         return;
 
     int numSteps = 0;
-    double value = d_data->value;
+    double value = m_data->value;
 
     switch ( event->key() )
     {
         case Qt::Key_Left:
         {
-            numSteps = -static_cast<int>( d_data->singleSteps );
+            numSteps = -static_cast<int>( m_data->singleSteps );
             if ( isInverted() )
                 numSteps = -numSteps;
 
@@ -393,7 +393,7 @@ void QwtAbstractSlider::keyPressEvent( QKeyEvent *event )
         }
         case Qt::Key_Right:
         {
-            numSteps = d_data->singleSteps;
+            numSteps = m_data->singleSteps;
             if ( isInverted() )
                 numSteps = -numSteps;
 
@@ -401,30 +401,30 @@ void QwtAbstractSlider::keyPressEvent( QKeyEvent *event )
         }
         case Qt::Key_Down:
         {
-            numSteps = -static_cast<int>( d_data->singleSteps );
-            if ( d_data->invertedControls )
+            numSteps = -static_cast<int>( m_data->singleSteps );
+            if ( m_data->invertedControls )
                 numSteps = -numSteps;
             break;
         }
         case Qt::Key_Up:
         {
-            numSteps = d_data->singleSteps;
-            if ( d_data->invertedControls )
+            numSteps = m_data->singleSteps;
+            if ( m_data->invertedControls )
                 numSteps = -numSteps;
 
             break;
         }
         case Qt::Key_PageUp:
         {
-            numSteps = d_data->pageSteps;
-            if ( d_data->invertedControls )
+            numSteps = m_data->pageSteps;
+            if ( m_data->invertedControls )
                 numSteps = -numSteps;
             break;
         }
         case Qt::Key_PageDown:
         {
-            numSteps = -static_cast<int>( d_data->pageSteps );
-            if ( d_data->invertedControls )
+            numSteps = -static_cast<int>( m_data->pageSteps );
+            if ( m_data->invertedControls )
                 numSteps = -numSteps;
             break;
         }
@@ -446,16 +446,16 @@ void QwtAbstractSlider::keyPressEvent( QKeyEvent *event )
 
     if ( numSteps != 0 )
     {
-        value = incrementedValue( d_data->value, numSteps );
+        value = incrementedValue( m_data->value, numSteps );
     }
 
-    if ( value != d_data->value )
+    if ( value != m_data->value )
     {
-        d_data->value = value;
+        m_data->value = value;
         sliderChange();
 
-        Q_EMIT sliderMoved( d_data->value );
-        Q_EMIT valueChanged( d_data->value );
+        Q_EMIT sliderMoved( m_data->value );
+        Q_EMIT valueChanged( m_data->value );
     }
 }
 
@@ -473,7 +473,7 @@ void QwtAbstractSlider::keyPressEvent( QKeyEvent *event )
  */
 void QwtAbstractSlider::setTotalSteps( uint stepCount )
 {
-    d_data->totalSteps = stepCount;
+    m_data->totalSteps = stepCount;
 }
 
 /*!
@@ -482,7 +482,7 @@ void QwtAbstractSlider::setTotalSteps( uint stepCount )
  */
 uint QwtAbstractSlider::totalSteps() const
 {
-    return d_data->totalSteps;
+    return m_data->totalSteps;
 }
 
 /*!
@@ -498,7 +498,7 @@ uint QwtAbstractSlider::totalSteps() const
 
 void QwtAbstractSlider::setSingleSteps( uint stepCount )
 {
-    d_data->singleSteps = stepCount;
+    m_data->singleSteps = stepCount;
 }
 
 /*!
@@ -507,7 +507,7 @@ void QwtAbstractSlider::setSingleSteps( uint stepCount )
  */
 uint QwtAbstractSlider::singleSteps() const
 {
-    return d_data->singleSteps;
+    return m_data->singleSteps;
 }
 
 /*!
@@ -523,7 +523,7 @@ uint QwtAbstractSlider::singleSteps() const
 
 void QwtAbstractSlider::setPageSteps( uint stepCount )
 {
-    d_data->pageSteps = stepCount;
+    m_data->pageSteps = stepCount;
 }
 
 /*!
@@ -532,7 +532,7 @@ void QwtAbstractSlider::setPageSteps( uint stepCount )
  */
 uint QwtAbstractSlider::pageSteps() const
 {
-    return d_data->pageSteps;
+    return m_data->pageSteps;
 }
 
 /*!
@@ -546,9 +546,9 @@ uint QwtAbstractSlider::pageSteps() const
 */
 void QwtAbstractSlider::setStepAlignment( bool on )
 {
-    if ( on != d_data->stepAlignment )
+    if ( on != m_data->stepAlignment )
     {
-        d_data->stepAlignment = on;
+        m_data->stepAlignment = on;
     }
 }
 
@@ -558,7 +558,7 @@ void QwtAbstractSlider::setStepAlignment( bool on )
  */
 bool QwtAbstractSlider::stepAlignment() const
 {
-    return d_data->stepAlignment;
+    return m_data->stepAlignment;
 }
 
 /*!
@@ -571,22 +571,22 @@ void QwtAbstractSlider::setValue( double value )
 {
     value = qBound( minimum(), value, maximum() );
 
-    const bool changed = ( d_data->value != value ) || !d_data->isValid;
+    const bool changed = ( m_data->value != value ) || !m_data->isValid;
 
-    d_data->value = value;
-    d_data->isValid = true;
+    m_data->value = value;
+    m_data->isValid = true;
 
     if ( changed )
     {
         sliderChange();
-        Q_EMIT valueChanged( d_data->value );
+        Q_EMIT valueChanged( m_data->value );
     }
 }
 
 //! Returns the current value.
 double QwtAbstractSlider::value() const
 {
-    return d_data->value;
+    return m_data->value;
 }
 
 /*!
@@ -598,7 +598,7 @@ double QwtAbstractSlider::value() const
 */
 void QwtAbstractSlider::setWrapping( bool on )
 {
-    d_data->wrapping = on;
+    m_data->wrapping = on;
 }
 
 /*!
@@ -607,7 +607,7 @@ void QwtAbstractSlider::setWrapping( bool on )
  */
 bool QwtAbstractSlider::wrapping() const
 {
-    return d_data->wrapping;
+    return m_data->wrapping;
 }
 
 /*!
@@ -627,7 +627,7 @@ bool QwtAbstractSlider::wrapping() const
  */
 void QwtAbstractSlider::setInvertedControls( bool on )
 {
-    d_data->invertedControls = on;
+    m_data->invertedControls = on;
 }
 
 /*!
@@ -636,7 +636,7 @@ void QwtAbstractSlider::setInvertedControls( bool on )
  */
 bool QwtAbstractSlider::invertedControls() const
 {
-    return d_data->invertedControls;
+    return m_data->invertedControls;
 }
 
 /*!
@@ -650,11 +650,11 @@ bool QwtAbstractSlider::invertedControls() const
 void QwtAbstractSlider::incrementValue( int stepCount )
 {
     const double value = incrementedValue(
-        d_data->value, stepCount );
+        m_data->value, stepCount );
 
-    if ( value != d_data->value )
+    if ( value != m_data->value )
     {
-        d_data->value = value;
+        m_data->value = value;
         sliderChange();
     }
 }
@@ -670,7 +670,7 @@ void QwtAbstractSlider::incrementValue( int stepCount )
 double QwtAbstractSlider::incrementedValue(
     double value, int stepCount ) const
 {
-    if ( d_data->totalSteps == 0 )
+    if ( m_data->totalSteps == 0 )
         return value;
 
     const QwtTransform *transformation =
@@ -679,31 +679,31 @@ double QwtAbstractSlider::incrementedValue(
     if ( transformation == NULL )
     {
         const double range = maximum() - minimum();
-        value += stepCount * range / d_data->totalSteps;
+        value += stepCount * range / m_data->totalSteps;
     }
     else
     {
         QwtScaleMap map = scaleMap();
-        map.setPaintInterval( 0, d_data->totalSteps );
+        map.setPaintInterval( 0, m_data->totalSteps );
 
         // we need equidant steps according to
         // paint device coordinates
         const double range = transformation->transform( maximum() )
             - transformation->transform( minimum() );
 
-        const double stepSize = range / d_data->totalSteps;
+        const double stepSize = range / m_data->totalSteps;
 
         double v = transformation->transform( value );
 
         v = qRound( v / stepSize ) * stepSize;
-        v += stepCount * range / d_data->totalSteps;
+        v += stepCount * range / m_data->totalSteps;
 
         value = transformation->invTransform( v );
     }
 
     value = boundedValue( value );
 
-    if ( d_data->stepAlignment )
+    if ( m_data->stepAlignment )
         value = alignedValue( value );
 
     return value;
@@ -714,7 +714,7 @@ double QwtAbstractSlider::boundedValue( double value ) const
     const double vmin = minimum();
     const double vmax = maximum();
 
-    if ( d_data->wrapping && vmin != vmax )
+    if ( m_data->wrapping && vmin != vmax )
     {
         const int fullCircle = 360 * 16;
 
@@ -751,14 +751,14 @@ double QwtAbstractSlider::boundedValue( double value ) const
 
 double QwtAbstractSlider::alignedValue( double value ) const
 {
-    if ( d_data->totalSteps == 0 )
+    if ( m_data->totalSteps == 0 )
         return value;
 
     double stepSize;
 
     if ( scaleMap().transformation() == NULL )
     {
-        stepSize = ( maximum() - minimum() ) / d_data->totalSteps;
+        stepSize = ( maximum() - minimum() ) / m_data->totalSteps;
         if ( stepSize > 0.0 )
         {
             value = lowerBound() +
@@ -767,7 +767,7 @@ double QwtAbstractSlider::alignedValue( double value ) const
     }
     else
     {
-        stepSize = ( scaleMap().p2() - scaleMap().p1() ) / d_data->totalSteps;
+        stepSize = ( scaleMap().p2() - scaleMap().p1() ) / m_data->totalSteps;
 
         if ( stepSize > 0.0 )
         {
@@ -805,16 +805,16 @@ double QwtAbstractSlider::alignedValue( double value ) const
  */
 void QwtAbstractSlider::scaleChange()
 {
-    const double value = qBound( minimum(), d_data->value, maximum() );
+    const double value = qBound( minimum(), m_data->value, maximum() );
 
-    const bool changed = ( value != d_data->value );
+    const bool changed = ( value != m_data->value );
     if ( changed )
     {
-        d_data->value = value;
+        m_data->value = value;
     }
 
-    if ( d_data->isValid || changed )
-        Q_EMIT valueChanged( d_data->value );
+    if ( m_data->isValid || changed )
+        Q_EMIT valueChanged( m_data->value );
 
     updateGeometry();
     update();

@@ -31,10 +31,10 @@ private:
     void showPeak( double freq, double amplitude );
     void show3dB( double freq );
 
-    QwtPlotCurve *d_curve1;
-    QwtPlotCurve *d_curve2;
-    QwtPlotMarker *d_marker1;
-    QwtPlotMarker *d_marker2;
+    QwtPlotCurve *m_curve1;
+    QwtPlotCurve *m_curve2;
+    QwtPlotMarker *m_marker1;
+    QwtPlotMarker *m_marker2;
 };
 
 #endif

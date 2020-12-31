@@ -23,21 +23,21 @@ class Data: public QwtSeriesData<QwtPointPolar>
 public:
     Data( const QwtInterval &radialInterval,
           const QwtInterval &azimuthInterval, size_t size ):
-        d_radialInterval( radialInterval ),
-        d_azimuthInterval( azimuthInterval ),
-        d_size( size )
+        m_radialInterval( radialInterval ),
+        m_azimuthInterval( azimuthInterval ),
+        m_size( size )
     {
     }
 
     virtual size_t size() const QWT_OVERRIDE
     {
-        return d_size;
+        return m_size;
     }
 
 protected:
-    QwtInterval d_radialInterval;
-    QwtInterval d_azimuthInterval;
-    size_t d_size;
+    QwtInterval m_radialInterval;
+    QwtInterval m_azimuthInterval;
+    size_t m_size;
 };
 
 class SpiralData: public Data
@@ -51,21 +51,21 @@ public:
 
     virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
     {
-        const double stepA = 4 * d_azimuthInterval.width() / d_size;
-        const double a = d_azimuthInterval.minValue() + i * stepA;
+        const double stepA = 4 * m_azimuthInterval.width() / m_size;
+        const double a = m_azimuthInterval.minValue() + i * stepA;
 
-        const double stepR = d_radialInterval.width() / d_size;
-        const double r = d_radialInterval.minValue() + i * stepR;
+        const double stepR = m_radialInterval.width() / m_size;
+        const double r = m_radialInterval.minValue() + i * stepR;
 
         return QwtPointPolar( a, r );
     }
 
     virtual QRectF boundingRect() const QWT_OVERRIDE
     {
-        if ( d_boundingRect.width() < 0.0 )
-            d_boundingRect = qwtBoundingRect( *this );
+        if ( cachedBoundingRect.width() < 0.0 )
+            cachedBoundingRect = qwtBoundingRect( *this );
 
-        return d_boundingRect;
+        return cachedBoundingRect;
     }
 };
 
@@ -80,21 +80,21 @@ public:
 
     virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
     {
-        const double stepA = d_azimuthInterval.width() / d_size;
-        const double a = d_azimuthInterval.minValue() + i * stepA;
+        const double stepA = m_azimuthInterval.width() / m_size;
+        const double a = m_azimuthInterval.minValue() + i * stepA;
 
         const double d = a / 360.0 * M_PI;
-        const double r = d_radialInterval.maxValue() * qAbs( qSin( 4 * d ) );
+        const double r = m_radialInterval.maxValue() * qAbs( qSin( 4 * d ) );
 
         return QwtPointPolar( a, r );
     }
 
     virtual QRectF boundingRect() const QWT_OVERRIDE
     {
-        if ( d_boundingRect.width() < 0.0 )
-            d_boundingRect = qwtBoundingRect( *this );
+        if ( cachedBoundingRect.width() < 0.0 )
+            cachedBoundingRect = qwtBoundingRect( *this );
 
-        return d_boundingRect;
+        return cachedBoundingRect;
     }
 };
 
@@ -116,36 +116,36 @@ Plot::Plot( QWidget *parent ):
 
     // grids, axes
 
-    d_grid = new QwtPolarGrid();
-    d_grid->setPen( QPen( Qt::white ) );
+    m_grid = new QwtPolarGrid();
+    m_grid->setPen( QPen( Qt::white ) );
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
-        d_grid->showGrid( scaleId );
-        d_grid->showMinorGrid( scaleId );
+        m_grid->showGrid( scaleId );
+        m_grid->showMinorGrid( scaleId );
 
         QPen minorPen( Qt::gray );
 #if 0
         minorPen.setStyle( Qt::DotLine );
 #endif
-        d_grid->setMinorGridPen( scaleId, minorPen );
+        m_grid->setMinorGridPen( scaleId, minorPen );
     }
-    d_grid->setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
+    m_grid->setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
 
-    d_grid->showAxis( QwtPolar::AxisAzimuth, true );
-    d_grid->showAxis( QwtPolar::AxisLeft, false );
-    d_grid->showAxis( QwtPolar::AxisRight, true );
-    d_grid->showAxis( QwtPolar::AxisTop, true );
-    d_grid->showAxis( QwtPolar::AxisBottom, false );
-    d_grid->showGrid( QwtPolar::Azimuth, true );
-    d_grid->showGrid( QwtPolar::Radius, true );
-    d_grid->attach( this );
+    m_grid->showAxis( QwtPolar::AxisAzimuth, true );
+    m_grid->showAxis( QwtPolar::AxisLeft, false );
+    m_grid->showAxis( QwtPolar::AxisRight, true );
+    m_grid->showAxis( QwtPolar::AxisTop, true );
+    m_grid->showAxis( QwtPolar::AxisBottom, false );
+    m_grid->showGrid( QwtPolar::Azimuth, true );
+    m_grid->showGrid( QwtPolar::Radius, true );
+    m_grid->attach( this );
 
     // curves
 
     for ( int curveId = 0; curveId < PlotSettings::NumCurves; curveId++ )
     {
-        d_curve[curveId] = createCurve( curveId );
-        d_curve[curveId]->attach( this );
+        m_curve[curveId] = createCurve( curveId );
+        m_curve[curveId]->attach( this );
     }
 
     // markers
@@ -174,18 +174,18 @@ PlotSettings Plot::settings() const
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
         s.flags[PlotSettings::MajorGridBegin + scaleId] =
-            d_grid->isGridVisible( scaleId );
+            m_grid->isGridVisible( scaleId );
         s.flags[PlotSettings::MinorGridBegin + scaleId] =
-            d_grid->isMinorGridVisible( scaleId );
+            m_grid->isMinorGridVisible( scaleId );
     }
     for ( int axisId = 0; axisId < QwtPolar::AxesCount; axisId++ )
     {
         s.flags[PlotSettings::AxisBegin + axisId] =
-            d_grid->isAxisVisible( axisId );
+            m_grid->isAxisVisible( axisId );
     }
 
     s.flags[PlotSettings::AutoScaling] =
-        d_grid->testGridAttribute( QwtPolarGrid::AutoScaling );
+        m_grid->testGridAttribute( QwtPolarGrid::AutoScaling );
 
     s.flags[PlotSettings::Logarithmic] = 
         scaleEngine( QwtPolar::Radius )->transformation();
@@ -194,12 +194,12 @@ PlotSettings Plot::settings() const
     s.flags[PlotSettings::Inverted] = sd->lowerBound() > sd->upperBound();
 
     s.flags[PlotSettings::Antialiasing] =
-        d_grid->testRenderHint( QwtPolarItem::RenderAntialiased );
+        m_grid->testRenderHint( QwtPolarItem::RenderAntialiased );
 
     for ( int curveId = 0; curveId < PlotSettings::NumCurves; curveId++ )
     {
         s.flags[PlotSettings::CurveBegin + curveId] =
-            d_curve[curveId]->isVisible();
+            m_curve[curveId]->isVisible();
     }
 
     return s;
@@ -209,19 +209,19 @@ void Plot::applySettings( const PlotSettings& s )
 {
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
-        d_grid->showGrid( scaleId,
+        m_grid->showGrid( scaleId,
             s.flags[PlotSettings::MajorGridBegin + scaleId] );
-        d_grid->showMinorGrid( scaleId,
+        m_grid->showMinorGrid( scaleId,
             s.flags[PlotSettings::MinorGridBegin + scaleId] );
     }
 
     for ( int axisId = 0; axisId < QwtPolar::AxesCount; axisId++ )
     {
-        d_grid->showAxis( axisId,
+        m_grid->showAxis( axisId,
             s.flags[PlotSettings::AxisBegin + axisId] );
     }
 
-    d_grid->setGridAttribute( QwtPolarGrid::AutoScaling,
+    m_grid->setGridAttribute( QwtPolarGrid::AutoScaling,
         s.flags[PlotSettings::AutoScaling] );
 
     const QwtInterval interval =
@@ -246,14 +246,14 @@ void Plot::applySettings( const PlotSettings& s )
         setScaleEngine( QwtPolar::Radius, new QwtLinearScaleEngine() );
     }
 
-    d_grid->setRenderHint( QwtPolarItem::RenderAntialiased,
+    m_grid->setRenderHint( QwtPolarItem::RenderAntialiased,
         s.flags[PlotSettings::Antialiasing] );
 
     for ( int curveId = 0; curveId < PlotSettings::NumCurves; curveId++ )
     {
-        d_curve[curveId]->setRenderHint( QwtPolarItem::RenderAntialiased,
+        m_curve[curveId]->setRenderHint( QwtPolarItem::RenderAntialiased,
                                          s.flags[PlotSettings::Antialiasing] );
-        d_curve[curveId]->setVisible(
+        m_curve[curveId]->setVisible(
             s.flags[PlotSettings::CurveBegin + curveId] );
     }
 

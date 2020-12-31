@@ -150,13 +150,13 @@ QwtTextEngine::~QwtTextEngine()
 //! Constructor
 QwtPlainTextEngine::QwtPlainTextEngine()
 {
-    d_data = new PrivateData;
+    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtPlainTextEngine::~QwtPlainTextEngine()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -213,7 +213,7 @@ void QwtPlainTextEngine::textMargins( const QFont &font, const QString &,
     left = right = top = 0;
 
     const QFontMetricsF fm( font );
-    top = fm.ascent() - d_data->effectiveAscent( font );
+    top = fm.ascent() - m_data->effectiveAscent( font );
     bottom = fm.descent();
 }
 

@@ -150,18 +150,18 @@ QwtScaleDiv Plot::yearScaleDiv() const
 void Plot::insertCurve( const QString& title,
     const QVector<QPointF>& samples, const QColor &color )
 {
-    d_curve = new QwtPlotCurve( title );
-    d_curve->setRenderHint( QwtPlotItem::RenderAntialiased );
-    d_curve->setStyle( QwtPlotCurve::NoCurve );
-    d_curve->setLegendAttribute( QwtPlotCurve::LegendShowSymbol );
+    m_curve = new QwtPlotCurve( title );
+    m_curve->setRenderHint( QwtPlotItem::RenderAntialiased );
+    m_curve->setStyle( QwtPlotCurve::NoCurve );
+    m_curve->setLegendAttribute( QwtPlotCurve::LegendShowSymbol );
 
     QwtSymbol *symbol = new QwtSymbol( QwtSymbol::XCross );
     symbol->setSize( 4 );
     symbol->setPen( color );
-    d_curve->setSymbol( symbol );
+    m_curve->setSymbol( symbol );
 
-    d_curve->setSamples( samples );
-    d_curve->attach( this );
+    m_curve->setSamples( samples );
+    m_curve->attach( this );
 }
 
 void Plot::insertErrorBars(
@@ -169,40 +169,40 @@ void Plot::insertErrorBars(
     const QVector<QwtIntervalSample>& samples,
     const QColor &color )
 {
-    d_intervalCurve = new QwtPlotIntervalCurve( title );
-    d_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased );
-    d_intervalCurve->setPen( Qt::white );
+    m_intervalCurve = new QwtPlotIntervalCurve( title );
+    m_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased );
+    m_intervalCurve->setPen( Qt::white );
 
     QColor bg( color );
     bg.setAlpha( 150 );
-    d_intervalCurve->setBrush( QBrush( bg ) );
-    d_intervalCurve->setStyle( QwtPlotIntervalCurve::Tube );
+    m_intervalCurve->setBrush( QBrush( bg ) );
+    m_intervalCurve->setStyle( QwtPlotIntervalCurve::Tube );
 
-    d_intervalCurve->setSamples( samples );
-    d_intervalCurve->attach( this );
+    m_intervalCurve->setSamples( samples );
+    m_intervalCurve->attach( this );
 }
 
 void Plot::setMode( int style )
 {
     if ( style == Tube )
     {
-        d_intervalCurve->setStyle( QwtPlotIntervalCurve::Tube );
-        d_intervalCurve->setSymbol( NULL );
-        d_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+        m_intervalCurve->setStyle( QwtPlotIntervalCurve::Tube );
+        m_intervalCurve->setSymbol( NULL );
+        m_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
     }
     else
     {
-        d_intervalCurve->setStyle( QwtPlotIntervalCurve::NoCurve );
+        m_intervalCurve->setStyle( QwtPlotIntervalCurve::NoCurve );
 
-        QColor c( d_intervalCurve->brush().color().rgb() ); // skip alpha
+        QColor c( m_intervalCurve->brush().color().rgb() ); // skip alpha
 
         QwtIntervalSymbol *errorBar =
             new QwtIntervalSymbol( QwtIntervalSymbol::Bar );
         errorBar->setWidth( 8 ); // should be something even
         errorBar->setPen( c );
 
-        d_intervalCurve->setSymbol( errorBar );
-        d_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased, false );
+        m_intervalCurve->setSymbol( errorBar );
+        m_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased, false );
     }
 
     replot();

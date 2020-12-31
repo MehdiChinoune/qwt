@@ -109,8 +109,8 @@ protected:
     virtual bool end( bool ok = true ) QWT_OVERRIDE;
 
 private:
-    int d_xAxis;
-    int d_yAxis;
+    int m_xAxis;
+    int m_yAxis;
 };
 
 #endif

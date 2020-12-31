@@ -49,10 +49,10 @@ private Q_SLOTS:
 private:
     void init();
 
-    bool d_inverted;
-    double d_minBase;
-    double d_maxBase;
-    int d_baseTicks;
+    bool m_inverted;
+    double m_minBase;
+    double m_maxBase;
+    int m_baseTicks;
 };
 
 #endif

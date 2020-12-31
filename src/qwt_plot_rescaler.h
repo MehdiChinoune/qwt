@@ -139,7 +139,7 @@ private:
 
     class AxisData;
     class PrivateData;
-    PrivateData *d_data;
+    PrivateData *m_data;
 };
 
 #endif

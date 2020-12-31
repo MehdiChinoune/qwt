@@ -32,7 +32,7 @@ QwtLegendData::~QwtLegendData()
  */
 void QwtLegendData::setValues( const QMap<int, QVariant> &map )
 {
-    d_map = map;
+    m_map = map;
 }
 
 /*!
@@ -41,7 +41,7 @@ void QwtLegendData::setValues( const QMap<int, QVariant> &map )
  */
 const QMap<int, QVariant> &QwtLegendData::values() const
 {
-    return d_map;
+    return m_map;
 }
 
 /*!
@@ -50,7 +50,7 @@ const QMap<int, QVariant> &QwtLegendData::values() const
  */
 bool QwtLegendData::hasRole( int role ) const
 {
-    return d_map.contains( role );
+    return m_map.contains( role );
 }
 
 /*!
@@ -63,7 +63,7 @@ bool QwtLegendData::hasRole( int role ) const
  */
 void QwtLegendData::setValue( int role, const QVariant &data )
 {
-    d_map[role] = data;
+    m_map[role] = data;
 }
 
 /*!
@@ -72,16 +72,16 @@ void QwtLegendData::setValue( int role, const QVariant &data )
  */
 QVariant QwtLegendData::value( int role ) const
 {
-    if ( !d_map.contains( role ) )
+    if ( !m_map.contains( role ) )
         return QVariant();
 
-    return d_map[role];
+    return m_map[role];
 }
 
 //! \return True, when the internal map is empty
 bool QwtLegendData::isValid() const
 {
-    return !d_map.isEmpty();
+    return !m_map.isEmpty();
 }
 
 //! \return Value of the TitleRole attribute

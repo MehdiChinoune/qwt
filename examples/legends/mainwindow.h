@@ -23,8 +23,8 @@ private Q_SLOTS:
     void exportPlot();
 
 private:
-    Plot *d_plot;
-    Panel *d_panel;
+    Plot *m_plot;
+    Panel *m_panel;
 };
 
 #endif

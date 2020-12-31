@@ -71,14 +71,14 @@ public:
 //! Constructor
 QwtMatrixRasterData::QwtMatrixRasterData()
 {
-    d_data = new PrivateData();
+    m_data = new PrivateData();
     update();
 }
 
 //! Destructor
 QwtMatrixRasterData::~QwtMatrixRasterData()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -89,7 +89,7 @@ QwtMatrixRasterData::~QwtMatrixRasterData()
 */
 void QwtMatrixRasterData::setResampleMode( ResampleMode mode )
 {
-    d_data->resampleMode = mode;
+    m_data->resampleMode = mode;
 }
 
 /*!
@@ -98,7 +98,7 @@ void QwtMatrixRasterData::setResampleMode( ResampleMode mode )
 */
 QwtMatrixRasterData::ResampleMode QwtMatrixRasterData::resampleMode() const
 {
-    return d_data->resampleMode;
+    return m_data->resampleMode;
 }
 
 /*!
@@ -122,7 +122,7 @@ void QwtMatrixRasterData::setInterval(
 {
     if ( axis >= 0 && axis <= 2 )
     {
-        d_data->intervals[axis] = interval;
+        m_data->intervals[axis] = interval;
         update();
     }
 }
@@ -134,7 +134,7 @@ void QwtMatrixRasterData::setInterval(
 QwtInterval QwtMatrixRasterData::interval( Qt::Axis axis ) const
 {
     if ( axis >= 0 && axis <= 2 )
-        return d_data->intervals[ axis ];
+        return m_data->intervals[ axis ];
 
     return QwtInterval();
 }
@@ -155,8 +155,8 @@ QwtInterval QwtMatrixRasterData::interval( Qt::Axis axis ) const
 void QwtMatrixRasterData::setValueMatrix(
     const QVector<double> &values, int numColumns )
 {
-    d_data->values = values;
-    d_data->numColumns = qMax( numColumns, 0 );
+    m_data->values = values;
+    m_data->numColumns = qMax( numColumns, 0 );
     update();
 }
 
@@ -166,7 +166,7 @@ void QwtMatrixRasterData::setValueMatrix(
 */
 const QVector<double> QwtMatrixRasterData::valueMatrix() const
 {
-    return d_data->values;
+    return m_data->values;
 }
 
 /*!
@@ -180,11 +180,11 @@ const QVector<double> QwtMatrixRasterData::valueMatrix() const
 */
 void QwtMatrixRasterData::setValue( int row, int col, double value )
 {
-    if ( row >= 0 && row < d_data->numRows &&
-        col >= 0 && col < d_data->numColumns )
+    if ( row >= 0 && row < m_data->numRows &&
+        col >= 0 && col < m_data->numColumns )
     {
-        const int index = row * d_data->numColumns + col;
-        d_data->values.data()[ index ] = value;
+        const int index = row * m_data->numColumns + col;
+        m_data->values.data()[ index ] = value;
     }
 }
 
@@ -194,7 +194,7 @@ void QwtMatrixRasterData::setValue( int row, int col, double value )
 */
 int QwtMatrixRasterData::numColumns() const
 {
-    return d_data->numColumns;
+    return m_data->numColumns;
 }
 
 /*!
@@ -203,7 +203,7 @@ int QwtMatrixRasterData::numColumns() const
 */
 int QwtMatrixRasterData::numRows() const
 {
-    return d_data->numRows;
+    return m_data->numRows;
 }
 
 /*!
@@ -231,14 +231,14 @@ QRectF QwtMatrixRasterData::pixelHint( const QRectF &area ) const
     Q_UNUSED( area )
 
     QRectF rect;
-    if ( d_data->resampleMode == NearestNeighbour )
+    if ( m_data->resampleMode == NearestNeighbour )
     {
         const QwtInterval intervalX = interval( Qt::XAxis );
         const QwtInterval intervalY = interval( Qt::YAxis );
         if ( intervalX.isValid() && intervalY.isValid() )
         {
             rect = QRectF( intervalX.minValue(), intervalY.minValue(),
-                d_data->dx, d_data->dy );
+                m_data->dx, m_data->dy );
         }
     }
 
@@ -263,12 +263,12 @@ double QwtMatrixRasterData::value( double x, double y ) const
 
     double value;
 
-    switch( d_data->resampleMode )
+    switch( m_data->resampleMode )
     {
         case BicubicInterpolation:
         {
-            const double colF = ( x - xInterval.minValue() ) / d_data->dx;
-            const double rowF = ( y - yInterval.minValue() ) / d_data->dy;
+            const double colF = ( x - xInterval.minValue() ) / m_data->dx;
+            const double rowF = ( y - yInterval.minValue() ) / m_data->dy;
 
             const int col = qRound( colF );
             const int row = qRound( rowF );
@@ -284,10 +284,10 @@ double QwtMatrixRasterData::value( double x, double y ) const
             if ( col0 < 0 )
                 col0 = col1;
 
-            if ( col2 >= d_data->numColumns )
+            if ( col2 >= m_data->numColumns )
                 col2 = col1;
 
-            if ( col3 >= d_data->numColumns )
+            if ( col3 >= m_data->numColumns )
                 col3 = col2;
 
             int row0 = row - 2;
@@ -301,35 +301,35 @@ double QwtMatrixRasterData::value( double x, double y ) const
             if ( row0 < 0 )
                 row0 = row1;
             
-            if ( row2 >= d_data->numRows )
+            if ( row2 >= m_data->numRows )
                 row2 = row1;
             
-            if ( row3 >= d_data->numRows )
+            if ( row3 >= m_data->numRows )
                 row3 = row2;
 
             // First row
-            const double v00 = d_data->value( row0, col0 );
-            const double v10 = d_data->value( row0, col1 );
-            const double v20 = d_data->value( row0, col2 );
-            const double v30 = d_data->value( row0, col3 );
+            const double v00 = m_data->value( row0, col0 );
+            const double v10 = m_data->value( row0, col1 );
+            const double v20 = m_data->value( row0, col2 );
+            const double v30 = m_data->value( row0, col3 );
 
             // Second row
-            const double v01 = d_data->value( row1, col0 );
-            const double v11 = d_data->value( row1, col1 );
-            const double v21 = d_data->value( row1, col2 );
-            const double v31 = d_data->value( row1, col3 );
+            const double v01 = m_data->value( row1, col0 );
+            const double v11 = m_data->value( row1, col1 );
+            const double v21 = m_data->value( row1, col2 );
+            const double v31 = m_data->value( row1, col3 );
 
             // Third row
-            const double v02 = d_data->value( row2, col0 );
-            const double v12 = d_data->value( row2, col1 );
-            const double v22 = d_data->value( row2, col2 );
-            const double v32 = d_data->value( row2, col3 );
+            const double v02 = m_data->value( row2, col0 );
+            const double v12 = m_data->value( row2, col1 );
+            const double v22 = m_data->value( row2, col2 );
+            const double v32 = m_data->value( row2, col3 );
 
             // Fourth row
-            const double v03 = d_data->value( row3, col0 );
-            const double v13 = d_data->value( row3, col1 );
-            const double v23 = d_data->value( row3, col2 );
-            const double v33 = d_data->value( row3, col3 );
+            const double v03 = m_data->value( row3, col0 );
+            const double v13 = m_data->value( row3, col1 );
+            const double v23 = m_data->value( row3, col2 );
+            const double v33 = m_data->value( row3, col3 );
 
             value = qwtBicubicInterpolate(
                 v00, v10, v20, v30, v01, v11, v21, v31,
@@ -340,31 +340,31 @@ double QwtMatrixRasterData::value( double x, double y ) const
         }
         case BilinearInterpolation:
         {
-            int col1 = qRound( ( x - xInterval.minValue() ) / d_data->dx ) - 1;
-            int row1 = qRound( ( y - yInterval.minValue() ) / d_data->dy ) - 1;
+            int col1 = qRound( ( x - xInterval.minValue() ) / m_data->dx ) - 1;
+            int row1 = qRound( ( y - yInterval.minValue() ) / m_data->dy ) - 1;
             int col2 = col1 + 1;
             int row2 = row1 + 1;
 
             if ( col1 < 0 )
                 col1 = col2;
-            else if ( col2 >= d_data->numColumns )
+            else if ( col2 >= m_data->numColumns )
                 col2 = col1;
 
             if ( row1 < 0 )
                 row1 = row2;
-            else if ( row2 >= d_data->numRows )
+            else if ( row2 >= m_data->numRows )
                 row2 = row1;
 
-            const double v11 = d_data->value( row1, col1 );
-            const double v21 = d_data->value( row1, col2 );
-            const double v12 = d_data->value( row2, col1 );
-            const double v22 = d_data->value( row2, col2 );
+            const double v11 = m_data->value( row1, col1 );
+            const double v21 = m_data->value( row1, col2 );
+            const double v12 = m_data->value( row2, col1 );
+            const double v22 = m_data->value( row2, col2 );
 
-            const double x2 = xInterval.minValue() + ( col2 + 0.5 ) * d_data->dx;
-            const double y2 = yInterval.minValue() + ( row2 + 0.5 ) * d_data->dy;
+            const double x2 = xInterval.minValue() + ( col2 + 0.5 ) * m_data->dx;
+            const double y2 = yInterval.minValue() + ( row2 + 0.5 ) * m_data->dy;
 
-            const double rx = ( x2 - x ) / d_data->dx;
-            const double ry = ( y2 - y ) / d_data->dy;
+            const double rx = ( x2 - x ) / m_data->dx;
+            const double ry = ( y2 - y ) / m_data->dy;
 
             const double vr1 = rx * v11 + ( 1.0 - rx ) * v21;
             const double vr2 = rx * v12 + ( 1.0 - rx ) * v22;
@@ -376,21 +376,21 @@ double QwtMatrixRasterData::value( double x, double y ) const
         case NearestNeighbour:
         default:
         {
-            int row = int( ( y - yInterval.minValue() ) / d_data->dy );
-            int col = int( ( x - xInterval.minValue() ) / d_data->dx );
+            int row = int( ( y - yInterval.minValue() ) / m_data->dy );
+            int col = int( ( x - xInterval.minValue() ) / m_data->dx );
 
             // In case of intervals, where the maximum is included
             // we get out of bound for row/col, when the value for the
             // maximum is requested. Instead we return the value
             // from the last row/col
 
-            if ( row >= d_data->numRows )
-                row = d_data->numRows - 1;
+            if ( row >= m_data->numRows )
+                row = m_data->numRows - 1;
 
-            if ( col >= d_data->numColumns )
-                col = d_data->numColumns - 1;
+            if ( col >= m_data->numColumns )
+                col = m_data->numColumns - 1;
 
-            value = d_data->value( row, col );
+            value = m_data->value( row, col );
         }
     }
 
@@ -399,19 +399,19 @@ double QwtMatrixRasterData::value( double x, double y ) const
 
 void QwtMatrixRasterData::update()
 {
-    d_data->numRows = 0;
-    d_data->dx = 0.0;
-    d_data->dy = 0.0;
+    m_data->numRows = 0;
+    m_data->dx = 0.0;
+    m_data->dy = 0.0;
 
-    if ( d_data->numColumns > 0 )
+    if ( m_data->numColumns > 0 )
     {
-        d_data->numRows = d_data->values.size() / d_data->numColumns;
+        m_data->numRows = m_data->values.size() / m_data->numColumns;
 
         const QwtInterval xInterval = interval( Qt::XAxis );
         const QwtInterval yInterval = interval( Qt::YAxis );
         if ( xInterval.isValid() )
-            d_data->dx = xInterval.width() / d_data->numColumns;
+            m_data->dx = xInterval.width() / m_data->numColumns;
         if ( yInterval.isValid() )
-            d_data->dy = yInterval.width() / d_data->numRows;
+            m_data->dy = yInterval.width() / m_data->numRows;
     }
 }

@@ -18,28 +18,28 @@ MainWindow::MainWindow( QWidget *parent ):
 {
     QWidget *w = new QWidget( this );
 
-    d_panel = new Panel( w );
+    m_panel = new Panel( w );
 
-    d_plot = new Plot( w );
+    m_plot = new Plot( w );
 
     QHBoxLayout *hLayout = new QHBoxLayout( w );
-    hLayout->addWidget( d_panel );
-    hLayout->addWidget( d_plot, 10 );
+    hLayout->addWidget( m_panel );
+    hLayout->addWidget( m_plot, 10 );
 
     setCentralWidget( w );
 
-    d_frameCount = new QLabel( this );
-    statusBar()->addWidget( d_frameCount, 10 );
+    m_frameCount = new QLabel( this );
+    statusBar()->addWidget( m_frameCount, 10 );
 
-    applySettings( d_panel->settings() );
+    applySettings( m_panel->settings() );
 
-    connect( d_panel, SIGNAL( settingsChanged( const Settings & ) ),
+    connect( m_panel, SIGNAL( settingsChanged( const Settings & ) ),
         this, SLOT( applySettings( const Settings & ) ) );
 }
 
 bool MainWindow::eventFilter( QObject *object, QEvent *event )
 {
-    if ( object == d_plot->canvas() && event->type() == QEvent::Paint )
+    if ( object == m_plot->canvas() && event->type() == QEvent::Paint )
     {
         static int counter;
         static QElapsedTimer timeStamp;
@@ -60,7 +60,7 @@ bool MainWindow::eventFilter( QObject *object, QEvent *event )
                 fps.setNum( qRound( counter / elapsed ) );
                 fps += " Fps";
 
-                d_frameCount->setText( fps );
+                m_frameCount->setText( fps );
 
                 counter = 0;
                 timeStamp.start();
@@ -73,11 +73,11 @@ bool MainWindow::eventFilter( QObject *object, QEvent *event )
 
 void MainWindow::applySettings( const Settings &settings )
 {
-    d_plot->setSettings( settings );
+    m_plot->setSettings( settings );
 
     // the canvas might have been recreated
-    d_plot->canvas()->removeEventFilter( this );
-    d_plot->canvas()->installEventFilter( this );
+    m_plot->canvas()->removeEventFilter( this );
+    m_plot->canvas()->installEventFilter( this );
 }
 
 #include "moc_mainwindow.cpp"

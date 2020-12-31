@@ -751,13 +751,13 @@ public:
 QwtDateScaleEngine::QwtDateScaleEngine( Qt::TimeSpec timeSpec ):
     QwtLinearScaleEngine( 10 )
 {
-    d_data = new PrivateData( timeSpec );
+    m_data = new PrivateData( timeSpec );
 }
 
 //! Destructor
 QwtDateScaleEngine::~QwtDateScaleEngine()
 {
-    delete d_data;
+    delete m_data;
 }
 
 /*!
@@ -768,7 +768,7 @@ QwtDateScaleEngine::~QwtDateScaleEngine()
  */
 void QwtDateScaleEngine::setTimeSpec( Qt::TimeSpec timeSpec )
 {
-    d_data->timeSpec = timeSpec;
+    m_data->timeSpec = timeSpec;
 }
 
 /*!
@@ -777,7 +777,7 @@ void QwtDateScaleEngine::setTimeSpec( Qt::TimeSpec timeSpec )
  */
 Qt::TimeSpec QwtDateScaleEngine::timeSpec() const
 {
-    return d_data->timeSpec;
+    return m_data->timeSpec;
 }
 
 /*!
@@ -792,7 +792,7 @@ Qt::TimeSpec QwtDateScaleEngine::timeSpec() const
  */
 void QwtDateScaleEngine::setUtcOffset( int seconds )
 {
-    d_data->utcOffset = seconds;
+    m_data->utcOffset = seconds;
 }
 
 /*!
@@ -804,7 +804,7 @@ void QwtDateScaleEngine::setUtcOffset( int seconds )
  */
 int QwtDateScaleEngine::utcOffset() const
 {
-    return d_data->utcOffset;
+    return m_data->utcOffset;
 }
 
 /*!
@@ -818,7 +818,7 @@ int QwtDateScaleEngine::utcOffset() const
  */
 void QwtDateScaleEngine::setWeek0Type( QwtDate::Week0Type week0Type )
 {
-    d_data->week0Type = week0Type;
+    m_data->week0Type = week0Type;
 }
 
 /*!
@@ -827,7 +827,7 @@ void QwtDateScaleEngine::setWeek0Type( QwtDate::Week0Type week0Type )
  */
 QwtDate::Week0Type QwtDateScaleEngine::week0Type() const
 {
-    return d_data->week0Type;
+    return m_data->week0Type;
 }
 
 /*!
@@ -844,7 +844,7 @@ QwtDate::Week0Type QwtDateScaleEngine::week0Type() const
  */
 void QwtDateScaleEngine::setMaxWeeks( int weeks )
 {
-    d_data->maxWeeks = qMax( weeks, 0 );
+    m_data->maxWeeks = qMax( weeks, 0 );
 }
 
 /*!
@@ -854,7 +854,7 @@ void QwtDateScaleEngine::setMaxWeeks( int weeks )
  */
 int QwtDateScaleEngine::maxWeeks() const
 {
-    return d_data->maxWeeks;
+    return m_data->maxWeeks;
 }
 
 /*!
@@ -883,7 +883,7 @@ QwtDate::IntervalType QwtDateScaleEngine::intervalType(
     const int days = qwtRoundedIntervalWidth( minDate, maxDate, QwtDate::Day );
     const int weeks = qwtRoundedIntervalWidth( minDate, maxDate, QwtDate::Week );
 
-    if ( weeks > d_data->maxWeeks )
+    if ( weeks > m_data->maxWeeks )
     {
         if ( days > 4 * maxSteps * 7 )
             return QwtDate::Month;
@@ -1211,7 +1211,7 @@ QDateTime QwtDateScaleEngine::alignDate(
         case QwtDate::Week:
         {
             const QDate date = QwtDate::dateOfWeek0(
-                dt.date().year(), d_data->week0Type );
+                dt.date().year(), m_data->week0Type );
 
             int numWeeks = date.daysTo( dt.date() ) / 7;
             if ( up )
@@ -1301,22 +1301,22 @@ QDateTime QwtDateScaleEngine::alignDate(
  */
 QDateTime QwtDateScaleEngine::toDateTime( double value ) const
 {
-    QDateTime dt = QwtDate::toDateTime( value, d_data->timeSpec );
+    QDateTime dt = QwtDate::toDateTime( value, m_data->timeSpec );
     if ( !dt.isValid() )
     {
         const QDate date = ( value <= 0.0 )
             ? QwtDate::minDate() : QwtDate::maxDate();
 
-        dt = QDateTime( date, QTime( 0, 0 ), d_data->timeSpec );
+        dt = QDateTime( date, QTime( 0, 0 ), m_data->timeSpec );
     }
 
-    if ( d_data->timeSpec == Qt::OffsetFromUTC )
+    if ( m_data->timeSpec == Qt::OffsetFromUTC )
     {
-        dt = dt.addSecs( d_data->utcOffset );
+        dt = dt.addSecs( m_data->utcOffset );
 #if QT_VERSION >= 0x050200
-        dt.setOffsetFromUtc( d_data->utcOffset );
+        dt.setOffsetFromUtc( m_data->utcOffset );
 #else
-        dt.setUtcOffset( d_data->utcOffset );
+        dt.setUtcOffset( m_data->utcOffset );
 #endif
     }
 

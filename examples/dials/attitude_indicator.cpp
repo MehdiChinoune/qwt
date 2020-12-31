@@ -42,7 +42,7 @@ void AttitudeIndicatorNeedle::drawNeedle( QPainter *painter,
 AttitudeIndicator::AttitudeIndicator(
     QWidget *parent ):
     QwtDial( parent ),
-    d_gradient( 0.0 )
+    m_gradient( 0.0 )
 {
     QwtRoundScaleDraw *scaleDraw = new QwtRoundScaleDraw();
     scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
@@ -69,9 +69,9 @@ void AttitudeIndicator::setGradient( double gradient )
     else if ( gradient > 1.0 )
         gradient = 1.0;
 
-    if ( d_gradient != gradient )
+    if ( m_gradient != gradient )
     {
-        d_gradient = gradient;
+        m_gradient = gradient;
         update();
     }
 }

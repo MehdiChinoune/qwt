@@ -92,15 +92,15 @@ QwtPolarCurve::QwtPolarCurve( const QString &title ):
 //! Destructor
 QwtPolarCurve::~QwtPolarCurve()
 {
-    delete d_series;
-    delete d_data;
+    delete m_series;
+    delete m_data;
 }
 
 //! Initialize data members
 void QwtPolarCurve::init()
 {
-    d_data = new PrivateData;
-    d_series = NULL;
+    m_data = new PrivateData;
+    m_series = NULL;
 
     setItemAttribute( QwtPolarItem::AutoScale );
     setItemAttribute( QwtPolarItem::Legend );
@@ -125,9 +125,9 @@ int QwtPolarCurve::rtti() const
 void QwtPolarCurve::setLegendAttribute( LegendAttribute attribute, bool on )
 {
     if ( on )
-        d_data->legendAttributes |= attribute;
+        m_data->legendAttributes |= attribute;
     else
-        d_data->legendAttributes &= ~attribute;
+        m_data->legendAttributes &= ~attribute;
 }
 
 /*!
@@ -140,7 +140,7 @@ void QwtPolarCurve::setLegendAttribute( LegendAttribute attribute, bool on )
 */
 bool QwtPolarCurve::testLegendAttribute( LegendAttribute attribute ) const
 {
-    return ( d_data->legendAttributes & attribute );
+    return ( m_data->legendAttributes & attribute );
 }
 
 /*!
@@ -151,9 +151,9 @@ bool QwtPolarCurve::testLegendAttribute( LegendAttribute attribute ) const
 */
 void QwtPolarCurve::setStyle( CurveStyle style )
 {
-    if ( style != d_data->style )
+    if ( style != m_data->style )
     {
-        d_data->style = style;
+        m_data->style = style;
         itemChanged();
     }
 }
@@ -164,7 +164,7 @@ void QwtPolarCurve::setStyle( CurveStyle style )
 */
 QwtPolarCurve::CurveStyle QwtPolarCurve::style() const
 {
-    return d_data->style;
+    return m_data->style;
 }
 
 /*!
@@ -174,10 +174,10 @@ QwtPolarCurve::CurveStyle QwtPolarCurve::style() const
 */
 void QwtPolarCurve::setSymbol( QwtSymbol *symbol )
 {
-    if ( symbol != d_data->symbol )
+    if ( symbol != m_data->symbol )
     {
-        delete d_data->symbol;
-        d_data->symbol = symbol;
+        delete m_data->symbol;
+        m_data->symbol = symbol;
         itemChanged();
     }
 }
@@ -188,7 +188,7 @@ void QwtPolarCurve::setSymbol( QwtSymbol *symbol )
 */
 const QwtSymbol *QwtPolarCurve::symbol() const
 {
-    return d_data->symbol;
+    return m_data->symbol;
 }
 
 /*!
@@ -198,9 +198,9 @@ const QwtSymbol *QwtPolarCurve::symbol() const
 */
 void QwtPolarCurve::setPen( const QPen &pen )
 {
-    if ( pen != d_data->pen )
+    if ( pen != m_data->pen )
     {
-        d_data->pen = pen;
+        m_data->pen = pen;
         itemChanged();
     }
 }
@@ -211,7 +211,7 @@ void QwtPolarCurve::setPen( const QPen &pen )
 */
 const QPen& QwtPolarCurve::pen() const
 {
-    return d_data->pen;
+    return m_data->pen;
 }
 
 /*!
@@ -224,10 +224,10 @@ const QPen& QwtPolarCurve::pen() const
 */
 void QwtPolarCurve::setData( QwtSeriesData<QwtPointPolar> *data )
 {
-    if ( d_series != data )
+    if ( m_series != data )
     {
-        delete d_series;
-        d_series = data;
+        delete m_series;
+        m_series = data;
         itemChanged();
     }
 }
@@ -245,10 +245,10 @@ void QwtPolarCurve::setData( QwtSeriesData<QwtPointPolar> *data )
 */
 void QwtPolarCurve::setCurveFitter( QwtCurveFitter *curveFitter )
 {
-    if ( curveFitter != d_data->curveFitter )
+    if ( curveFitter != m_data->curveFitter )
     {
-        delete d_data->curveFitter;
-        d_data->curveFitter = curveFitter;
+        delete m_data->curveFitter;
+        m_data->curveFitter = curveFitter;
 
         itemChanged();
     }
@@ -260,7 +260,7 @@ void QwtPolarCurve::setCurveFitter( QwtCurveFitter *curveFitter )
 */
 QwtCurveFitter *QwtPolarCurve::curveFitter() const
 {
-    return d_data->curveFitter;
+    return m_data->curveFitter;
 }
 
 /*!
@@ -309,17 +309,17 @@ void QwtPolarCurve::draw( QPainter *painter,
     if ( qwtVerifyRange( dataSize(), from, to ) > 0 )
     {
         painter->save();
-        painter->setPen( d_data->pen );
+        painter->setPen( m_data->pen );
 
-        drawCurve( painter, d_data->style,
+        drawCurve( painter, m_data->style,
             azimuthMap, radialMap, pole, from, to );
 
         painter->restore();
 
-        if ( d_data->symbol->style() != QwtSymbol::NoSymbol )
+        if ( m_data->symbol->style() != QwtSymbol::NoSymbol )
         {
             painter->save();
-            drawSymbols( painter, *d_data->symbol,
+            drawSymbols( painter, *m_data->symbol,
                 azimuthMap, radialMap, pole, from, to );
             painter->restore();
         }
@@ -374,7 +374,7 @@ void QwtPolarCurve::drawLines( QPainter *painter,
 
     QPolygonF polyline;
 
-    if ( d_data->curveFitter )
+    if ( m_data->curveFitter )
     {
         QPolygonF points( size );
         for ( int j = from; j <= to; j++ )
@@ -383,7 +383,7 @@ void QwtPolarCurve::drawLines( QPainter *painter,
             points[j - from] = QPointF( point.azimuth(), point.radius() );
         }
 
-        points = d_data->curveFitter->fitCurve( points );
+        points = m_data->curveFitter->fitCurve( points );
 
         polyline.resize( points.size() );
 
@@ -498,7 +498,7 @@ void QwtPolarCurve::drawSymbols( QPainter *painter, const QwtSymbol &symbol,
 */
 size_t QwtPolarCurve::dataSize() const
 {
-    return d_series->size();
+    return m_series->size();
 }
 
 /*!
@@ -526,7 +526,7 @@ QwtGraphic QwtPolarCurve::legendIcon( int index,
     painter.setRenderHint( QPainter::Antialiasing,
         testRenderHint( QwtPolarItem::RenderAntialiased ) );
 
-    if ( d_data->legendAttributes == 0 )
+    if ( m_data->legendAttributes == 0 )
     {
         QBrush brush;
 
@@ -534,10 +534,10 @@ QwtGraphic QwtPolarCurve::legendIcon( int index,
         {
             brush = QBrush( pen().color() );
         }
-        else if ( d_data->symbol &&
-            ( d_data->symbol->style() != QwtSymbol::NoSymbol ) )
+        else if ( m_data->symbol &&
+            ( m_data->symbol->style() != QwtSymbol::NoSymbol ) )
         {
-            brush = QBrush( d_data->symbol->pen().color() );
+            brush = QBrush( m_data->symbol->pen().color() );
         }
 
         if ( brush.style() != Qt::NoBrush )
@@ -547,7 +547,7 @@ QwtGraphic QwtPolarCurve::legendIcon( int index,
         }
     }
 
-    if ( d_data->legendAttributes & QwtPolarCurve::LegendShowLine )
+    if ( m_data->legendAttributes & QwtPolarCurve::LegendShowLine )
     {
         if ( pen() != Qt::NoPen )
         {
@@ -561,12 +561,12 @@ QwtGraphic QwtPolarCurve::legendIcon( int index,
         }
     }
 
-    if ( d_data->legendAttributes & QwtPolarCurve::LegendShowSymbol )
+    if ( m_data->legendAttributes & QwtPolarCurve::LegendShowSymbol )
     {
-        if ( d_data->symbol )
+        if ( m_data->symbol )
         {
             QRectF r( 0, 0, size.width(), size.height() );
-            d_data->symbol->drawSymbol( &painter, r );
+            m_data->symbol->drawSymbol( &painter, r );
         }
     }
 
@@ -584,7 +584,7 @@ QwtGraphic QwtPolarCurve::legendIcon( int index,
 */
 QwtInterval QwtPolarCurve::boundingInterval( int scaleId ) const
 {
-    const QRectF boundingRect = d_series->boundingRect();
+    const QRectF boundingRect = m_series->boundingRect();
 
     if ( scaleId == QwtPolar::ScaleAzimuth )
         return QwtInterval( boundingRect.left(), boundingRect.right() );

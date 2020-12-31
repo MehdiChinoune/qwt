@@ -73,35 +73,35 @@ Plot::Plot( QWidget *parent ):
     setAxisScaleEngine( QwtPlot::xBottom, new QwtLogScaleEngine );
 
     // curves
-    d_curve1 = new QwtPlotCurve( "Amplitude" );
-    d_curve1->setRenderHint( QwtPlotItem::RenderAntialiased );
-    d_curve1->setPen( Qt::yellow );
-    d_curve1->setLegendAttribute( QwtPlotCurve::LegendShowLine );
-    d_curve1->setYAxis( QwtPlot::yLeft );
-    d_curve1->attach( this );
+    m_curve1 = new QwtPlotCurve( "Amplitude" );
+    m_curve1->setRenderHint( QwtPlotItem::RenderAntialiased );
+    m_curve1->setPen( Qt::yellow );
+    m_curve1->setLegendAttribute( QwtPlotCurve::LegendShowLine );
+    m_curve1->setYAxis( QwtPlot::yLeft );
+    m_curve1->attach( this );
 
-    d_curve2 = new QwtPlotCurve( "Phase" );
-    d_curve2->setRenderHint( QwtPlotItem::RenderAntialiased );
-    d_curve2->setPen( Qt::cyan );
-    d_curve2->setLegendAttribute( QwtPlotCurve::LegendShowLine );
-    d_curve2->setYAxis( QwtPlot::yRight );
-    d_curve2->attach( this );
+    m_curve2 = new QwtPlotCurve( "Phase" );
+    m_curve2->setRenderHint( QwtPlotItem::RenderAntialiased );
+    m_curve2->setPen( Qt::cyan );
+    m_curve2->setLegendAttribute( QwtPlotCurve::LegendShowLine );
+    m_curve2->setYAxis( QwtPlot::yRight );
+    m_curve2->attach( this );
 
     // marker
-    d_marker1 = new QwtPlotMarker();
-    d_marker1->setValue( 0.0, 0.0 );
-    d_marker1->setLineStyle( QwtPlotMarker::VLine );
-    d_marker1->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
-    d_marker1->setLinePen( Qt::green, 0, Qt::DashDotLine );
-    d_marker1->attach( this );
+    m_marker1 = new QwtPlotMarker();
+    m_marker1->setValue( 0.0, 0.0 );
+    m_marker1->setLineStyle( QwtPlotMarker::VLine );
+    m_marker1->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
+    m_marker1->setLinePen( Qt::green, 0, Qt::DashDotLine );
+    m_marker1->attach( this );
 
-    d_marker2 = new QwtPlotMarker();
-    d_marker2->setLineStyle( QwtPlotMarker::HLine );
-    d_marker2->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
-    d_marker2->setLinePen( QColor( 200, 150, 0 ), 0, Qt::DashDotLine );
-    d_marker2->setSymbol( new QwtSymbol( QwtSymbol::Diamond,
+    m_marker2 = new QwtPlotMarker();
+    m_marker2->setLineStyle( QwtPlotMarker::HLine );
+    m_marker2->setLabelAlignment( Qt::AlignRight | Qt::AlignBottom );
+    m_marker2->setLinePen( QColor( 200, 150, 0 ), 0, Qt::DashDotLine );
+    m_marker2->setSymbol( new QwtSymbol( QwtSymbol::Diamond,
         QColor( Qt::yellow ), QColor( Qt::green ), QSize( 8, 8 ) ) );
-    d_marker2->attach( this );
+    m_marker2->attach( this );
 
     setDamp( 0.0 );
 
@@ -111,8 +111,8 @@ Plot::Plot( QWidget *parent ):
 void Plot::showData( const double *frequency, const double *amplitude,
     const double *phase, int count )
 {
-    d_curve1->setSamples( frequency, amplitude, count );
-    d_curve2->setSamples( frequency, phase, count );
+    m_curve1->setSamples( frequency, amplitude, count );
+    m_curve2->setSamples( frequency, phase, count );
 }
 
 void Plot::showPeak( double freq, double amplitude )
@@ -125,8 +125,8 @@ void Plot::showPeak( double freq, double amplitude )
     text.setFont( QFont( "Helvetica", 10, QFont::Bold ) );
     text.setColor( QColor( 200, 150, 0 ) );
 
-    d_marker2->setValue( freq, amplitude );
-    d_marker2->setLabel( text );
+    m_marker2->setValue( freq, amplitude );
+    m_marker2->setLabel( text );
 }
 
 void Plot::show3dB( double freq )
@@ -138,8 +138,8 @@ void Plot::show3dB( double freq )
     text.setFont( QFont( "Helvetica", 10, QFont::Bold ) );
     text.setColor( Qt::green );
 
-    d_marker1->setValue( freq, 0.0 );
-    d_marker1->setLabel( text );
+    m_marker1->setValue( freq, 0.0 );
+    m_marker1->setLabel( text );
 }
 
 //

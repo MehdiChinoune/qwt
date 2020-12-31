@@ -26,15 +26,15 @@ public:
     void setFunction( double( *y )( double ) );
 
 private:
-    double ( *d_y )( double );
+    double ( *m_y )( double );
 
-    double d_referenceTime;
-    double d_interval;
-    QVector<double> d_values;
+    double m_referenceTime;
+    double m_interval;
+    QVector<double> m_values;
 
-    double d_step;
-    int d_startIndex;
-    double d_offset;
+    double m_step;
+    int m_startIndex;
+    double m_offset;
 };
 
 #endif
