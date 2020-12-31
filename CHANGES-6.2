@@ -19,8 +19,21 @@ to become a standalone lib. Anyone who is interested to workon it, please let me
 
 4) Spline interpolation
 
-Different spline interpolation algos have been implemented, the broken
-previous implementation of QwtSpline has been replaced.
+The broken implementation of QwtSpline has been replaced by a bunch of classes
+offering all sort of functionalities around splines.
+
+The most popular spline approximation/interpolation algos have been implemented:
+
+	- Basis
+	- Cardinal
+	- ParabolicBlending
+	- Akima
+	- The one used in MS Excel
+	- Cubic
+
+An implementation of the de Casteljau’s algorithm has been added
+
+	- QwtBezier
 
 5) New plot items
 
@@ -30,6 +43,11 @@ previous implementation of QwtSpline has been replaced.
     - QwtPlotGraphicItem
       An item displaying a QwtGraphic image ( f.e used by QwtPlotSvgItem )
 
+6) Plot Canvas
+
+	- QwtAbstractPlotCanvas introduced
+	- QwtPlotOpenGLCanvas added to support QOpenGLWidget
+
 7) QwtPlotCurve
 
 	- QwtPlotCurve::FilterPointsAggressive mode added - a fast weeding algo
@@ -38,7 +56,6 @@ previous implementation of QwtSpline has been replaced.
 	- QwtPlotCurve::closestPoint is virtual now
 	- QwtPlotCurve: polygon clipping includes the painter clip
 	- QwtPlotCurve::setLegendAttributes added
-	- QwtPlotCurve::closestPoint is virtual now 
 	- QwtValuePointData added for curves, where the x values are the index
 	- a couple of new QwtPlotCurve::setSamples alternatives
 
