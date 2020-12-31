@@ -10,40 +10,24 @@
 #include "qwt_system_clock.h"
 #include <qelapsedtimer.h>
 
-class QwtSystemClock::PrivateData
-{
-public:
-    QElapsedTimer timer;
-};
-
-QwtSystemClock::QwtSystemClock()
-{
-    d_data = new PrivateData();
-}
-
-QwtSystemClock::~QwtSystemClock()
-{
-    delete d_data;
-}
-
 bool QwtSystemClock::isNull() const
 {
-    return d_data->timer.isValid();
+    return d_timer.isValid();
 }
 
 void QwtSystemClock::start()
 {
-    d_data->timer.start();
+    d_timer.start();
 }
 
 double QwtSystemClock::restart()
 {
-    const qint64 nsecs = d_data->timer.restart();
+    const qint64 nsecs = d_timer.restart();
     return nsecs / 1e6;
 }
 
 double QwtSystemClock::elapsed() const
 {
-    const qint64 nsecs = d_data->timer.nsecsElapsed();
+    const qint64 nsecs = d_timer.nsecsElapsed();
     return nsecs / 1e6;
 }
