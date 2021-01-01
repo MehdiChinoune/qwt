@@ -20,20 +20,20 @@ class QPen;
 class QBrush;
 
 /*!
-  \brief A plot item, which displays a zone
+   \brief A plot item, which displays a zone
 
-  A horizontal zone highlights an interval of the y axis - a vertical
-  zone an interval of the x axis - and is unbounded in the opposite direction.
-  It is filled with a brush and its border lines are optionally displayed with a pen.
+   A horizontal zone highlights an interval of the y axis - a vertical
+   zone an interval of the x axis - and is unbounded in the opposite direction.
+   It is filled with a brush and its border lines are optionally displayed with a pen.
 
-  \note For displaying an area that is bounded for x and y coordinates
+   \note For displaying an area that is bounded for x and y coordinates
         use QwtPlotShapeItem
-*/
+ */
 
-class QWT_EXPORT QwtPlotZoneItem:
+class QWT_EXPORT QwtPlotZoneItem :
     public QwtPlotItem
 {
-public:
+  public:
     explicit QwtPlotZoneItem();
     virtual ~QwtPlotZoneItem();
 
@@ -43,25 +43,25 @@ public:
     Qt::Orientation orientation() const;
 
     void setInterval( double min, double max );
-    void setInterval( const QwtInterval & );
+    void setInterval( const QwtInterval& );
     QwtInterval interval() const;
 
-    void setPen( const QColor &, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
-    void setPen( const QPen & );
-    const QPen &pen() const;
+    void setPen( const QColor&, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
+    void setPen( const QPen& );
+    const QPen& pen() const;
 
-    void setBrush( const QBrush & );
-    const QBrush &brush() const;
+    void setBrush( const QBrush& );
+    const QBrush& brush() const;
 
-    virtual void draw( QPainter *,
-        const QwtScaleMap &, const QwtScaleMap &,
-        const QRectF &canvasRect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter*,
+        const QwtScaleMap&, const QwtScaleMap&,
+        const QRectF& canvasRect ) const QWT_OVERRIDE;
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

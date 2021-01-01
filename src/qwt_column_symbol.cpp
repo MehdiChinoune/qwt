@@ -14,8 +14,8 @@
 #include <qpainter.h>
 #include <qpalette.h>
 
-static void qwtDrawBox( QPainter *p, const QRectF &rect,
-    const QPalette &pal, double lw )
+static void qwtDrawBox( QPainter* p, const QRectF& rect,
+    const QPalette& pal, double lw )
 {
     if ( lw > 0.0 )
     {
@@ -39,8 +39,7 @@ static void qwtDrawBox( QPainter *p, const QRectF &rect,
         const QRectF outerRect = rect.adjusted( 0, 0, 1, 1 );
         QPolygonF polygon( outerRect );
 
-        if ( outerRect.width() > 2 * lw &&
-                outerRect.height() > 2 * lw )
+        if ( outerRect.width() > 2 * lw && outerRect.height() > 2 * lw )
         {
             const QRectF innerRect = outerRect.adjusted( lw, lw, -lw, -lw );
             polygon = polygon.subtracted( innerRect );
@@ -57,8 +56,8 @@ static void qwtDrawBox( QPainter *p, const QRectF &rect,
         p->fillRect( windowRect, pal.window() );
 }
 
-static void qwtDrawPanel( QPainter *painter, const QRectF &rect,
-    const QPalette &pal, double lw )
+static void qwtDrawPanel( QPainter* painter, const QRectF& rect,
+    const QPalette& pal, double lw )
 {
     if ( lw > 0.0 )
     {
@@ -111,12 +110,12 @@ static void qwtDrawPanel( QPainter *painter, const QRectF &rect,
 
 class QwtColumnSymbol::PrivateData
 {
-public:
-    PrivateData():
-        style( QwtColumnSymbol::Box ),
-        frameStyle( QwtColumnSymbol::Raised ),
-        palette( Qt::gray ),
-        lineWidth( 2 )
+  public:
+    PrivateData()
+        : style( QwtColumnSymbol::Box )
+        , frameStyle( QwtColumnSymbol::Raised )
+        , palette( Qt::gray )
+        , lineWidth( 2 )
     {
     }
 
@@ -128,11 +127,11 @@ public:
 };
 
 /*!
-  Constructor
+   Constructor
 
-  \param style Style of the symbol
-  \sa setStyle(), style(), Style
-*/
+   \param style Style of the symbol
+   \sa setStyle(), style(), Style
+ */
 QwtColumnSymbol::QwtColumnSymbol( Style style )
 {
     m_data = new PrivateData();
@@ -146,40 +145,40 @@ QwtColumnSymbol::~QwtColumnSymbol()
 }
 
 /*!
-  Specify the symbol style
+   Specify the symbol style
 
-  \param style Style
-  \sa style(), setPalette()
-*/
+   \param style Style
+   \sa style(), setPalette()
+ */
 void QwtColumnSymbol::setStyle( Style style )
 {
     m_data->style = style;
 }
 
 /*!
-  \return Current symbol style
-  \sa setStyle()
-*/
+   \return Current symbol style
+   \sa setStyle()
+ */
 QwtColumnSymbol::Style QwtColumnSymbol::style() const
 {
     return m_data->style;
 }
 
 /*!
-  Assign a palette for the symbol
+   Assign a palette for the symbol
 
-  \param palette Palette
-  \sa palette(), setStyle()
-*/
-void QwtColumnSymbol::setPalette( const QPalette &palette )
+   \param palette Palette
+   \sa palette(), setStyle()
+ */
+void QwtColumnSymbol::setPalette( const QPalette& palette )
 {
     m_data->palette = palette;
 }
 
 /*!
-  \return Current palette
-  \sa setPalette()
-*/
+   \return Current palette
+   \sa setPalette()
+ */
 const QPalette& QwtColumnSymbol::palette() const
 {
     return m_data->palette;
@@ -190,16 +189,16 @@ const QPalette& QwtColumnSymbol::palette() const
 
    \param frameStyle Frame style
    \sa frameStyle(), setLineWidth(), setStyle()
-*/
+ */
 void QwtColumnSymbol::setFrameStyle( FrameStyle frameStyle )
 {
     m_data->frameStyle = frameStyle;
 }
 
 /*!
-  \return Current frame style, that is used for the Box style.
-  \sa setFrameStyle(), lineWidth(), setStyle()
-*/
+   \return Current frame style, that is used for the Box style.
+   \sa setFrameStyle(), lineWidth(), setStyle()
+ */
 QwtColumnSymbol::FrameStyle QwtColumnSymbol::frameStyle() const
 {
     return m_data->frameStyle;
@@ -210,7 +209,7 @@ QwtColumnSymbol::FrameStyle QwtColumnSymbol::frameStyle() const
 
    \param width Width
    \sa lineWidth(), setFrameStyle()
-*/
+ */
 void QwtColumnSymbol::setLineWidth( int width )
 {
     if ( width < 0 )
@@ -220,24 +219,24 @@ void QwtColumnSymbol::setLineWidth( int width )
 }
 
 /*!
-  \return Line width of the frame, that is used for the Box style.
-  \sa setLineWidth(), frameStyle(), setStyle()
-*/
+   \return Line width of the frame, that is used for the Box style.
+   \sa setLineWidth(), frameStyle(), setStyle()
+ */
 int QwtColumnSymbol::lineWidth() const
 {
     return m_data->lineWidth;
 }
 
 /*!
-  Draw the symbol depending on its style.
+   Draw the symbol depending on its style.
 
-  \param painter Painter
-  \param rect Directed rectangle
+   \param painter Painter
+   \param rect Directed rectangle
 
-  \sa drawBox()
-*/
-void QwtColumnSymbol::draw( QPainter *painter,
-    const QwtColumnRect &rect ) const
+   \sa drawBox()
+ */
+void QwtColumnSymbol::draw( QPainter* painter,
+    const QwtColumnRect& rect ) const
 {
     painter->save();
 
@@ -255,15 +254,15 @@ void QwtColumnSymbol::draw( QPainter *painter,
 }
 
 /*!
-  Draw the symbol when it is in Box style.
+   Draw the symbol when it is in Box style.
 
-  \param painter Painter
-  \param rect Directed rectangle
+   \param painter Painter
+   \param rect Directed rectangle
 
-  \sa draw()
-*/
-void QwtColumnSymbol::drawBox( QPainter *painter,
-    const QwtColumnRect &rect ) const
+   \sa draw()
+ */
+void QwtColumnSymbol::drawBox( QPainter* painter,
+    const QwtColumnRect& rect ) const
 {
     QRectF r = rect.toRect();
     if ( QwtPainter::roundingAlignment( painter ) )

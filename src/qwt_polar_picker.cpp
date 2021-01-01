@@ -15,65 +15,59 @@
 
 class QwtPolarPicker::PrivateData
 {
-public:
-    PrivateData()
-    {
-    }
 };
 
 /*!
-  \brief Create a polar plot picker
-  \param canvas Plot canvas to observe, also the parent object
-*/
+   \brief Create a polar plot picker
+   \param canvas Plot canvas to observe, also the parent object
+ */
 
-QwtPolarPicker::QwtPolarPicker( QwtPolarCanvas *canvas ):
-    QwtPicker( canvas )
+QwtPolarPicker::QwtPolarPicker( QwtPolarCanvas* canvas )
+    : QwtPicker( canvas )
+    , m_data( nullptr )
 {
-    m_data = new PrivateData;
 }
 
 /*!
-  Create a plot picker
+   Create a plot picker
 
-  \param rubberBand Rubberband style
-  \param trackerMode Tracker mode
-  \param canvas Plot canvas to observe, also the parent object
+   \param rubberBand Rubberband style
+   \param trackerMode Tracker mode
+   \param canvas Plot canvas to observe, also the parent object
 
-  \sa QwtPicker, QwtPicker::setSelectionFlags(), QwtPicker::setRubberBand(),
+   \sa QwtPicker, QwtPicker::setSelectionFlags(), QwtPicker::setRubberBand(),
       QwtPicker::setTrackerMode
 
-  \sa QwtPolarPlot::autoReplot(), QwtPolarPlot::replot(), scaleRect()
-*/
-QwtPolarPicker::QwtPolarPicker( 
-        RubberBand rubberBand, DisplayMode trackerMode,
-        QwtPolarCanvas *canvas ):
-    QwtPicker( rubberBand, trackerMode, canvas )
+   \sa QwtPolarPlot::autoReplot(), QwtPolarPlot::replot(), scaleRect()
+ */
+QwtPolarPicker::QwtPolarPicker(
+        RubberBand rubberBand, DisplayMode trackerMode, QwtPolarCanvas* canvas )
+    : QwtPicker( rubberBand, trackerMode, canvas )
+    , m_data( nullptr )
 {
-    m_data = new PrivateData;
 }
 
 //! Destructor
 QwtPolarPicker::~QwtPolarPicker()
 {
-    delete m_data;
 }
 
 //! \return Observed plot canvas
-QwtPolarCanvas *QwtPolarPicker::canvas()
+QwtPolarCanvas* QwtPolarPicker::canvas()
 {
-    return qobject_cast<QwtPolarCanvas *>( parentWidget() );
+    return qobject_cast< QwtPolarCanvas* >( parentWidget() );
 }
 
 //! \return Observed plot canvas
-const QwtPolarCanvas *QwtPolarPicker::canvas() const
+const QwtPolarCanvas* QwtPolarPicker::canvas() const
 {
-    return qobject_cast<const QwtPolarCanvas *>( parentWidget() );
+    return qobject_cast< const QwtPolarCanvas* >( parentWidget() );
 }
 
 //! \return Plot widget, containing the observed plot canvas
-QwtPolarPlot *QwtPolarPicker::plot()
+QwtPolarPlot* QwtPolarPicker::plot()
 {
-    QwtPolarCanvas *w = canvas();
+    QwtPolarCanvas* w = canvas();
     if ( w )
         return w->plot();
 
@@ -81,9 +75,9 @@ QwtPolarPlot *QwtPolarPicker::plot()
 }
 
 //! \return Plot widget, containing the observed plot canvas
-const QwtPolarPlot *QwtPolarPicker::plot() const
+const QwtPolarPlot* QwtPolarPicker::plot() const
 {
-    const QwtPolarCanvas *w = canvas();
+    const QwtPolarCanvas* w = canvas();
     if ( w )
         return w->plot();
 
@@ -91,30 +85,30 @@ const QwtPolarPlot *QwtPolarPicker::plot() const
 }
 
 /*!
-  Translate a pixel position into a position string
+   Translate a pixel position into a position string
 
-  \param pos Position in pixel coordinates
-  \return Position string
-*/
-QwtText QwtPolarPicker::trackerText( const QPoint &pos ) const
+   \param pos Position in pixel coordinates
+   \return Position string
+ */
+QwtText QwtPolarPicker::trackerText( const QPoint& pos ) const
 {
     const QwtPointPolar polarPoint = invTransform( pos );
     return trackerTextPolar( polarPoint );
 }
 
 /*!
-  \brief Translate a position into a position string
+   \brief Translate a position into a position string
 
-  In case of HLineRubberBand the label is the value of the
-  y position, in case of VLineRubberBand the value of the x position.
-  Otherwise the label contains x and y position separated by a ',' .
+   In case of HLineRubberBand the label is the value of the
+   y position, in case of VLineRubberBand the value of the x position.
+   Otherwise the label contains x and y position separated by a ',' .
 
-  The format for the double to string conversion is "%.4f".
+   The format for the double to string conversion is "%.4f".
 
-  \param pos Position
-  \return Position string
-*/
-QwtText QwtPolarPicker::trackerTextPolar( const QwtPointPolar &pos ) const
+   \param pos Position
+   \return Position string
+ */
+QwtText QwtPolarPicker::trackerTextPolar( const QwtPointPolar& pos ) const
 {
     const QString text = QString::number( pos.radius(), 'f', 4 )
         + ", " + QString::number( pos.azimuth(), 'f', 4 );
@@ -123,42 +117,42 @@ QwtText QwtPolarPicker::trackerTextPolar( const QwtPointPolar &pos ) const
 }
 
 /*!
-  Append a point to the selection and update rubberband and tracker.
+   Append a point to the selection and update rubberband and tracker.
 
-  \param pos Additional point
-  \sa isActive, begin(), end(), move(), appended()
+   \param pos Additional point
+   \sa isActive, begin(), end(), move(), appended()
 
-  \note The appended(const QPoint &), appended(const QDoublePoint &)
+   \note The appended(const QPoint &), appended(const QDoublePoint &)
         signals are emitted.
-*/
-void QwtPolarPicker::append( const QPoint &pos )
+ */
+void QwtPolarPicker::append( const QPoint& pos )
 {
     QwtPicker::append( pos );
     Q_EMIT appended( invTransform( pos ) );
 }
 
 /*!
-  Move the last point of the selection
+   Move the last point of the selection
 
-  \param pos New position
-  \sa isActive, begin(), end(), append()
+   \param pos New position
+   \sa isActive, begin(), end(), append()
 
-  \note The moved(const QPoint &), moved(const QDoublePoint &)
+   \note The moved(const QPoint &), moved(const QDoublePoint &)
         signals are emitted.
-*/
-void QwtPolarPicker::move( const QPoint &pos )
+ */
+void QwtPolarPicker::move( const QPoint& pos )
 {
     QwtPicker::move( pos );
     Q_EMIT moved( invTransform( pos ) );
 }
 
 /*!
-  Close a selection setting the state to inactive.
+   Close a selection setting the state to inactive.
 
-  \param ok If true, complete the selection and emit selected signals
+   \param ok If true, complete the selection and emit selected signals
             otherwise discard the selection.
-  \return true if the selection is accepted, false otherwise
-*/
+   \return true if the selection is accepted, false otherwise
+ */
 
 bool QwtPolarPicker::end( bool ok )
 {
@@ -166,7 +160,7 @@ bool QwtPolarPicker::end( bool ok )
     if ( !ok )
         return false;
 
-    QwtPolarPlot *plot = QwtPolarPicker::plot();
+    QwtPolarPlot* plot = QwtPolarPicker::plot();
     if ( !plot )
         return false;
 
@@ -191,7 +185,7 @@ bool QwtPolarPicker::end( bool ok )
         case QwtPickerMachine::RectSelection:
         case QwtPickerMachine::PolygonSelection:
         {
-            QVector<QwtPointPolar> polarPoints( points.count() );
+            QVector< QwtPointPolar > polarPoints( points.count() );
             for ( int i = 0; i < points.count(); i++ )
                 polarPoints[i] = invTransform( points[i] );
 
@@ -210,8 +204,8 @@ bool QwtPolarPicker::end( bool ok )
     \param pos Point in widget coordinates of the plot canvas
     \return Point in plot coordinates
     \sa transform(), canvas()
-*/
-QwtPointPolar QwtPolarPicker::invTransform( const QPoint &pos ) const
+ */
+QwtPointPolar QwtPolarPicker::invTransform( const QPoint& pos ) const
 {
     QwtPointPolar polarPos;
     if ( canvas() == NULL )
@@ -223,7 +217,7 @@ QwtPointPolar QwtPolarPicker::invTransform( const QPoint &pos ) const
 /*!
     \return Bounding rectangle of the region, where picking is
             supported.
-*/
+ */
 QRect QwtPolarPicker::pickRect() const
 {
     const QRect cr = canvas()->contentsRect();

@@ -15,8 +15,8 @@
 #include <qpainterpath.h>
 
 //! Constructor
-QwtSplineCurveFitter::QwtSplineCurveFitter():
-    QwtCurveFitter( QwtCurveFitter::Path )
+QwtSplineCurveFitter::QwtSplineCurveFitter()
+    : QwtCurveFitter( QwtCurveFitter::Path )
 {
     m_spline = new QwtSplineLocal( QwtSplineLocal::Cardinal );
     m_spline->setParametrization( QwtSplineParametrization::ParameterUniform );
@@ -29,15 +29,15 @@ QwtSplineCurveFitter::~QwtSplineCurveFitter()
 }
 
 /*!
-  Assign a spline
+   Assign a spline
 
-  The spline needs to be allocated by new and will be deleted
-  in the destructor of the fitter.
+   The spline needs to be allocated by new and will be deleted
+   in the destructor of the fitter.
 
-  \param spline Spline
-  \sa spline()
-*/
-void QwtSplineCurveFitter::setSpline( QwtSpline *spline )
+   \param spline Spline
+   \sa spline()
+ */
+void QwtSplineCurveFitter::setSpline( QwtSpline* spline )
 {
     if ( m_spline == spline )
         return;
@@ -47,36 +47,36 @@ void QwtSplineCurveFitter::setSpline( QwtSpline *spline )
 }
 
 /*!
-  \return Spline
-  \sa setSpline()
-*/
-const QwtSpline *QwtSplineCurveFitter::spline() const
+   \return Spline
+   \sa setSpline()
+ */
+const QwtSpline* QwtSplineCurveFitter::spline() const
 {
     return m_spline;
 }
 
 /*!
-  \return Spline
-  \sa setSpline()
-*/
-QwtSpline *QwtSplineCurveFitter::spline()
+   \return Spline
+   \sa setSpline()
+ */
+QwtSpline* QwtSplineCurveFitter::spline()
 {
     return m_spline;
 }
 
 /*!
-  Find a curve which has the best fit to a series of data points
+   Find a curve which has the best fit to a series of data points
 
-  \param points Series of data points
-  \return Fitted Curve
+   \param points Series of data points
+   \return Fitted Curve
 
-  \sa fitCurvePath()
-*/
-QPolygonF QwtSplineCurveFitter::fitCurve( const QPolygonF &points ) const
+   \sa fitCurvePath()
+ */
+QPolygonF QwtSplineCurveFitter::fitCurve( const QPolygonF& points ) const
 {
     const QPainterPath path = fitCurvePath( points );
 
-    const QList<QPolygonF> subPaths = path.toSubpathPolygons();
+    const QList< QPolygonF > subPaths = path.toSubpathPolygons();
     if ( subPaths.size() == 1 )
         subPaths.first();
 
@@ -84,14 +84,14 @@ QPolygonF QwtSplineCurveFitter::fitCurve( const QPolygonF &points ) const
 }
 
 /*!
-  Find a curve path which has the best fit to a series of data points
+   Find a curve path which has the best fit to a series of data points
 
-  \param points Series of data points
-  \return Fitted Curve
+   \param points Series of data points
+   \return Fitted Curve
 
-  \sa fitCurve()
-*/
-QPainterPath QwtSplineCurveFitter::fitCurvePath( const QPolygonF &points ) const
+   \sa fitCurve()
+ */
+QPainterPath QwtSplineCurveFitter::fitCurvePath( const QPolygonF& points ) const
 {
     QPainterPath path;
 

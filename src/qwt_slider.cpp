@@ -21,7 +21,7 @@
 #include <qstyleoption.h>
 #include <qmargins.h>
 
-static QSize qwtHandleSize( const QSize &size,
+static QSize qwtHandleSize( const QSize& size,
     Qt::Orientation orientation, bool hasTrough )
 {
     QSize handleSize = size;
@@ -69,18 +69,18 @@ static QwtScaleDraw::Alignment qwtScaleDrawAlignment(
 
 class QwtSlider::PrivateData
 {
-public:
-    PrivateData():
-        repeatTimerId( 0 ),
-        updateInterval( 150 ),
-        stepsIncrement( 0 ),
-        pendingValueChange( false ),
-        borderWidth( 2 ),
-        spacing( 4 ),
-        scalePosition( QwtSlider::TrailingScale ),
-        hasTrough( true ),
-        hasGroove( false ),
-        mouseOffset( 0 )
+  public:
+    PrivateData()
+        : repeatTimerId( 0 )
+        , updateInterval( 150 )
+        , stepsIncrement( 0 )
+        , pendingValueChange( false )
+        , borderWidth( 2 )
+        , spacing( 4 )
+        , scalePosition( QwtSlider::TrailingScale )
+        , hasTrough( true )
+        , hasGroove( false )
+        , mouseOffset( 0 )
     {
     }
 
@@ -107,34 +107,34 @@ public:
     mutable QSize sizeHintCache;
 };
 /*!
-  Construct vertical slider in QwtSlider::Trough style
-  with a scale to the left.
+   Construct vertical slider in QwtSlider::Trough style
+   with a scale to the left.
 
-  The scale is initialized to [0.0, 100.0] and the value set to 0.0.
+   The scale is initialized to [0.0, 100.0] and the value set to 0.0.
 
-  \param parent Parent widget
+   \param parent Parent widget
 
-  \sa setOrientation(), setScalePosition(), setBackgroundStyle()
-*/
-QwtSlider::QwtSlider( QWidget *parent ):
-    QwtAbstractSlider( parent )
+   \sa setOrientation(), setScalePosition(), setBackgroundStyle()
+ */
+QwtSlider::QwtSlider( QWidget* parent )
+    : QwtAbstractSlider( parent )
 {
     initSlider( Qt::Vertical );
 }
 
 /*!
-  Construct a slider in QwtSlider::Trough style
+   Construct a slider in QwtSlider::Trough style
 
-  When orientation is Qt::Vertical the scale will be aligned to
-  the left - otherwise at the the top of the slider.
+   When orientation is Qt::Vertical the scale will be aligned to
+   the left - otherwise at the the top of the slider.
 
-  The scale is initialized to [0.0, 100.0] and the value set to 0.0.
+   The scale is initialized to [0.0, 100.0] and the value set to 0.0.
 
-  \param parent Parent widget
-  \param orientation Orientation of the slider.
-*/
-QwtSlider::QwtSlider( Qt::Orientation orientation, QWidget *parent ):
-    QwtAbstractSlider( parent )
+   \param parent Parent widget
+   \param orientation Orientation of the slider.
+ */
+QwtSlider::QwtSlider( Qt::Orientation orientation, QWidget* parent )
+    : QwtAbstractSlider( parent )
 {
     initSlider( orientation );
 }
@@ -167,11 +167,11 @@ void QwtSlider::initSlider( Qt::Orientation orientation )
 }
 
 /*!
-  \brief Set the orientation.
-  \param orientation Allowed values are Qt::Horizontal and Qt::Vertical.
+   \brief Set the orientation.
+   \param orientation Allowed values are Qt::Horizontal and Qt::Vertical.
 
-  \sa orientation(), scalePosition()
-*/
+   \sa orientation(), scalePosition()
+ */
 void QwtSlider::setOrientation( Qt::Orientation orientation )
 {
     if ( orientation == m_data->orientation )
@@ -196,20 +196,20 @@ void QwtSlider::setOrientation( Qt::Orientation orientation )
 }
 
 /*!
-  \return Orientation
-  \sa setOrientation()
-*/
+   \return Orientation
+   \sa setOrientation()
+ */
 Qt::Orientation QwtSlider::orientation() const
 {
     return m_data->orientation;
 }
 
 /*!
-  \brief Change the position of the scale
-  \param scalePosition Position of the scale.
+   \brief Change the position of the scale
+   \param scalePosition Position of the scale.
 
-  \sa ScalePosition, scalePosition()
-*/
+   \sa ScalePosition, scalePosition()
+ */
 void QwtSlider::setScalePosition( ScalePosition scalePosition )
 {
     if ( m_data->scalePosition == scalePosition )
@@ -224,8 +224,8 @@ void QwtSlider::setScalePosition( ScalePosition scalePosition )
 }
 
 /*!
-  \return Position of the scale
-  \sa setScalePosition()
+   \return Position of the scale
+   \sa setScalePosition()
  */
 QwtSlider::ScalePosition QwtSlider::scalePosition() const
 {
@@ -233,14 +233,14 @@ QwtSlider::ScalePosition QwtSlider::scalePosition() const
 }
 
 /*!
-  \brief Change the slider's border width
+   \brief Change the slider's border width
 
-  The border width is used for drawing the slider handle and the
-  trough.
+   The border width is used for drawing the slider handle and the
+   trough.
 
-  \param width Border width
-  \sa borderWidth()
-*/
+   \param width Border width
+   \sa borderWidth()
+ */
 void QwtSlider::setBorderWidth( int width )
 {
     if ( width < 0 )
@@ -256,25 +256,25 @@ void QwtSlider::setBorderWidth( int width )
 }
 
 /*!
-  \return the border width.
-  \sa setBorderWidth()
-*/
+   \return the border width.
+   \sa setBorderWidth()
+ */
 int QwtSlider::borderWidth() const
 {
     return m_data->borderWidth;
 }
 
 /*!
-  \brief Change the spacing between trough and scale
+   \brief Change the spacing between trough and scale
 
-  A spacing of 0 means, that the backbone of the scale is covered
-  by the trough.
+   A spacing of 0 means, that the backbone of the scale is covered
+   by the trough.
 
-  The default setting is 4 pixels.
+   The default setting is 4 pixels.
 
-  \param spacing Number of pixels
-  \sa spacing();
-*/
+   \param spacing Number of pixels
+   \sa spacing();
+ */
 void QwtSlider::setSpacing( int spacing )
 {
     if ( spacing <= 0 )
@@ -290,25 +290,25 @@ void QwtSlider::setSpacing( int spacing )
 }
 
 /*!
-  \return Number of pixels between slider and scale
-  \sa setSpacing()
-*/
+   \return Number of pixels between slider and scale
+   \sa setSpacing()
+ */
 int QwtSlider::spacing() const
 {
     return m_data->spacing;
 }
 
 /*!
-  \brief Set the slider's handle size
+   \brief Set the slider's handle size
 
-  When the size is empty the slider handle will be painted with a
-  default size depending on its orientation() and backgroundStyle().
+   When the size is empty the slider handle will be painted with a
+   default size depending on its orientation() and backgroundStyle().
 
-  \param size New size
+   \param size New size
 
-  \sa handleSize()
-*/
-void QwtSlider::setHandleSize( const QSize &size )
+   \sa handleSize()
+ */
+void QwtSlider::setHandleSize( const QSize& size )
 {
     if ( size != m_data->handleSize )
     {
@@ -320,30 +320,30 @@ void QwtSlider::setHandleSize( const QSize &size )
 }
 
 /*!
-  \return Size of the handle.
-  \sa setHandleSize()
-*/
+   \return Size of the handle.
+   \sa setHandleSize()
+ */
 QSize QwtSlider::handleSize() const
 {
     return m_data->handleSize;
 }
 
 /*!
-  \brief Set a scale draw
+   \brief Set a scale draw
 
-  For changing the labels of the scales, it
-  is necessary to derive from QwtScaleDraw and
-  overload QwtScaleDraw::label().
+   For changing the labels of the scales, it
+   is necessary to derive from QwtScaleDraw and
+   overload QwtScaleDraw::label().
 
-  \param scaleDraw ScaleDraw object, that has to be created with
+   \param scaleDraw ScaleDraw object, that has to be created with
                    new and will be deleted in ~QwtSlider() or the next
                    call of setScaleDraw().
 
-  \sa scaleDraw()
-*/
-void QwtSlider::setScaleDraw( QwtScaleDraw *scaleDraw )
+   \sa scaleDraw()
+ */
+void QwtSlider::setScaleDraw( QwtScaleDraw* scaleDraw )
 {
-    const QwtScaleDraw *previousScaleDraw = this->scaleDraw();
+    const QwtScaleDraw* previousScaleDraw = this->scaleDraw();
     if ( scaleDraw == NULL || scaleDraw == previousScaleDraw )
         return;
 
@@ -357,21 +357,21 @@ void QwtSlider::setScaleDraw( QwtScaleDraw *scaleDraw )
 }
 
 /*!
-  \return the scale draw of the slider
-  \sa setScaleDraw()
-*/
-const QwtScaleDraw *QwtSlider::scaleDraw() const
+   \return the scale draw of the slider
+   \sa setScaleDraw()
+ */
+const QwtScaleDraw* QwtSlider::scaleDraw() const
 {
-    return static_cast<const QwtScaleDraw *>( abstractScaleDraw() );
+    return static_cast< const QwtScaleDraw* >( abstractScaleDraw() );
 }
 
 /*!
-  \return the scale draw of the slider
-  \sa setScaleDraw()
-*/
-QwtScaleDraw *QwtSlider::scaleDraw()
+   \return the scale draw of the slider
+   \sa setScaleDraw()
+ */
+QwtScaleDraw* QwtSlider::scaleDraw()
 {
-    return static_cast<QwtScaleDraw *>( abstractScaleDraw() );
+    return static_cast< QwtScaleDraw* >( abstractScaleDraw() );
 }
 
 //! Notify changed scale
@@ -384,22 +384,22 @@ void QwtSlider::scaleChange()
 }
 
 /*!
-  \brief Specify the update interval for automatic scrolling
+   \brief Specify the update interval for automatic scrolling
 
-  The minimal accepted value is 50 ms.
+   The minimal accepted value is 50 ms.
 
-  \param interval Update interval in milliseconds
+   \param interval Update interval in milliseconds
 
-  \sa setUpdateInterval()
-*/
+   \sa setUpdateInterval()
+ */
 void QwtSlider::setUpdateInterval( int interval )
 {
     m_data->updateInterval = qMax( interval, 50 );
 }
 
 /*!
-  \return Update interval in milliseconds for automatic scrolling
-  \sa setUpdateInterval()
+   \return Update interval in milliseconds for automatic scrolling
+   \sa setUpdateInterval()
  */
 int QwtSlider::updateInterval() const
 {
@@ -411,9 +411,9 @@ int QwtSlider::updateInterval() const
 
    \param painter Painter
    \param sliderRect Bounding rectangle of the slider
-*/
+ */
 void QwtSlider::drawSlider(
-    QPainter *painter, const QRect &sliderRect ) const
+    QPainter* painter, const QRect& sliderRect ) const
 {
     QRect innerRect( sliderRect );
 
@@ -456,7 +456,7 @@ void QwtSlider::drawSlider(
         slotRect.moveCenter( innerRect.center() );
 
         QBrush brush = palette().brush( QPalette::Dark );
-        qDrawShadePanel( painter, slotRect, palette(), true, 1 , &brush );
+        qDrawShadePanel( painter, slotRect, palette(), true, 1, &brush );
     }
 
     if ( isValid() )
@@ -464,14 +464,14 @@ void QwtSlider::drawSlider(
 }
 
 /*!
-  Draw the thumb at a position
+   Draw the thumb at a position
 
-  \param painter Painter
-  \param handleRect Bounding rectangle of the handle
-  \param pos Position of the handle marker in widget coordinates
-*/
-void QwtSlider::drawHandle( QPainter *painter,
-    const QRect &handleRect, int pos ) const
+   \param painter Painter
+   \param handleRect Bounding rectangle of the handle
+   \param pos Position of the handle marker in widget coordinates
+ */
+void QwtSlider::drawHandle( QPainter* painter,
+    const QRect& handleRect, int pos ) const
 {
     const int bw = m_data->borderWidth;
 
@@ -493,14 +493,14 @@ void QwtSlider::drawHandle( QPainter *painter,
 }
 
 /*!
-  \brief Determine what to do when the user presses a mouse button.
+   \brief Determine what to do when the user presses a mouse button.
 
-  \param pos Mouse position
+   \param pos Mouse position
 
-  \retval True, when handleRect() contains pos
-  \sa scrolledTo()
-*/
-bool QwtSlider::isScrollPosition( const QPoint &pos ) const
+   \retval True, when handleRect() contains pos
+   \sa scrolledTo()
+ */
+bool QwtSlider::isScrollPosition( const QPoint& pos ) const
 {
     if ( handleRect().contains( pos ) )
     {
@@ -515,15 +515,15 @@ bool QwtSlider::isScrollPosition( const QPoint &pos ) const
 }
 
 /*!
-  \brief Determine the value for a new position of the
+   \brief Determine the value for a new position of the
          slider handle.
 
-  \param pos Mouse position
+   \param pos Mouse position
 
-  \return Value for the mouse position
-  \sa isScrollPosition()
-*/
-double QwtSlider::scrolledTo( const QPoint &pos ) const
+   \return Value for the mouse position
+   \sa isScrollPosition()
+ */
+double QwtSlider::scrolledTo( const QPoint& pos ) const
 {
     int p = ( orientation() == Qt::Horizontal )
         ? pos.x() : pos.y();
@@ -543,8 +543,8 @@ double QwtSlider::scrolledTo( const QPoint &pos ) const
 /*!
    Mouse press event handler
    \param event Mouse event
-*/
-void QwtSlider::mousePressEvent( QMouseEvent *event )
+ */
+void QwtSlider::mousePressEvent( QMouseEvent* event )
 {
     if ( isReadOnly() )
     {
@@ -602,8 +602,8 @@ void QwtSlider::mousePressEvent( QMouseEvent *event )
 /*!
    Mouse release event handler
    \param event Mouse event
-*/
-void QwtSlider::mouseReleaseEvent( QMouseEvent *event )
+ */
+void QwtSlider::mouseReleaseEvent( QMouseEvent* event )
 {
     if ( m_data->repeatTimerId > 0 )
     {
@@ -629,8 +629,8 @@ void QwtSlider::mouseReleaseEvent( QMouseEvent *event )
    inside the sliderRect().
 
    \param event Mouse event
-*/
-void QwtSlider::timerEvent( QTimerEvent *event )
+ */
+void QwtSlider::timerEvent( QTimerEvent* event )
 {
     if ( event->timerId() != m_data->repeatTimerId )
     {
@@ -671,8 +671,8 @@ void QwtSlider::timerEvent( QTimerEvent *event )
 /*!
    Qt paint event handler
    \param event Paint event
-*/
-void QwtSlider::paintEvent( QPaintEvent *event )
+ */
+void QwtSlider::paintEvent( QPaintEvent* event )
 {
     QPainter painter( this );
     painter.setClipRegion( event->region() );
@@ -696,8 +696,8 @@ void QwtSlider::paintEvent( QPaintEvent *event )
 /*!
    Qt resize event handler
    \param event Resize event
-*/
-void QwtSlider::resizeEvent( QResizeEvent *event )
+ */
+void QwtSlider::resizeEvent( QResizeEvent* event )
 {
     layoutSlider( false );
     QwtAbstractSlider::resizeEvent( event );
@@ -708,8 +708,8 @@ void QwtSlider::resizeEvent( QResizeEvent *event )
    \param event Event
 
    \return true, if event was recognized and processed
-*/
-bool QwtSlider::event( QEvent *event )
+ */
+bool QwtSlider::event( QEvent* event )
 {
     if ( event->type() == QEvent::PolishRequest )
         layoutSlider( false );
@@ -720,8 +720,8 @@ bool QwtSlider::event( QEvent *event )
 /*!
    Handles QEvent::StyleChange and QEvent::FontChange events
    \param event Change event
-*/
-void QwtSlider::changeEvent( QEvent *event )
+ */
+void QwtSlider::changeEvent( QEvent* event )
 {
     if ( event->type() == QEvent::StyleChange ||
         event->type() == QEvent::FontChange )
@@ -734,12 +734,12 @@ void QwtSlider::changeEvent( QEvent *event )
 }
 
 /*!
-  Recalculate the slider's geometry and layout based on
-  the current geometry and fonts.
+   Recalculate the slider's geometry and layout based on
+   the current geometry and fonts.
 
-  \param update_geometry  notify the layout system and call update
+   \param update_geometry  notify the layout system and call update
          to redraw the scale
-*/
+ */
 void QwtSlider::layoutSlider( bool update_geometry )
 {
     int bw = 0;
@@ -849,13 +849,13 @@ void QwtSlider::layoutSlider( bool update_geometry )
 }
 
 /*!
-  En/Disable the trough
+   En/Disable the trough
 
-  The slider can be cutomized by showing a trough for the
-  handle.
+   The slider can be cutomized by showing a trough for the
+   handle.
 
-  \param on When true, the groove is visible
-  \sa hasTrough(), setGroove()
+   \param on When true, the groove is visible
+   \sa hasTrough(), setGroove()
  */
 void QwtSlider::setTrough( bool on )
 {
@@ -869,8 +869,8 @@ void QwtSlider::setTrough( bool on )
 }
 
 /*!
-  \return True, when the trough is visisble
-  \sa setTrough(), hasGroove()
+   \return True, when the trough is visisble
+   \sa setTrough(), hasGroove()
  */
 bool QwtSlider::hasTrough() const
 {
@@ -878,13 +878,13 @@ bool QwtSlider::hasTrough() const
 }
 
 /*!
-  En/Disable the groove
+   En/Disable the groove
 
-  The slider can be cutomized by showing a groove for the
-  handle.
+   The slider can be cutomized by showing a groove for the
+   handle.
 
-  \param on When true, the groove is visible
-  \sa hasGroove(), setThrough()
+   \param on When true, the groove is visible
+   \sa hasGroove(), setThrough()
  */
 void QwtSlider::setGroove( bool on )
 {
@@ -898,8 +898,8 @@ void QwtSlider::setGroove( bool on )
 }
 
 /*!
-  \return True, when the groove is visisble
-  \sa setGroove(), hasTrough()
+   \return True, when the groove is visisble
+   \sa setGroove(), hasTrough()
  */
 bool QwtSlider::hasGroove() const
 {
@@ -907,8 +907,8 @@ bool QwtSlider::hasGroove() const
 }
 
 /*!
-  \return minimumSizeHint()
-*/
+   \return minimumSizeHint()
+ */
 QSize QwtSlider::sizeHint() const
 {
     const QSize hint = minimumSizeHint();
@@ -916,9 +916,9 @@ QSize QwtSlider::sizeHint() const
 }
 
 /*!
-  \return Minimum size hint
-  \sa sizeHint()
-*/
+   \return Minimum size hint
+   \sa sizeHint()
+ */
 QSize QwtSlider::minimumSizeHint() const
 {
     if ( !m_data->sizeHintCache.isEmpty() )
@@ -1009,7 +1009,7 @@ QRect QwtSlider::handleRect() const
 }
 
 /*!
- \return Bounding rectangle of the slider - without the scale
+   \return Bounding rectangle of the slider - without the scale
  */
 QRect QwtSlider::sliderRect() const
 {

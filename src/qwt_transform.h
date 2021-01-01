@@ -31,10 +31,10 @@
 
    - p = p1 + ( p2 - p1 ) * ( T( s ) - T( s1 ) / ( T( s2 ) - T( s1 ) );
    - s = invT ( T( s1 ) + ( T( s2 ) - T( s1 ) ) * ( p - p1 ) / ( p2 - p1 ) );
-*/
+ */
 class QWT_EXPORT QwtTransform
 {
-public:
+  public:
     QwtTransform();
     virtual ~QwtTransform();
 
@@ -65,9 +65,9 @@ public:
     virtual double invTransform( double value ) const = 0;
 
     //! Virtualized copy operation
-    virtual QwtTransform *copy() const = 0;
+    virtual QwtTransform* copy() const = 0;
 
-private:
+  private:
     Q_DISABLE_COPY(QwtTransform)
 };
 
@@ -77,16 +77,16 @@ private:
    QwtNullTransform returns the values unmodified.
 
  */
-class QWT_EXPORT QwtNullTransform: public QwtTransform
+class QWT_EXPORT QwtNullTransform : public QwtTransform
 {
-public:
+  public:
     QwtNullTransform();
     virtual ~QwtNullTransform();
 
     virtual double transform( double value ) const QWT_OVERRIDE;
     virtual double invTransform( double value ) const QWT_OVERRIDE;
 
-    virtual QwtTransform *copy() const QWT_OVERRIDE;
+    virtual QwtTransform* copy() const QWT_OVERRIDE;
 };
 /*!
    \brief Logarithmic transformation
@@ -97,9 +97,9 @@ public:
          has no effect on the mapping. So QwtLogTransform can be used
          for log2(), log10() or any other logarithmic scale.
  */
-class QWT_EXPORT QwtLogTransform: public QwtTransform
+class QWT_EXPORT QwtLogTransform : public QwtTransform
 {
-public:
+  public:
     QwtLogTransform();
     virtual ~QwtLogTransform();
 
@@ -108,7 +108,7 @@ public:
 
     virtual double bounded( double value ) const QWT_OVERRIDE;
 
-    virtual QwtTransform *copy() const QWT_OVERRIDE;
+    virtual QwtTransform* copy() const QWT_OVERRIDE;
 
     static const double LogMin;
     static const double LogMax;
@@ -122,18 +122,18 @@ public:
    transforms a value of -3 to -9 and v.v. Thus QwtPowerTransform
    can be used for scales including negative values.
  */
-class QWT_EXPORT QwtPowerTransform: public QwtTransform
+class QWT_EXPORT QwtPowerTransform : public QwtTransform
 {
-public:
+  public:
     explicit QwtPowerTransform( double exponent );
     virtual ~QwtPowerTransform();
 
     virtual double transform( double value ) const QWT_OVERRIDE;
     virtual double invTransform( double value ) const QWT_OVERRIDE;
 
-    virtual QwtTransform *copy() const QWT_OVERRIDE;
+    virtual QwtTransform* copy() const QWT_OVERRIDE;
 
-private:
+  private:
     const double m_exponent;
 };
 

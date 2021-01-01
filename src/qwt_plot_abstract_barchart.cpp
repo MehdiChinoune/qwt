@@ -12,7 +12,7 @@
 #include "qwt_math.h"
 
 static inline double qwtTransformWidth(
-    const QwtScaleMap &map, double value, double width )
+    const QwtScaleMap& map, double value, double width )
 {
     const double w2 = 0.5 * width;
 
@@ -24,13 +24,13 @@ static inline double qwtTransformWidth(
 
 class QwtPlotAbstractBarChart::PrivateData
 {
-public:
-    PrivateData():
-        layoutPolicy( QwtPlotAbstractBarChart::AutoAdjustSamples ),
-        layoutHint( 0.5 ),
-        spacing( 10 ),
-        margin( 5 ),
-        baseline( 0.0 )
+  public:
+    PrivateData()
+        : layoutPolicy( QwtPlotAbstractBarChart::AutoAdjustSamples )
+        , layoutHint( 0.5 )
+        , spacing( 10 )
+        , margin( 5 )
+        , baseline( 0.0 )
     {
     }
 
@@ -42,11 +42,11 @@ public:
 };
 
 /*!
-  Constructor
-  \param title Title of the chart
-*/
-QwtPlotAbstractBarChart::QwtPlotAbstractBarChart( const QwtText &title ):
-    QwtPlotSeriesItem( title )
+   Constructor
+   \param title Title of the chart
+ */
+QwtPlotAbstractBarChart::QwtPlotAbstractBarChart( const QwtText& title )
+    : QwtPlotSeriesItem( title )
 {
     m_data = new PrivateData;
 
@@ -63,12 +63,12 @@ QwtPlotAbstractBarChart::~QwtPlotAbstractBarChart()
 }
 
 /*!
-  The combination of layoutPolicy() and layoutHint() define how the width
-  of the bars is calculated
+   The combination of layoutPolicy() and layoutHint() define how the width
+   of the bars is calculated
 
-  \param policy Layout policy
+   \param policy Layout policy
 
-  \sa layoutPolicy(), layoutHint()
+   \sa layoutPolicy(), layoutHint()
  */
 void QwtPlotAbstractBarChart::setLayoutPolicy( LayoutPolicy policy )
 {
@@ -80,11 +80,11 @@ void QwtPlotAbstractBarChart::setLayoutPolicy( LayoutPolicy policy )
 }
 
 /*!
-  The combination of layoutPolicy() and layoutHint() define how the width
-  of the bars is calculated
+   The combination of layoutPolicy() and layoutHint() define how the width
+   of the bars is calculated
 
-  \return Layout policy of the chart item
-  \sa setLayoutPolicy(), layoutHint()
+   \return Layout policy of the chart item
+   \sa setLayoutPolicy(), layoutHint()
  */
 QwtPlotAbstractBarChart::LayoutPolicy QwtPlotAbstractBarChart::layoutPolicy() const
 {
@@ -92,12 +92,12 @@ QwtPlotAbstractBarChart::LayoutPolicy QwtPlotAbstractBarChart::layoutPolicy() co
 }
 
 /*!
-  The combination of layoutPolicy() and layoutHint() define how the width
-  of the bars is calculated
+   The combination of layoutPolicy() and layoutHint() define how the width
+   of the bars is calculated
 
-  \param hint Layout hint
+   \param hint Layout hint
 
-  \sa LayoutPolicy, layoutPolicy(), layoutHint()
+   \sa LayoutPolicy, layoutPolicy(), layoutHint()
  */
 void QwtPlotAbstractBarChart::setLayoutHint( double hint )
 {
@@ -110,24 +110,24 @@ void QwtPlotAbstractBarChart::setLayoutHint( double hint )
 }
 
 /*!
-  The combination of layoutPolicy() and layoutHint() define how the width
-  of the bars is calculated
+   The combination of layoutPolicy() and layoutHint() define how the width
+   of the bars is calculated
 
-  \return Layout policy of the chart item
-  \sa LayoutPolicy, setLayoutHint(), layoutPolicy()
-*/
+   \return Layout policy of the chart item
+   \sa LayoutPolicy, setLayoutHint(), layoutPolicy()
+ */
 double QwtPlotAbstractBarChart::layoutHint() const
 {
     return m_data->layoutHint;
 }
 
 /*!
-  \brief Set the spacing
+   \brief Set the spacing
 
-  The spacing is the distance between 2 samples ( bars for QwtPlotBarChart or
-  a group of bars for QwtPlotMultiBarChart ) in paint device coordinates.
+   The spacing is the distance between 2 samples ( bars for QwtPlotBarChart or
+   a group of bars for QwtPlotMultiBarChart ) in paint device coordinates.
 
-  \sa spacing()
+   \sa spacing()
  */
 void QwtPlotAbstractBarChart::setSpacing( int spacing )
 {
@@ -140,22 +140,22 @@ void QwtPlotAbstractBarChart::setSpacing( int spacing )
 }
 
 /*!
-  \return Spacing between 2 samples ( bars or groups of bars )
-  \sa setSpacing(), margin()
+   \return Spacing between 2 samples ( bars or groups of bars )
+   \sa setSpacing(), margin()
  */
 int QwtPlotAbstractBarChart::spacing() const
 {
     return m_data->spacing;
 }
 /*!
-  \brief Set the margin
+   \brief Set the margin
 
-  The margin is the distance between the outmost bars and the contentsRect()
-  of the canvas. The default setting is 5 pixels.
+   The margin is the distance between the outmost bars and the contentsRect()
+   of the canvas. The default setting is 5 pixels.
 
-  \param margin Margin
+   \param margin Margin
 
-  \sa spacing(), margin()
+   \sa spacing(), margin()
  */
 void QwtPlotAbstractBarChart::setMargin( int margin )
 {
@@ -168,10 +168,10 @@ void QwtPlotAbstractBarChart::setMargin( int margin )
 }
 
 /*!
-  \return Margin between the outmost bars and the contentsRect()
-  of the canvas.
+   \return Margin between the outmost bars and the contentsRect()
+   of the canvas.
 
-  \sa setMargin(), spacing()
+   \sa setMargin(), spacing()
  */
 int QwtPlotAbstractBarChart::margin() const
 {
@@ -191,7 +191,7 @@ int QwtPlotAbstractBarChart::margin() const
    \param value Value for the baseline
 
    \sa baseline(), QwtPlotSeriesItem::orientation()
-*/
+ */
 void QwtPlotAbstractBarChart::setBaseline( double value )
 {
     if ( value != m_data->baseline )
@@ -221,8 +221,8 @@ double QwtPlotAbstractBarChart::baseline() const
 
    \return Sample width
    \sa layoutPolicy(), layoutHint()
-*/
-double QwtPlotAbstractBarChart::sampleWidth( const QwtScaleMap &map,
+ */
+double QwtPlotAbstractBarChart::sampleWidth( const QwtScaleMap& map,
     double canvasSize, double boundingSize, double value ) const
 {
     double width;
@@ -286,9 +286,9 @@ double QwtPlotAbstractBarChart::sampleWidth( const QwtScaleMap &map,
    \sa layoutPolicy(), layoutHint(), QwtPlotItem::Margins
        QwtPlot::getCanvasMarginsHint(), QwtPlot::updateCanvasMargins()
  */
-void QwtPlotAbstractBarChart::getCanvasMarginHint( const QwtScaleMap &xMap,
-    const QwtScaleMap &yMap, const QRectF &canvasRect,
-    double &left, double &top, double &right, double &bottom ) const
+void QwtPlotAbstractBarChart::getCanvasMarginHint( const QwtScaleMap& xMap,
+    const QwtScaleMap& yMap, const QRectF& canvasRect,
+    double& left, double& top, double& right, double& bottom ) const
 {
     double hint = -1.0;
 

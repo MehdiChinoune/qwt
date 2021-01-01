@@ -22,15 +22,15 @@ class QwtLegendData;
 class QRectF;
 class QPainter;
 class QString;
-template <typename T> class QList;
+template< typename T > class QList;
 
 /*!
-  \brief Base class for items on the plot canvas
+   \brief Base class for items on the plot canvas
 
-  A plot item is "something", that can be painted on the plot canvas,
-  or only affects the scales of the plot widget. They can be categorized as:
+   A plot item is "something", that can be painted on the plot canvas,
+   or only affects the scales of the plot widget. They can be categorized as:
 
-  - Representator\n
+   - Representator\n
     A "Representator" is an item that represents some sort of data
     on the plot canvas. The different representator classes are organized
     according to the characteristics of the data:
@@ -42,7 +42,7 @@ template <typename T> class QList;
       Represents raster data
     - ...
 
-  - Decorators\n
+   - Decorators\n
     A "Decorator" is an item, that displays additional information, that
     is not related to any data:
     - QwtPlotGrid
@@ -50,21 +50,21 @@ template <typename T> class QList;
     - QwtPlotSvgItem
     - ...
 
-  Depending on the QwtPlotItem::ItemAttribute flags, an item is included
-  into autoscaling or has an entry on the legend.
+   Depending on the QwtPlotItem::ItemAttribute flags, an item is included
+   into autoscaling or has an entry on the legend.
 
-  Before misusing the existing item classes it might be better to
-  implement a new type of plot item
-  ( don't implement a watermark as spectrogram ).
-  Deriving a new type of QwtPlotItem primarily means to implement
-  the YourPlotItem::draw() method.
+   Before misusing the existing item classes it might be better to
+   implement a new type of plot item
+   ( don't implement a watermark as spectrogram ).
+   Deriving a new type of QwtPlotItem primarily means to implement
+   the YourPlotItem::draw() method.
 
-  \sa The cpuplot example shows the implementation of additional plot items.
-*/
+   \sa The cpuplot example shows the implementation of additional plot items.
+ */
 
 class QWT_EXPORT QwtPlotItem
 {
-public:
+  public:
     /*!
         \brief Runtime type information
 
@@ -164,7 +164,7 @@ public:
     };
 
     //! Plot Item Attributes
-    typedef QFlags<ItemAttribute> ItemAttributes;
+    typedef QFlags< ItemAttribute > ItemAttributes;
 
     /*!
        \brief Plot Item Interests
@@ -198,7 +198,7 @@ public:
     };
 
     //! Plot Item Interests
-    typedef QFlags<ItemInterest> ItemInterests;
+    typedef QFlags< ItemInterest > ItemInterests;
 
     //! Render hints
     enum RenderHint
@@ -208,22 +208,22 @@ public:
     };
 
     //! Render hints
-    typedef QFlags<RenderHint> RenderHints;
+    typedef QFlags< RenderHint > RenderHints;
 
     explicit QwtPlotItem();
-    explicit QwtPlotItem( const QString &title );
-    explicit QwtPlotItem( const QwtText &title );
+    explicit QwtPlotItem( const QString& title );
+    explicit QwtPlotItem( const QwtText& title );
 
     virtual ~QwtPlotItem();
 
-    void attach( QwtPlot *plot );
+    void attach( QwtPlot* plot );
     void detach();
 
-    QwtPlot *plot() const;
+    QwtPlot* plot() const;
 
-    void setTitle( const QString &title );
-    void setTitle( const QwtText &title );
-    const QwtText &title() const;
+    void setTitle( const QString& title );
+    void setTitle( const QwtText& title );
+    const QwtText& title() const;
 
     virtual int rtti() const;
 
@@ -239,7 +239,7 @@ public:
     void setRenderThreadCount( uint numThreads );
     uint renderThreadCount() const;
 
-    void setLegendIconSize( const QSize & );
+    void setLegendIconSize( const QSize& );
     QSize legendIconSize() const;
 
     double z() const;
@@ -262,51 +262,51 @@ public:
     virtual void legendChanged();
 
     /*!
-      \brief Draw the item
+       \brief Draw the item
 
-      \param painter Painter
-      \param xMap Maps x-values into pixel coordinates.
-      \param yMap Maps y-values into pixel coordinates.
-      \param canvasRect Contents rect of the canvas in painter coordinates
-    */
-    virtual void draw( QPainter *painter,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect ) const = 0;
+       \param painter Painter
+       \param xMap Maps x-values into pixel coordinates.
+       \param yMap Maps y-values into pixel coordinates.
+       \param canvasRect Contents rect of the canvas in painter coordinates
+     */
+    virtual void draw( QPainter* painter,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect ) const = 0;
 
     virtual QRectF boundingRect() const;
 
     virtual void getCanvasMarginHint(
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect,
-        double &left, double &top, double &right, double &bottom) const;
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect,
+        double& left, double& top, double& right, double& bottom) const;
 
     virtual void updateScaleDiv(
         const QwtScaleDiv&, const QwtScaleDiv& );
 
-    virtual void updateLegend( const QwtPlotItem *,
-        const QList<QwtLegendData> & );
+    virtual void updateLegend( const QwtPlotItem*,
+        const QList< QwtLegendData >& );
 
-    QRectF scaleRect( const QwtScaleMap &, const QwtScaleMap & ) const;
-    QRectF paintRect( const QwtScaleMap &, const QwtScaleMap & ) const;
+    QRectF scaleRect( const QwtScaleMap&, const QwtScaleMap& ) const;
+    QRectF paintRect( const QwtScaleMap&, const QwtScaleMap& ) const;
 
-    virtual QList<QwtLegendData> legendData() const;
+    virtual QList< QwtLegendData > legendData() const;
 
-    virtual QwtGraphic legendIcon( int index, const QSizeF  & ) const;
+    virtual QwtGraphic legendIcon( int index, const QSizeF& ) const;
 
-protected:
-    QwtGraphic defaultIcon( const QBrush &, const QSizeF & ) const;
+  protected:
+    QwtGraphic defaultIcon( const QBrush&, const QSizeF& ) const;
 
-private:
+  private:
     Q_DISABLE_COPY(QwtPlotItem)
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPlotItem::ItemAttributes )
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPlotItem::ItemInterests )
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPlotItem::RenderHints )
 
-Q_DECLARE_METATYPE( QwtPlotItem * )
+Q_DECLARE_METATYPE( QwtPlotItem* )
 
 #endif

@@ -13,22 +13,22 @@
 #include "qwt_global.h"
 #include <qlayout.h>
 
-template <typename T> class QList;
+template< typename T > class QList;
 
 /*!
-  \brief The QwtDynGridLayout class lays out widgets in a grid,
+   \brief The QwtDynGridLayout class lays out widgets in a grid,
          adjusting the number of columns and rows to the current size.
 
-  QwtDynGridLayout takes the space it gets, divides it up into rows and
-  columns, and puts each of the widgets it manages into the correct cell(s).
-  It lays out as many number of columns as possible (limited by maxColumns()).
-*/
+   QwtDynGridLayout takes the space it gets, divides it up into rows and
+   columns, and puts each of the widgets it manages into the correct cell(s).
+   It lays out as many number of columns as possible (limited by maxColumns()).
+ */
 
 class QWT_EXPORT QwtDynGridLayout : public QLayout
 {
     Q_OBJECT
-public:
-    explicit QwtDynGridLayout( QWidget *, int margin = 0, int spacing = -1 );
+  public:
+    explicit QwtDynGridLayout( QWidget*, int margin = 0, int spacing = -1 );
     explicit QwtDynGridLayout( int spacing = -1 );
 
     virtual ~QwtDynGridLayout();
@@ -41,19 +41,19 @@ public:
     uint numRows () const;
     uint numColumns () const;
 
-    virtual void addItem( QLayoutItem * ) QWT_OVERRIDE;
+    virtual void addItem( QLayoutItem* ) QWT_OVERRIDE;
 
-    virtual QLayoutItem *itemAt( int index ) const QWT_OVERRIDE;
-    virtual QLayoutItem *takeAt( int index ) QWT_OVERRIDE;
+    virtual QLayoutItem* itemAt( int index ) const QWT_OVERRIDE;
+    virtual QLayoutItem* takeAt( int index ) QWT_OVERRIDE;
     virtual int count() const QWT_OVERRIDE;
 
     void setExpandingDirections( Qt::Orientations );
     virtual Qt::Orientations expandingDirections() const QWT_OVERRIDE;
-    QList<QRect> layoutItems( const QRect &, uint numColumns ) const;
+    QList< QRect > layoutItems( const QRect&, uint numColumns ) const;
 
     virtual int maxItemWidth() const;
 
-    virtual void setGeometry( const QRect & ) QWT_OVERRIDE;
+    virtual void setGeometry( const QRect& ) QWT_OVERRIDE;
 
     virtual bool hasHeightForWidth() const QWT_OVERRIDE;
     virtual int heightForWidth( int ) const QWT_OVERRIDE;
@@ -65,20 +65,20 @@ public:
 
     virtual uint columnsForWidth( int width ) const;
 
-protected:
+  protected:
 
     void layoutGrid( uint numColumns,
-        QVector<int>& rowHeight, QVector<int>& colWidth ) const;
+        QVector< int >& rowHeight, QVector< int >& colWidth ) const;
 
-    void stretchGrid( const QRect &rect, uint numColumns,
-        QVector<int>& rowHeight, QVector<int>& colWidth ) const;
+    void stretchGrid( const QRect& rect, uint numColumns,
+        QVector< int >& rowHeight, QVector< int >& colWidth ) const;
 
-private:
+  private:
     void init();
     int maxRowWidth( int numColumns ) const;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

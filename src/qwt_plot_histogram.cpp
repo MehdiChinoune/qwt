@@ -16,8 +16,8 @@
 #include <qstring.h>
 #include <qpainter.h>
 
-static inline bool qwtIsCombinable( const QwtInterval &d1,
-    const QwtInterval &d2 )
+static inline bool qwtIsCombinable( const QwtInterval& d1,
+    const QwtInterval& d2 )
 {
     if ( d1.isValid() && d2.isValid() )
     {
@@ -36,11 +36,11 @@ static inline bool qwtIsCombinable( const QwtInterval &d1,
 
 class QwtPlotHistogram::PrivateData
 {
-public:
-    PrivateData():
-        baseline( 0.0 ),
-        style( Columns ),
-        symbol( NULL )
+  public:
+    PrivateData()
+        : baseline( 0.0 )
+        , style( Columns )
+        , symbol( NULL )
     {
     }
 
@@ -54,25 +54,25 @@ public:
     QPen pen;
     QBrush brush;
     QwtPlotHistogram::HistogramStyle style;
-    const QwtColumnSymbol *symbol;
+    const QwtColumnSymbol* symbol;
 };
 
 /*!
-  Constructor
-  \param title Title of the histogram.
-*/
-QwtPlotHistogram::QwtPlotHistogram( const QwtText &title ):
-    QwtPlotSeriesItem( title )
+   Constructor
+   \param title Title of the histogram.
+ */
+QwtPlotHistogram::QwtPlotHistogram( const QwtText& title )
+    : QwtPlotSeriesItem( title )
 {
     init();
 }
 
 /*!
-  Constructor
-  \param title Title of the histogram.
-*/
-QwtPlotHistogram::QwtPlotHistogram( const QString &title ):
-    QwtPlotSeriesItem( title )
+   Constructor
+   \param title Title of the histogram.
+ */
+QwtPlotHistogram::QwtPlotHistogram( const QString& title )
+    : QwtPlotSeriesItem( title )
 {
     init();
 }
@@ -96,11 +96,11 @@ void QwtPlotHistogram::init()
 }
 
 /*!
-  Set the histogram's drawing style
+   Set the histogram's drawing style
 
-  \param style Histogram style
-  \sa HistogramStyle, style()
-*/
+   \param style Histogram style
+   \sa HistogramStyle, style()
+ */
 void QwtPlotHistogram::setStyle( HistogramStyle style )
 {
     if ( style != m_data->style )
@@ -115,37 +115,37 @@ void QwtPlotHistogram::setStyle( HistogramStyle style )
 /*!
     \return Style of the histogram
     \sa HistogramStyle, setStyle()
-*/
+ */
 QwtPlotHistogram::HistogramStyle QwtPlotHistogram::style() const
 {
     return m_data->style;
 }
 
 /*!
-  Build and assign a pen
+   Build and assign a pen
 
-  In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
-  non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
-  to hide this incompatibility.
+   In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
+   non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
+   to hide this incompatibility.
 
-  \param color Pen color
-  \param width Pen width
-  \param style Pen style
+   \param color Pen color
+   \param width Pen width
+   \param style Pen style
 
-  \sa pen(), brush()
+   \sa pen(), brush()
  */
-void QwtPlotHistogram::setPen( const QColor &color, qreal width, Qt::PenStyle style )
+void QwtPlotHistogram::setPen( const QColor& color, qreal width, Qt::PenStyle style )
 {
     setPen( QPen( color, width, style ) );
 }
 
 /*!
-  Assign a pen, that is used in a style() depending way.
+   Assign a pen, that is used in a style() depending way.
 
-  \param pen New pen
-  \sa pen(), brush()
-*/
-void QwtPlotHistogram::setPen( const QPen &pen )
+   \param pen New pen
+   \sa pen(), brush()
+ */
+void QwtPlotHistogram::setPen( const QPen& pen )
 {
     if ( pen != m_data->pen )
     {
@@ -157,21 +157,21 @@ void QwtPlotHistogram::setPen( const QPen &pen )
 }
 
 /*!
-  \return Pen used in a style() depending way.
-  \sa setPen(), brush()
-*/
-const QPen &QwtPlotHistogram::pen() const
+   \return Pen used in a style() depending way.
+   \sa setPen(), brush()
+ */
+const QPen& QwtPlotHistogram::pen() const
 {
     return m_data->pen;
 }
 
 /*!
-  Assign a brush, that is used in a style() depending way.
+   Assign a brush, that is used in a style() depending way.
 
-  \param brush New brush
-  \sa pen(), brush()
-*/
-void QwtPlotHistogram::setBrush( const QBrush &brush )
+   \param brush New brush
+   \sa pen(), brush()
+ */
+void QwtPlotHistogram::setBrush( const QBrush& brush )
 {
     if ( brush != m_data->brush )
     {
@@ -183,29 +183,29 @@ void QwtPlotHistogram::setBrush( const QBrush &brush )
 }
 
 /*!
-  \return Brush used in a style() depending way.
-  \sa setPen(), brush()
-*/
-const QBrush &QwtPlotHistogram::brush() const
+   \return Brush used in a style() depending way.
+   \sa setPen(), brush()
+ */
+const QBrush& QwtPlotHistogram::brush() const
 {
     return m_data->brush;
 }
 
 /*!
-  \brief Assign a symbol
+   \brief Assign a symbol
 
-  In Column style an optional symbol can be assigned, that is responsible
-  for displaying the rectangle that is defined by the interval and
-  the distance between baseline() and value. When no symbol has been
-  defined the area is displayed as plain rectangle using pen() and brush().
+   In Column style an optional symbol can be assigned, that is responsible
+   for displaying the rectangle that is defined by the interval and
+   the distance between baseline() and value. When no symbol has been
+   defined the area is displayed as plain rectangle using pen() and brush().
 
-  \sa style(), symbol(), drawColumn(), pen(), brush()
+   \sa style(), symbol(), drawColumn(), pen(), brush()
 
-  \note In applications, where different intervals need to be displayed
+   \note In applications, where different intervals need to be displayed
         in a different way ( f.e different colors or even using different symbols)
         it is recommended to overload drawColumn().
-*/
-void QwtPlotHistogram::setSymbol( const QwtColumnSymbol *symbol )
+ */
+void QwtPlotHistogram::setSymbol( const QwtColumnSymbol* symbol )
 {
     if ( symbol != m_data->symbol )
     {
@@ -218,25 +218,25 @@ void QwtPlotHistogram::setSymbol( const QwtColumnSymbol *symbol )
 }
 
 /*!
-  \return Current symbol or NULL, when no symbol has been assigned
-  \sa setSymbol()
-*/
-const QwtColumnSymbol *QwtPlotHistogram::symbol() const
+   \return Current symbol or NULL, when no symbol has been assigned
+   \sa setSymbol()
+ */
+const QwtColumnSymbol* QwtPlotHistogram::symbol() const
 {
     return m_data->symbol;
 }
 
 /*!
-  \brief Set the value of the baseline
+   \brief Set the value of the baseline
 
-  Each column representing an QwtIntervalSample is defined by its
-  interval and the interval between baseline and the value of the sample.
+   Each column representing an QwtIntervalSample is defined by its
+   interval and the interval between baseline and the value of the sample.
 
-  The default value of the baseline is 0.0.
+   The default value of the baseline is 0.0.
 
-  \param value Value of the baseline
-  \sa baseline()
-*/
+   \param value Value of the baseline
+   \sa baseline()
+ */
 void QwtPlotHistogram::setBaseline( double value )
 {
     if ( m_data->baseline != value )
@@ -247,18 +247,18 @@ void QwtPlotHistogram::setBaseline( double value )
 }
 
 /*!
-  \return Value of the baseline
-  \sa setBaseline()
-*/
+   \return Value of the baseline
+   \sa setBaseline()
+ */
 double QwtPlotHistogram::baseline() const
 {
     return m_data->baseline;
 }
 
 /*!
-  \return Bounding rectangle of all samples.
-  For an empty series the rectangle is invalid.
-*/
+   \return Bounding rectangle of all samples.
+   For an empty series the rectangle is invalid.
+ */
 QRectF QwtPlotHistogram::boundingRect() const
 {
     QRectF rect = data()->boundingRect();
@@ -293,47 +293,47 @@ int QwtPlotHistogram::rtti() const
 }
 
 /*!
-  Initialize data with an array of samples.
-  \param samples Vector of points
-*/
+   Initialize data with an array of samples.
+   \param samples Vector of points
+ */
 void QwtPlotHistogram::setSamples(
-    const QVector<QwtIntervalSample> &samples )
+    const QVector< QwtIntervalSample >& samples )
 {
     setData( new QwtIntervalSeriesData( samples ) );
 }
 
 /*!
-  Assign a series of samples
+   Assign a series of samples
 
-  setSamples() is just a wrapper for setData() without any additional
-  value - beside that it is easier to find for the developer.
+   setSamples() is just a wrapper for setData() without any additional
+   value - beside that it is easier to find for the developer.
 
-  \param data Data
-  \warning The item takes ownership of the data object, deleting
+   \param data Data
+   \warning The item takes ownership of the data object, deleting
            it when its not used anymore.
-*/
+ */
 void QwtPlotHistogram::setSamples(
-    QwtSeriesData<QwtIntervalSample> *data )
+    QwtSeriesData< QwtIntervalSample >* data )
 {
     setData( data );
 }
 
 /*!
-  Draw a subset of the histogram samples
+   Draw a subset of the histogram samples
 
-  \param painter Painter
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
-  \param canvasRect Contents rectangle of the canvas
-  \param from Index of the first sample to be painted
-  \param to Index of the last sample to be painted. If to < 0 the
+   \param painter Painter
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
+   \param canvasRect Contents rectangle of the canvas
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted. If to < 0 the
          series will be painted to its last sample.
 
-  \sa drawOutline(), drawLines(), drawColumns
-*/
-void QwtPlotHistogram::drawSeries( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect, int from, int to ) const
+   \sa drawOutline(), drawLines(), drawColumns
+ */
+void QwtPlotHistogram::drawSeries( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect, int from, int to ) const
 {
     Q_UNUSED( canvasRect )
 
@@ -360,21 +360,21 @@ void QwtPlotHistogram::drawSeries( QPainter *painter,
 }
 
 /*!
-  Draw a histogram in Outline style()
+   Draw a histogram in Outline style()
 
-  \param painter Painter
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
-  \param from Index of the first sample to be painted
-  \param to Index of the last sample to be painted. If to < 0 the
+   \param painter Painter
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted. If to < 0 the
          histogram will be painted to its last point.
 
-  \sa setStyle(), style()
-  \warning The outline style requires, that the intervals are in increasing
+   \sa setStyle(), style()
+   \warning The outline style requires, that the intervals are in increasing
            order and not overlapping.
-*/
-void QwtPlotHistogram::drawOutline( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+ */
+void QwtPlotHistogram::drawOutline( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
     int from, int to ) const
 {
     const bool doAlign = QwtPainter::roundingAlignment( painter );
@@ -447,25 +447,25 @@ void QwtPlotHistogram::drawOutline( QPainter *painter,
 }
 
 /*!
-  Draw a histogram in Columns style()
+   Draw a histogram in Columns style()
 
-  \param painter Painter
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
-  \param from Index of the first sample to be painted
-  \param to Index of the last sample to be painted. If to < 0 the
+   \param painter Painter
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted. If to < 0 the
          histogram will be painted to its last point.
 
-  \sa setStyle(), style(), setSymbol(), drawColumn()
-*/
-void QwtPlotHistogram::drawColumns( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+   \sa setStyle(), style(), setSymbol(), drawColumn()
+ */
+void QwtPlotHistogram::drawColumns( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
     int from, int to ) const
 {
     painter->setPen( m_data->pen );
     painter->setBrush( m_data->brush );
 
-    const QwtSeriesData<QwtIntervalSample> *series = data();
+    const QwtSeriesData< QwtIntervalSample >* series = data();
 
     for ( int i = from; i <= to; i++ )
     {
@@ -479,19 +479,19 @@ void QwtPlotHistogram::drawColumns( QPainter *painter,
 }
 
 /*!
-  Draw a histogram in Lines style()
+   Draw a histogram in Lines style()
 
-  \param painter Painter
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
-  \param from Index of the first sample to be painted
-  \param to Index of the last sample to be painted. If to < 0 the
+   \param painter Painter
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted. If to < 0 the
          histogram will be painted to its last point.
 
-  \sa setStyle(), style(), setPen()
-*/
-void QwtPlotHistogram::drawLines( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+   \sa setStyle(), style(), setPen()
+ */
+void QwtPlotHistogram::drawLines( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
     int from, int to ) const
 {
     const bool doAlign = QwtPainter::roundingAlignment( painter );
@@ -499,7 +499,7 @@ void QwtPlotHistogram::drawLines( QPainter *painter,
     painter->setPen( m_data->pen );
     painter->setBrush( Qt::NoBrush );
 
-    const QwtSeriesData<QwtIntervalSample> *series = data();
+    const QwtSeriesData< QwtIntervalSample >* series = data();
 
     for ( int i = from; i <= to; i++ )
     {
@@ -549,8 +549,8 @@ void QwtPlotHistogram::drawLines( QPainter *painter,
 }
 
 //! Internal, used by the Outline style.
-void QwtPlotHistogram::flushPolygon( QPainter *painter,
-    double baseLine, QPolygonF &polygon ) const
+void QwtPlotHistogram::flushPolygon( QPainter* painter,
+    double baseLine, QPolygonF& polygon ) const
 {
     if ( polygon.size() == 0 )
         return;
@@ -591,34 +591,34 @@ void QwtPlotHistogram::flushPolygon( QPainter *painter,
 }
 
 /*!
-  Calculate the area that is covered by a sample
+   Calculate the area that is covered by a sample
 
-  \param sample Sample
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
+   \param sample Sample
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
 
-  \return Rectangle, that is covered by a sample
-*/
-QwtColumnRect QwtPlotHistogram::columnRect( const QwtIntervalSample &sample,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap ) const
+   \return Rectangle, that is covered by a sample
+ */
+QwtColumnRect QwtPlotHistogram::columnRect( const QwtIntervalSample& sample,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap ) const
 {
     QwtColumnRect rect;
 
-    const QwtInterval &iv = sample.interval;
+    const QwtInterval& iv = sample.interval;
     if ( !iv.isValid() )
         return rect;
 
     if ( orientation() == Qt::Horizontal )
     {
         const double x0 = xMap.transform( baseline() );
-        const double x  = xMap.transform( sample.value );
+        const double x = xMap.transform( sample.value );
         const double y1 = yMap.transform( iv.minValue() );
         const double y2 = yMap.transform( iv.maxValue() );
 
         rect.hInterval.setInterval( x0, x );
         rect.vInterval.setInterval( y1, y2, iv.borderFlags() );
         rect.direction = ( x < x0 ) ? QwtColumnRect::RightToLeft :
-                         QwtColumnRect::LeftToRight;
+            QwtColumnRect::LeftToRight;
     }
     else
     {
@@ -637,21 +637,21 @@ QwtColumnRect QwtPlotHistogram::columnRect( const QwtIntervalSample &sample,
 }
 
 /*!
-  Draw a column for a sample in Columns style().
+   Draw a column for a sample in Columns style().
 
-  When a symbol() has been set the symbol is used otherwise the
-  column is displayed as plain rectangle using pen() and brush().
+   When a symbol() has been set the symbol is used otherwise the
+   column is displayed as plain rectangle using pen() and brush().
 
-  \param painter Painter
-  \param rect Rectangle where to paint the column in paint device coordinates
-  \param sample Sample to be displayed
+   \param painter Painter
+   \param rect Rectangle where to paint the column in paint device coordinates
+   \param sample Sample to be displayed
 
-  \note In applications, where different intervals need to be displayed
+   \note In applications, where different intervals need to be displayed
         in a different way ( f.e different colors or even using different symbols)
         it is recommended to overload drawColumn().
-*/
-void QwtPlotHistogram::drawColumn( QPainter *painter,
-    const QwtColumnRect &rect, const QwtIntervalSample &sample ) const
+ */
+void QwtPlotHistogram::drawColumn( QPainter* painter,
+    const QwtColumnRect& rect, const QwtIntervalSample& sample ) const
 {
     Q_UNUSED( sample );
 
@@ -676,16 +676,16 @@ void QwtPlotHistogram::drawColumn( QPainter *painter,
 }
 
 /*!
-  A plain rectangle without pen using the brush()
+   A plain rectangle without pen using the brush()
 
-  \param index Index of the legend entry
+   \param index Index of the legend entry
                 ( ignored as there is only one )
-  \param size Icon size
-  \return A graphic displaying the icon
+   \param size Icon size
+   \return A graphic displaying the icon
 
-  \sa QwtPlotItem::setLegendIconSize(), QwtPlotItem::legendData()
-*/
-QwtGraphic QwtPlotHistogram::legendIcon( int index, const QSizeF &size ) const
+   \sa QwtPlotItem::setLegendIconSize(), QwtPlotItem::legendData()
+ */
+QwtGraphic QwtPlotHistogram::legendIcon( int index, const QSizeF& size ) const
 {
     Q_UNUSED( index );
     return defaultIcon( m_data->brush, size );

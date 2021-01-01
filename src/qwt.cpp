@@ -18,7 +18,7 @@
     #endif
 #endif
 
-QSize qwtExpandedToGlobalStrut( const QSize &size )
+QSize qwtExpandedToGlobalStrut( const QSize& size )
 {
 #ifdef QWT_GLOBAL_STRUT
     return size.expandedTo( QApplication::globalStrut() );

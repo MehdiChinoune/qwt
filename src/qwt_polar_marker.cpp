@@ -18,9 +18,9 @@ static const int LabelDist = 2;
 
 class QwtPolarMarker::PrivateData
 {
-public:
-    PrivateData():
-        align( Qt::AlignCenter )
+  public:
+    PrivateData()
+        : align( Qt::AlignCenter )
     {
         symbol = new QwtSymbol();
     }
@@ -33,14 +33,14 @@ public:
     QwtText label;
     Qt::Alignment align;
     QPen pen;
-    const QwtSymbol *symbol;
+    const QwtSymbol* symbol;
 
     QwtPointPolar pos;
 };
 
 //! Sets alignment to Qt::AlignCenter, and style to NoLine
-QwtPolarMarker::QwtPolarMarker():
-    QwtPolarItem( QwtText( "Marker" ) )
+QwtPolarMarker::QwtPolarMarker()
+    : QwtPolarItem( QwtText( "Marker" ) )
 {
     m_data = new PrivateData;
 
@@ -67,7 +67,7 @@ QwtPointPolar QwtPolarMarker::position() const
 }
 
 //! Change the position of the marker
-void QwtPolarMarker::setPosition( const QwtPointPolar &pos )
+void QwtPolarMarker::setPosition( const QwtPointPolar& pos )
 {
     if ( m_data->pos != pos )
     {
@@ -77,19 +77,19 @@ void QwtPolarMarker::setPosition( const QwtPointPolar &pos )
 }
 
 /*!
-  Draw the marker
+   Draw the marker
 
-  \param painter Painter
-  \param azimuthMap Maps azimuth values to values related to 0.0, M_2PI
-  \param radialMap Maps radius values into painter coordinates.
-  \param pole Position of the pole in painter coordinates
-  \param radius Radius of the complete plot area in painter coordinates
-  \param canvasRect Contents rect of the canvas in painter coordinates
-*/
-void QwtPolarMarker::draw( QPainter *painter,
-    const QwtScaleMap &azimuthMap, const QwtScaleMap &radialMap,
-    const QPointF &pole, double radius,
-    const QRectF &canvasRect ) const
+   \param painter Painter
+   \param azimuthMap Maps azimuth values to values related to 0.0, M_2PI
+   \param radialMap Maps radius values into painter coordinates.
+   \param pole Position of the pole in painter coordinates
+   \param radius Radius of the complete plot area in painter coordinates
+   \param canvasRect Contents rect of the canvas in painter coordinates
+ */
+void QwtPolarMarker::draw( QPainter* painter,
+    const QwtScaleMap& azimuthMap, const QwtScaleMap& radialMap,
+    const QPointF& pole, double radius,
+    const QRectF& canvasRect ) const
 {
     Q_UNUSED( radius );
     Q_UNUSED( canvasRect );
@@ -117,7 +117,7 @@ void QwtPolarMarker::draw( QPainter *painter,
         int xlw1 = qMax( ( xlw + 1 ) / 2, ( sSym.width() + 1 ) / 2 ) + LabelDist;
         xlw = qMax( xlw / 2, ( sSym.width() + 1 ) / 2 ) + LabelDist;
         int ylw1 = qMax( ( ylw + 1 ) / 2, ( sSym.height() + 1 ) / 2 ) + LabelDist;
-        ylw = qMax( ylw / 2, ( sSym. height() + 1 ) / 2 ) + LabelDist;
+        ylw = qMax( ylw / 2, ( sSym.height() + 1 ) / 2 ) + LabelDist;
 
         QRect tr( QPoint( 0, 0 ), m_data->label.textSize( painter->font() ).toSize() );
         tr.moveCenter( QPoint( 0, 0 ) );
@@ -141,11 +141,11 @@ void QwtPolarMarker::draw( QPainter *painter,
 }
 
 /*!
-  \brief Assign a symbol
-  \param symbol New symbol
-  \sa symbol()
-*/
-void QwtPolarMarker::setSymbol( const QwtSymbol *symbol )
+   \brief Assign a symbol
+   \param symbol New symbol
+   \sa symbol()
+ */
+void QwtPolarMarker::setSymbol( const QwtSymbol* symbol )
 {
     if ( m_data->symbol != symbol )
     {
@@ -156,19 +156,19 @@ void QwtPolarMarker::setSymbol( const QwtSymbol *symbol )
 }
 
 /*!
-  \return the symbol
-  \sa setSymbol(), QwtSymbol
-*/
-const QwtSymbol *QwtPolarMarker::symbol() const
+   \return the symbol
+   \sa setSymbol(), QwtSymbol
+ */
+const QwtSymbol* QwtPolarMarker::symbol() const
 {
     return m_data->symbol;
 }
 
 /*!
-  \brief Set the label
-  \param label label text
-  \sa label()
-*/
+   \brief Set the label
+   \param label label text
+   \sa label()
+ */
 void QwtPolarMarker::setLabel( const QwtText& label )
 {
     if ( label != m_data->label )
@@ -179,25 +179,25 @@ void QwtPolarMarker::setLabel( const QwtText& label )
 }
 
 /*!
-  \return the label
-  \sa setLabel()
-*/
+   \return the label
+   \sa setLabel()
+ */
 QwtText QwtPolarMarker::label() const
 {
     return m_data->label;
 }
 
 /*!
-  \brief Set the alignment of the label
+   \brief Set the alignment of the label
 
-  The alignment determines where the label is drawn relative to
-  the marker's position.
+   The alignment determines where the label is drawn relative to
+   the marker's position.
 
-  \param align Alignment. A combination of AlignTop, AlignBottom,
+   \param align Alignment. A combination of AlignTop, AlignBottom,
     AlignLeft, AlignRight, AlignCenter, AlgnHCenter,
     AlignVCenter.
-  \sa labelAlignment()
-*/
+   \sa labelAlignment()
+ */
 void QwtPolarMarker::setLabelAlignment( Qt::Alignment align )
 {
     if ( align == m_data->align )
@@ -208,9 +208,9 @@ void QwtPolarMarker::setLabelAlignment( Qt::Alignment align )
 }
 
 /*!
-  \return the label alignment
-  \sa setLabelAlignment()
-*/
+   \return the label alignment
+   \sa setLabelAlignment()
+ */
 Qt::Alignment QwtPolarMarker::labelAlignment() const
 {
     return m_data->align;
@@ -224,7 +224,7 @@ Qt::Alignment QwtPolarMarker::labelAlignment() const
    \return bounding interval ( == position )
 
    \sa position()
-*/
+ */
 QwtInterval QwtPolarMarker::boundingInterval( int scaleId ) const
 {
     const double v = ( scaleId == QwtPolar::ScaleRadius )

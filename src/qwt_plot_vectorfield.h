@@ -18,10 +18,10 @@ class QwtColorMap;
 class QPen;
 class QBrush;
 
-class QWT_EXPORT QwtPlotVectorField:
-    public QwtPlotSeriesItem, public QwtSeriesStore<QwtVectorFieldSample>
+class QWT_EXPORT QwtPlotVectorField :
+    public QwtPlotSeriesItem, public QwtSeriesStore< QwtVectorFieldSample >
 {
-public:
+  public:
     enum IndicatorOrigin
     {
         OriginHead,
@@ -32,7 +32,7 @@ public:
     /*!
         Attributes to modify the rendering
         \sa setPaintAttribute(), testPaintAttribute()
-    */
+     */
     enum PaintAttribute
     {
         FilterVectors        = 0x01,
@@ -40,7 +40,7 @@ public:
     };
 
     //! Paint attributes
-    typedef QFlags<PaintAttribute> PaintAttributes;
+    typedef QFlags< PaintAttribute > PaintAttributes;
 
     enum MagnitudeMode
     {
@@ -49,10 +49,10 @@ public:
     };
 
     //! Paint attributes
-    typedef QFlags<MagnitudeMode> MagnitudeModes;
+    typedef QFlags< MagnitudeMode > MagnitudeModes;
 
-    explicit QwtPlotVectorField( const QString &title = QString() );
-    explicit QwtPlotVectorField( const QwtText &title );
+    explicit QwtPlotVectorField( const QString& title = QString() );
+    explicit QwtPlotVectorField( const QwtText& title );
 
     virtual ~QwtPlotVectorField();
 
@@ -65,13 +65,13 @@ public:
     MagnitudeModes magnitudeModes() const;
     void setMagnitudeModes( MagnitudeModes );
 
-    void setSymbol( QwtVectorFieldSymbol * );
+    void setSymbol( QwtVectorFieldSymbol* );
     const QwtVectorFieldSymbol* symbol() const;
 
-    void setPen( const QPen & );
+    void setPen( const QPen& );
     QPen pen() const;
 
-    void setBrush( const QBrush & );
+    void setBrush( const QBrush& );
     QBrush brush() const;
 
     void setRasterSize( const QSizeF& );
@@ -80,44 +80,44 @@ public:
     void setIndicatorOrigin( IndicatorOrigin );
     IndicatorOrigin indicatorOrigin() const;
 
-    void setSamples( const QVector<QwtVectorFieldSample> & );
-    void setSamples( QwtVectorFieldData * );
+    void setSamples( const QVector< QwtVectorFieldSample >& );
+    void setSamples( QwtVectorFieldData* );
 
-    void setColorMap( QwtColorMap * );
-    const QwtColorMap *colorMap() const;
-    void setMagnitudeRange( const QwtInterval & magnitudeRange);
+    void setColorMap( QwtColorMap* );
+    const QwtColorMap* colorMap() const;
+    void setMagnitudeRange( const QwtInterval& magnitudeRange);
 
     virtual double arrowLength( double magnitude ) const;
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 
-    virtual void drawSeries( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect, int from, int to ) const QWT_OVERRIDE;
+    virtual void drawSeries( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect, int from, int to ) const QWT_OVERRIDE;
 
     virtual int rtti() const QWT_OVERRIDE;
 
     virtual QwtGraphic legendIcon(
-        int index, const QSizeF & ) const QWT_OVERRIDE;
+        int index, const QSizeF& ) const QWT_OVERRIDE;
 
     void setMagnitudeScaleFactor( double factor );
     double magnitudeScaleFactor() const;
 
-protected:
-    virtual void drawSymbols( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect, int from, int to ) const;
+  protected:
+    virtual void drawSymbols( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect, int from, int to ) const;
 
-    virtual void drawSymbol( QPainter *,
+    virtual void drawSymbol( QPainter*,
         double x, double y, double vx, double vy ) const;
 
     virtual void dataChanged() QWT_OVERRIDE;
 
-private:
+  private:
     void init();
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPlotVectorField::PaintAttributes )

@@ -15,29 +15,29 @@
 class QwtSpline;
 
 /*!
-  \brief A curve fitter using a spline interpolation
+   \brief A curve fitter using a spline interpolation
 
-  The default setting for the spline is a cardinal spline with
-  uniform parametrization.
+   The default setting for the spline is a cardinal spline with
+   uniform parametrization.
 
-  \sa QwtSpline, QwtSplineLocal
-*/
-class QWT_EXPORT QwtSplineCurveFitter: public QwtCurveFitter
+   \sa QwtSpline, QwtSplineLocal
+ */
+class QWT_EXPORT QwtSplineCurveFitter : public QwtCurveFitter
 {
-public:
+  public:
     QwtSplineCurveFitter();
     virtual ~QwtSplineCurveFitter();
 
-    void setSpline( QwtSpline * );
+    void setSpline( QwtSpline* );
 
-    const QwtSpline *spline() const;
-    QwtSpline *spline();
+    const QwtSpline* spline() const;
+    QwtSpline* spline();
 
-    virtual QPolygonF fitCurve( const QPolygonF & ) const QWT_OVERRIDE;
-    virtual QPainterPath fitCurvePath( const QPolygonF & ) const QWT_OVERRIDE;
+    virtual QPolygonF fitCurve( const QPolygonF& ) const QWT_OVERRIDE;
+    virtual QPainterPath fitCurvePath( const QPolygonF& ) const QWT_OVERRIDE;
 
-private:
-    QwtSpline *m_spline;
+  private:
+    QwtSpline* m_spline;
 };
 
 #endif

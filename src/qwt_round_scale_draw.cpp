@@ -18,12 +18,12 @@
 
 class QwtRoundScaleDraw::PrivateData
 {
-public:
-    PrivateData():
-        center( 50.0, 50.0 ),
-        radius( 50.0 ),
-        startAngle( -135.0 ),
-        endAngle( 135.0 )
+  public:
+    PrivateData()
+        : center( 50.0, 50.0 )
+        , radius( 50.0 )
+        , startAngle( -135.0 )
+        , endAngle( 135.0 )
     {
     }
 
@@ -35,12 +35,12 @@ public:
 };
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  The range of the scale is initialized to [0, 100],
-  The center is set to (50, 50) with a radius of 50.
-  The angle range is set to [-135, 135].
-*/
+   The range of the scale is initialized to [0, 100],
+   The center is set to (50, 50) with a radius of 50.
+   The angle range is set to [-135, 135].
+ */
 QwtRoundScaleDraw::QwtRoundScaleDraw()
 {
     m_data = new QwtRoundScaleDraw::PrivateData;
@@ -56,26 +56,26 @@ QwtRoundScaleDraw::~QwtRoundScaleDraw()
 }
 
 /*!
-  Change of radius the scale
+   Change of radius the scale
 
-  Radius is the radius of the backbone without ticks and labels.
+   Radius is the radius of the backbone without ticks and labels.
 
-  \param radius New Radius
-  \sa moveCenter()
-*/
+   \param radius New Radius
+   \sa moveCenter()
+ */
 void QwtRoundScaleDraw::setRadius( double radius )
 {
     m_data->radius = radius;
 }
 
 /*!
-  Get the radius
+   Get the radius
 
-  Radius is the radius of the backbone without ticks and labels.
+   Radius is the radius of the backbone without ticks and labels.
 
-  \return Radius of the scale
-  \sa setRadius(), extent()
-*/
+   \return Radius of the scale
+   \sa setRadius(), extent()
+ */
 double QwtRoundScaleDraw::radius() const
 {
     return m_data->radius;
@@ -86,8 +86,8 @@ double QwtRoundScaleDraw::radius() const
 
    \param center New center
    \sa setRadius()
-*/
-void QwtRoundScaleDraw::moveCenter( const QPointF &center )
+ */
+void QwtRoundScaleDraw::moveCenter( const QPointF& center )
 {
     m_data->center = center;
 }
@@ -99,22 +99,22 @@ QPointF QwtRoundScaleDraw::center() const
 }
 
 /*!
-  \brief Adjust the baseline circle segment for round scales.
+   \brief Adjust the baseline circle segment for round scales.
 
-  The baseline will be drawn from min(angle1,angle2) to max(angle1, angle2).
-  The default setting is [ -135, 135 ].
-  An angle of 0 degrees corresponds to the 12 o'clock position,
-  and positive angles count in a clockwise direction.
-  \param angle1
-  \param angle2 boundaries of the angle interval in degrees.
-  \warning <ul>
-  <li>The angle range is limited to [-360, 360] degrees. Angles exceeding
+   The baseline will be drawn from min(angle1,angle2) to max(angle1, angle2).
+   The default setting is [ -135, 135 ].
+   An angle of 0 degrees corresponds to the 12 o'clock position,
+   and positive angles count in a clockwise direction.
+   \param angle1
+   \param angle2 boundaries of the angle interval in degrees.
+   \warning <ul>
+   <li>The angle range is limited to [-360, 360] degrees. Angles exceeding
       this range will be clipped.
-  <li>For angles more or equal than 360 degrees above or below min(angle1, angle2),
+   <li>For angles more or equal than 360 degrees above or below min(angle1, angle2),
       scale marks will not be drawn.
-  <li>If you need a counterclockwise scale, use QwtScaleDiv::setInterval()
-  </ul>
-*/
+   <li>If you need a counterclockwise scale, use QwtScaleDiv::setInterval()
+   </ul>
+ */
 void QwtRoundScaleDraw::setAngleRange( double angle1, double angle2 )
 {
 #if 0
@@ -141,8 +141,8 @@ void QwtRoundScaleDraw::setAngleRange( double angle1, double angle2 )
    \param value Value
 
    \sa drawTick(), drawBackbone()
-*/
-void QwtRoundScaleDraw::drawLabel( QPainter *painter, double value ) const
+ */
+void QwtRoundScaleDraw::drawLabel( QPainter* painter, double value ) const
 {
     const double tval = scaleMap().transform( value );
     if ( ( tval >= m_data->startAngle + 360.0 )
@@ -186,8 +186,8 @@ void QwtRoundScaleDraw::drawLabel( QPainter *painter, double value ) const
    \param len Length of the tick
 
    \sa drawBackbone(), drawLabel()
-*/
-void QwtRoundScaleDraw::drawTick( QPainter *painter, double value, double len ) const
+ */
+void QwtRoundScaleDraw::drawTick( QPainter* painter, double value, double len ) const
 {
     if ( len <= 0 )
         return;
@@ -220,8 +220,8 @@ void QwtRoundScaleDraw::drawTick( QPainter *painter, double value, double len ) 
    \param painter Painter
 
    \sa drawTick(), drawLabel()
-*/
-void QwtRoundScaleDraw::drawBackbone( QPainter *painter ) const
+ */
+void QwtRoundScaleDraw::drawBackbone( QPainter* painter ) const
 {
     const double deg1 = scaleMap().p1();
     const double deg2 = scaleMap().p2();
@@ -251,15 +251,15 @@ void QwtRoundScaleDraw::drawBackbone( QPainter *painter ) const
    \warning The implemented algorithm is not too smart and
             calculates only an upper limit, that might be a
             few pixels too large
-*/
-double QwtRoundScaleDraw::extent( const QFont &font ) const
+ */
+double QwtRoundScaleDraw::extent( const QFont& font ) const
 {
     double d = 0.0;
 
     if ( hasComponent( QwtAbstractScaleDraw::Labels ) )
     {
-        const QwtScaleDiv &sd = scaleDiv();
-        const QList<double> &ticks = sd.ticks( QwtScaleDiv::MajorTick );
+        const QwtScaleDiv& sd = scaleDiv();
+        const QList< double >& ticks = sd.ticks( QwtScaleDiv::MajorTick );
         for ( int i = 0; i < ticks.count(); i++ )
         {
             const double value = ticks[i];
@@ -301,7 +301,7 @@ double QwtRoundScaleDraw::extent( const QFont &font ) const
 
     if ( hasComponent( QwtAbstractScaleDraw::Labels ) &&
         ( hasComponent( QwtAbstractScaleDraw::Ticks ) ||
-            hasComponent( QwtAbstractScaleDraw::Backbone ) ) )
+        hasComponent( QwtAbstractScaleDraw::Backbone ) ) )
     {
         d += spacing();
     }

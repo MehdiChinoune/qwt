@@ -14,20 +14,20 @@
 #include "qwt_spline.h"
 
 /*!
-  \brief An approximation using a basis spline
+   \brief An approximation using a basis spline
 
-  QwtSplineBasis approximates a set of points by a polynomials with C2 continuity
-  ( = first and second derivatives are equal ) at the end points.
+   QwtSplineBasis approximates a set of points by a polynomials with C2 continuity
+   ( = first and second derivatives are equal ) at the end points.
 
-  The end points of the spline do not match the original points.
+   The end points of the spline do not match the original points.
  */
-class QWT_EXPORT QwtSplineBasis: public QwtSpline
+class QWT_EXPORT QwtSplineBasis : public QwtSpline
 {
-public:
+  public:
     QwtSplineBasis();
     virtual ~QwtSplineBasis();
 
-    virtual QPainterPath painterPath( const QPolygonF & ) const QWT_OVERRIDE;
+    virtual QPainterPath painterPath( const QPolygonF& ) const QWT_OVERRIDE;
     virtual uint locality() const QWT_OVERRIDE;
 };
 

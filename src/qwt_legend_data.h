@@ -19,23 +19,23 @@ class QwtText;
 class QwtGraphic;
 
 /*!
-  \brief Attributes of an entry on a legend
+   \brief Attributes of an entry on a legend
 
-  QwtLegendData is an abstract container ( like QAbstractModel )
-  to exchange attributes, that are only known between to
-  the plot item and the legend.
+   QwtLegendData is an abstract container ( like QAbstractModel )
+   to exchange attributes, that are only known between to
+   the plot item and the legend.
 
-  By overloading QwtPlotItem::legendData() any other set of attributes
-  could be used, that can be handled by a modified ( or completely
-  different ) implementation of a legend.
+   By overloading QwtPlotItem::legendData() any other set of attributes
+   could be used, that can be handled by a modified ( or completely
+   different ) implementation of a legend.
 
-  \sa QwtLegend, QwtPlotLegendItem
-  \note The stockchart example implements a legend as a tree
+   \sa QwtLegend, QwtPlotLegendItem
+   \note The stockchart example implements a legend as a tree
         with checkable items
  */
 class QWT_EXPORT QwtLegendData
 {
-public:
+  public:
     //! Mode defining how a legend entry interacts
     enum Mode
     {
@@ -68,10 +68,10 @@ public:
     QwtLegendData();
     ~QwtLegendData();
 
-    void setValues( const QMap<int, QVariant> & );
-    const QMap<int, QVariant> &values() const;
+    void setValues( const QMap< int, QVariant >& );
+    const QMap< int, QVariant >& values() const;
 
-    void setValue( int role, const QVariant & );
+    void setValue( int role, const QVariant& );
     QVariant value( int role ) const;
 
     bool hasRole( int role ) const;
@@ -81,8 +81,8 @@ public:
     QwtText title() const;
     Mode mode() const;
 
-private:
-    QMap<int, QVariant> m_map;
+  private:
+    QMap< int, QVariant > m_map;
 };
 
 #endif

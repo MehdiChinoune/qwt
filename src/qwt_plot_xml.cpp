@@ -10,12 +10,12 @@
 #include "qwt_plot.h"
 
 /*!
-  This method is intended for manipulating the plot widget
-  from a specific editor in the Qwt designer plugin.
+   This method is intended for manipulating the plot widget
+   from a specific editor in the Qwt designer plugin.
 
-  \warning The plot editor has never been implemented.
-*/
-void QwtPlot::applyProperties( const QString & /* xmlDocument */ )
+   \warning The plot editor has never been implemented.
+ */
+void QwtPlot::applyProperties( const QString& /* xmlDocument */ )
 {
 #if 0
     // Temporary dummy code, for designer tests
@@ -25,12 +25,12 @@ void QwtPlot::applyProperties( const QString & /* xmlDocument */ )
 }
 
 /*!
-  This method is intended for manipulating the plot widget
-  from a specific editor in the Qwt designer plugin.
+   This method is intended for manipulating the plot widget
+   from a specific editor in the Qwt designer plugin.
 
-  \return QString()
-  \warning The plot editor has never been implemented.
-*/
+   \return QString()
+   \warning The plot editor has never been implemented.
+ */
 QString QwtPlot::grabProperties() const
 {
 #if 0

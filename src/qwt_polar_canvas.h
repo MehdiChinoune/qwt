@@ -17,61 +17,61 @@ class QPainter;
 class QwtPolarPlot;
 
 /*!
-  \brief Canvas of a QwtPolarPlot.
+   \brief Canvas of a QwtPolarPlot.
 
-  The canvas is the widget, where all polar items are painted to.
+   The canvas is the widget, where all polar items are painted to.
 
-  \note In opposite to QwtPlot all axes are painted on the canvas.
-  \sa QwtPolarPlot
-*/
-class QWT_EXPORT QwtPolarCanvas: public QFrame
+   \note In opposite to QwtPlot all axes are painted on the canvas.
+   \sa QwtPolarPlot
+ */
+class QWT_EXPORT QwtPolarCanvas : public QFrame
 {
     Q_OBJECT
 
-public:
+  public:
     /*!
-      \brief Paint attributes
+       \brief Paint attributes
 
-      The default setting enables BackingStore
+       The default setting enables BackingStore
 
-      \sa setPaintAttribute(), testPaintAttribute(), backingStore()
+       \sa setPaintAttribute(), testPaintAttribute(), backingStore()
      */
 
     enum PaintAttribute
     {
         /*!
-          Paint double buffered and reuse the content of the pixmap buffer
-          for some spontaneous repaints that happen when a plot gets unhidden,
-          deiconified or changes the focus.
+           Paint double buffered and reuse the content of the pixmap buffer
+           for some spontaneous repaints that happen when a plot gets unhidden,
+           deiconified or changes the focus.
          */
         BackingStore = 0x01
     };
 
     //! Paint attributes
-    typedef QFlags<PaintAttribute> PaintAttributes;
+    typedef QFlags< PaintAttribute > PaintAttributes;
 
-    explicit QwtPolarCanvas( QwtPolarPlot * );
+    explicit QwtPolarCanvas( QwtPolarPlot* );
     virtual ~QwtPolarCanvas();
 
-    QwtPolarPlot *plot();
-    const QwtPolarPlot *plot() const;
+    QwtPolarPlot* plot();
+    const QwtPolarPlot* plot() const;
 
     void setPaintAttribute( PaintAttribute, bool on = true );
     bool testPaintAttribute( PaintAttribute ) const;
 
-    const QPixmap *backingStore() const;
+    const QPixmap* backingStore() const;
     void invalidateBackingStore();
 
-    QwtPointPolar invTransform( const QPoint & ) const;
-    QPoint transform( const QwtPointPolar & ) const;
+    QwtPointPolar invTransform( const QPoint& ) const;
+    QPoint transform( const QwtPointPolar& ) const;
 
-protected:
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
-    virtual void resizeEvent( QResizeEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
+    virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPolarCanvas::PaintAttributes )

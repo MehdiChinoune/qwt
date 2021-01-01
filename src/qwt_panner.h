@@ -17,26 +17,26 @@ class QCursor;
 class QPixmap;
 
 /*!
-  \brief QwtPanner provides panning of a widget
+   \brief QwtPanner provides panning of a widget
 
-  QwtPanner grabs the contents of a widget, that can be dragged
-  in all directions. The offset between the start and the end position
-  is emitted by the panned signal.
+   QwtPanner grabs the contents of a widget, that can be dragged
+   in all directions. The offset between the start and the end position
+   is emitted by the panned signal.
 
-  QwtPanner grabs the content of the widget into a pixmap and moves
-  the pixmap around, without initiating any repaint events for the widget.
-  Areas, that are not part of content are not painted  while panning.
-  This makes panning fast enough for widgets, where
-  repaints are too slow for mouse movements.
+   QwtPanner grabs the content of the widget into a pixmap and moves
+   the pixmap around, without initiating any repaint events for the widget.
+   Areas, that are not part of content are not painted  while panning.
+   This makes panning fast enough for widgets, where
+   repaints are too slow for mouse movements.
 
-  For widgets, where repaints are very fast it might be better to
-  implement panning manually by mapping mouse events into paint events.
-*/
-class QWT_EXPORT QwtPanner: public QWidget
+   For widgets, where repaints are very fast it might be better to
+   implement panning manually by mapping mouse events into paint events.
+ */
+class QWT_EXPORT QwtPanner : public QWidget
 {
     Q_OBJECT
 
-public:
+  public:
     explicit QwtPanner( QWidget* parent );
     virtual ~QwtPanner();
 
@@ -45,13 +45,13 @@ public:
 
     void setMouseButton( Qt::MouseButton,
         Qt::KeyboardModifiers = Qt::NoModifier );
-    void getMouseButton( Qt::MouseButton &button,
-        Qt::KeyboardModifiers & ) const;
+    void getMouseButton( Qt::MouseButton& button,
+        Qt::KeyboardModifiers& ) const;
 
     void setAbortKey( int key, Qt::KeyboardModifiers = Qt::NoModifier );
-    void getAbortKey( int &key, Qt::KeyboardModifiers & ) const;
+    void getAbortKey( int& key, Qt::KeyboardModifiers& ) const;
 
-    void setCursor( const QCursor & );
+    void setCursor( const QCursor& );
     const QCursor cursor() const;
 
     void setOrientations( Qt::Orientations );
@@ -59,45 +59,45 @@ public:
 
     bool isOrientationEnabled( Qt::Orientation ) const;
 
-    virtual bool eventFilter( QObject *, QEvent * ) QWT_OVERRIDE;
+    virtual bool eventFilter( QObject*, QEvent* ) QWT_OVERRIDE;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     /*!
-      Signal emitted, when panning is done
+       Signal emitted, when panning is done
 
-      \param dx Offset in horizontal direction
-      \param dy Offset in vertical direction
-    */
+       \param dx Offset in horizontal direction
+       \param dy Offset in vertical direction
+     */
     void panned( int dx, int dy );
 
     /*!
-      Signal emitted, while the widget moved, but panning
-      is not finished.
+       Signal emitted, while the widget moved, but panning
+       is not finished.
 
-      \param dx Offset in horizontal direction
-      \param dy Offset in vertical direction
-    */
+       \param dx Offset in horizontal direction
+       \param dy Offset in vertical direction
+     */
     void moved( int dx, int dy );
 
-protected:
-    virtual void widgetMousePressEvent( QMouseEvent * );
-    virtual void widgetMouseReleaseEvent( QMouseEvent * );
-    virtual void widgetMouseMoveEvent( QMouseEvent * );
-    virtual void widgetKeyPressEvent( QKeyEvent * );
-    virtual void widgetKeyReleaseEvent( QKeyEvent * );
+  protected:
+    virtual void widgetMousePressEvent( QMouseEvent* );
+    virtual void widgetMouseReleaseEvent( QMouseEvent* );
+    virtual void widgetMouseMoveEvent( QMouseEvent* );
+    virtual void widgetKeyPressEvent( QKeyEvent* );
+    virtual void widgetKeyReleaseEvent( QKeyEvent* );
 
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
 
     virtual QBitmap contentsMask() const;
     virtual QPixmap grab() const;
 
-private:
+  private:
 #ifndef QT_NO_CURSOR
     void showCursor( bool );
 #endif
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

@@ -16,17 +16,17 @@
 class QwtText;
 
 /*!
-  \brief A plot item, which displays a text label
+   \brief A plot item, which displays a text label
 
-  QwtPlotTextLabel displays a text label aligned to the plot canvas.
+   QwtPlotTextLabel displays a text label aligned to the plot canvas.
 
-  In opposite to QwtPlotMarker the position of the label is unrelated to
-  plot coordinates.
+   In opposite to QwtPlotMarker the position of the label is unrelated to
+   plot coordinates.
 
-  As drawing a text is an expensive operation the label is cached
-  in a pixmap to speed up replots.
+   As drawing a text is an expensive operation the label is cached
+   in a pixmap to speed up replots.
 
-  \par Example
+   \par Example
     The following code shows how to add a title.
     \code
       QwtText title( "Plot Title" );
@@ -40,37 +40,37 @@ class QwtText;
       titleItem->setText( title );
       titleItem->attach( plot );
     \endcode
-  \endpar
+   \endpar
 
-  \sa QwtPlotMarker
-*/
+   \sa QwtPlotMarker
+ */
 
-class QWT_EXPORT QwtPlotTextLabel: public QwtPlotItem
+class QWT_EXPORT QwtPlotTextLabel : public QwtPlotItem
 {
-public:
+  public:
     QwtPlotTextLabel();
     virtual ~QwtPlotTextLabel();
 
     virtual int rtti() const QWT_OVERRIDE;
 
-    void setText( const QwtText & );
+    void setText( const QwtText& );
     QwtText text() const;
 
     void setMargin( int margin );
     int margin() const;
 
-    virtual QRectF textRect( const QRectF &, const QSizeF & ) const;
+    virtual QRectF textRect( const QRectF&, const QSizeF& ) const;
 
-protected:
-    virtual void draw( QPainter *,
-        const QwtScaleMap &, const QwtScaleMap &,
-        const QRectF &) const QWT_OVERRIDE;
+  protected:
+    virtual void draw( QPainter*,
+        const QwtScaleMap&, const QwtScaleMap&,
+        const QRectF&) const QWT_OVERRIDE;
 
     void invalidateCache();
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

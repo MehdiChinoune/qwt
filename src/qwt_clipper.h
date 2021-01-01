@@ -20,36 +20,36 @@ class QPolygon;
 class QPolygonF;
 
 #if QT_VERSION < 0x060000
-template <typename T> class QVector;
+template< typename T > class QVector;
 #endif
 
 /*!
-  \brief Some clipping algorithms
-*/
+   \brief Some clipping algorithms
+ */
 
 class QWT_EXPORT QwtClipper
 {
-public:
-    static void clipPolygon( const QRect &,
-        QPolygon &, bool closePolygon = false );
+  public:
+    static void clipPolygon( const QRect&,
+        QPolygon&, bool closePolygon = false );
 
-    static void clipPolygon( const QRectF &,
-        QPolygon &, bool closePolygon = false );
+    static void clipPolygon( const QRectF&,
+        QPolygon&, bool closePolygon = false );
 
-    static void clipPolygonF( const QRectF &,
-        QPolygonF &, bool closePolygon = false );
+    static void clipPolygonF( const QRectF&,
+        QPolygonF&, bool closePolygon = false );
 
-    static QPolygon clippedPolygon( const QRect &,
-        const QPolygon &, bool closePolygon = false );
+    static QPolygon clippedPolygon( const QRect&,
+        const QPolygon&, bool closePolygon = false );
 
-    static QPolygon clippedPolygon( const QRectF &,
-        const QPolygon &, bool closePolygon = false );
+    static QPolygon clippedPolygon( const QRectF&,
+        const QPolygon&, bool closePolygon = false );
 
-    static QPolygonF clippedPolygonF( const QRectF &,
-        const QPolygonF &, bool closePolygon = false );
+    static QPolygonF clippedPolygonF( const QRectF&,
+        const QPolygonF&, bool closePolygon = false );
 
-    static QVector<QwtInterval> clipCircle(
-        const QRectF &, const QPointF &, double radius );
+    static QVector< QwtInterval > clipCircle(
+        const QRectF&, const QPointF&, double radius );
 };
 
 #endif

@@ -15,23 +15,23 @@
 
 #include <qlist.h>
 
-typedef QList<QwtPlotItem *> QwtPlotItemList;
-typedef QList<QwtPlotItem *>::ConstIterator QwtPlotItemIterator;
+typedef QList< QwtPlotItem* > QwtPlotItemList;
+typedef QList< QwtPlotItem* >::ConstIterator QwtPlotItemIterator;
 
 /*!
-  \brief A dictionary for plot items
+   \brief A dictionary for plot items
 
-  QwtPlotDict organizes plot items in increasing z-order.
-  If autoDelete() is enabled, all attached items will be deleted
-  in the destructor of the dictionary.
-  QwtPlotDict can be used to get access to all QwtPlotItem items - or all
-  items of a specific type -  that are currently on the plot.
+   QwtPlotDict organizes plot items in increasing z-order.
+   If autoDelete() is enabled, all attached items will be deleted
+   in the destructor of the dictionary.
+   QwtPlotDict can be used to get access to all QwtPlotItem items - or all
+   items of a specific type -  that are currently on the plot.
 
-  \sa QwtPlotItem::attach(), QwtPlotItem::detach(), QwtPlotItem::z()
-*/
+   \sa QwtPlotItem::attach(), QwtPlotItem::detach(), QwtPlotItem::z()
+ */
 class QWT_EXPORT QwtPlotDict
 {
-public:
+  public:
     explicit QwtPlotDict();
     virtual ~QwtPlotDict();
 
@@ -44,13 +44,13 @@ public:
     void detachItems( int rtti = QwtPlotItem::Rtti_PlotItem,
         bool autoDelete = true );
 
-protected:
-    void insertItem( QwtPlotItem * );
-    void removeItem( QwtPlotItem * );
+  protected:
+    void insertItem( QwtPlotItem* );
+    void removeItem( QwtPlotItem* );
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

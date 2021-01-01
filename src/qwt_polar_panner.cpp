@@ -13,11 +13,11 @@
 #include "qwt_point_polar.h"
 
 //! Create a plot panner for a polar plot canvas
-QwtPolarPanner::QwtPolarPanner( QwtPolarCanvas *canvas ):
-    QwtPanner( canvas )
+QwtPolarPanner::QwtPolarPanner( QwtPolarCanvas* canvas )
+    : QwtPanner( canvas )
 {
-    connect( this, SIGNAL( panned( int, int ) ),
-        SLOT( movePlot( int, int ) ) );
+    connect( this, SIGNAL(panned(int,int)),
+        SLOT(movePlot(int,int)) );
 }
 
 //! Destructor
@@ -26,21 +26,21 @@ QwtPolarPanner::~QwtPolarPanner()
 }
 
 //! \return observed plot canvas
-QwtPolarCanvas *QwtPolarPanner::canvas()
+QwtPolarCanvas* QwtPolarPanner::canvas()
 {
-    return qobject_cast<QwtPolarCanvas *>( parent() );
+    return qobject_cast< QwtPolarCanvas* >( parent() );
 }
 
 //! \return observed plot canvas
-const QwtPolarCanvas *QwtPolarPanner::canvas() const
+const QwtPolarCanvas* QwtPolarPanner::canvas() const
 {
-    return qobject_cast<const QwtPolarCanvas *>( parent() );
+    return qobject_cast< const QwtPolarCanvas* >( parent() );
 }
 
 //! \return observed plot
-QwtPolarPlot *QwtPolarPanner::plot()
+QwtPolarPlot* QwtPolarPanner::plot()
 {
-    QwtPolarCanvas *c = canvas();
+    QwtPolarCanvas* c = canvas();
     if ( c )
         return c->plot();
 
@@ -48,9 +48,9 @@ QwtPolarPlot *QwtPolarPanner::plot()
 }
 
 //! \return observed plot
-const QwtPolarPlot *QwtPolarPanner::plot() const
+const QwtPolarPlot* QwtPolarPanner::plot() const
 {
-    const QwtPolarCanvas *c = canvas();
+    const QwtPolarCanvas* c = canvas();
     if ( c )
         return c->plot();
 
@@ -64,10 +64,10 @@ const QwtPolarPlot *QwtPolarPanner::plot() const
    \param dy Pixel offset in y direction
 
    \sa QwtPanner::panned(), QwtPolarPlot::zoom()
-*/
+ */
 void QwtPolarPanner::movePlot( int dx, int dy )
 {
-    QwtPolarPlot *plot = QwtPolarPanner::plot();
+    QwtPolarPlot* plot = QwtPolarPanner::plot();
     if ( plot == NULL || ( dx == 0 && dy == 0 ) )
         return;
 
@@ -101,13 +101,13 @@ void QwtPolarPanner::movePlot( int dx, int dy )
 }
 
 /*!
-  Block panning when the plot zoom factor is >= 1.0.
+   Block panning when the plot zoom factor is >= 1.0.
 
-  \param event Mouse event
-*/
-void QwtPolarPanner::widgetMousePressEvent( QMouseEvent *event )
+   \param event Mouse event
+ */
+void QwtPolarPanner::widgetMousePressEvent( QMouseEvent* event )
 {
-    const QwtPolarPlot *plot = QwtPolarPanner::plot();
+    const QwtPolarPlot* plot = QwtPolarPanner::plot();
     if ( plot )
     {
         if ( plot->zoomFactor() < 1.0 )

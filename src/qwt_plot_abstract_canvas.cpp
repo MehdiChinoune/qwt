@@ -22,51 +22,51 @@ namespace
 {
     class QwtStyleSheetRecorder QWT_FINAL : public QwtNullPaintDevice
     {
-    public:
-        explicit QwtStyleSheetRecorder( const QSize &size ):
-            d_size( size )
+      public:
+        explicit QwtStyleSheetRecorder( const QSize& size )
+            : m_size( size )
         {
         }
 
-        virtual void updateState( const QPaintEngineState &state ) QWT_OVERRIDE
+        virtual void updateState( const QPaintEngineState& state ) QWT_OVERRIDE
         {
             if ( state.state() & QPaintEngine::DirtyPen )
             {
-                d_pen = state.pen();
+                m_pen = state.pen();
             }
             if ( state.state() & QPaintEngine::DirtyBrush )
             {
-                d_brush = state.brush();
+                m_brush = state.brush();
             }
             if ( state.state() & QPaintEngine::DirtyBrushOrigin )
             {
-                d_origin = state.brushOrigin();
+                m_origin = state.brushOrigin();
             }
         }
 
-        virtual void drawRects(const QRectF *rects, int count ) QWT_OVERRIDE
+        virtual void drawRects(const QRectF* rects, int count ) QWT_OVERRIDE
         {
             for ( int i = 0; i < count; i++ )
                 border.rectList += rects[i];
         }
 
-        virtual void drawRects(const QRect *rects, int count ) QWT_OVERRIDE
+        virtual void drawRects(const QRect* rects, int count ) QWT_OVERRIDE
         {
             for ( int i = 0; i < count; i++ )
                 border.rectList += rects[i];
         }
 
-        virtual void drawPath( const QPainterPath &path ) QWT_OVERRIDE
+        virtual void drawPath( const QPainterPath& path ) QWT_OVERRIDE
         {
-            const QRectF rect( QPointF( 0.0, 0.0 ), d_size );
+            const QRectF rect( QPointF( 0.0, 0.0 ), m_size );
             if ( path.controlPointRect().contains( rect.center() ) )
             {
                 setCornerRects( path );
                 alignCornerRects( rect );
 
                 background.path = path;
-                background.brush = d_brush;
-                background.origin = d_origin;
+                background.brush = m_brush;
+                background.origin = m_origin;
             }
             else
             {
@@ -74,7 +74,7 @@ namespace
             }
         }
 
-        void setCornerRects( const QPainterPath &path )
+        void setCornerRects( const QPainterPath& path )
         {
             QPointF pos( 0.0, 0.0 );
 
@@ -110,7 +110,7 @@ namespace
                                 qwtMinF( r.top(), el.y ),
                                 qwtMaxF( r.right(), el.x ),
                                 qwtMaxF( r.bottom(), el.y )
-                            );
+                                );
                             clipRects.last() = r.normalized();
                         }
                         break;
@@ -119,18 +119,18 @@ namespace
             }
         }
 
-    protected:
+      protected:
         virtual QSize sizeMetrics() const QWT_OVERRIDE
         {
-            return d_size;
+            return m_size;
         }
 
-    private:
-        void alignCornerRects( const QRectF &rect )
+      private:
+        void alignCornerRects( const QRectF& rect )
         {
             for ( int i = 0; i < clipRects.size(); i++ )
             {
-                QRectF &r = clipRects[i];
+                QRectF& r = clipRects[i];
                 if ( r.center().x() < rect.center().x() )
                     r.setLeft( rect.left() );
                 else
@@ -144,13 +144,13 @@ namespace
         }
 
 
-    public:
-        QVector<QRectF> clipRects;
+      public:
+        QVector< QRectF > clipRects;
 
         struct Border
         {
-            QList<QPainterPath> pathList;
-            QList<QRectF> rectList;
+            QList< QPainterPath > pathList;
+            QList< QRectF > rectList;
             QRegion clipRegion;
         } border;
 
@@ -161,21 +161,21 @@ namespace
             QPointF origin;
         } background;
 
-    private:
-        const QSize d_size;
+      private:
+        const QSize m_size;
 
-        QPen d_pen;
-        QBrush d_brush;
-        QPointF d_origin;
+        QPen m_pen;
+        QBrush m_brush;
+        QPointF m_origin;
     };
 }
 
-static void qwtUpdateContentsRect( int fw, QWidget *canvas )
+static void qwtUpdateContentsRect( int fw, QWidget* canvas )
 {
     canvas->setContentsMargins( fw, fw, fw, fw );
 }
 
-static void qwtFillRegion( QPainter *painter, const QRegion& region )
+static void qwtFillRegion( QPainter* painter, const QRegion& region )
 {
 #if QT_VERSION >= 0x050800
     for ( QRegion::const_iterator it = region.cbegin();
@@ -188,7 +188,7 @@ static void qwtFillRegion( QPainter *painter, const QRegion& region )
 #endif
 }
 
-static void qwtDrawBackground( QPainter *painter, QWidget *canvas )
+static void qwtDrawBackground( QPainter* painter, QWidget* canvas )
 {
     painter->save();
 
@@ -201,7 +201,7 @@ static void qwtDrawBackground( QPainter *painter, QWidget *canvas )
     if ( !borderClip.isEmpty() )
         painter->setClipPath( borderClip, Qt::IntersectClip );
 
-    const QBrush &brush = canvas->palette().brush( canvas->backgroundRole() );
+    const QBrush& brush = canvas->palette().brush( canvas->backgroundRole() );
 
     if ( brush.style() == Qt::TexturePattern )
     {
@@ -233,14 +233,14 @@ static void qwtDrawBackground( QPainter *painter, QWidget *canvas )
 }
 
 static inline void qwtDrawStyledBackground(
-    QWidget *w, QPainter *painter )
+    QWidget* w, QPainter* painter )
 {
     QStyleOption opt;
     opt.initFrom(w);
     w->style()->drawPrimitive( QStyle::PE_Widget, &opt, painter, w);
 }
 
-static QWidget *qwtBackgroundWidget( QWidget *w )
+static QWidget* qwtBackgroundWidget( QWidget* w )
 {
     if ( w->parentWidget() == NULL )
         return w;
@@ -269,8 +269,8 @@ static QWidget *qwtBackgroundWidget( QWidget *w )
     return qwtBackgroundWidget( w->parentWidget() );
 }
 
-static void qwtFillBackground( QPainter *painter,
-    QWidget *widget, const QVector<QRectF> &fillRects )
+static void qwtFillBackground( QPainter* painter,
+    QWidget* widget, const QVector< QRectF >& fillRects )
 {
     if ( fillRects.isEmpty() )
         return;
@@ -284,7 +284,7 @@ static void qwtFillBackground( QPainter *painter,
     // Try to find out which widget fills
     // the unfilled areas of the styled background
 
-    QWidget *bgWidget = qwtBackgroundWidget( widget->parentWidget() );
+    QWidget* bgWidget = qwtBackgroundWidget( widget->parentWidget() );
 
     for ( int i = 0; i < fillRects.size(); i++ )
     {
@@ -298,9 +298,9 @@ static void qwtFillBackground( QPainter *painter,
     }
 }
 
-static void qwtFillBackground( QPainter *painter, QWidget *canvas )
+static void qwtFillBackground( QPainter* painter, QWidget* canvas )
 {
-    QVector<QRectF> rects;
+    QVector< QRectF > rects;
 
     if ( canvas->testAttribute( Qt::WA_StyledBackground ) )
     {
@@ -333,7 +333,7 @@ static void qwtFillBackground( QPainter *painter, QWidget *canvas )
     qwtFillBackground( painter, canvas, rects);
 }
 
-static inline void qwtRevertPath( QPainterPath &path )
+static inline void qwtRevertPath( QPainterPath& path )
 {
     if ( path.elementCount() == 4 )
     {
@@ -345,8 +345,8 @@ static inline void qwtRevertPath( QPainterPath &path )
     }
 }
 
-static QPainterPath qwtCombinePathList( const QRectF &rect,
-    const QList<QPainterPath> &pathList )
+static QPainterPath qwtCombinePathList( const QRectF& rect,
+    const QList< QPainterPath >& pathList )
 {
     if ( pathList.isEmpty() )
         return QPainterPath();
@@ -458,7 +458,7 @@ static QPainterPath qwtCombinePathList( const QRectF &rect,
 #endif
 }
 
-static QPainterPath qwtBorderPath( const QWidget *canvas, const QRect &rect )
+static QPainterPath qwtBorderPath( const QWidget* canvas, const QRect& rect )
 {
     if ( canvas->testAttribute(Qt::WA_StyledBackground ) )
     {
@@ -499,10 +499,10 @@ static QPainterPath qwtBorderPath( const QWidget *canvas, const QRect &rect )
 
 class QwtPlotAbstractCanvas::PrivateData
 {
-public:
-    PrivateData():
-        focusIndicator( NoFocusIndicator ),
-        borderRadius( 0 )
+  public:
+    PrivateData()
+        : focusIndicator( NoFocusIndicator )
+        , borderRadius( 0 )
     {
         styleSheet.hasBorder = false;
     }
@@ -514,7 +514,7 @@ public:
     {
         bool hasBorder;
         QPainterPath borderPath;
-        QVector<QRectF> cornerRects;
+        QVector< QRectF > cornerRects;
 
         struct StyleSheetBackground
         {
@@ -524,10 +524,10 @@ public:
 
     } styleSheet;
 
-    QWidget *canvasWidget;
+    QWidget* canvasWidget;
 };
 
-QwtPlotAbstractCanvas::QwtPlotAbstractCanvas( QWidget *canvasWidget )
+QwtPlotAbstractCanvas::QwtPlotAbstractCanvas( QWidget* canvasWidget )
 {
     m_data = new PrivateData;
     m_data->canvasWidget = canvasWidget;
@@ -549,42 +549,42 @@ QwtPlotAbstractCanvas::~QwtPlotAbstractCanvas()
 }
 
 //! Return parent plot widget
-QwtPlot *QwtPlotAbstractCanvas::plot()
+QwtPlot* QwtPlotAbstractCanvas::plot()
 {
-    return qobject_cast<QwtPlot *>( m_data->canvasWidget->parent() );
+    return qobject_cast< QwtPlot* >( m_data->canvasWidget->parent() );
 }
 
 //! Return parent plot widget
-const QwtPlot *QwtPlotAbstractCanvas::plot() const
+const QwtPlot* QwtPlotAbstractCanvas::plot() const
 {
-    return qobject_cast<const QwtPlot *>( m_data->canvasWidget->parent() );
+    return qobject_cast< const QwtPlot* >( m_data->canvasWidget->parent() );
 }
 
 /*!
-  Set the focus indicator
+   Set the focus indicator
 
-  \sa FocusIndicator, focusIndicator()
-*/
+   \sa FocusIndicator, focusIndicator()
+ */
 void QwtPlotAbstractCanvas::setFocusIndicator( FocusIndicator focusIndicator )
 {
     m_data->focusIndicator = focusIndicator;
 }
 
 /*!
-  \return Focus indicator
+   \return Focus indicator
 
-  \sa FocusIndicator, setFocusIndicator()
-*/
+   \sa FocusIndicator, setFocusIndicator()
+ */
 QwtPlotAbstractCanvas::FocusIndicator QwtPlotAbstractCanvas::focusIndicator() const
 {
     return m_data->focusIndicator;
 }
 
 /*!
-  Draw the focus indication
-  \param painter Painter
-*/
-void QwtPlotAbstractCanvas::drawFocusIndicator( QPainter *painter )
+   Draw the focus indication
+   \param painter Painter
+ */
+void QwtPlotAbstractCanvas::drawFocusIndicator( QPainter* painter )
 {
     const int margin = 1;
 
@@ -596,37 +596,37 @@ void QwtPlotAbstractCanvas::drawFocusIndicator( QPainter *painter )
 }
 
 /*!
-  Set the radius for the corners of the border frame
+   Set the radius for the corners of the border frame
 
-  \param radius Radius of a rounded corner
-  \sa borderRadius()
-*/
+   \param radius Radius of a rounded corner
+   \sa borderRadius()
+ */
 void QwtPlotAbstractCanvas::setBorderRadius( double radius )
 {
     m_data->borderRadius = qwtMaxF( 0.0, radius );
 }
 
 /*!
-  \return Radius for the corners of the border frame
-  \sa setBorderRadius()
-*/
+   \return Radius for the corners of the border frame
+   \sa setBorderRadius()
+ */
 double QwtPlotAbstractCanvas::borderRadius() const
 {
     return m_data->borderRadius;
 }
 
-QPainterPath QwtPlotAbstractCanvas::borderPath2( const QRect &rect ) const
+QPainterPath QwtPlotAbstractCanvas::borderPath2( const QRect& rect ) const
 {
     return qwtBorderPath( canvasWidget(), rect );
 }
 
 /*!
-  Draw the border of the canvas
-  \param painter Painter
-*/
-void QwtPlotAbstractCanvas::drawBorder( QPainter *painter )
+   Draw the border of the canvas
+   \param painter Painter
+ */
+void QwtPlotAbstractCanvas::drawBorder( QPainter* painter )
 {
-    const QWidget *w = canvasWidget();
+    const QWidget* w = canvasWidget();
 
     if ( m_data->borderRadius > 0 )
     {
@@ -685,21 +685,21 @@ void QwtPlotAbstractCanvas::drawBorder( QPainter *painter )
     }
 }
 
-void QwtPlotAbstractCanvas::drawBackground( QPainter *painter )
+void QwtPlotAbstractCanvas::drawBackground( QPainter* painter )
 {
     qwtDrawBackground( painter, canvasWidget() );
 }
 
-void QwtPlotAbstractCanvas::fillBackground( QPainter *painter )
+void QwtPlotAbstractCanvas::fillBackground( QPainter* painter )
 {
     qwtFillBackground( painter, canvasWidget() );
 }
 
-void QwtPlotAbstractCanvas::drawUnstyled( QPainter *painter )
+void QwtPlotAbstractCanvas::drawUnstyled( QPainter* painter )
 {
     fillBackground( painter );
 
-    QWidget *w = canvasWidget();
+    QWidget* w = canvasWidget();
 
     if ( w->autoFillBackground() )
     {
@@ -736,7 +736,7 @@ void QwtPlotAbstractCanvas::drawUnstyled( QPainter *painter )
     drawCanvas( painter );
 }
 
-void QwtPlotAbstractCanvas::drawStyled( QPainter *painter, bool hackStyledBackground )
+void QwtPlotAbstractCanvas::drawStyled( QPainter* painter, bool hackStyledBackground )
 {
     fillBackground( painter );
 
@@ -762,7 +762,7 @@ void QwtPlotAbstractCanvas::drawStyled( QPainter *painter, bool hackStyledBackgr
         }
     }
 
-    QWidget *w = canvasWidget();
+    QWidget* w = canvasWidget();
 
     if ( hackStyledBackground )
     {
@@ -794,9 +794,9 @@ void QwtPlotAbstractCanvas::drawStyled( QPainter *painter, bool hackStyledBackgr
     }
 }
 
-void QwtPlotAbstractCanvas::drawCanvas( QPainter *painter )
+void QwtPlotAbstractCanvas::drawCanvas( QPainter* painter )
 {
-    QWidget *w = canvasWidget();
+    QWidget* w = canvasWidget();
 
     painter->save();
 
@@ -818,7 +818,7 @@ void QwtPlotAbstractCanvas::drawCanvas( QPainter *painter )
         }
     }
 
-    QwtPlot *plot = qobject_cast< QwtPlot *>( w->parent() );
+    QwtPlot* plot = qobject_cast< QwtPlot* >( w->parent() );
     if ( plot )
         plot->drawCanvas( painter );
 
@@ -828,7 +828,7 @@ void QwtPlotAbstractCanvas::drawCanvas( QPainter *painter )
 //! Update the cached information about the current style sheet
 void QwtPlotAbstractCanvas::updateStyleSheetInfo()
 {
-    QWidget *w = canvasWidget();
+    QWidget* w = canvasWidget();
 
     if ( !w->testAttribute( Qt::WA_StyledBackground ) )
         return;
@@ -874,7 +874,7 @@ const QWidget* QwtPlotAbstractCanvas::canvasWidget() const
 
 class QwtPlotAbstractGLCanvas::PrivateData
 {
-public:
+  public:
     PrivateData():
         frameStyle( QFrame::Panel | QFrame::Sunken),
         lineWidth( 2 ),
@@ -893,7 +893,7 @@ public:
     int midLineWidth;
 };
 
-QwtPlotAbstractGLCanvas::QwtPlotAbstractGLCanvas( QWidget *canvasWidget ):
+QwtPlotAbstractGLCanvas::QwtPlotAbstractGLCanvas( QWidget* canvasWidget ):
     QwtPlotAbstractCanvas( canvasWidget )
 {
     m_data = new PrivateData;
@@ -908,49 +908,49 @@ QwtPlotAbstractGLCanvas::~QwtPlotAbstractGLCanvas()
 }
 
 /*!
-  \brief Changing the paint attributes
+   \brief Changing the paint attributes
 
-  \param attribute Paint attribute
-  \param on On/Off
+   \param attribute Paint attribute
+   \param on On/Off
 
-  \sa testPaintAttribute()
-*/
+   \sa testPaintAttribute()
+ */
 void QwtPlotAbstractGLCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 {
     if ( bool( m_data->paintAttributes & attribute ) == on )
         return;
 
     if ( on )
-	{
+    {
         m_data->paintAttributes |= attribute;
-	}
+    }
     else
-	{
+    {
         m_data->paintAttributes &= ~attribute;
 
-    	if ( attribute == BackingStore )
-        	clearBackingStore();
-	}
+        if ( attribute == BackingStore )
+            clearBackingStore();
+    }
 }
 
 /*!
-  Test whether a paint attribute is enabled
+   Test whether a paint attribute is enabled
 
-  \param attribute Paint attribute
-  \return true, when attribute is enabled
-  \sa setPaintAttribute()
-*/
+   \param attribute Paint attribute
+   \return true, when attribute is enabled
+   \sa setPaintAttribute()
+ */
 bool QwtPlotAbstractGLCanvas::testPaintAttribute( PaintAttribute attribute ) const
 {
     return m_data->paintAttributes & attribute;
 }
 
 /*!
-  Set the frame style
+   Set the frame style
 
-  \param style The bitwise OR between a shape and a shadow.
+   \param style The bitwise OR between a shape and a shadow.
 
-  \sa frameStyle(), QFrame::setFrameStyle(),
+   \sa frameStyle(), QFrame::setFrameStyle(),
       setFrameShadow(), setFrameShape()
  */
 void QwtPlotAbstractGLCanvas::setFrameStyle( int style )
@@ -965,8 +965,8 @@ void QwtPlotAbstractGLCanvas::setFrameStyle( int style )
 }
 
 /*!
-  \return The bitwise OR between a frameShape() and a frameShadow()
-  \sa setFrameStyle(), QFrame::frameStyle()
+   \return The bitwise OR between a frameShape() and a frameShadow()
+   \sa setFrameStyle(), QFrame::frameStyle()
  */
 int QwtPlotAbstractGLCanvas::frameStyle() const
 {
@@ -974,19 +974,19 @@ int QwtPlotAbstractGLCanvas::frameStyle() const
 }
 
 /*!
-  Set the frame shadow
+   Set the frame shadow
 
-  \param shadow Frame shadow
-  \sa frameShadow(), setFrameShape(), QFrame::setFrameShadow()
+   \param shadow Frame shadow
+   \sa frameShadow(), setFrameShape(), QFrame::setFrameShadow()
  */
 void QwtPlotAbstractGLCanvas::setFrameShadow( QFrame::Shadow shadow )
 {
-    setFrameStyle(( m_data->frameStyle & QFrame::Shape_Mask ) | shadow );
+    setFrameStyle( ( m_data->frameStyle & QFrame::Shape_Mask ) | shadow );
 }
 
 /*!
-  \return Frame shadow
-  \sa setFrameShadow(), QFrame::setFrameShadow()
+   \return Frame shadow
+   \sa setFrameShadow(), QFrame::setFrameShadow()
  */
 QFrame::Shadow QwtPlotAbstractGLCanvas::frameShadow() const
 {
@@ -994,10 +994,10 @@ QFrame::Shadow QwtPlotAbstractGLCanvas::frameShadow() const
 }
 
 /*!
-  Set the frame shape
+   Set the frame shape
 
-  \param shape Frame shape
-  \sa frameShape(), setFrameShadow(), QFrame::frameShape()
+   \param shape Frame shape
+   \sa frameShape(), setFrameShadow(), QFrame::frameShape()
  */
 void QwtPlotAbstractGLCanvas::setFrameShape( QFrame::Shape shape )
 {
@@ -1005,8 +1005,8 @@ void QwtPlotAbstractGLCanvas::setFrameShape( QFrame::Shape shape )
 }
 
 /*!
-  \return Frame shape
-  \sa setFrameShape(), QFrame::frameShape()
+   \return Frame shape
+   \sa setFrameShape(), QFrame::frameShape()
  */
 QFrame::Shape QwtPlotAbstractGLCanvas::frameShape() const
 {
@@ -1020,7 +1020,7 @@ QFrame::Shape QwtPlotAbstractGLCanvas::frameShape() const
 
    \param width Line width of the frame
    \sa lineWidth(), setMidLineWidth()
-*/
+ */
 void QwtPlotAbstractGLCanvas::setLineWidth( int width )
 {
     width = qMax( width, 0 );
@@ -1033,8 +1033,8 @@ void QwtPlotAbstractGLCanvas::setLineWidth( int width )
 }
 
 /*!
-  \return Line width of the frame
-  \sa setLineWidth(), midLineWidth()
+   \return Line width of the frame
+   \sa setLineWidth(), midLineWidth()
  */
 int QwtPlotAbstractGLCanvas::lineWidth() const
 {
@@ -1048,7 +1048,7 @@ int QwtPlotAbstractGLCanvas::lineWidth() const
 
    \param width Midline width of the frame
    \sa midLineWidth(), setLineWidth()
-*/
+ */
 void QwtPlotAbstractGLCanvas::setMidLineWidth( int width )
 {
     width = qMax( width, 0 );
@@ -1061,8 +1061,8 @@ void QwtPlotAbstractGLCanvas::setMidLineWidth( int width )
 }
 
 /*!
-  \return Midline width of the frame
-  \sa setMidLineWidth(), lineWidth()
+   \return Midline width of the frame
+   \sa setMidLineWidth(), lineWidth()
  */
 int QwtPlotAbstractGLCanvas::midLineWidth() const
 {
@@ -1070,7 +1070,7 @@ int QwtPlotAbstractGLCanvas::midLineWidth() const
 }
 
 /*!
-  \return Frame width depending on the style, line width and midline width.
+   \return Frame width depending on the style, line width and midline width.
  */
 int QwtPlotAbstractGLCanvas::frameWidth() const
 {
@@ -1080,12 +1080,12 @@ int QwtPlotAbstractGLCanvas::frameWidth() const
 /*!
    Invalidate the paint cache and repaint the canvas
    \sa invalidatePaintCache()
-*/
+ */
 void QwtPlotAbstractGLCanvas::replot()
 {
     invalidateBackingStore();
 
-    QWidget *w = canvasWidget();
+    QWidget* w = canvasWidget();
     if ( testPaintAttribute( QwtPlotAbstractGLCanvas::ImmediatePaint ) )
         w->repaint( w->contentsRect() );
     else
@@ -1099,7 +1099,7 @@ QRect QwtPlotAbstractGLCanvas::frameRect() const
     return canvasWidget()->contentsRect().adjusted( -fw, -fw, fw, fw );
 }
 
-void QwtPlotAbstractGLCanvas::draw( QPainter *painter )
+void QwtPlotAbstractGLCanvas::draw( QPainter* painter )
 {
 #if FIX_GL_TRANSLATION
     if ( painter->paintEngine()->type() == QPaintEngine::OpenGL2 )

@@ -13,10 +13,10 @@
 
 #include <qdebug.h>
 
-QDebug operator<<( QDebug debug, const QwtPoint3D &point )
+QDebug operator<<( QDebug debug, const QwtPoint3D& point )
 {
     debug.nospace() << "QwtPoint3D(" << point.x()
-        << "," << point.y() << "," << point.z() << ")";
+                    << "," << point.y() << "," << point.z() << ")";
     return debug.space();
 }
 

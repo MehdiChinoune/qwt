@@ -20,10 +20,10 @@
 
 class QwtTextLabel::PrivateData
 {
-public:
-    PrivateData():
-        indent( 4 ),
-        margin( 0 )
+  public:
+    PrivateData()
+        : indent( 4 )
+        , margin( 0 )
     {
     }
 
@@ -33,22 +33,22 @@ public:
 };
 
 /*!
-  Constructs an empty label.
-  \param parent Parent widget
-*/
-QwtTextLabel::QwtTextLabel( QWidget *parent ):
-    QFrame( parent )
+   Constructs an empty label.
+   \param parent Parent widget
+ */
+QwtTextLabel::QwtTextLabel( QWidget* parent )
+    : QFrame( parent )
 {
     init();
 }
 
 /*!
-  Constructs a label that displays the text, text
-  \param parent Parent widget
-  \param text Text
-*/
-QwtTextLabel::QwtTextLabel( const QwtText &text, QWidget *parent ):
-    QFrame( parent )
+   Constructs a label that displays the text, text
+   \param parent Parent widget
+   \param text Text
+ */
+QwtTextLabel::QwtTextLabel( const QwtText& text, QWidget* parent )
+    : QFrame( parent )
 {
     init();
     m_data->text = text;
@@ -70,7 +70,7 @@ void QwtTextLabel::init()
    Interface for the designer plugin - does the same as setText()
    \sa plainText()
  */
-void QwtTextLabel::setPlainText( const QString &text )
+void QwtTextLabel::setPlainText( const QString& text )
 {
     setText( QwtText( text ) );
 }
@@ -91,9 +91,9 @@ QString QwtTextLabel::plainText() const
    \param text New text
    \param textFormat Format of text
 
-  \sa QwtText
-*/
-void QwtTextLabel::setText( const QString &text,
+   \sa QwtText
+ */
+void QwtTextLabel::setText( const QString& text,
     QwtText::TextFormat textFormat )
 {
     m_data->text.setText( text, textFormat );
@@ -105,8 +105,8 @@ void QwtTextLabel::setText( const QString &text,
 /*!
    Change the label's text
    \param text New text
-*/
-void QwtTextLabel::setText( const QwtText &text )
+ */
+void QwtTextLabel::setText( const QwtText& text )
 {
     m_data->text = text;
 
@@ -115,7 +115,7 @@ void QwtTextLabel::setText( const QwtText &text )
 }
 
 //! Return the text
-const QwtText &QwtTextLabel::text() const
+const QwtText& QwtTextLabel::text() const
 {
     return m_data->text;
 }
@@ -136,9 +136,9 @@ int QwtTextLabel::indent() const
 }
 
 /*!
-  Set label's text indent in pixels
-  \param indent Indentation in pixels
-*/
+   Set label's text indent in pixels
+   \param indent Indentation in pixels
+ */
 void QwtTextLabel::setIndent( int indent )
 {
     if ( indent < 0 )
@@ -157,9 +157,9 @@ int QwtTextLabel::margin() const
 }
 
 /*!
-  Set label's margin in pixels
-  \param margin Margin in pixels
-*/
+   Set label's margin in pixels
+   \param margin Margin in pixels
+ */
 void QwtTextLabel::setMargin( int margin )
 {
     m_data->margin = margin;
@@ -205,7 +205,7 @@ QSize QwtTextLabel::minimumSizeHint() const
 /*!
    \param width Width
    \return Preferred height for this widget, given the width.
-*/
+ */
 int QwtTextLabel::heightForWidth( int width ) const
 {
     const int renderFlags = m_data->text.renderFlags();
@@ -232,8 +232,8 @@ int QwtTextLabel::heightForWidth( int width ) const
 /*!
    Qt paint event
    \param event Paint event
-*/
-void QwtTextLabel::paintEvent( QPaintEvent *event )
+ */
+void QwtTextLabel::paintEvent( QPaintEvent* event )
 {
     QPainter painter( this );
     painter.setClipRegion( event->region() );
@@ -254,7 +254,7 @@ void QwtTextLabel::paintEvent( QPaintEvent *event )
 }
 
 //! Redraw the text and focus indicator
-void QwtTextLabel::drawContents( QPainter *painter )
+void QwtTextLabel::drawContents( QPainter* painter )
 {
     const QRect r = textRect();
     if ( r.isEmpty() )
@@ -276,15 +276,15 @@ void QwtTextLabel::drawContents( QPainter *painter )
 }
 
 //! Redraw the text
-void QwtTextLabel::drawText( QPainter *painter, const QRectF &textRect )
+void QwtTextLabel::drawText( QPainter* painter, const QRectF& textRect )
 {
     m_data->text.draw( painter, textRect );
 }
 
 /*!
-  Calculate geometry for the text in widget coordinates
-  \return Geometry for the text
-*/
+   Calculate geometry for the text in widget coordinates
+   \return Geometry for the text
+ */
 QRect QwtTextLabel::textRect() const
 {
     QRect r = contentsRect();

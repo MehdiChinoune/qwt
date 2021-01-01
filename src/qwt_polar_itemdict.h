@@ -13,21 +13,21 @@
 #include "qwt_polar_item.h"
 #include <qlist.h>
 
-typedef QList<QwtPolarItem *>::ConstIterator QwtPolarItemIterator;
-typedef QList<QwtPolarItem *> QwtPolarItemList;
+typedef QList< QwtPolarItem* >::ConstIterator QwtPolarItemIterator;
+typedef QList< QwtPolarItem* > QwtPolarItemList;
 
 /*!
-  \brief A dictionary for polar plot items
+   \brief A dictionary for polar plot items
 
-  QwtPolarItemDict organizes polar plot items in increasing z-order.
-  If autoDelete() is enabled, all attached items will be deleted
-  in the destructor of the dictionary.
+   QwtPolarItemDict organizes polar plot items in increasing z-order.
+   If autoDelete() is enabled, all attached items will be deleted
+   in the destructor of the dictionary.
 
-  \sa QwtPolarItem::attach(), QwtPolarItem::detach(), QwtPolarItem::z()
-*/
+   \sa QwtPolarItem::attach(), QwtPolarItem::detach(), QwtPolarItem::z()
+ */
 class QWT_EXPORT QwtPolarItemDict
 {
-public:
+  public:
     explicit QwtPolarItemDict();
     ~QwtPolarItemDict();
 
@@ -39,13 +39,13 @@ public:
     void detachItems( int rtti = QwtPolarItem::Rtti_PolarItem,
         bool autoDelete = true );
 
-protected:
-    void insertItem( QwtPolarItem * );
-    void removeItem( QwtPolarItem * );
+  protected:
+    void insertItem( QwtPolarItem* );
+    void removeItem( QwtPolarItem* );
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

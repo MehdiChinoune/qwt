@@ -21,17 +21,17 @@
 class QPainterPath;
 
 /*!
-  QwtPainterCommand represents the attributes of a paint operation
-  how it is used between QPainter and QPaintDevice
+   QwtPainterCommand represents the attributes of a paint operation
+   how it is used between QPainter and QPaintDevice
 
-  It is used by QwtGraphic to record and replay paint operations
+   It is used by QwtGraphic to record and replay paint operations
 
-  \sa QwtGraphic::commands()
+   \sa QwtGraphic::commands()
  */
 
 class QWT_EXPORT QwtPainterCommand
 {
-public:
+  public:
     //! Type of the paint command
     enum Type
     {
@@ -92,27 +92,27 @@ public:
     };
 
     QwtPainterCommand();
-    QwtPainterCommand(const QwtPainterCommand &);
+    QwtPainterCommand(const QwtPainterCommand&);
 
-    explicit QwtPainterCommand( const QPainterPath & );
+    explicit QwtPainterCommand( const QPainterPath& );
 
-    QwtPainterCommand( const QRectF &rect,
-            const QPixmap &, const QRectF& subRect );
+    QwtPainterCommand( const QRectF& rect,
+        const QPixmap&, const QRectF& subRect );
 
-    QwtPainterCommand( const QRectF &rect,
-            const QImage &, const QRectF& subRect,
-            Qt::ImageConversionFlags );
+    QwtPainterCommand( const QRectF& rect,
+        const QImage&, const QRectF& subRect,
+        Qt::ImageConversionFlags );
 
-    explicit QwtPainterCommand( const QPaintEngineState & );
+    explicit QwtPainterCommand( const QPaintEngineState& );
 
     ~QwtPainterCommand();
 
-    QwtPainterCommand &operator=(const QwtPainterCommand & );
+    QwtPainterCommand& operator=(const QwtPainterCommand& );
 
     Type type() const;
 
-    QPainterPath *path();
-    const QPainterPath *path() const;
+    QPainterPath* path();
+    const QPainterPath* path() const;
 
     PixmapData* pixmapData();
     const PixmapData* pixmapData() const;
@@ -123,18 +123,18 @@ public:
     StateData* stateData();
     const StateData* stateData() const;
 
-private:
-    void copy( const QwtPainterCommand & );
+  private:
+    void copy( const QwtPainterCommand& );
     void reset();
 
     Type m_type;
 
     union
     {
-        QPainterPath *m_path;
-        PixmapData *m_pixmapData;
-        ImageData *m_imageData;
-        StateData *m_stateData;
+        QPainterPath* m_path;
+        PixmapData* m_pixmapData;
+        ImageData* m_imageData;
+        StateData* m_stateData;
     };
 };
 
@@ -145,27 +145,27 @@ inline QwtPainterCommand::Type QwtPainterCommand::type() const
 }
 
 //! \return Painter path to be painted
-inline const QPainterPath *QwtPainterCommand::path() const
+inline const QPainterPath* QwtPainterCommand::path() const
 {
     return m_path;
 }
 
 //! \return Attributes how to paint a QPixmap
-inline const QwtPainterCommand::PixmapData *
+inline const QwtPainterCommand::PixmapData*
 QwtPainterCommand::pixmapData() const
 {
     return m_pixmapData;
 }
 
 //! \return Attributes how to paint a QImage
-inline const QwtPainterCommand::ImageData *
+inline const QwtPainterCommand::ImageData*
 QwtPainterCommand::imageData() const
 {
     return m_imageData;
 }
 
 //! \return Attributes of a state change
-inline const QwtPainterCommand::StateData *
+inline const QwtPainterCommand::StateData*
 QwtPainterCommand::stateData() const
 {
     return m_stateData;

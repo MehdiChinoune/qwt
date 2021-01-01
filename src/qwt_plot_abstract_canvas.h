@@ -17,12 +17,12 @@ class QwtPlot;
 
 class QWT_EXPORT QwtPlotAbstractCanvas
 {
-public:
+  public:
     /*!
-      \brief Focus indicator
-      The default setting is NoFocusIndicator
-      \sa setFocusIndicator(), focusIndicator(), drawFocusIndicator()
-    */
+       \brief Focus indicator
+       The default setting is NoFocusIndicator
+       \sa setFocusIndicator(), focusIndicator(), drawFocusIndicator()
+     */
 
     enum FocusIndicator
     {
@@ -30,24 +30,24 @@ public:
         NoFocusIndicator,
 
         /*!
-          The focus is related to the complete canvas.
-          Paint the focus indicator using drawFocusIndicator()
+           The focus is related to the complete canvas.
+           Paint the focus indicator using drawFocusIndicator()
          */
         CanvasFocusIndicator,
 
         /*!
-          The focus is related to an item (curve, point, ...) on
-          the canvas. It is up to the application to display a
-          focus indication using f.e. highlighting.
+           The focus is related to an item (curve, point, ...) on
+           the canvas. It is up to the application to display a
+           focus indication using f.e. highlighting.
          */
         ItemFocusIndicator
     };
 
-    explicit QwtPlotAbstractCanvas( QWidget *canvasWidget );
+    explicit QwtPlotAbstractCanvas( QWidget* canvasWidget );
     virtual ~QwtPlotAbstractCanvas();
 
-    QwtPlot *plot();
-    const QwtPlot *plot() const;
+    QwtPlot* plot();
+    const QwtPlot* plot() const;
 
     void setFocusIndicator( FocusIndicator );
     FocusIndicator focusIndicator() const;
@@ -55,67 +55,67 @@ public:
     void setBorderRadius( double );
     double borderRadius() const;
 
-protected:
+  protected:
     QWidget* canvasWidget();
     const QWidget* canvasWidget() const;
 
-    virtual void drawFocusIndicator( QPainter * );
-    virtual void drawBorder( QPainter * );
-    virtual void drawBackground( QPainter * );
+    virtual void drawFocusIndicator( QPainter* );
+    virtual void drawBorder( QPainter* );
+    virtual void drawBackground( QPainter* );
 
-    void fillBackground( QPainter * );
-    void drawCanvas( QPainter * );
-    void drawStyled( QPainter *, bool );
-    void drawUnstyled( QPainter * );
+    void fillBackground( QPainter* );
+    void drawCanvas( QPainter* );
+    void drawStyled( QPainter*, bool );
+    void drawUnstyled( QPainter* );
 
-    QPainterPath borderPath2( const QRect &rect ) const;
+    QPainterPath borderPath2( const QRect& rect ) const;
     void updateStyleSheetInfo();
 
-private:
+  private:
     Q_DISABLE_COPY(QwtPlotAbstractCanvas)
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
-class QWT_EXPORT QwtPlotAbstractGLCanvas: public QwtPlotAbstractCanvas
+class QWT_EXPORT QwtPlotAbstractGLCanvas : public QwtPlotAbstractCanvas
 {
-public:
+  public:
     /*!
-      \brief Paint attributes
+       \brief Paint attributes
 
-      The default setting enables BackingStore and Opaque.
+       The default setting enables BackingStore and Opaque.
 
-      \sa setPaintAttribute(), testPaintAttribute()
+       \sa setPaintAttribute(), testPaintAttribute()
      */
     enum PaintAttribute
     {
         /*!
-          \brief Paint double buffered reusing the content
+           \brief Paint double buffered reusing the content
                  of the pixmap buffer when possible.
 
-          Using a backing store might improve the performance
-          significantly, when working with widget overlays ( like rubber bands ).
-          Disabling the cache might improve the performance for
-          incremental paints (using QwtPlotDirectPainter ).
+           Using a backing store might improve the performance
+           significantly, when working with widget overlays ( like rubber bands ).
+           Disabling the cache might improve the performance for
+           incremental paints (using QwtPlotDirectPainter ).
 
-          \sa backingStore(), invalidateBackingStore()
+           \sa backingStore(), invalidateBackingStore()
          */
         BackingStore = 1,
 
         /*!
-          When ImmediatePaint is set replot() calls repaint()
-          instead of update().
+           When ImmediatePaint is set replot() calls repaint()
+           instead of update().
 
-          \sa replot(), QWidget::repaint(), QWidget::update()
+           \sa replot(), QWidget::repaint(), QWidget::update()
          */
         ImmediatePaint = 8,
     };
 
     //! Paint attributes
-    typedef QFlags<PaintAttribute> PaintAttributes;
+    typedef QFlags< PaintAttribute > PaintAttributes;
 
-    explicit QwtPlotAbstractGLCanvas( QWidget *canvasWidget );
+    explicit QwtPlotAbstractGLCanvas( QWidget* canvasWidget );
     virtual ~QwtPlotAbstractGLCanvas();
 
     void setPaintAttribute( PaintAttribute, bool on = true );
@@ -141,15 +141,15 @@ public:
 
     virtual void invalidateBackingStore() = 0;
 
-protected:
+  protected:
     void replot();
-    void draw( QPainter * );
+    void draw( QPainter* );
 
-private:
+  private:
     virtual void clearBackingStore() = 0;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPlotAbstractGLCanvas::PaintAttributes )

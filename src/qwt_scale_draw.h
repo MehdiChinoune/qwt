@@ -21,20 +21,20 @@ class QRectF;
 class QRect;
 
 /*!
-  \brief A class for drawing scales
+   \brief A class for drawing scales
 
-  QwtScaleDraw can be used to draw linear or logarithmic scales.
-  A scale has a position, an alignment and a length, which can be specified .
-  The labels can be rotated and aligned
-  to the ticks using setLabelRotation() and setLabelAlignment().
+   QwtScaleDraw can be used to draw linear or logarithmic scales.
+   A scale has a position, an alignment and a length, which can be specified .
+   The labels can be rotated and aligned
+   to the ticks using setLabelRotation() and setLabelAlignment().
 
-  After a scale division has been specified as a QwtScaleDiv object
-  using QwtAbstractScaleDraw::setScaleDiv(const QwtScaleDiv &s),
-  the scale can be drawn with the QwtAbstractScaleDraw::draw() member.
-*/
-class QWT_EXPORT QwtScaleDraw: public QwtAbstractScaleDraw
+   After a scale division has been specified as a QwtScaleDiv object
+   using QwtAbstractScaleDraw::setScaleDiv(const QwtScaleDiv &s),
+   the scale can be drawn with the QwtAbstractScaleDraw::draw() member.
+ */
+class QWT_EXPORT QwtScaleDraw : public QwtAbstractScaleDraw
 {
-public:
+  public:
     /*!
         Alignment of the scale draw
         \sa setAlignment(), alignment()
@@ -57,14 +57,14 @@ public:
     QwtScaleDraw();
     virtual ~QwtScaleDraw();
 
-    void getBorderDistHint( const QFont &, int &start, int &end ) const;
-    int minLabelDist( const QFont & ) const;
+    void getBorderDistHint( const QFont&, int& start, int& end ) const;
+    int minLabelDist( const QFont& ) const;
 
-    int minLength( const QFont & ) const;
-    virtual double extent( const QFont & ) const QWT_OVERRIDE;
+    int minLength( const QFont& ) const;
+    virtual double extent( const QFont& ) const QWT_OVERRIDE;
 
     void move( double x, double y );
-    void move( const QPointF & );
+    void move( const QPointF& );
     void setLength( double length );
 
     Alignment alignment() const;
@@ -81,30 +81,30 @@ public:
     void setLabelRotation( double rotation );
     double labelRotation() const;
 
-    int maxLabelHeight( const QFont & ) const;
-    int maxLabelWidth( const QFont & ) const;
+    int maxLabelHeight( const QFont& ) const;
+    int maxLabelWidth( const QFont& ) const;
 
     QPointF labelPosition( double value ) const;
 
-    QRectF labelRect( const QFont &, double value ) const;
-    QSizeF labelSize( const QFont &, double value ) const;
+    QRectF labelRect( const QFont&, double value ) const;
+    QSizeF labelSize( const QFont&, double value ) const;
 
-    QRect boundingLabelRect( const QFont &, double value ) const;
+    QRect boundingLabelRect( const QFont&, double value ) const;
 
-protected:
-    QTransform labelTransformation( const QPointF &, const QSizeF & ) const;
+  protected:
+    QTransform labelTransformation( const QPointF&, const QSizeF& ) const;
 
-    virtual void drawTick( QPainter *,
+    virtual void drawTick( QPainter*,
         double value, double len ) const QWT_OVERRIDE;
 
-    virtual void drawBackbone( QPainter * ) const QWT_OVERRIDE;
-    virtual void drawLabel( QPainter *, double value ) const QWT_OVERRIDE;
+    virtual void drawBackbone( QPainter* ) const QWT_OVERRIDE;
+    virtual void drawLabel( QPainter*, double value ) const QWT_OVERRIDE;
 
-private:
+  private:
     void updateMap();
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 /*!
@@ -114,7 +114,7 @@ private:
    \param y Y coordinate
 
    \sa move(const QPointF &)
-*/
+ */
 inline void QwtScaleDraw::move( double x, double y )
 {
     move( QPointF( x, y ) );

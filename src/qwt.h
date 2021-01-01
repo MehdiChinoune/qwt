@@ -15,12 +15,12 @@
 class QSize;
 
 /*!
-  Some constants for use within Qwt.
-*/
+   Some constants for use within Qwt.
+ */
 namespace Qwt
 {
 }
 
-QWT_EXPORT QSize qwtExpandedToGlobalStrut( const QSize & );
+QWT_EXPORT QSize qwtExpandedToGlobalStrut( const QSize& );
 
 #endif

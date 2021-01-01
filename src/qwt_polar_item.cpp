@@ -15,17 +15,17 @@
 
 class QwtPolarItem::PrivateData
 {
-public:
-    PrivateData():
-        plot( NULL ),
-        isVisible( true ),
-        renderThreadCount( 1 ),
-        z( 0.0 ),
-        legendIconSize( 8, 8 )
+  public:
+    PrivateData()
+        : plot( NULL )
+        , isVisible( true )
+        , renderThreadCount( 1 )
+        , z( 0.0 )
+        , legendIconSize( 8, 8 )
     {
     }
 
-    mutable QwtPolarPlot *plot;
+    mutable QwtPolarPlot* plot;
 
     bool isVisible;
     QwtPolarItem::ItemAttributes attributes;
@@ -44,8 +44,8 @@ public:
    \param title Item title, f.e used on a legend
 
    \sa setTitle()
-*/
-QwtPolarItem::QwtPolarItem( const QwtText &title )
+ */
+QwtPolarItem::QwtPolarItem( const QwtText& title )
 {
     m_data = new PrivateData;
     m_data->title = title;
@@ -59,19 +59,19 @@ QwtPolarItem::~QwtPolarItem()
 }
 
 /*!
-  \brief Attach the item to a plot.
+   \brief Attach the item to a plot.
 
-  This method will attach a QwtPolarItem to the QwtPolarPlot argument.
-  It will first detach the QwtPolarItem from any plot from a previous
-  call to attach (if necessary).
-  If a NULL argument is passed, it will detach from any QwtPolarPlot it
-  was attached to.
+   This method will attach a QwtPolarItem to the QwtPolarPlot argument.
+   It will first detach the QwtPolarItem from any plot from a previous
+   call to attach (if necessary).
+   If a NULL argument is passed, it will detach from any QwtPolarPlot it
+   was attached to.
 
-  \param plot Plot widget
+   \param plot Plot widget
 
-  \sa QwtPolarItem::detach()
-*/
-void QwtPolarItem::attach( QwtPolarPlot *plot )
+   \sa QwtPolarItem::detach()
+ */
+void QwtPolarItem::attach( QwtPolarPlot* plot )
 {
     if ( plot == m_data->plot )
         return;
@@ -91,10 +91,10 @@ void QwtPolarItem::attach( QwtPolarPlot *plot )
 
    detach() is equivalent to calling attach( NULL )
    \sa attach()
-*/
-void QwtPolarItem::detach() 
-{ 
-    attach( NULL ); 
+ */
+void QwtPolarItem::detach()
+{
+    attach( NULL );
 }
 
 /*!
@@ -108,14 +108,14 @@ void QwtPolarItem::detach()
 
    \return rtti value
    \sa RttiValues
-*/
+ */
 int QwtPolarItem::rtti() const
 {
     return Rtti_PolarItem;
 }
 
 //! \return Attached plot
-QwtPolarPlot *QwtPolarItem::plot() const
+QwtPolarPlot* QwtPolarItem::plot() const
 {
     return m_data->plot;
 }
@@ -125,7 +125,7 @@ QwtPolarPlot *QwtPolarItem::plot() const
 
    \return Z value
    \sa setZ(), QwtPolarItemDict::itemList()
-*/
+ */
 double QwtPolarItem::z() const
 {
     return m_data->z;
@@ -138,7 +138,7 @@ double QwtPolarItem::z() const
 
    \param z Z-value
    \sa z(), QwtPolarItemDict::itemList()
-*/
+ */
 void QwtPolarItem::setZ( double z )
 {
     if ( m_data->z != z )
@@ -160,8 +160,8 @@ void QwtPolarItem::setZ( double z )
 
    \param title Title
    \sa title()
-*/
-void QwtPolarItem::setTitle( const QString &title )
+ */
+void QwtPolarItem::setTitle( const QString& title )
 {
     setTitle( QwtText( title ) );
 }
@@ -171,8 +171,8 @@ void QwtPolarItem::setTitle( const QString &title )
 
    \param title Title
    \sa title()
-*/
-void QwtPolarItem::setTitle( const QwtText &title )
+ */
+void QwtPolarItem::setTitle( const QwtText& title )
 {
     if ( m_data->title != title )
     {
@@ -184,8 +184,8 @@ void QwtPolarItem::setTitle( const QwtText &title )
 /*!
    \return Title of the item
    \sa setTitle()
-*/
-const QwtText &QwtPolarItem::title() const
+ */
+const QwtText& QwtPolarItem::title() const
 {
     return m_data->title;
 }
@@ -197,7 +197,7 @@ const QwtText &QwtPolarItem::title() const
    \param on true/false
 
    \sa testItemAttribute(), ItemAttribute
-*/
+ */
 void QwtPolarItem::setItemAttribute( ItemAttribute attribute, bool on )
 {
     if ( bool( m_data->attributes & attribute ) != on )
@@ -217,7 +217,7 @@ void QwtPolarItem::setItemAttribute( ItemAttribute attribute, bool on )
    \param attribute Attribute type
    \return true/false
    \sa setItemAttribute(), ItemAttribute
-*/
+ */
 bool QwtPolarItem::testItemAttribute( ItemAttribute attribute ) const
 {
     return m_data->attributes & attribute;
@@ -230,7 +230,7 @@ bool QwtPolarItem::testItemAttribute( ItemAttribute attribute ) const
    \param on true/false
 
    \sa testRenderHint(), RenderHint
-*/
+ */
 void QwtPolarItem::setRenderHint( RenderHint hint, bool on )
 {
     if ( ( ( m_data->renderHints & hint ) != 0 ) != on )
@@ -250,15 +250,15 @@ void QwtPolarItem::setRenderHint( RenderHint hint, bool on )
    \param hint Render hint
    \return true/false
    \sa setRenderHint(), RenderHint
-*/
+ */
 bool QwtPolarItem::testRenderHint( RenderHint hint ) const
 {
     return ( m_data->renderHints & hint );
 }
 
 /*!
-   On multi core systems rendering of certain plot item 
-   ( f.e QwtPolarSpectrogram ) can be done in parallel in 
+   On multi core systems rendering of certain plot item
+   ( f.e QwtPolarSpectrogram ) can be done in parallel in
    several threads.
 
    The default setting is set to 1.
@@ -268,7 +268,7 @@ bool QwtPolarItem::testRenderHint( RenderHint hint ) const
                      ideal thread count is used.
 
    The default thread count is 1 ( = no additional threads )
-*/
+ */
 void QwtPolarItem::setRenderThreadCount( uint numThreads )
 {
     m_data->renderThreadCount = numThreads;
@@ -278,7 +278,7 @@ void QwtPolarItem::setRenderThreadCount( uint numThreads )
    \return Number of threads to be used for rendering.
            If numThreads() is set to 0, the system specific
            ideal thread count is used.
-*/
+ */
 uint QwtPolarItem::renderThreadCount() const
 {
     return m_data->renderThreadCount;
@@ -291,8 +291,8 @@ uint QwtPolarItem::renderThreadCount() const
 
    \param size Size
    \sa legendIconSize(), legendIcon()
-*/
-void QwtPolarItem::setLegendIconSize( const QSize &size )
+ */
+void QwtPolarItem::setLegendIconSize( const QSize& size )
 {
     if ( m_data->legendIconSize != size )
     {
@@ -304,7 +304,7 @@ void QwtPolarItem::setLegendIconSize( const QSize &size )
 /*!
    \return Legend icon size
    \sa setLegendIconSize(), legendIcon()
-*/
+ */
 QSize QwtPolarItem::legendIconSize() const
 {
     return m_data->legendIconSize;
@@ -327,7 +327,7 @@ void QwtPolarItem::hide()
 
     \param on Show if true, otherwise hide
     \sa isVisible(), show(), hide()
-*/
+ */
 void QwtPolarItem::setVisible( bool on )
 {
     if ( on != m_data->isVisible )
@@ -340,7 +340,7 @@ void QwtPolarItem::setVisible( bool on )
 /*!
     \return true if visible
     \sa setVisible(), show(), hide()
-*/
+ */
 bool QwtPolarItem::isVisible() const
 {
     return m_data->isVisible;
@@ -351,7 +351,7 @@ bool QwtPolarItem::isVisible() const
    parent plot.
 
    \sa updateLegend()
-*/
+ */
 void QwtPolarItem::itemChanged()
 {
     if ( m_data->plot )
@@ -361,7 +361,7 @@ void QwtPolarItem::itemChanged()
 /*!
    Update the legend of the parent plot.
    \sa QwtPolarPlot::updateLegend(), itemChanged()
-*/
+ */
 void QwtPolarItem::legendChanged()
 {
     if ( testItemAttribute( QwtPolarItem::Legend ) && m_data->plot )
@@ -377,7 +377,7 @@ void QwtPolarItem::legendChanged()
 
    \param scaleId Scale id ( QwtPolar::Scale )
    \return Bounding interval of the plot item for a specific scale
-*/
+ */
 QwtInterval QwtPolarItem::boundingInterval( int scaleId ) const
 {
     Q_UNUSED( scaleId );
@@ -399,9 +399,9 @@ QwtInterval QwtPolarItem::boundingInterval( int scaleId ) const
                    visible on the canvas
 
    \sa QwtPolarPlot::updateAxes()
-*/
-void QwtPolarItem::updateScaleDiv( const QwtScaleDiv &azimuthScaleDiv,
-    const QwtScaleDiv &radialScaleDiv, const QwtInterval &interval )
+ */
+void QwtPolarItem::updateScaleDiv( const QwtScaleDiv& azimuthScaleDiv,
+    const QwtScaleDiv& radialScaleDiv, const QwtInterval& interval )
 {
     Q_UNUSED( azimuthScaleDiv );
     Q_UNUSED( radialScaleDiv );
@@ -416,16 +416,16 @@ void QwtPolarItem::updateScaleDiv( const QwtScaleDiv &azimuthScaleDiv,
    showing an icon and a text.
 
    QwtLegendData is basically a list of QVariants that makes it
-   possible to overload and reimplement legendData() to 
+   possible to overload and reimplement legendData() to
    return almost any type of information, that is understood
    by the receiver that acts as the legend.
 
-   The default implementation returns one entry with 
+   The default implementation returns one entry with
    the title() of the item and the legendIcon().
 
    \sa title(), legendIcon(), QwtLegend
  */
-QList<QwtLegendData> QwtPolarItem::legendData() const
+QList< QwtLegendData > QwtPolarItem::legendData() const
 {
     QwtLegendData data;
 
@@ -442,7 +442,7 @@ QList<QwtLegendData> QwtPolarItem::legendData() const
             QVariant::fromValue( graphic ) );
     }
 
-    QList<QwtLegendData> list;
+    QList< QwtLegendData > list;
     list += data;
 
     return list;
@@ -453,14 +453,14 @@ QList<QwtLegendData> QwtPolarItem::legendData() const
 
    The default implementation returns an invalid icon
 
-   \param index Index of the legend entry 
+   \param index Index of the legend entry
                 ( usually there is only one )
    \param size Icon size
 
    \sa setLegendIconSize(), legendData()
  */
 QwtGraphic QwtPolarItem::legendIcon(
-    int index, const QSizeF &size ) const
+    int index, const QSizeF& size ) const
 {
     Q_UNUSED( index )
     Q_UNUSED( size )
@@ -474,7 +474,7 @@ QwtGraphic QwtPolarItem::legendIcon(
    The default implementation returns 0 pixels
 
    \return Hint for the margin
-*/
+ */
 int QwtPolarItem::marginHint() const
 {
     return 0;

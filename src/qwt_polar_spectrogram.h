@@ -17,23 +17,23 @@ class QwtRasterData;
 class QwtColorMap;
 
 /*!
-  \brief An item, which displays a spectrogram
+   \brief An item, which displays a spectrogram
 
-  A spectrogram displays threedimenional data, where the 3rd dimension
-  ( the intensity ) is displayed using colors. The colors are calculated
-  from the values using a color map.
+   A spectrogram displays threedimenional data, where the 3rd dimension
+   ( the intensity ) is displayed using colors. The colors are calculated
+   from the values using a color map.
 
-  \sa QwtRasterData, QwtColorMap
-*/
-class QWT_EXPORT QwtPolarSpectrogram: public QwtPolarItem
+   \sa QwtRasterData, QwtColorMap
+ */
+class QWT_EXPORT QwtPolarSpectrogram : public QwtPolarItem
 {
-public:
+  public:
     /*!
         Attributes to modify the drawing algorithm.
         The default setting disables ApproximatedAtan
 
         \sa setPaintAttribute(), testPaintAttribute()
-    */
+     */
     enum PaintAttribute
     {
         /*!
@@ -45,46 +45,46 @@ public:
     };
 
     //! Paint attributes
-    typedef QFlags<PaintAttribute> PaintAttributes;
+    typedef QFlags< PaintAttribute > PaintAttributes;
 
     explicit QwtPolarSpectrogram();
     virtual ~QwtPolarSpectrogram();
 
-    void setData( QwtRasterData *data );
-    const QwtRasterData *data() const;
+    void setData( QwtRasterData* data );
+    const QwtRasterData* data() const;
 
-    void setColorMap( QwtColorMap * );
-    const QwtColorMap *colorMap() const;
+    void setColorMap( QwtColorMap* );
+    const QwtColorMap* colorMap() const;
 
     void setPaintAttribute( PaintAttribute, bool on = true );
     bool testPaintAttribute( PaintAttribute ) const;
 
     virtual int rtti() const QWT_OVERRIDE;
 
-    virtual void draw( QPainter *painter,
-        const QwtScaleMap &azimuthMap, const QwtScaleMap &radialMap,
-        const QPointF &pole, double radius,
-        const QRectF &canvasRect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter* painter,
+        const QwtScaleMap& azimuthMap, const QwtScaleMap& radialMap,
+        const QPointF& pole, double radius,
+        const QRectF& canvasRect ) const QWT_OVERRIDE;
 
     virtual QwtInterval boundingInterval( int scaleId ) const QWT_OVERRIDE;
 
-protected:
+  protected:
     virtual QImage renderImage(
-        const QwtScaleMap &azimuthMap, const QwtScaleMap &radialMap,
-        const QPointF &pole, const QRect &rect ) const;
+        const QwtScaleMap& azimuthMap, const QwtScaleMap& radialMap,
+        const QPointF& pole, const QRect& rect ) const;
 
     virtual void renderTile(
-        const QwtScaleMap &azimuthMap, const QwtScaleMap &radialMap,
-        const QPointF &pole, const QPoint &imagePos,
-        const QRect &tile, QImage *image ) const;
+        const QwtScaleMap& azimuthMap, const QwtScaleMap& radialMap,
+        const QPointF& pole, const QPoint& imagePos,
+        const QRect& tile, QImage* image ) const;
 
-private:
+  private:
     class TileInfo;
-    void renderTileInfo( const QwtScaleMap &, const QwtScaleMap &,
-        const QPointF &pole, TileInfo * ) const;
+    void renderTileInfo( const QwtScaleMap&, const QwtScaleMap&,
+        const QPointF& pole, TileInfo* ) const;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtPolarSpectrogram::PaintAttributes )

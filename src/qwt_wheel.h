@@ -14,22 +14,22 @@
 #include <qwidget.h>
 
 /*!
-  \brief The Wheel Widget
+   \brief The Wheel Widget
 
-  The wheel widget can be used to change values over a very large range
-  in very small steps. Using the setMass() member, it can be configured
-  as a flying wheel.
+   The wheel widget can be used to change values over a very large range
+   in very small steps. Using the setMass() member, it can be configured
+   as a flying wheel.
 
-  The default range of the wheel is [0.0, 100.0]
+   The default range of the wheel is [0.0, 100.0]
 
-  \sa The radio example.
-*/
-class QWT_EXPORT QwtWheel: public QWidget
+   \sa The radio example.
+ */
+class QWT_EXPORT QwtWheel : public QWidget
 {
     Q_OBJECT
 
     Q_PROPERTY( Qt::Orientation orientation
-                READ orientation WRITE setOrientation )
+        READ orientation WRITE setOrientation )
 
     Q_PROPERTY( double value READ value WRITE setValue NOTIFY valueChanged USER true  )
 
@@ -54,8 +54,8 @@ class QWT_EXPORT QwtWheel: public QWidget
     Q_PROPERTY( int borderWidth READ borderWidth WRITE setBorderWidth )
     Q_PROPERTY( int wheelBorderWidth READ wheelBorderWidth WRITE setWheelBorderWidth )
 
-public:
-    explicit QwtWheel( QWidget *parent = NULL );
+  public:
+    explicit QwtWheel( QWidget* parent = NULL );
     virtual ~QwtWheel();
 
     double value() const;
@@ -109,52 +109,52 @@ public:
 
     double mass() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setValue( double );
     void setTotalAngle ( double );
     void setViewAngle( double );
     void setMass( double );
 
-Q_SIGNALS:
+  Q_SIGNALS:
 
     /*!
-      \brief Notify a change of value.
+       \brief Notify a change of value.
 
-      When tracking is enabled this signal will be emitted every
-      time the value changes.
+       When tracking is enabled this signal will be emitted every
+       time the value changes.
 
-      \param value new value
-      \sa setTracking()
-    */
+       \param value new value
+       \sa setTracking()
+     */
     void valueChanged( double value );
 
     /*!
-      This signal is emitted when the user presses the
-      the wheel with the mouse
-    */
+       This signal is emitted when the user presses the
+       the wheel with the mouse
+     */
     void wheelPressed();
 
     /*!
-      This signal is emitted when the user releases the mouse
-    */
+       This signal is emitted when the user releases the mouse
+     */
     void wheelReleased();
 
     /*!
-      This signal is emitted when the user moves the
-      wheel with the mouse.
+       This signal is emitted when the user moves the
+       wheel with the mouse.
 
-      \param value new value
-    */
+       \param value new value
+     */
     void wheelMoved( double value );
 
-protected:
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
-    virtual void mousePressEvent( QMouseEvent * ) QWT_OVERRIDE;
-    virtual void mouseReleaseEvent( QMouseEvent * ) QWT_OVERRIDE;
-    virtual void mouseMoveEvent( QMouseEvent * ) QWT_OVERRIDE;
-    virtual void keyPressEvent( QKeyEvent * ) QWT_OVERRIDE;
-    virtual void wheelEvent( QWheelEvent * ) QWT_OVERRIDE;
-    virtual void timerEvent( QTimerEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
+    virtual void mousePressEvent( QMouseEvent* ) QWT_OVERRIDE;
+    virtual void mouseReleaseEvent( QMouseEvent* ) QWT_OVERRIDE;
+    virtual void mouseMoveEvent( QMouseEvent* ) QWT_OVERRIDE;
+    virtual void keyPressEvent( QKeyEvent* ) QWT_OVERRIDE;
+    virtual void wheelEvent( QWheelEvent* ) QWT_OVERRIDE;
+    virtual void timerEvent( QTimerEvent* ) QWT_OVERRIDE;
 
     void stopFlying();
 
@@ -163,17 +163,17 @@ protected:
     virtual QSize sizeHint() const QWT_OVERRIDE;
     virtual QSize minimumSizeHint() const QWT_OVERRIDE;
 
-    virtual void drawTicks( QPainter *, const QRectF & );
-    virtual void drawWheelBackground( QPainter *, const QRectF & );
+    virtual void drawTicks( QPainter*, const QRectF& );
+    virtual void drawWheelBackground( QPainter*, const QRectF& );
 
-    virtual double valueAt( const QPoint & ) const;
+    virtual double valueAt( const QPoint& ) const;
 
-private:
+  private:
     double alignedValue( double ) const;
     double boundedValue( double ) const;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

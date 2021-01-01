@@ -17,10 +17,10 @@
 
 class QwtWeedingCurveFitter::PrivateData
 {
-public:
-    PrivateData():
-        tolerance( 1.0 ),
-        chunkSize( 0 )
+  public:
+    PrivateData()
+        : tolerance( 1.0 )
+        , chunkSize( 0 )
     {
     }
 
@@ -30,10 +30,10 @@ public:
 
 class QwtWeedingCurveFitter::Line
 {
-public:
-    Line( int i1 = 0, int i2 = 0 ):
-        from( i1 ),
-        to( i2 )
+  public:
+    Line( int i1 = 0, int i2 = 0 )
+        : from( i1 )
+        , to( i2 )
     {
     }
 
@@ -46,9 +46,9 @@ public:
 
    \param tolerance Tolerance
    \sa setTolerance(), tolerance()
-*/
-QwtWeedingCurveFitter::QwtWeedingCurveFitter( double tolerance ):
-    QwtCurveFitter( QwtCurveFitter::Polygon )
+ */
+QwtWeedingCurveFitter::QwtWeedingCurveFitter( double tolerance )
+    : QwtCurveFitter( QwtCurveFitter::Polygon )
 {
     m_data = new PrivateData;
     setTolerance( tolerance );
@@ -61,43 +61,43 @@ QwtWeedingCurveFitter::~QwtWeedingCurveFitter()
 }
 
 /*!
- Assign the tolerance
+   Assign the tolerance
 
- The tolerance is the maximum distance, that is acceptable
- between the original curve and the smoothed curve.
+   The tolerance is the maximum distance, that is acceptable
+   between the original curve and the smoothed curve.
 
- Increasing the tolerance will reduce the number of the
- resulting points.
+   Increasing the tolerance will reduce the number of the
+   resulting points.
 
- \param tolerance Tolerance
+   \param tolerance Tolerance
 
- \sa tolerance()
-*/
+   \sa tolerance()
+ */
 void QwtWeedingCurveFitter::setTolerance( double tolerance )
 {
     m_data->tolerance = qwtMaxF( tolerance, 0.0 );
 }
 
 /*!
-  \return Tolerance
-  \sa setTolerance()
-*/
+   \return Tolerance
+   \sa setTolerance()
+ */
 double QwtWeedingCurveFitter::tolerance() const
 {
     return m_data->tolerance;
 }
 
 /*!
- Limit the number of points passed to a run of the algorithm
+   Limit the number of points passed to a run of the algorithm
 
- The runtime of the Douglas Peucker algorithm increases non linear
- with the number of points. For a chunk size > 0 the polygon
- is split into pieces passed to the algorithm one by one.
+   The runtime of the Douglas Peucker algorithm increases non linear
+   with the number of points. For a chunk size > 0 the polygon
+   is split into pieces passed to the algorithm one by one.
 
- \param numPoints Maximum for the number of points passed to the algorithm
+   \param numPoints Maximum for the number of points passed to the algorithm
 
- \sa chunkSize()
-*/
+   \sa chunkSize()
+ */
 void QwtWeedingCurveFitter::setChunkSize( uint numPoints )
 {
     if ( numPoints > 0 )
@@ -107,21 +107,21 @@ void QwtWeedingCurveFitter::setChunkSize( uint numPoints )
 }
 
 /*!
-  \return Maximum for the number of points passed to a run
+   \return Maximum for the number of points passed to a run
           of the algorithm - or 0, when unlimited
-  \sa setChunkSize()
-*/
+   \sa setChunkSize()
+ */
 uint QwtWeedingCurveFitter::chunkSize() const
 {
     return m_data->chunkSize;
 }
 
 /*!
-  \param points Series of data points
-  \return Curve points
+   \param points Series of data points
+   \return Curve points
    \sa fitCurvePath()
-*/
-QPolygonF QwtWeedingCurveFitter::fitCurve( const QPolygonF &points ) const
+ */
+QPolygonF QwtWeedingCurveFitter::fitCurve( const QPolygonF& points ) const
 {
     if ( points.isEmpty() )
         return points;
@@ -144,28 +144,28 @@ QPolygonF QwtWeedingCurveFitter::fitCurve( const QPolygonF &points ) const
 }
 
 /*!
-  \param points Series of data points
-  \return Curve path
-  \sa fitCurve()
-*/
-QPainterPath QwtWeedingCurveFitter::fitCurvePath( const QPolygonF &points ) const
+   \param points Series of data points
+   \return Curve path
+   \sa fitCurve()
+ */
+QPainterPath QwtWeedingCurveFitter::fitCurvePath( const QPolygonF& points ) const
 {
     QPainterPath path;
     path.addPolygon( fitCurve( points ) );
     return path;
 }
 
-QPolygonF QwtWeedingCurveFitter::simplify( const QPolygonF &points ) const
+QPolygonF QwtWeedingCurveFitter::simplify( const QPolygonF& points ) const
 {
     const double toleranceSqr = m_data->tolerance * m_data->tolerance;
 
-    QStack<Line> stack;
+    QStack< Line > stack;
     stack.reserve( 500 );
 
-    const QPointF *p = points.data();
+    const QPointF* p = points.data();
     const int nPoints = points.size();
 
-    QVector<bool> usePoint( nPoints, false );
+    QVector< bool > usePoint( nPoints, false );
 
     stack.push( Line( 0, nPoints - 1 ) );
 

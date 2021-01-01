@@ -16,18 +16,18 @@
 /*!
    \brief Constructor
    \param title Title
-*/
-QwtPlotSvgItem::QwtPlotSvgItem( const QString& title ):
-    QwtPlotGraphicItem( QwtText( title ) )
+ */
+QwtPlotSvgItem::QwtPlotSvgItem( const QString& title )
+    : QwtPlotGraphicItem( QwtText( title ) )
 {
 }
 
 /*!
    \brief Constructor
    \param title Title
-*/
-QwtPlotSvgItem::QwtPlotSvgItem( const QwtText& title ):
-    QwtPlotGraphicItem( title )
+ */
+QwtPlotSvgItem::QwtPlotSvgItem( const QwtText& title )
+    : QwtPlotGraphicItem( title )
 {
 }
 
@@ -43,9 +43,9 @@ QwtPlotSvgItem::~QwtPlotSvgItem()
    \param fileName SVG file name
 
    \return true, if the SVG file could be loaded
-*/
-bool QwtPlotSvgItem::loadFile( const QRectF &rect,
-    const QString &fileName )
+ */
+bool QwtPlotSvgItem::loadFile( const QRectF& rect,
+    const QString& fileName )
 {
     QwtGraphic graphic;
 
@@ -70,22 +70,22 @@ bool QwtPlotSvgItem::loadFile( const QRectF &rect,
    \param data in SVG format
 
    \return true, if the SVG data could be loaded
-*/
-bool QwtPlotSvgItem::loadData( const QRectF &rect,
-    const QByteArray &data )
+ */
+bool QwtPlotSvgItem::loadData( const QRectF& rect,
+    const QByteArray& data )
 {
     QwtGraphic graphic;
-    
+
     QSvgRenderer renderer;
 
     const bool ok = renderer.load( data );
     if ( ok )
-    {   
+    {
         QPainter p( &graphic );
         renderer.render( &p );
     }
-    
+
     setGraphic( rect, graphic );
-    
+
     return ok;
 }

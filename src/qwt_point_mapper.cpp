@@ -22,7 +22,7 @@
 #include <qfuture.h>
 #include <qtconcurrentrun.h>
 
-#if !defined(QT_NO_QFUTURE)
+#if !defined( QT_NO_QFUTURE )
 #define QWT_USE_THREADS 1
 #endif
 
@@ -44,7 +44,7 @@ static inline double qwtRoundValueF( double value )
 }
 
 static Qt::Orientation qwtProbeOrientation(
-    const QwtSeriesData<QPointF> *series, int from, int to )
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
     if ( to - from < 20 )
     {
@@ -79,10 +79,10 @@ static Qt::Orientation qwtProbeOrientation(
 
 namespace
 {
-    template <class Polygon, class Point>
+    template< class Polygon, class Point >
     class QwtPolygonQuadrupelX
     {
-    public:
+      public:
         inline void start( int x, int y )
         {
             x0 = x;
@@ -104,7 +104,7 @@ namespace
             return true;
         }
 
-        inline void flush( Polygon &polyline )
+        inline void flush( Polygon& polyline )
         {
             appendTo( y1, polyline );
 
@@ -121,20 +121,20 @@ namespace
                 appendTo( y2, polyline );
         }
 
-    private:
-        inline void appendTo( int y, Polygon &polyline )
+      private:
+        inline void appendTo( int y, Polygon& polyline )
         {
             polyline += Point( x0, y );
         }
 
-    private:
+      private:
         int x0, y1, yMin, yMax, y2;
     };
 
-    template <class Polygon, class Point>
+    template< class Polygon, class Point >
     class QwtPolygonQuadrupelY
     {
-    public:
+      public:
         inline void start( int x, int y )
         {
             y0 = y;
@@ -156,7 +156,7 @@ namespace
             return true;
         }
 
-        inline void flush( Polygon &polyline )
+        inline void flush( Polygon& polyline )
         {
             appendTo( x1, polyline );
 
@@ -173,8 +173,8 @@ namespace
                 appendTo( x2, polyline );
         }
 
-    private:
-        inline void appendTo( int x, Polygon &polyline )
+      private:
+        inline void appendTo( int x, Polygon& polyline )
         {
             polyline += Point( x, y0 );
         }
@@ -183,9 +183,9 @@ namespace
     };
 }
 
-template <class Polygon, class Point, class PolygonQuadrupel>
-static Polygon qwtMapPointsQuad( const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to )
+template< class Polygon, class Point, class PolygonQuadrupel >
+static Polygon qwtMapPointsQuad( const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
     const QPointF sample0 = series->sample( from );
 
@@ -212,15 +212,15 @@ static Polygon qwtMapPointsQuad( const QwtScaleMap &xMap, const QwtScaleMap &yMa
     return polyline;
 }
 
-template <class Polygon, class Point, class PolygonQuadrupel>
-static Polygon qwtMapPointsQuad( const Polygon &polyline )
+template< class Polygon, class Point, class PolygonQuadrupel >
+static Polygon qwtMapPointsQuad( const Polygon& polyline )
 {
     const int numPoints = polyline.size();
 
     if ( numPoints < 3 )
         return polyline;
 
-    const Point *points = polyline.constData();
+    const Point* points = polyline.constData();
 
     Polygon polylineXY;
 
@@ -244,9 +244,9 @@ static Polygon qwtMapPointsQuad( const Polygon &polyline )
 }
 
 
-template <class Polygon, class Point>
-static Polygon qwtMapPointsQuad( const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to )
+template< class Polygon, class Point >
+static Polygon qwtMapPointsQuad( const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
     Polygon polyline;
     if ( from > to )
@@ -261,18 +261,18 @@ static Polygon qwtMapPointsQuad( const QwtScaleMap &xMap, const QwtScaleMap &yMa
     if ( orientation == Qt::Horizontal )
     {
         polyline = qwtMapPointsQuad< Polygon, Point,
-            QwtPolygonQuadrupelY<Polygon, Point> >( xMap, yMap, series, from, to );
+            QwtPolygonQuadrupelY< Polygon, Point > >( xMap, yMap, series, from, to );
 
         polyline = qwtMapPointsQuad< Polygon, Point,
-            QwtPolygonQuadrupelX<Polygon, Point> >( polyline );
+            QwtPolygonQuadrupelX< Polygon, Point > >( polyline );
     }
     else
     {
         polyline = qwtMapPointsQuad< Polygon, Point,
-            QwtPolygonQuadrupelX<Polygon, Point> >( xMap, yMap, series, from, to );
+            QwtPolygonQuadrupelX< Polygon, Point > >( xMap, yMap, series, from, to );
 
         polyline = qwtMapPointsQuad< Polygon, Point,
-            QwtPolygonQuadrupelY<Polygon, Point> >( polyline );
+            QwtPolygonQuadrupelY< Polygon, Point > >( polyline );
     }
 
     return polyline;
@@ -282,19 +282,19 @@ static Polygon qwtMapPointsQuad( const QwtScaleMap &xMap, const QwtScaleMap &yMa
 // limitation of QtConcurrent::run()
 class QwtDotsCommand
 {
-public:
-    const QwtSeriesData<QPointF> *series;
+  public:
+    const QwtSeriesData< QPointF >* series;
     int from;
     int to;
     QRgb rgb;
 };
 
 static void qwtRenderDots(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtDotsCommand &command, const QPoint &pos, QImage *image )
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtDotsCommand& command, const QPoint& pos, QImage* image )
 {
     const QRgb rgb = command.rgb;
-    QRgb *bits = reinterpret_cast<QRgb *>( image->bits() );
+    QRgb* bits = reinterpret_cast< QRgb* >( image->bits() );
 
     const int w = image->width();
     const int h = image->height();
@@ -306,8 +306,8 @@ static void qwtRenderDots(
     {
         const QPointF sample = command.series->sample( i );
 
-        const int x = static_cast<int>( xMap.transform( sample.x() ) + 0.5 ) - x0;
-        const int y = static_cast<int>( yMap.transform( sample.y() ) + 0.5 ) - y0;
+        const int x = static_cast< int >( xMap.transform( sample.x() ) + 0.5 ) - x0;
+        const int y = static_cast< int >( yMap.transform( sample.y() ) + 0.5 ) - y0;
 
         if ( x >= 0 && x < w && y >= 0 && y < h )
             bits[ y * w + x ] = rgb;
@@ -342,15 +342,15 @@ struct QwtNoRoundF
 // mapping points without any filtering - beside checking
 // the bounding rectangle
 
-template<class Polygon, class Point, class Round>
+template< class Polygon, class Point, class Round >
 static inline Polygon qwtToPoints(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to, Round round )
 {
     Polygon polyline( to - from + 1 );
-    Point *points = polyline.data();
+    Point* points = polyline.data();
 
     int numPoints = 0;
 
@@ -401,33 +401,33 @@ static inline Polygon qwtToPoints(
 }
 
 static inline QPolygon qwtToPointsI(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to )
 {
-    return qwtToPoints<QPolygon, QPoint>(
+    return qwtToPoints< QPolygon, QPoint >(
         boundingRect, xMap, yMap, series, from, to, QwtRoundI() );
 }
 
-template<class Round>
+template< class Round >
 static inline QPolygonF qwtToPointsF(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to, Round round )
 {
-    return qwtToPoints<QPolygonF, QPointF>(
+    return qwtToPoints< QPolygonF, QPointF >(
         boundingRect, xMap, yMap, series, from, to, round );
 }
 
 // Mapping points with filtering out consecutive
 // points mapped to the same position
 
-template<class Polygon, class Point, class Round>
+template< class Polygon, class Point, class Round >
 static inline Polygon qwtToPolylineFiltered(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to, Round round )
 {
     // in curves with many points consecutive points
@@ -436,7 +436,7 @@ static inline Polygon qwtToPolylineFiltered(
     // we try to filter them out
 
     Polygon polyline( to - from + 1 );
-    Point *points = polyline.data();
+    Point* points = polyline.data();
 
     const QPointF sample0 = series->sample( from );
 
@@ -460,35 +460,35 @@ static inline Polygon qwtToPolylineFiltered(
 }
 
 static inline QPolygon qwtToPolylineFilteredI(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to )
 {
-    return qwtToPolylineFiltered<QPolygon, QPoint>(
+    return qwtToPolylineFiltered< QPolygon, QPoint >(
         xMap, yMap, series, from, to, QwtRoundI() );
 }
 
-template<class Round>
+template< class Round >
 static inline QPolygonF qwtToPolylineFilteredF(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series,
     int from, int to, Round round )
 {
-    return qwtToPolylineFiltered<QPolygonF, QPointF>(
+    return qwtToPolylineFiltered< QPolygonF, QPointF >(
         xMap, yMap, series, from, to, round );
 }
 
-template<class Polygon, class Point>
+template< class Polygon, class Point >
 static inline Polygon qwtToPointsFiltered(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to )
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
     // F.e. in scatter plots ( no connecting lines ) we
     // can sort out all duplicates ( not only consecutive points )
 
     Polygon polygon( to - from + 1 );
-    Point *points = polygon.data();
+    Point* points = polygon.data();
 
     QwtPixelMatrix pixelMatrix( boundingRect.toAlignedRect() );
 
@@ -514,28 +514,28 @@ static inline Polygon qwtToPointsFiltered(
 }
 
 static inline QPolygon qwtToPointsFilteredI(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to )
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
-    return qwtToPointsFiltered<QPolygon, QPoint>(
+    return qwtToPointsFiltered< QPolygon, QPoint >(
         boundingRect, xMap, yMap, series, from, to );
 }
 
 static inline QPolygonF qwtToPointsFilteredF(
-    const QRectF &boundingRect,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to )
+    const QRectF& boundingRect,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to )
 {
-    return qwtToPointsFiltered<QPolygonF, QPointF>(
+    return qwtToPointsFiltered< QPolygonF, QPointF >(
         boundingRect, xMap, yMap, series, from, to );
 }
 
 class QwtPointMapper::PrivateData
 {
-public:
-    PrivateData():
-        boundingRect( qwtInvalidRect )
+  public:
+    PrivateData()
+        : boundingRect( qwtInvalidRect )
     {
     }
 
@@ -556,10 +556,10 @@ QwtPointMapper::~QwtPointMapper()
 }
 
 /*!
-  Set the flags affecting the transformation process
+   Set the flags affecting the transformation process
 
-  \param flags Flags
-  \sa flags(), setFlag()
+   \param flags Flags
+   \sa flags(), setFlag()
  */
 void QwtPointMapper::setFlags( TransformationFlags flags )
 {
@@ -567,8 +567,8 @@ void QwtPointMapper::setFlags( TransformationFlags flags )
 }
 
 /*!
-  \return Flags affecting the transformation process
-  \sa setFlags(), setFlag()
+   \return Flags affecting the transformation process
+   \sa setFlags(), setFlag()
  */
 QwtPointMapper::TransformationFlags QwtPointMapper::flags() const
 {
@@ -576,12 +576,12 @@ QwtPointMapper::TransformationFlags QwtPointMapper::flags() const
 }
 
 /*!
-  Modify a flag affecting the transformation process
+   Modify a flag affecting the transformation process
 
-  \param flag Flag type
-  \param on Value
+   \param flag Flag type
+   \param on Value
 
-  \sa flag(), setFlags()
+   \sa flag(), setFlags()
  */
 void QwtPointMapper::setFlag( TransformationFlag flag, bool on )
 {
@@ -592,9 +592,9 @@ void QwtPointMapper::setFlag( TransformationFlag flag, bool on )
 }
 
 /*!
-  \return True, when the flag is set
-  \param flag Flag type
-  \sa setFlag(), setFlags()
+   \return True, when the flag is set
+   \param flag Flag type
+   \sa setFlag(), setFlags()
  */
 bool QwtPointMapper::testFlag( TransformationFlag flag ) const
 {
@@ -602,21 +602,21 @@ bool QwtPointMapper::testFlag( TransformationFlag flag ) const
 }
 
 /*!
-  Set a bounding rectangle for the point mapping algorithm
+   Set a bounding rectangle for the point mapping algorithm
 
-  A valid bounding rectangle can be used for optimizations
+   A valid bounding rectangle can be used for optimizations
 
-  \param rect Bounding rectangle
-  \sa boundingRect()
+   \param rect Bounding rectangle
+   \sa boundingRect()
  */
-void QwtPointMapper::setBoundingRect( const QRectF &rect )
+void QwtPointMapper::setBoundingRect( const QRectF& rect )
 {
     m_data->boundingRect = rect;
 }
 
 /*!
-  \return Bounding rectangle
-  \sa setBoundingRect()
+   \return Bounding rectangle
+   \sa setBoundingRect()
  */
 QRectF QwtPointMapper::boundingRect() const
 {
@@ -624,29 +624,29 @@ QRectF QwtPointMapper::boundingRect() const
 }
 
 /*!
-  \brief Translate a series of points into a QPolygonF
+   \brief Translate a series of points into a QPolygonF
 
-  When the WeedOutPoints flag is enabled consecutive points,
-  that are mapped to the same position will be one point.
+   When the WeedOutPoints flag is enabled consecutive points,
+   that are mapped to the same position will be one point.
 
-  When RoundPoints is set all points are rounded to integers
-  but returned as PolygonF - what only makes sense
-  when the further processing of the values need a QPolygonF.
+   When RoundPoints is set all points are rounded to integers
+   but returned as PolygonF - what only makes sense
+   when the further processing of the values need a QPolygonF.
 
-  When RoundPoints & WeedOutIntermediatePoints is enabled an even more
-  aggressive weeding algorithm is enabled.
+   When RoundPoints & WeedOutIntermediatePoints is enabled an even more
+   aggressive weeding algorithm is enabled.
 
-  \param xMap x map
-  \param yMap y map
-  \param series Series of points to be mapped
-  \param from Index of the first point to be painted
-  \param to Index of the last point to be painted
+   \param xMap x map
+   \param yMap y map
+   \param series Series of points to be mapped
+   \param from Index of the first point to be painted
+   \param to Index of the last point to be painted
 
-  \return Translated polygon
-*/
+   \return Translated polygon
+ */
 QPolygonF QwtPointMapper::toPolygonF(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to ) const
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to ) const
 {
     QPolygonF polyline;
 
@@ -654,7 +654,7 @@ QPolygonF QwtPointMapper::toPolygonF(
     {
         if ( m_data->flags & WeedOutIntermediatePoints )
         {
-            polyline = qwtMapPointsQuad<QPolygonF, QPointF>(
+            polyline = qwtMapPointsQuad< QPolygonF, QPointF >(
                 xMap, yMap, series, from, to );
         }
         else if ( m_data->flags & WeedOutPoints )
@@ -686,29 +686,29 @@ QPolygonF QwtPointMapper::toPolygonF(
 }
 
 /*!
-  \brief Translate a series of points into a QPolygon
+   \brief Translate a series of points into a QPolygon
 
-  When the WeedOutPoints flag is enabled consecutive points,
-  that are mapped to the same position will be one point.
+   When the WeedOutPoints flag is enabled consecutive points,
+   that are mapped to the same position will be one point.
 
-  \param xMap x map
-  \param yMap y map
-  \param series Series of points to be mapped
-  \param from Index of the first point to be painted
-  \param to Index of the last point to be painted
+   \param xMap x map
+   \param yMap y map
+   \param series Series of points to be mapped
+   \param from Index of the first point to be painted
+   \param to Index of the last point to be painted
 
-  \return Translated polygon
-*/
+   \return Translated polygon
+ */
 QPolygon QwtPointMapper::toPolygon(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to ) const
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to ) const
 {
     QPolygon polyline;
 
     if ( m_data->flags & WeedOutIntermediatePoints )
     {
         // TODO WeedOutIntermediatePointsY ...
-        polyline = qwtMapPointsQuad<QPolygon, QPoint>(
+        polyline = qwtMapPointsQuad< QPolygon, QPoint >(
             xMap, yMap, series, from, to );
     }
     else if ( m_data->flags & WeedOutPoints )
@@ -726,39 +726,39 @@ QPolygon QwtPointMapper::toPolygon(
 }
 
 /*!
-  \brief Translate a series into a QPolygonF
+   \brief Translate a series into a QPolygonF
 
-  - WeedOutPoints & RoundPoints & boundingRect().isValid()
+   - WeedOutPoints & RoundPoints & boundingRect().isValid()
     All points that are mapped to the same position
     will be one point. Points outside of the bounding
     rectangle are ignored.
 
-  - WeedOutPoints & RoundPoints & !boundingRect().isValid()
+   - WeedOutPoints & RoundPoints & !boundingRect().isValid()
     All consecutive points that are mapped to the same position
     will one point
 
-  - WeedOutPoints & !RoundPoints
+   - WeedOutPoints & !RoundPoints
     All consecutive points that are mapped to the same position
     will one point
 
-  - !WeedOutPoints & boundingRect().isValid()
+   - !WeedOutPoints & boundingRect().isValid()
     Points outside of the bounding rectangle are ignored.
 
-  When RoundPoints is set all points are rounded to integers
-  but returned as PolygonF - what only makes sense
-  when the further processing of the values need a QPolygonF.
+   When RoundPoints is set all points are rounded to integers
+   but returned as PolygonF - what only makes sense
+   when the further processing of the values need a QPolygonF.
 
-  \param xMap x map
-  \param yMap y map
-  \param series Series of points to be mapped
-  \param from Index of the first point to be painted
-  \param to Index of the last point to be painted
+   \param xMap x map
+   \param yMap y map
+   \param series Series of points to be mapped
+   \param from Index of the first point to be painted
+   \param to Index of the last point to be painted
 
-  \return Translated polygon
-*/
+   \return Translated polygon
+ */
 QPolygonF QwtPointMapper::toPointsF(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to ) const
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to ) const
 {
     QPolygonF points;
 
@@ -808,31 +808,31 @@ QPolygonF QwtPointMapper::toPointsF(
 }
 
 /*!
-  \brief Translate a series of points into a QPolygon
+   \brief Translate a series of points into a QPolygon
 
-  - WeedOutPoints & boundingRect().isValid()
+   - WeedOutPoints & boundingRect().isValid()
     All points that are mapped to the same position
     will be one point. Points outside of the bounding
     rectangle are ignored.
 
-  - WeedOutPoints & !boundingRect().isValid()
+   - WeedOutPoints & !boundingRect().isValid()
     All consecutive points that are mapped to the same position
     will one point
 
-  - !WeedOutPoints & boundingRect().isValid()
+   - !WeedOutPoints & boundingRect().isValid()
     Points outside of the bounding rectangle are ignored.
 
-  \param xMap x map
-  \param yMap y map
-  \param series Series of points to be mapped
-  \param from Index of the first point to be painted
-  \param to Index of the last point to be painted
+   \param xMap x map
+   \param yMap y map
+   \param series Series of points to be mapped
+   \param from Index of the first point to be painted
+   \param to Index of the last point to be painted
 
-  \return Translated polygon
-*/
+   \return Translated polygon
+ */
 QPolygon QwtPointMapper::toPoints(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to ) const
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to ) const
 {
     QPolygon points;
 
@@ -863,27 +863,27 @@ QPolygon QwtPointMapper::toPoints(
 
 
 /*!
-  \brief Translate a series into a QImage
+   \brief Translate a series into a QImage
 
-  \param xMap x map
-  \param yMap y map
-  \param series Series of points to be mapped
-  \param from Index of the first point to be painted
-  \param to Index of the last point to be painted
-  \param pen Pen used for drawing a point
+   \param xMap x map
+   \param yMap y map
+   \param series Series of points to be mapped
+   \param from Index of the first point to be painted
+   \param to Index of the last point to be painted
+   \param pen Pen used for drawing a point
              of the image, where a point is mapped to
-  \param antialiased True, when the dots should be displayed
+   \param antialiased True, when the dots should be displayed
                      antialiased
-  \param numThreads Number of threads to be used for rendering.
+   \param numThreads Number of threads to be used for rendering.
                    If numThreads is set to 0, the system specific
                    ideal thread count is used.
 
-  \return Image displaying the series
-*/
+   \return Image displaying the series
+ */
 QImage QwtPointMapper::toImage(
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QwtSeriesData<QPointF> *series, int from, int to,
-    const QPen &pen, bool antialiased, uint numThreads ) const
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QwtSeriesData< QPointF >* series, int from, int to,
+    const QPen& pen, bool antialiased, uint numThreads ) const
 {
     Q_UNUSED( antialiased )
 
@@ -914,7 +914,7 @@ QImage QwtPointMapper::toImage(
 #if QWT_USE_THREADS
         const int numPoints = ( to - from + 1 ) / numThreads;
 
-        QList< QFuture<void> > futures;
+        QList< QFuture< void > > futures;
         for ( uint i = 0; i < numThreads; i++ )
         {
             const QPoint pos = rect.topLeft();

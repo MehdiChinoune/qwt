@@ -19,15 +19,15 @@
 
 class QwtPlotMarker::PrivateData
 {
-public:
-    PrivateData():
-        labelAlignment( Qt::AlignCenter ),
-        labelOrientation( Qt::Horizontal ),
-        spacing( 2 ),
-        symbol( NULL ),
-        style( QwtPlotMarker::NoLine ),
-        xValue( 0.0 ),
-        yValue( 0.0 )
+  public:
+    PrivateData()
+        : labelAlignment( Qt::AlignCenter )
+        , labelOrientation( Qt::Horizontal )
+        , spacing( 2 )
+        , symbol( NULL )
+        , style( QwtPlotMarker::NoLine )
+        , xValue( 0.0 )
+        , yValue( 0.0 )
     {
     }
 
@@ -42,7 +42,7 @@ public:
     int spacing;
 
     QPen pen;
-    const QwtSymbol *symbol;
+    const QwtSymbol* symbol;
     LineStyle style;
 
     double xValue;
@@ -57,16 +57,16 @@ QwtPlotMarker::QwtPlotMarker()
 }
 
 //! Sets alignment to Qt::AlignCenter, and style to QwtPlotMarker::NoLine
-QwtPlotMarker::QwtPlotMarker( const QString &title ):
-    QwtPlotItem( QwtText( title ) )
+QwtPlotMarker::QwtPlotMarker( const QString& title )
+    : QwtPlotItem( QwtText( title ) )
 {
     m_data = new PrivateData;
     setZ( 30.0 );
 }
 
 //! Sets alignment to Qt::AlignCenter, and style to QwtPlotMarker::NoLine
-QwtPlotMarker::QwtPlotMarker( const QwtText &title ):
-    QwtPlotItem( title )
+QwtPlotMarker::QwtPlotMarker( const QwtText& title )
+    : QwtPlotItem( title )
 {
     m_data = new PrivateData;
     setZ( 30.0 );
@@ -132,16 +132,16 @@ void QwtPlotMarker::setYValue( double y )
 }
 
 /*!
-  Draw the marker
+   Draw the marker
 
-  \param painter Painter
-  \param xMap x Scale Map
-  \param yMap y Scale Map
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
-*/
-void QwtPlotMarker::draw( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect ) const
+   \param painter Painter
+   \param xMap x Scale Map
+   \param yMap y Scale Map
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
+ */
+void QwtPlotMarker::draw( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect ) const
 {
     const QPointF pos( xMap.transform( m_data->xValue ),
         yMap.transform( m_data->yValue ) );
@@ -152,16 +152,16 @@ void QwtPlotMarker::draw( QPainter *painter,
 }
 
 /*!
-  Draw the lines marker
+   Draw the lines marker
 
-  \param painter Painter
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
-  \param pos Position of the marker, translated into widget coordinates
+   \param painter Painter
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
+   \param pos Position of the marker, translated into widget coordinates
 
-  \sa drawLabel(), drawSymbol()
-*/
-void QwtPlotMarker::drawLines( QPainter *painter,
-    const QRectF &canvasRect, const QPointF &pos ) const
+   \sa drawLabel(), drawSymbol()
+ */
+void QwtPlotMarker::drawLines( QPainter* painter,
+    const QRectF& canvasRect, const QPointF& pos ) const
 {
     if ( m_data->style == NoLine )
         return;
@@ -192,21 +192,21 @@ void QwtPlotMarker::drawLines( QPainter *painter,
 }
 
 /*!
-  Draw the symbol of the marker
+   Draw the symbol of the marker
 
-  \param painter Painter
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
-  \param pos Position of the marker, translated into widget coordinates
+   \param painter Painter
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
+   \param pos Position of the marker, translated into widget coordinates
 
-  \sa drawLabel(), QwtSymbol::drawSymbol()
-*/
-void QwtPlotMarker::drawSymbol( QPainter *painter,
-    const QRectF &canvasRect, const QPointF &pos ) const
+   \sa drawLabel(), QwtSymbol::drawSymbol()
+ */
+void QwtPlotMarker::drawSymbol( QPainter* painter,
+    const QRectF& canvasRect, const QPointF& pos ) const
 {
     if ( m_data->symbol == NULL )
         return;
 
-    const QwtSymbol &symbol = *m_data->symbol;
+    const QwtSymbol& symbol = *m_data->symbol;
 
     if ( symbol.style() != QwtSymbol::NoSymbol )
     {
@@ -221,16 +221,16 @@ void QwtPlotMarker::drawSymbol( QPainter *painter,
 }
 
 /*!
-  Align and draw the text label of the marker
+   Align and draw the text label of the marker
 
-  \param painter Painter
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
-  \param pos Position of the marker, translated into widget coordinates
+   \param painter Painter
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
+   \param pos Position of the marker, translated into widget coordinates
 
-  \sa drawLabel(), drawSymbol()
-*/
-void QwtPlotMarker::drawLabel( QPainter *painter,
-    const QRectF &canvasRect, const QPointF &pos ) const
+   \sa drawLabel(), drawSymbol()
+ */
+void QwtPlotMarker::drawLabel( QPainter* painter,
+    const QRectF& canvasRect, const QPointF& pos ) const
 {
     if ( m_data->label.isEmpty() )
         return;
@@ -359,10 +359,10 @@ void QwtPlotMarker::drawLabel( QPainter *painter,
 }
 
 /*!
-  \brief Set the line style
-  \param style Line style.
-  \sa lineStyle()
-*/
+   \brief Set the line style
+   \param style Line style.
+   \sa lineStyle()
+ */
 void QwtPlotMarker::setLineStyle( LineStyle style )
 {
     if ( style != m_data->style )
@@ -375,20 +375,20 @@ void QwtPlotMarker::setLineStyle( LineStyle style )
 }
 
 /*!
-  \return the line style
-  \sa setLineStyle()
-*/
+   \return the line style
+   \sa setLineStyle()
+ */
 QwtPlotMarker::LineStyle QwtPlotMarker::lineStyle() const
 {
     return m_data->style;
 }
 
 /*!
-  \brief Assign a symbol
-  \param symbol New symbol
-  \sa symbol()
-*/
-void QwtPlotMarker::setSymbol( const QwtSymbol *symbol )
+   \brief Assign a symbol
+   \param symbol New symbol
+   \sa symbol()
+ */
+void QwtPlotMarker::setSymbol( const QwtSymbol* symbol )
 {
     if ( symbol != m_data->symbol )
     {
@@ -404,19 +404,19 @@ void QwtPlotMarker::setSymbol( const QwtSymbol *symbol )
 }
 
 /*!
-  \return the symbol
-  \sa setSymbol(), QwtSymbol
-*/
-const QwtSymbol *QwtPlotMarker::symbol() const
+   \return the symbol
+   \sa setSymbol(), QwtSymbol
+ */
+const QwtSymbol* QwtPlotMarker::symbol() const
 {
     return m_data->symbol;
 }
 
 /*!
-  \brief Set the label
-  \param label Label text
-  \sa label()
-*/
+   \brief Set the label
+   \param label Label text
+   \sa label()
+ */
 void QwtPlotMarker::setLabel( const QwtText& label )
 {
     if ( label != m_data->label )
@@ -427,28 +427,28 @@ void QwtPlotMarker::setLabel( const QwtText& label )
 }
 
 /*!
-  \return the label
-  \sa setLabel()
-*/
+   \return the label
+   \sa setLabel()
+ */
 QwtText QwtPlotMarker::label() const
 {
     return m_data->label;
 }
 
 /*!
-  \brief Set the alignment of the label
+   \brief Set the alignment of the label
 
-  In case of QwtPlotMarker::HLine the alignment is relative to the
-  y position of the marker, but the horizontal flags correspond to the
-  canvas rectangle. In case of QwtPlotMarker::VLine the alignment is
-  relative to the x position of the marker, but the vertical flags
-  correspond to the canvas rectangle.
+   In case of QwtPlotMarker::HLine the alignment is relative to the
+   y position of the marker, but the horizontal flags correspond to the
+   canvas rectangle. In case of QwtPlotMarker::VLine the alignment is
+   relative to the x position of the marker, but the vertical flags
+   correspond to the canvas rectangle.
 
-  In all other styles the alignment is relative to the marker's position.
+   In all other styles the alignment is relative to the marker's position.
 
-  \param align Alignment.
-  \sa labelAlignment(), labelOrientation()
-*/
+   \param align Alignment.
+   \sa labelAlignment(), labelOrientation()
+ */
 void QwtPlotMarker::setLabelAlignment( Qt::Alignment align )
 {
     if ( align != m_data->labelAlignment )
@@ -459,24 +459,24 @@ void QwtPlotMarker::setLabelAlignment( Qt::Alignment align )
 }
 
 /*!
-  \return the label alignment
-  \sa setLabelAlignment(), setLabelOrientation()
-*/
+   \return the label alignment
+   \sa setLabelAlignment(), setLabelOrientation()
+ */
 Qt::Alignment QwtPlotMarker::labelAlignment() const
 {
     return m_data->labelAlignment;
 }
 
 /*!
-  \brief Set the orientation of the label
+   \brief Set the orientation of the label
 
-  When orientation is Qt::Vertical the label is rotated by 90.0 degrees
-  ( from bottom to top ).
+   When orientation is Qt::Vertical the label is rotated by 90.0 degrees
+   ( from bottom to top ).
 
-  \param orientation Orientation of the label
+   \param orientation Orientation of the label
 
-  \sa labelOrientation(), setLabelAlignment()
-*/
+   \sa labelOrientation(), setLabelAlignment()
+ */
 void QwtPlotMarker::setLabelOrientation( Qt::Orientation orientation )
 {
     if ( orientation != m_data->labelOrientation )
@@ -487,23 +487,23 @@ void QwtPlotMarker::setLabelOrientation( Qt::Orientation orientation )
 }
 
 /*!
-  \return the label orientation
-  \sa setLabelOrientation(), labelAlignment()
-*/
+   \return the label orientation
+   \sa setLabelOrientation(), labelAlignment()
+ */
 Qt::Orientation QwtPlotMarker::labelOrientation() const
 {
     return m_data->labelOrientation;
 }
 
 /*!
-  \brief Set the spacing
+   \brief Set the spacing
 
-  When the label is not centered on the marker position, the spacing
-  is the distance between the position and the label.
+   When the label is not centered on the marker position, the spacing
+   is the distance between the position and the label.
 
-  \param spacing Spacing
-  \sa spacing(), setLabelAlignment()
-*/
+   \param spacing Spacing
+   \sa spacing(), setLabelAlignment()
+ */
 void QwtPlotMarker::setSpacing( int spacing )
 {
     if ( spacing < 0 )
@@ -517,39 +517,39 @@ void QwtPlotMarker::setSpacing( int spacing )
 }
 
 /*!
-  \return the spacing
-  \sa setSpacing()
-*/
+   \return the spacing
+   \sa setSpacing()
+ */
 int QwtPlotMarker::spacing() const
 {
     return m_data->spacing;
 }
 
 /*!
-  Build and assign a line pen
+   Build and assign a line pen
 
-  In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
-  non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
-  to hide this incompatibility.
+   In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
+   non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
+   to hide this incompatibility.
 
-  \param color Pen color
-  \param width Pen width
-  \param style Pen style
+   \param color Pen color
+   \param width Pen width
+   \param style Pen style
 
-  \sa pen(), brush()
+   \sa pen(), brush()
  */
-void QwtPlotMarker::setLinePen( const QColor &color, qreal width, Qt::PenStyle style )
+void QwtPlotMarker::setLinePen( const QColor& color, qreal width, Qt::PenStyle style )
 {
     setLinePen( QPen( color, width, style ) );
 }
 
 /*!
-  Specify a pen for the line.
+   Specify a pen for the line.
 
-  \param pen New pen
-  \sa linePen()
-*/
-void QwtPlotMarker::setLinePen( const QPen &pen )
+   \param pen New pen
+   \sa linePen()
+ */
+void QwtPlotMarker::setLinePen( const QPen& pen )
 {
     if ( pen != m_data->pen )
     {
@@ -561,10 +561,10 @@ void QwtPlotMarker::setLinePen( const QPen &pen )
 }
 
 /*!
-  \return the line pen
-  \sa setLinePen()
-*/
-const QPen &QwtPlotMarker::linePen() const
+   \return the line pen
+   \sa setLinePen()
+ */
+const QPen& QwtPlotMarker::linePen() const
 {
     return m_data->pen;
 }
@@ -581,7 +581,7 @@ QRectF QwtPlotMarker::boundingRect() const
         case QwtPlotMarker::VLine:
             return QRectF( m_data->xValue, m_data->yValue, 0.0, -1.0 );
 
-        default :
+        default:
             return QRectF( m_data->xValue, m_data->yValue, 0.0, 0.0 );
     }
 }
@@ -594,8 +594,8 @@ QRectF QwtPlotMarker::boundingRect() const
    \param size Icon size
 
    \sa setLegendIconSize(), legendData()
-*/
-QwtGraphic QwtPlotMarker::legendIcon( int index, const QSizeF &size ) const
+ */
+QwtGraphic QwtPlotMarker::legendIcon( int index, const QSizeF& size ) const
 {
     Q_UNUSED( index );
 

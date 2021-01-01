@@ -10,13 +10,13 @@
 #include "qwt_interval.h"
 
 /*!
-  \brief Normalize the limits of the interval
+   \brief Normalize the limits of the interval
 
-  If maxValue() < minValue() the limits will be inverted.
-  \return Normalized interval
+   If maxValue() < minValue() the limits will be inverted.
+   \return Normalized interval
 
-  \sa isValid(), inverted()
-*/
+   \sa isValid(), inverted()
+ */
 QwtInterval QwtInterval::normalized() const
 {
     if ( m_minValue > m_maxValue )
@@ -32,10 +32,10 @@ QwtInterval QwtInterval::normalized() const
 }
 
 /*!
-  Invert the limits of the interval
-  \return Inverted interval
-  \sa normalized()
-*/
+   Invert the limits of the interval
+   \return Inverted interval
+   \sa normalized()
+ */
 QwtInterval QwtInterval::inverted() const
 {
     BorderFlags borderFlags = IncludeBorders;
@@ -50,11 +50,11 @@ QwtInterval QwtInterval::inverted() const
 }
 
 /*!
-  Test if a value is inside an interval
+   Test if a value is inside an interval
 
-  \param value Value
-  \return true, if value lies inside the boundaries
-*/
+   \param value Value
+   \return true, if value lies inside the boundaries
+ */
 bool QwtInterval::contains( double value ) const
 {
     if ( !isValid() )
@@ -72,12 +72,12 @@ bool QwtInterval::contains( double value ) const
     return true;
 }
 
-/*! 
-  Test if an interval is inside an interval
+/*!
+   Test if an interval is inside an interval
 
-  \param interval Interval
-  \return true, if interval lies inside the boundaries
-*/
+   \param interval Interval
+   \return true, if interval lies inside the boundaries
+ */
 bool QwtInterval::contains( const QwtInterval& interval ) const
 {
     if ( !isValid() || !interval.isValid() )
@@ -111,11 +111,11 @@ bool QwtInterval::contains( const QwtInterval& interval ) const
 }
 
 //! Unite 2 intervals
-QwtInterval QwtInterval::unite( const QwtInterval &other ) const
+QwtInterval QwtInterval::unite( const QwtInterval& other ) const
 {
     /*
-     If one of the intervals is invalid return the other one.
-     If both are invalid return an invalid default interval
+       If one of the intervals is invalid return the other one.
+       If both are invalid return an invalid default interval
      */
     if ( !isValid() )
     {
@@ -169,12 +169,12 @@ QwtInterval QwtInterval::unite( const QwtInterval &other ) const
 }
 
 /*!
-  \brief Intersect 2 intervals
+   \brief Intersect 2 intervals
 
-  \param other Interval to be intersect with
-  \return Intersection
+   \param other Interval to be intersect with
+   \return Intersection
  */
-QwtInterval QwtInterval::intersect( const QwtInterval &other ) const
+QwtInterval QwtInterval::intersect( const QwtInterval& other ) const
 {
     if ( !other.isValid() || !isValid() )
         return QwtInterval();
@@ -236,36 +236,36 @@ QwtInterval QwtInterval::intersect( const QwtInterval &other ) const
 }
 
 /*!
-  \brief Unite this interval with the given interval.
+   \brief Unite this interval with the given interval.
 
-  \param other Interval to be united with
-  \return This interval
+   \param other Interval to be united with
+   \return This interval
  */
-QwtInterval& QwtInterval::operator|=( const QwtInterval &other )
+QwtInterval& QwtInterval::operator|=( const QwtInterval& other )
 {
     *this = *this | other;
     return *this;
 }
 
 /*!
-  \brief Intersect this interval with the given interval.
+   \brief Intersect this interval with the given interval.
 
-  \param other Interval to be intersected with
-  \return This interval
+   \param other Interval to be intersected with
+   \return This interval
  */
-QwtInterval& QwtInterval::operator&=( const QwtInterval &other )
+QwtInterval& QwtInterval::operator&=( const QwtInterval& other )
 {
     *this = *this & other;
     return *this;
 }
 
 /*!
-  \brief Test if two intervals overlap
+   \brief Test if two intervals overlap
 
-  \param other Interval
-  \return True, when the intervals are intersecting
-*/
-bool QwtInterval::intersects( const QwtInterval &other ) const
+   \param other Interval
+   \return True, when the intervals are intersecting
+ */
+bool QwtInterval::intersects( const QwtInterval& other ) const
 {
     if ( !isValid() || !other.isValid() )
         return false;
@@ -281,7 +281,7 @@ bool QwtInterval::intersects( const QwtInterval &other ) const
         qSwap( i1, i2 );
     }
     else if ( i1.minValue() == i2.minValue() &&
-              i1.borderFlags() & ExcludeMinimum )
+        i1.borderFlags() & ExcludeMinimum )
     {
         qSwap( i1, i2 );
     }
@@ -293,18 +293,18 @@ bool QwtInterval::intersects( const QwtInterval &other ) const
     if ( i1.maxValue() == i2.minValue() )
     {
         return !( ( i1.borderFlags() & ExcludeMaximum ) ||
-            ( i2.borderFlags() & ExcludeMinimum ) );
+               ( i2.borderFlags() & ExcludeMinimum ) );
     }
     return false;
 }
 
 /*!
-  Adjust the limit that is closer to value, so that value becomes
-  the center of the interval.
+   Adjust the limit that is closer to value, so that value becomes
+   the center of the interval.
 
-  \param value Center
-  \return Interval with value as center
-*/
+   \param value Center
+   \return Interval with value as center
+ */
 QwtInterval QwtInterval::symmetrize( double value ) const
 {
     if ( !isValid() )
@@ -317,13 +317,13 @@ QwtInterval QwtInterval::symmetrize( double value ) const
 }
 
 /*!
-  Limit the interval, keeping the border modes
+   Limit the interval, keeping the border modes
 
-  \param lowerBound Lower limit
-  \param upperBound Upper limit
+   \param lowerBound Lower limit
+   \param upperBound Upper limit
 
-  \return Limited interval
-*/
+   \return Limited interval
+ */
 QwtInterval QwtInterval::limited( double lowerBound, double upperBound ) const
 {
     if ( !isValid() || lowerBound > upperBound )
@@ -339,18 +339,18 @@ QwtInterval QwtInterval::limited( double lowerBound, double upperBound ) const
 }
 
 /*!
-  \brief Extend the interval
+   \brief Extend the interval
 
-  If value is below minValue(), value becomes the lower limit.
-  If value is above maxValue(), value becomes the upper limit.
+   If value is below minValue(), value becomes the lower limit.
+   If value is above maxValue(), value becomes the upper limit.
 
-  extend() has no effect for invalid intervals
+   extend() has no effect for invalid intervals
 
-  \param value Value
-  \return extended interval
+   \param value Value
+   \return extended interval
 
-  \sa isValid()
-*/
+   \sa isValid()
+ */
 QwtInterval QwtInterval::extend( double value ) const
 {
     if ( !isValid() )
@@ -361,13 +361,13 @@ QwtInterval QwtInterval::extend( double value ) const
 }
 
 /*!
-  Extend an interval
+   Extend an interval
 
-  \param value Value
-  \return Reference of the extended interval
+   \param value Value
+   \return Reference of the extended interval
 
-  \sa extend()
-*/
+   \sa extend()
+ */
 QwtInterval& QwtInterval::operator|=( double value )
 {
     *this = *this | value;
@@ -378,15 +378,15 @@ QwtInterval& QwtInterval::operator|=( double value )
 
 #include <qdebug.h>
 
-QDebug operator<<( QDebug debug, const QwtInterval &interval )
+QDebug operator<<( QDebug debug, const QwtInterval& interval )
 {
     const int flags = interval.borderFlags();
 
     debug.nospace() << "QwtInterval("
-        << ( ( flags & QwtInterval::ExcludeMinimum ) ? "]" : "[" )
-        << interval.minValue() << "," << interval.maxValue()
-        << ( ( flags & QwtInterval::ExcludeMaximum ) ? "[" : "]" )
-        << ")";
+                    << ( ( flags& QwtInterval::ExcludeMinimum ) ? "]" : "[" )
+                    << interval.minValue() << "," << interval.maxValue()
+                    << ( ( flags& QwtInterval::ExcludeMaximum ) ? "[" : "]" )
+                    << ")";
 
     return debug.space();
 }

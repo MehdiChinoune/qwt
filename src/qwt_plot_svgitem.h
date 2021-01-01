@@ -16,24 +16,24 @@
 class QByteArray;
 
 /*!
-  \brief A plot item, which displays
+   \brief A plot item, which displays
          data in Scalable Vector Graphics (SVG) format.
 
-  SVG images are often used to display maps
+   SVG images are often used to display maps
 
-  QwtPlotSvgItem is only a small convenience wrapper class for
-  QwtPlotGraphicItem, that creates a QwtGraphic from SVG data.
-*/
+   QwtPlotSvgItem is only a small convenience wrapper class for
+   QwtPlotGraphicItem, that creates a QwtGraphic from SVG data.
+ */
 
-class QWT_EXPORT QwtPlotSvgItem: public QwtPlotGraphicItem
+class QWT_EXPORT QwtPlotSvgItem : public QwtPlotGraphicItem
 {
-public:
+  public:
     explicit QwtPlotSvgItem( const QString& title = QString() );
     explicit QwtPlotSvgItem( const QwtText& title );
     virtual ~QwtPlotSvgItem();
 
-    bool loadFile( const QRectF&, const QString &fileName );
-    bool loadData( const QRectF&, const QByteArray & );
+    bool loadFile( const QRectF&, const QString& fileName );
+    bool loadData( const QRectF&, const QByteArray& );
 };
 
 #endif

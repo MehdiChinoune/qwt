@@ -27,8 +27,8 @@ QwtTransform::~QwtTransform()
 }
 
 /*!
-  \param value Value to be bounded
-  \return value unmodified
+   \param value Value to be bounded
+   \return value unmodified
  */
 double QwtTransform::bounded( double value ) const
 {
@@ -47,8 +47,8 @@ QwtNullTransform::~QwtNullTransform()
 }
 
 /*!
-  \param value Value to be transformed
-  \return value unmodified
+   \param value Value to be transformed
+   \return value unmodified
  */
 double QwtNullTransform::transform( double value ) const
 {
@@ -56,8 +56,8 @@ double QwtNullTransform::transform( double value ) const
 }
 
 /*!
-  \param value Value to be transformed
-  \return value unmodified
+   \param value Value to be transformed
+   \return value unmodified
  */
 double QwtNullTransform::invTransform( double value ) const
 {
@@ -65,7 +65,7 @@ double QwtNullTransform::invTransform( double value ) const
 }
 
 //! \return Clone of the transformation
-QwtTransform *QwtNullTransform::copy() const
+QwtTransform* QwtNullTransform::copy() const
 {
     return new QwtNullTransform();
 }
@@ -82,8 +82,8 @@ QwtLogTransform::~QwtLogTransform()
 }
 
 /*!
-  \param value Value to be transformed
-  \return log( value )
+   \param value Value to be transformed
+   \return log( value )
  */
 double QwtLogTransform::transform( double value ) const
 {
@@ -91,8 +91,8 @@ double QwtLogTransform::transform( double value ) const
 }
 
 /*!
-  \param value Value to be transformed
-  \return exp( value )
+   \param value Value to be transformed
+   \return exp( value )
  */
 double QwtLogTransform::invTransform( double value ) const
 {
@@ -100,8 +100,8 @@ double QwtLogTransform::invTransform( double value ) const
 }
 
 /*!
-  \param value Value to be bounded
-  \return qBound( LogMin, value, LogMax )
+   \param value Value to be bounded
+   \return qBound( LogMin, value, LogMax )
  */
 double QwtLogTransform::bounded( double value ) const
 {
@@ -109,15 +109,15 @@ double QwtLogTransform::bounded( double value ) const
 }
 
 //! \return Clone of the transformation
-QwtTransform *QwtLogTransform::copy() const
+QwtTransform* QwtLogTransform::copy() const
 {
     return new QwtLogTransform();
 }
 
 /*!
-  Constructor
-  \param exponent Exponent
-*/
+   Constructor
+   \param exponent Exponent
+ */
 QwtPowerTransform::QwtPowerTransform( double exponent ):
     QwtTransform(),
     m_exponent( exponent )
@@ -130,8 +130,8 @@ QwtPowerTransform::~QwtPowerTransform()
 }
 
 /*!
-  \param value Value to be transformed
-  \return Exponentiation preserving the sign
+   \param value Value to be transformed
+   \return Exponentiation preserving the sign
  */
 double QwtPowerTransform::transform( double value ) const
 {
@@ -143,8 +143,8 @@ double QwtPowerTransform::transform( double value ) const
 }
 
 /*!
-  \param value Value to be transformed
-  \return Inverse exponentiation preserving the sign
+   \param value Value to be transformed
+   \return Inverse exponentiation preserving the sign
  */
 double QwtPowerTransform::invTransform( double value ) const
 {
@@ -155,7 +155,7 @@ double QwtPowerTransform::invTransform( double value ) const
 }
 
 //! \return Clone of the transformation
-QwtTransform *QwtPowerTransform::copy() const
+QwtTransform* QwtPowerTransform::copy() const
 {
     return new QwtPowerTransform( m_exponent );
 }

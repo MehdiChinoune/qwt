@@ -12,7 +12,7 @@
 
 class QwtSamplingThread::PrivateData
 {
-public:
+  public:
     QwtSystemClock clock;
 
     double interval;
@@ -21,8 +21,8 @@ public:
 
 
 //! Constructor
-QwtSamplingThread::QwtSamplingThread( QObject *parent ):
-    QThread( parent )
+QwtSamplingThread::QwtSamplingThread( QObject* parent )
+    : QThread( parent )
 {
     m_data = new PrivateData;
     m_data->interval = 1000; // 1 second
@@ -41,7 +41,7 @@ QwtSamplingThread::~QwtSamplingThread()
 
    \param interval Interval
    \sa interval()
-*/
+ */
 void QwtSamplingThread::setInterval( double interval )
 {
     if ( interval < 0.0 )
@@ -53,7 +53,7 @@ void QwtSamplingThread::setInterval( double interval )
 /*!
    \return Interval (in ms), between 2 calls of sample()
    \sa setInterval()
-*/
+ */
 double QwtSamplingThread::interval() const
 {
     return m_data->interval;
@@ -62,7 +62,7 @@ double QwtSamplingThread::interval() const
 /*!
    \return Time (in ms) since the thread was started
    \sa QThread::start(), run()
-*/
+ */
 double QwtSamplingThread::elapsed() const
 {
     if ( m_data->isStopped )
@@ -74,7 +74,7 @@ double QwtSamplingThread::elapsed() const
 /*!
    Terminate the collecting thread
    \sa QThread::start(), run()
-*/
+ */
 void QwtSamplingThread::stop()
 {
     m_data->isStopped = true;
@@ -83,7 +83,7 @@ void QwtSamplingThread::stop()
 /*!
    Loop collecting samples started from QThread::start()
    \sa stop()
-*/
+ */
 void QwtSamplingThread::run()
 {
     m_data->clock.start();

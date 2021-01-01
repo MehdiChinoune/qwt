@@ -16,34 +16,34 @@ class QPainterPath;
 class QPolygonF;
 
 /*!
-  \brief Abstract base class for a curve fitter
-*/
+   \brief Abstract base class for a curve fitter
+ */
 class QWT_EXPORT QwtCurveFitter
 {
-public:
+  public:
     /*!
-      \brief Preferred mode of the fitting algorithm
+       \brief Preferred mode of the fitting algorithm
 
-      Even if a QPainterPath can always be created from a QPolygonF
-      the overhead of the conversion can be avoided by indicating
-      the preference of the implementation to the application
-      code.
+       Even if a QPainterPath can always be created from a QPolygonF
+       the overhead of the conversion can be avoided by indicating
+       the preference of the implementation to the application
+       code.
      */
     enum Mode
     {
         /*!
-          The fitting algorithm creates a polygon - the implementation
-          of fitCurvePath() simply wraps the polygon into a path.
+           The fitting algorithm creates a polygon - the implementation
+           of fitCurvePath() simply wraps the polygon into a path.
 
-          \sa QwtWeedingCurveFitter
+           \sa QwtWeedingCurveFitter
          */
         Polygon,
 
         /*!
-          The fitting algorithm creates a painter path - the implementation
-          of fitCurve() extracts a polygon from the path.
+           The fitting algorithm creates a painter path - the implementation
+           of fitCurve() extracts a polygon from the path.
 
-          \sa QwtSplineCurveFitter
+           \sa QwtSplineCurveFitter
          */
         Path
     };
@@ -60,7 +60,7 @@ public:
 
         \sa fitCurvePath()
      */
-    virtual QPolygonF fitCurve( const QPolygonF &polygon ) const = 0;
+    virtual QPolygonF fitCurve( const QPolygonF& polygon ) const = 0;
 
     /*!
         Find a curve path which has the best fit to a series of data points
@@ -70,12 +70,12 @@ public:
 
         \sa fitCurve()
      */
-    virtual QPainterPath fitCurvePath( const QPolygonF &polygon ) const = 0;
+    virtual QPainterPath fitCurvePath( const QPolygonF& polygon ) const = 0;
 
-protected:
+  protected:
     explicit QwtCurveFitter( Mode mode );
 
-private:
+  private:
     Q_DISABLE_COPY(QwtCurveFitter)
 
     const Mode m_mode;

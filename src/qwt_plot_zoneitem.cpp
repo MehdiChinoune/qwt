@@ -17,10 +17,10 @@
 
 class QwtPlotZoneItem::PrivateData
 {
-public:
-    PrivateData():
-        orientation( Qt::Vertical ),
-        pen( Qt::NoPen )
+  public:
+    PrivateData()
+        : orientation( Qt::Vertical )
+        , pen( Qt::NoPen )
     {
         QColor c( Qt::darkGray );
         c.setAlpha( 100 );
@@ -46,9 +46,9 @@ public:
    The z value is initialized by 5
 
    \sa QwtPlotItem::setItemAttribute(), QwtPlotItem::setZ()
-*/
-QwtPlotZoneItem::QwtPlotZoneItem():
-    QwtPlotItem( QwtText( "Zone" ) )
+ */
+QwtPlotZoneItem::QwtPlotZoneItem()
+    : QwtPlotItem( QwtText( "Zone" ) )
 {
     m_data = new PrivateData;
 
@@ -71,32 +71,32 @@ int QwtPlotZoneItem::rtti() const
 }
 
 /*!
-  Build and assign a pen
+   Build and assign a pen
 
-  In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
-  non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
-  to hide this incompatibility.
+   In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
+   non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
+   to hide this incompatibility.
 
-  \param color Pen color
-  \param width Pen width
-  \param style Pen style
+   \param color Pen color
+   \param width Pen width
+   \param style Pen style
 
-  \sa pen(), brush()
+   \sa pen(), brush()
  */
-void QwtPlotZoneItem::setPen( const QColor &color, qreal width, Qt::PenStyle style )
+void QwtPlotZoneItem::setPen( const QColor& color, qreal width, Qt::PenStyle style )
 {
     setPen( QPen( color, width, style ) );
 }
 
 /*!
-  \brief Assign a pen
+   \brief Assign a pen
 
-  The pen is used to draw the border lines of the zone
+   The pen is used to draw the border lines of the zone
 
-  \param pen Pen
-  \sa pen(), setBrush()
-*/
-void QwtPlotZoneItem::setPen( const QPen &pen )
+   \param pen Pen
+   \sa pen(), setBrush()
+ */
+void QwtPlotZoneItem::setPen( const QPen& pen )
 {
     if ( m_data->pen != pen )
     {
@@ -106,23 +106,23 @@ void QwtPlotZoneItem::setPen( const QPen &pen )
 }
 
 /*!
-  \return Pen used to draw the border lines
-  \sa setPen(), brush()
-*/
-const QPen &QwtPlotZoneItem::pen() const
+   \return Pen used to draw the border lines
+   \sa setPen(), brush()
+ */
+const QPen& QwtPlotZoneItem::pen() const
 {
     return m_data->pen;
 }
 
 /*!
-  \brief Assign a brush
+   \brief Assign a brush
 
-  The brush is used to fill the zone
+   The brush is used to fill the zone
 
-  \param brush Brush
-  \sa pen(), setBrush()
-*/
-void QwtPlotZoneItem::setBrush( const QBrush &brush )
+   \param brush Brush
+   \sa pen(), setBrush()
+ */
+void QwtPlotZoneItem::setBrush( const QBrush& brush )
 {
     if ( m_data->brush != brush )
     {
@@ -132,23 +132,23 @@ void QwtPlotZoneItem::setBrush( const QBrush &brush )
 }
 
 /*!
-  \return Brush used to fill the zone
-  \sa setPen(), brush()
-*/
-const QBrush &QwtPlotZoneItem::brush() const
+   \return Brush used to fill the zone
+   \sa setPen(), brush()
+ */
+const QBrush& QwtPlotZoneItem::brush() const
 {
     return m_data->brush;
 }
 
 /*!
-  \brief Set the orientation of the zone
+   \brief Set the orientation of the zone
 
-  A horizontal zone highlights an interval of the y axis,
-  a vertical zone of the x axis. It is unbounded in the
-  opposite direction.
+   A horizontal zone highlights an interval of the y axis,
+   a vertical zone of the x axis. It is unbounded in the
+   opposite direction.
 
-  \sa orientation(), QwtPlotItem::setAxes()
-*/
+   \sa orientation(), QwtPlotItem::setAxes()
+ */
 void QwtPlotZoneItem::setOrientation( Qt::Orientation orientation )
 {
     if ( m_data->orientation != orientation )
@@ -159,8 +159,8 @@ void QwtPlotZoneItem::setOrientation( Qt::Orientation orientation )
 }
 
 /*!
-  \return Orientation of the zone
-  \sa setOrientation()
+   \return Orientation of the zone
+   \sa setOrientation()
  */
 Qt::Orientation QwtPlotZoneItem::orientation() const
 {
@@ -168,15 +168,15 @@ Qt::Orientation QwtPlotZoneItem::orientation() const
 }
 
 /*!
-  Set the interval of the zone
+   Set the interval of the zone
 
-  For a horizontal zone the interval is related to the y axis,
-  for a vertical zone it is related to the x axis.
+   For a horizontal zone the interval is related to the y axis,
+   for a vertical zone it is related to the x axis.
 
-  \param min Minimum of the interval
-  \param max Maximum of the interval
+   \param min Minimum of the interval
+   \param max Maximum of the interval
 
-  \sa interval(), setOrientation()
+   \sa interval(), setOrientation()
  */
 void QwtPlotZoneItem::setInterval( double min, double max )
 {
@@ -184,16 +184,16 @@ void QwtPlotZoneItem::setInterval( double min, double max )
 }
 
 /*!
-  Set the interval of the zone
+   Set the interval of the zone
 
-  For a horizontal zone the interval is related to the y axis,
-  for a vertical zone it is related to the x axis.
+   For a horizontal zone the interval is related to the y axis,
+   for a vertical zone it is related to the x axis.
 
-  \param interval Zone interval
+   \param interval Zone interval
 
-  \sa interval(), setOrientation()
+   \sa interval(), setOrientation()
  */
-void QwtPlotZoneItem::setInterval( const QwtInterval &interval )
+void QwtPlotZoneItem::setInterval( const QwtInterval& interval )
 {
     if ( m_data->interval != interval )
     {
@@ -203,8 +203,8 @@ void QwtPlotZoneItem::setInterval( const QwtInterval &interval )
 }
 
 /*!
-  \return Zone interval
-  \sa setInterval(), orientation()
+   \return Zone interval
+   \sa setInterval(), orientation()
  */
 QwtInterval QwtPlotZoneItem::interval() const
 {
@@ -212,17 +212,17 @@ QwtInterval QwtPlotZoneItem::interval() const
 }
 
 /*!
-  Draw the zone
+   Draw the zone
 
-  \param painter Painter
-  \param xMap x Scale Map
-  \param yMap y Scale Map
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
-*/
+   \param painter Painter
+   \param xMap x Scale Map
+   \param yMap y Scale Map
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
+ */
 
-void QwtPlotZoneItem::draw( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect ) const
+void QwtPlotZoneItem::draw( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect ) const
 {
     if ( !m_data->interval.isValid() )
         return;
@@ -289,16 +289,16 @@ void QwtPlotZoneItem::draw( QPainter *painter,
 }
 
 /*!
-  The bounding rectangle is build from the interval in one direction
-  and something invalid for the opposite direction.
+   The bounding rectangle is build from the interval in one direction
+   and something invalid for the opposite direction.
 
-  \return An invalid rectangle with valid boundaries in one direction
-*/
+   \return An invalid rectangle with valid boundaries in one direction
+ */
 QRectF QwtPlotZoneItem::boundingRect() const
 {
     QRectF br = QwtPlotItem::boundingRect();
 
-    const QwtInterval &intv = m_data->interval;
+    const QwtInterval& intv = m_data->interval;
 
     if ( intv.isValid() )
     {

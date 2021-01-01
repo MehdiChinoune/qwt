@@ -21,7 +21,7 @@
 static const int ButtonFrame = 2;
 static const int Margin = 2;
 
-static QSize buttonShift( const QwtLegendLabel *w )
+static QSize buttonShift( const QwtLegendLabel* w )
 {
     QStyleOption option;
     option.initFrom( w );
@@ -35,11 +35,11 @@ static QSize buttonShift( const QwtLegendLabel *w )
 
 class QwtLegendLabel::PrivateData
 {
-public:
-    PrivateData():
-        itemMode( QwtLegendData::ReadOnly ),
-        isDown( false ),
-        spacing( Margin )
+  public:
+    PrivateData()
+        : itemMode( QwtLegendData::ReadOnly )
+        , isDown( false )
+        , spacing( Margin )
     {
     }
 
@@ -53,12 +53,12 @@ public:
 };
 
 /*!
-  Set the attributes of the legend label
+   Set the attributes of the legend label
 
-  \param legendData Attributes of the label
-  \sa data()
+   \param legendData Attributes of the label
+   \sa data()
  */
-void QwtLegendLabel::setData( const QwtLegendData &legendData )
+void QwtLegendLabel::setData( const QwtLegendData& legendData )
 {
     m_data->legendData = legendData;
 
@@ -77,19 +77,19 @@ void QwtLegendLabel::setData( const QwtLegendData &legendData )
 }
 
 /*!
-  \return Attributes of the label
-  \sa setData(), QwtPlotItem::legendData()
+   \return Attributes of the label
+   \sa setData(), QwtPlotItem::legendData()
  */
-const QwtLegendData &QwtLegendLabel::data() const
+const QwtLegendData& QwtLegendLabel::data() const
 {
     return m_data->legendData;
 }
 
 /*!
-  \param parent Parent widget
-*/
-QwtLegendLabel::QwtLegendLabel( QWidget *parent ):
-    QwtTextLabel( parent )
+   \param parent Parent widget
+ */
+QwtLegendLabel::QwtLegendLabel( QWidget* parent )
+    : QwtTextLabel( parent )
 {
     m_data = new PrivateData;
     setMargin( Margin );
@@ -108,8 +108,8 @@ QwtLegendLabel::~QwtLegendLabel()
 
    \param text Text label
     \sa QwtTextLabel::text()
-*/
-void QwtLegendLabel::setText( const QwtText &text )
+ */
+void QwtLegendLabel::setText( const QwtText& text )
 {
     const int flags = Qt::AlignLeft | Qt::AlignVCenter
         | Qt::TextExpandTabs | Qt::TextWordWrap;
@@ -126,7 +126,7 @@ void QwtLegendLabel::setText( const QwtText &text )
 
    \param mode Item mode
    \sa itemMode()
-*/
+ */
 void QwtLegendLabel::setItemMode( QwtLegendData::Mode mode )
 {
     if ( mode != m_data->itemMode )
@@ -145,20 +145,20 @@ void QwtLegendLabel::setItemMode( QwtLegendData::Mode mode )
 /*!
    \return Item mode
    \sa setItemMode()
-*/
+ */
 QwtLegendData::Mode QwtLegendLabel::itemMode() const
 {
     return m_data->itemMode;
 }
 
 /*!
-  Assign the icon
+   Assign the icon
 
-  \param icon Pixmap representing a plot item
+   \param icon Pixmap representing a plot item
 
-  \sa icon(), QwtPlotItem::legendIcon()
-*/
-void QwtLegendLabel::setIcon( const QPixmap &icon )
+   \sa icon(), QwtPlotItem::legendIcon()
+ */
+void QwtLegendLabel::setIcon( const QPixmap& icon )
 {
     m_data->icon = icon;
 
@@ -170,9 +170,9 @@ void QwtLegendLabel::setIcon( const QPixmap &icon )
 }
 
 /*!
-  \return Pixmap representing a plot item
-  \sa setIcon()
-*/
+   \return Pixmap representing a plot item
+   \sa setIcon()
+ */
 QPixmap QwtLegendLabel::icon() const
 {
     return m_data->icon;
@@ -183,7 +183,7 @@ QPixmap QwtLegendLabel::icon() const
 
    \param spacing Spacing
    \sa spacing(), QwtTextLabel::margin()
-*/
+ */
 void QwtLegendLabel::setSpacing( int spacing )
 {
     spacing = qMax( spacing, 0 );
@@ -202,7 +202,7 @@ void QwtLegendLabel::setSpacing( int spacing )
 /*!
    \return Spacing between icon and text
    \sa setSpacing(), QwtTextLabel::margin()
-*/
+ */
 int QwtLegendLabel::spacing() const
 {
     return m_data->spacing;
@@ -213,7 +213,7 @@ int QwtLegendLabel::spacing() const
 
     \param on check/uncheck
     \sa setItemMode()
-*/
+ */
 void QwtLegendLabel::setChecked( bool on )
 {
     if ( m_data->itemMode == QwtLegendData::Checkable )
@@ -279,7 +279,7 @@ QSize QwtLegendLabel::sizeHint() const
 }
 
 //! Paint event
-void QwtLegendLabel::paintEvent( QPaintEvent *e )
+void QwtLegendLabel::paintEvent( QPaintEvent* e )
 {
     const QRect cr = contentsRect();
 
@@ -321,7 +321,7 @@ void QwtLegendLabel::paintEvent( QPaintEvent *e )
 }
 
 //! Handle mouse press events
-void QwtLegendLabel::mousePressEvent( QMouseEvent *e )
+void QwtLegendLabel::mousePressEvent( QMouseEvent* e )
 {
     if ( e->button() == Qt::LeftButton )
     {
@@ -344,7 +344,7 @@ void QwtLegendLabel::mousePressEvent( QMouseEvent *e )
 }
 
 //! Handle mouse release events
-void QwtLegendLabel::mouseReleaseEvent( QMouseEvent *e )
+void QwtLegendLabel::mouseReleaseEvent( QMouseEvent* e )
 {
     if ( e->button() == Qt::LeftButton )
     {
@@ -366,7 +366,7 @@ void QwtLegendLabel::mouseReleaseEvent( QMouseEvent *e )
 }
 
 //! Handle key press events
-void QwtLegendLabel::keyPressEvent( QKeyEvent *e )
+void QwtLegendLabel::keyPressEvent( QKeyEvent* e )
 {
     if ( e->key() == Qt::Key_Space )
     {
@@ -392,7 +392,7 @@ void QwtLegendLabel::keyPressEvent( QKeyEvent *e )
 }
 
 //! Handle key release events
-void QwtLegendLabel::keyReleaseEvent( QKeyEvent *e )
+void QwtLegendLabel::keyReleaseEvent( QKeyEvent* e )
 {
     if ( e->key() == Qt::Key_Space )
     {

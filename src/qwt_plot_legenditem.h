@@ -16,38 +16,38 @@
 class QFont;
 
 /*!
-  \brief A class which draws a legend inside the plot canvas
+   \brief A class which draws a legend inside the plot canvas
 
-  QwtPlotLegendItem can be used to draw a inside the plot canvas.
-  It can be used together with a QwtLegend or instead of it
-  to have more space for the plot canvas.
+   QwtPlotLegendItem can be used to draw a inside the plot canvas.
+   It can be used together with a QwtLegend or instead of it
+   to have more space for the plot canvas.
 
-  In opposite to QwtLegend the legend item is not interactive.
-  To identify mouse clicks on a legend item an event filter
-  needs to be installed catching mouse events ob the plot canvas.
-  The geometries of the legend items are available using
-  legendGeometries().
+   In opposite to QwtLegend the legend item is not interactive.
+   To identify mouse clicks on a legend item an event filter
+   needs to be installed catching mouse events ob the plot canvas.
+   The geometries of the legend items are available using
+   legendGeometries().
 
-  The legend item is aligned to plot canvas according to
-  its alignment() flags. It might have a background for the
-  complete legend ( usually semi transparent ) or for
-  each legend item.
+   The legend item is aligned to plot canvas according to
+   its alignment() flags. It might have a background for the
+   complete legend ( usually semi transparent ) or for
+   each legend item.
 
-  \note An external QwtLegend with a transparent background
+   \note An external QwtLegend with a transparent background
         on top the plot canvas might be another option
         with a similar effect.
-*/
+ */
 
-class QWT_EXPORT QwtPlotLegendItem: public QwtPlotItem
+class QWT_EXPORT QwtPlotLegendItem : public QwtPlotItem
 {
-public:
+  public:
     /*!
-      \brief Background mode
+       \brief Background mode
 
-      Depending on the mode the complete legend or each item
-      might have an background.
+       Depending on the mode the complete legend or each item
+       might have an background.
 
-      The default setting is LegendBackground.
+       The default setting is LegendBackground.
 
        \sa setBackgroundMode(), setBackgroundBrush(), drawBackground()
      */
@@ -92,44 +92,44 @@ public:
     void setBorderRadius( double );
     double borderRadius() const;
 
-    void setBorderPen( const QPen & );
+    void setBorderPen( const QPen& );
     QPen borderPen() const;
 
-    void setBackgroundBrush( const QBrush & );
+    void setBackgroundBrush( const QBrush& );
     QBrush backgroundBrush() const;
 
     void setBackgroundMode( BackgroundMode );
     BackgroundMode backgroundMode() const;
 
-    void setTextPen( const QPen & );
+    void setTextPen( const QPen& );
     QPen textPen() const;
 
-    virtual void draw( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect ) const QWT_OVERRIDE;
 
     void clearLegend();
 
-    virtual void updateLegend( const QwtPlotItem *,
-        const QList<QwtLegendData> & ) QWT_OVERRIDE;
+    virtual void updateLegend( const QwtPlotItem*,
+        const QList< QwtLegendData >& ) QWT_OVERRIDE;
 
-    virtual QRect geometry( const QRectF &canvasRect ) const;
+    virtual QRect geometry( const QRectF& canvasRect ) const;
 
-    virtual QSize minimumSize( const QwtLegendData & ) const;
-    virtual int heightForWidth( const QwtLegendData &, int width ) const;
+    virtual QSize minimumSize( const QwtLegendData& ) const;
+    virtual int heightForWidth( const QwtLegendData&, int width ) const;
 
-    QList< const QwtPlotItem * > plotItems() const;
-    QList< QRect > legendGeometries( const QwtPlotItem * ) const;
+    QList< const QwtPlotItem* > plotItems() const;
+    QList< QRect > legendGeometries( const QwtPlotItem* ) const;
 
-protected:
-    virtual void drawLegendData( QPainter *,
-        const QwtPlotItem *, const QwtLegendData &, const QRectF & ) const;
+  protected:
+    virtual void drawLegendData( QPainter*,
+        const QwtPlotItem*, const QwtLegendData&, const QRectF& ) const;
 
-    virtual void drawBackground( QPainter *, const QRectF &rect ) const;
+    virtual void drawBackground( QPainter*, const QRectF& rect ) const;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

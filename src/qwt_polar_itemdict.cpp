@@ -10,11 +10,11 @@
 
 class QwtPolarItemDict::PrivateData
 {
-public:
-    class ItemList: public QList<QwtPolarItem *>
+  public:
+    class ItemList : public QList< QwtPolarItem* >
     {
-    public:
-        void insertItem( QwtPolarItem *item )
+      public:
+        void insertItem( QwtPolarItem* item )
         {
             if ( item == NULL )
                 return;
@@ -23,7 +23,7 @@ public:
             // for lists in Qt4. The implementation below
             // is slow, but there shouldn't be many plot items.
 
-            QList<QwtPolarItem *>::Iterator it;
+            QList< QwtPolarItem* >::Iterator it;
             for ( it = begin(); it != end(); ++it )
             {
                 if ( *it == item )
@@ -38,14 +38,14 @@ public:
             append( item );
         }
 
-        void removeItem( QwtPolarItem *item )
+        void removeItem( QwtPolarItem* item )
         {
             if ( item == NULL )
                 return;
 
             int i = 0;
 
-            QList<QwtPolarItem *>::Iterator it;
+            QList< QwtPolarItem* >::Iterator it;
             for ( it = begin(); it != end(); ++it )
             {
                 if ( item == *it )
@@ -67,7 +67,7 @@ public:
 
    Auto deletion is enabled.
    \sa setAutoDelete, attachItem
-*/
+ */
 QwtPolarItemDict::QwtPolarItemDict()
 {
     m_data = new QwtPolarItemDict::PrivateData;
@@ -79,7 +79,7 @@ QwtPolarItemDict::QwtPolarItemDict()
 
    If autoDelete is on, all attached items will be deleted
    \sa setAutoDelete, autoDelete, attachItem
-*/
+ */
 QwtPolarItemDict::~QwtPolarItemDict()
 {
     detachItems( QwtPolarItem::Rtti_PolarItem, m_data->autoDelete );
@@ -93,7 +93,7 @@ QwtPolarItemDict::~QwtPolarItemDict()
    in the destructor of QwtPolarItemDict. The default value is on.
 
    \sa autoDelete, attachItem
-*/
+ */
 void QwtPolarItemDict::setAutoDelete( bool autoDelete )
 {
     m_data->autoDelete = autoDelete;
@@ -102,30 +102,30 @@ void QwtPolarItemDict::setAutoDelete( bool autoDelete )
 /*!
    \return true if auto deletion is enabled
    \sa setAutoDelete, attachItem
-*/
+ */
 bool QwtPolarItemDict::autoDelete() const
 {
     return m_data->autoDelete;
 }
 
 /*!
-  Insert a plot item
+   Insert a plot item
 
-  \param item PlotItem
-  \sa removeItem()
+   \param item PlotItem
+   \sa removeItem()
  */
-void QwtPolarItemDict::insertItem( QwtPolarItem *item )
+void QwtPolarItemDict::insertItem( QwtPolarItem* item )
 {
     m_data->itemList.insertItem( item );
 }
 
 /*!
-  Remove a plot item
+   Remove a plot item
 
-  \param item PlotItem
-  \sa insertItem()
+   \param item PlotItem
+   \sa insertItem()
  */
-void QwtPolarItemDict::removeItem( QwtPolarItem *item )
+void QwtPolarItemDict::removeItem( QwtPolarItem* item )
 {
     m_data->itemList.removeItem( item );
 }
@@ -136,14 +136,14 @@ void QwtPolarItemDict::removeItem( QwtPolarItem *item )
    \param rtti In case of QwtPolarItem::Rtti_PlotItem detach all items
                otherwise only those items of the type rtti.
    \param autoDelete If true, delete all detached items
-*/
+ */
 void QwtPolarItemDict::detachItems( int rtti, bool autoDelete )
 {
     PrivateData::ItemList list = m_data->itemList;
     QwtPolarItemIterator it = list.constBegin();
     while ( it != list.constEnd() )
     {
-        QwtPolarItem *item = *it;
+        QwtPolarItem* item = *it;
 
         ++it; // increment before removing item from the list
 
@@ -157,15 +157,15 @@ void QwtPolarItemDict::detachItems( int rtti, bool autoDelete )
 }
 
 /*!
-  \brief A QwtPolarItemList of all attached plot items.
+   \brief A QwtPolarItemList of all attached plot items.
 
-  \return List of all attached plot items.
-  \note Use caution when iterating these lists, as removing/detaching
+   \return List of all attached plot items.
+   \note Use caution when iterating these lists, as removing/detaching
         an item will invalidate the iterator.
         Instead you can place pointers to objects to be
         removed in a removal list, and traverse that list later.
-*/
-const QwtPolarItemList &QwtPolarItemDict::itemList() const
+ */
+const QwtPolarItemList& QwtPolarItemDict::itemList() const
 {
     return m_data->itemList;
 }

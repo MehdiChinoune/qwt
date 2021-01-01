@@ -42,7 +42,7 @@ static inline double qwtVector2Magnitude( double vx, double vy )
 }
 
 static QwtInterval qwtMagnitudeRange(
-    const QwtSeriesData<QwtVectorFieldSample> *series )
+    const QwtSeriesData< QwtVectorFieldSample >* series )
 {
     if ( series->size() == 0 )
         return QwtInterval( 0, 1 );
@@ -117,10 +117,10 @@ namespace
 {
     class FilterMatrix
     {
-    public:
+      public:
         class Entry
         {
-        public:
+          public:
             inline void addSample( double sx, double sy,
                 double svx, double svy )
             {
@@ -150,11 +150,11 @@ namespace
 
             d_x0 = dataRect.x();
             if ( d_x0 < canvasRect.x() )
-                d_x0 += int ( ( canvasRect.x() - d_x0 ) / d_dx ) * d_dx;
+                d_x0 += int( ( canvasRect.x() - d_x0 ) / d_dx ) * d_dx;
 
             d_y0 = dataRect.y();
             if ( d_y0 < canvasRect.y() )
-                d_y0 += int ( ( canvasRect.y() - d_y0 ) / d_dy ) * d_dy;
+                d_y0 += int( ( canvasRect.y() - d_y0 ) / d_dy ) * d_dy;
 
             d_numColumns = canvasRect.width() / d_dx + 1;
             d_numRows = canvasRect.height() / d_dy + 1;
@@ -209,7 +209,7 @@ namespace
             if ( x >= d_x0 && x < d_x1
                 && y >= d_y0 && y < d_y1 )
             {
-                Entry &entry = d_entries[ indexOf( x, y ) ];
+                Entry& entry = d_entries[ indexOf( x, y ) ];
                 entry.addSample( x, y, u, v );
             }
         }
@@ -219,7 +219,7 @@ namespace
             return d_entries;
         }
 
-    private:
+      private:
         inline int indexOf( qreal x, qreal y ) const
         {
             const int col = ( x - d_x0 ) / d_dx;
@@ -238,14 +238,14 @@ namespace
 
 class QwtPlotVectorField::PrivateData
 {
-public:
-    PrivateData():
-        pen( Qt::black ),
-        brush( Qt::black ),
-        indicatorOrigin( QwtPlotVectorField::OriginHead ),
-        magnitudeScaleFactor( 1.0 ),
-        rasterSize( 20, 20 ),
-        magnitudeModes( MagnitudeAsLength )
+  public:
+    PrivateData()
+        : pen( Qt::black )
+        , brush( Qt::black )
+        , indicatorOrigin( QwtPlotVectorField::OriginHead )
+        , magnitudeScaleFactor( 1.0 )
+        , rasterSize( 20, 20 )
+        , magnitudeModes( MagnitudeAsLength )
     {
         colorMap = NULL;
         symbol = new QwtVectorFieldThinArrow();
@@ -261,14 +261,14 @@ public:
     QBrush brush;
 
     IndicatorOrigin indicatorOrigin;
-    QwtVectorFieldSymbol * symbol;
-    QwtColorMap * colorMap;
+    QwtVectorFieldSymbol* symbol;
+    QwtColorMap* colorMap;
 
     /*
         Stores the range of magnitudes to be used for the color map.
         If invalid (min=max or negative values), the range is determined
         from the data samples themselves.
-    */
+     */
     QwtInterval magnitudeRange;
     QwtInterval boundingMagnitudeRange;
 
@@ -280,21 +280,21 @@ public:
 };
 
 /*!
-  Constructor
-  \param title Title of the curve
-*/
-QwtPlotVectorField::QwtPlotVectorField( const QwtText &title ):
-    QwtPlotSeriesItem( title )
+   Constructor
+   \param title Title of the curve
+ */
+QwtPlotVectorField::QwtPlotVectorField( const QwtText& title )
+    : QwtPlotSeriesItem( title )
 {
     init();
 }
 
 /*!
-  Constructor
-  \param title Title of the curve
-*/
-QwtPlotVectorField::QwtPlotVectorField( const QString &title ):
-    QwtPlotSeriesItem( QwtText( title ) )
+   Constructor
+   \param title Title of the curve
+ */
+QwtPlotVectorField::QwtPlotVectorField( const QString& title )
+    : QwtPlotSeriesItem( QwtText( title ) )
 {
     init();
 }
@@ -306,8 +306,8 @@ QwtPlotVectorField::~QwtPlotVectorField()
 }
 
 /*!
-  \brief Initialize data members
-*/
+   \brief Initialize data members
+ */
 void QwtPlotVectorField::init()
 {
     setItemAttribute( QwtPlotItem::Legend );
@@ -319,7 +319,7 @@ void QwtPlotVectorField::init()
     setZ( 20.0 );
 }
 
-void QwtPlotVectorField::setPen( const QPen &pen )
+void QwtPlotVectorField::setPen( const QPen& pen )
 {
     if ( m_data->pen != pen )
     {
@@ -335,7 +335,7 @@ QPen QwtPlotVectorField::pen() const
     return m_data->pen;
 }
 
-void QwtPlotVectorField::setBrush( const QBrush &brush )
+void QwtPlotVectorField::setBrush( const QBrush& brush )
 {
     if ( m_data->brush != brush )
     {
@@ -395,12 +395,12 @@ QSizeF QwtPlotVectorField::rasterSize() const
 }
 
 /*!
-  Specify an attribute how to draw the curve
+   Specify an attribute how to draw the curve
 
-  \param attribute Paint attribute
-  \param on On/Off
-  \sa testPaintAttribute()
-*/
+   \param attribute Paint attribute
+   \param on On/Off
+   \sa testPaintAttribute()
+ */
 void QwtPlotVectorField::setPaintAttribute(
     PaintAttribute attribute, bool on )
 {
@@ -421,7 +421,7 @@ void QwtPlotVectorField::setPaintAttribute(
 /*!
     \return True, when attribute is enabled
     \sa PaintAttribute, setPaintAttribute()
-*/
+ */
 bool QwtPlotVectorField::testPaintAttribute(
     PaintAttribute attribute ) const
 {
@@ -465,7 +465,7 @@ void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
     Sets a new arrow symbol (implementation of arrow drawing code).
     Ownership is transferred to QwtPlotVectorField.
  */
-void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol * symbol )
+void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol* symbol )
 {
     if ( m_data->symbol == symbol )
         return;
@@ -488,41 +488,41 @@ QwtPlotVectorField::MagnitudeModes QwtPlotVectorField::magnitudeModes() const
 }
 
 /*!
-  Initialize data with an array of samples.
-  \param samples Vector of points
-*/
-void QwtPlotVectorField::setSamples( const QVector<QwtVectorFieldSample> &samples )
+   Initialize data with an array of samples.
+   \param samples Vector of points
+ */
+void QwtPlotVectorField::setSamples( const QVector< QwtVectorFieldSample >& samples )
 {
     setData( new QwtVectorFieldData( samples ) );
 }
 
 /*!
-  Assign a series of samples
+   Assign a series of samples
 
-  setSamples() is just a wrapper for setData() without any additional
-  value - beside that it is easier to find for the developer.
+   setSamples() is just a wrapper for setData() without any additional
+   value - beside that it is easier to find for the developer.
 
-  \param data Data
-  \warning The item takes ownership of the data object, deleting
+   \param data Data
+   \warning The item takes ownership of the data object, deleting
            it when its not used anymore.
-*/
-void QwtPlotVectorField::setSamples( QwtVectorFieldData *data )
+ */
+void QwtPlotVectorField::setSamples( QwtVectorFieldData* data )
 {
     setData( data );
 }
 
 /*!
-  Change the color map
+   Change the color map
 
-  Often it is useful to display the mapping between intensities and
-  colors as an additional plot axis, showing a color bar.
+   Often it is useful to display the mapping between intensities and
+   colors as an additional plot axis, showing a color bar.
 
-  \param colorMap Color Map
+   \param colorMap Color Map
 
-  \sa colorMap(), QwtScaleWidget::setColorBarEnabled(),
+   \sa colorMap(), QwtScaleWidget::setColorBarEnabled(),
       QwtScaleWidget::setColorMap()
-*/
-void QwtPlotVectorField::setColorMap( QwtColorMap *colorMap )
+ */
+void QwtPlotVectorField::setColorMap( QwtColorMap* colorMap )
 {
     if ( colorMap == NULL )
         return;
@@ -540,8 +540,8 @@ void QwtPlotVectorField::setColorMap( QwtColorMap *colorMap )
 /*!
    \return Color Map used for mapping the intensity values to colors
    \sa setColorMap()
-*/
-const QwtColorMap *QwtPlotVectorField::colorMap() const
+ */
+const QwtColorMap* QwtPlotVectorField::colorMap() const
 {
     return m_data->colorMap;
 }
@@ -551,7 +551,7 @@ const QwtColorMap *QwtPlotVectorField::colorMap() const
    If invalid (min=max=0 or negative values), the range is determined from
    the current range of magnitudes in the vector samples.
  */
-void QwtPlotVectorField::setMagnitudeRange( const QwtInterval & magnitudeRange )
+void QwtPlotVectorField::setMagnitudeRange( const QwtInterval& magnitudeRange )
 {
     m_data->magnitudeRange = magnitudeRange;
 }
@@ -564,7 +564,7 @@ void QwtPlotVectorField::setMagnitudeRange( const QwtInterval & magnitudeRange )
    magnitude arrows, or impose minimum/maximum arrow length limits.
    \return Length of arrow to be drawn in dependence of vector magnitude.
    \sa setMagnitudeScaleFactor
-*/
+ */
 double QwtPlotVectorField::arrowLength( double magnitude ) const
 {
 #if 0
@@ -574,8 +574,8 @@ double QwtPlotVectorField::arrowLength( double magnitude ) const
        a vector of length equal to magnitudeRange.maxValue().
        The relative scaling ensures that change of data samples of very different magnitudes
        will always lead to a reasonable display on screen.
-    */
-    const QwtVectorFieldData * vectorData = dynamic_cast<const QwtVectorFieldData *>(data());
+     */
+    const QwtVectorFieldData* vectorData = dynamic_cast< const QwtVectorFieldData* >( data() );
     if (m_data->magnitudeRange.maxValue() > 0)
         magnitude /= m_data->magnitudeRange.maxValue();
 #endif
@@ -605,7 +605,7 @@ QRectF QwtPlotVectorField::boundingRect() const
 }
 
 QwtGraphic QwtPlotVectorField::legendIcon(
-    int index, const QSizeF &size ) const
+    int index, const QSizeF& size ) const
 {
     Q_UNUSED( index );
 
@@ -631,21 +631,21 @@ QwtGraphic QwtPlotVectorField::legendIcon(
 }
 
 /*!
-  Draw a subset of the points
+   Draw a subset of the points
 
-  \param painter Painter
-  \param xMap Maps x-values into pixel coordinates.
-  \param yMap Maps y-values into pixel coordinates.
-  \param canvasRect Contents rectangle of the canvas
-  \param from Index of the first sample to be painted
-  \param to Index of the last sample to be painted. If to < 0 the
+   \param painter Painter
+   \param xMap Maps x-values into pixel coordinates.
+   \param yMap Maps y-values into pixel coordinates.
+   \param canvasRect Contents rectangle of the canvas
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted. If to < 0 the
          series will be painted to its last sample.
 
-  \sa drawDots()
-*/
-void QwtPlotVectorField::drawSeries( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect, int from, int to ) const
+   \sa drawDots()
+ */
+void QwtPlotVectorField::drawSeries( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect, int from, int to ) const
 {
     if ( !painter || dataSize() <= 0 )
         return;
@@ -671,9 +671,9 @@ void QwtPlotVectorField::drawSeries( QPainter *painter,
 #endif
 }
 
-void QwtPlotVectorField::drawSymbols( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect, int from, int to ) const
+void QwtPlotVectorField::drawSymbols( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect, int from, int to ) const
 {
     const bool doAlign = QwtPainter::roundingAlignment( painter );
     const bool doClip = false;
@@ -681,7 +681,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
     const bool isInvertingX = xMap.isInverting();
     const bool isInvertingY = yMap.isInverting();
 
-    const QwtSeriesData<QwtVectorFieldSample> *series = data();
+    const QwtSeriesData< QwtVectorFieldSample >* series = data();
 
     if ( m_data->magnitudeModes & MagnitudeAsColor )
     {
@@ -719,7 +719,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
         if (yMap.sDist() != 0)
             yScale = yMap.pDist() / yMap.sDist();
 
-        QSizeF canvasRasterSize(xScale*m_data->rasterSize.width(), yScale*m_data->rasterSize.height());
+        QSizeF canvasRasterSize(xScale * m_data->rasterSize.width(), yScale * m_data->rasterSize.height() );
         FilterMatrix matrix( dataRect, canvasRect, canvasRasterSize );
 #endif
 
@@ -738,7 +738,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
 
         for ( int i = 0; i < numEntries; i++ )
         {
-            const FilterMatrix::Entry &entry = entries[i];
+            const FilterMatrix::Entry& entry = entries[i];
 
             if ( entry.count == 0 )
                 continue;
@@ -791,7 +791,7 @@ void QwtPlotVectorField::drawSymbols( QPainter *painter,
     }
 }
 
-void QwtPlotVectorField::drawSymbol( QPainter *painter,
+void QwtPlotVectorField::drawSymbol( QPainter* painter,
     double x, double y, double vx, double vy ) const
 {
     const double magnitude = qwtVector2Magnitude( vx, vy );
@@ -801,7 +801,7 @@ void QwtPlotVectorField::drawSymbol( QPainter *painter,
     QTransform transform = qwtSymbolTransformation( oldTransform,
         x, y, vx, vy, magnitude );
 
-    QwtVectorFieldSymbol *symbol = m_data->symbol;
+    QwtVectorFieldSymbol* symbol = m_data->symbol;
 
     double length = 0.0;
 

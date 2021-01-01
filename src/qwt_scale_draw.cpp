@@ -25,7 +25,7 @@ static inline double qwtEffectivePenWidth( const QwtAbstractScaleDraw* scaleDraw
 
 namespace QwtScaleRendererReal
 {
-    inline qreal penWidth( const QPainter *painter, const QwtScaleDraw* scaleDraw )
+    inline qreal penWidth( const QPainter* painter, const QwtScaleDraw* scaleDraw )
     {
         qreal width = scaleDraw->penWidthF();
 #if 1
@@ -35,7 +35,7 @@ namespace QwtScaleRendererReal
 
         if ( painter->pen().isCosmetic() )
         {
-            const QTransform &transform = painter->transform();
+            const QTransform& transform = painter->transform();
 
             switch ( scaleDraw->alignment() )
             {
@@ -57,7 +57,7 @@ namespace QwtScaleRendererReal
         return width;
     }
 
-    inline void drawBackbone( QPainter *painter, const QwtScaleDraw* scaleDraw ) 
+    inline void drawBackbone( QPainter* painter, const QwtScaleDraw* scaleDraw )
     {
         const qreal pw2 = 0.5 * penWidth( painter, scaleDraw );
 
@@ -97,7 +97,7 @@ namespace QwtScaleRendererReal
         }
     }
 
-    inline void drawTick( QPainter *painter,
+    inline void drawTick( QPainter* painter,
         const QwtScaleDraw* scaleDraw, qreal tickPos, qreal tickLength )
     {
         const QPointF pos = scaleDraw->pos();
@@ -152,7 +152,7 @@ namespace QwtScaleRendererReal
 
 namespace QwtScaleRendererInt
 {
-    inline void drawBackbone( QPainter *painter, const QwtScaleDraw* scaleDraw ) 
+    inline void drawBackbone( QPainter* painter, const QwtScaleDraw* scaleDraw )
     {
         const int pw = qMax( qRound( scaleDraw->penWidthF() ), 1 );
 
@@ -179,20 +179,20 @@ namespace QwtScaleRendererInt
             {
                 const qreal y = qRound( pos.y() - ( pw - 1 ) / 2 );
                 QwtPainter::drawLine( painter, pos.x(), y, pos.x() + length, y );
-                
+
                 break;
             }
             case QwtScaleDraw::BottomScale:
-            { 
+            {
                 const qreal y = qRound( pos.y() + pw / 2 );
                 QwtPainter::drawLine( painter, pos.x(), y, pos.x() + length, y );
-                    
+
                 break;
-            }   
-        }   
+            }
+        }
     }
 
-    inline void drawTick( QPainter *painter,
+    inline void drawTick( QPainter* painter,
         const QwtScaleDraw* scaleDraw, qreal tickPos, qreal tickLength )
     {
         const QPointF pos = scaleDraw->pos();
@@ -204,7 +204,7 @@ namespace QwtScaleRendererInt
 
         int len = qMax( qRound( tickLength ), 1 );
 
-        // the width of ticks at the borders might extent the backbone 
+        // the width of ticks at the borders might extent the backbone
         len += pw;
 
         if ( painter->pen().capStyle() == Qt::FlatCap )
@@ -265,11 +265,11 @@ namespace QwtScaleRendererInt
 
 class QwtScaleDraw::PrivateData
 {
-public:
-    PrivateData():
-        len( 0 ),
-        alignment( QwtScaleDraw::BottomScale ),
-        labelRotation( 0.0 )
+  public:
+    PrivateData()
+        : len( 0 )
+        , alignment( QwtScaleDraw::BottomScale )
+        , labelRotation( 0.0 )
     {
     }
 
@@ -283,12 +283,12 @@ public:
 };
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  The range of the scale is initialized to [0, 100],
-  The position is at (0, 0) with a length of 100.
-  The orientation is QwtAbstractScaleDraw::Bottom.
-*/
+   The range of the scale is initialized to [0, 100],
+   The position is at (0, 0) with a length of 100.
+   The orientation is QwtAbstractScaleDraw::Bottom.
+ */
 QwtScaleDraw::QwtScaleDraw()
 {
     m_data = new QwtScaleDraw::PrivateData;
@@ -305,7 +305,7 @@ QwtScaleDraw::~QwtScaleDraw()
    Return alignment of the scale
    \sa setAlignment()
    \return Alignment of the scale
-*/
+ */
 QwtScaleDraw::Alignment QwtScaleDraw::alignment() const
 {
     return m_data->alignment;
@@ -318,22 +318,22 @@ QwtScaleDraw::Alignment QwtScaleDraw::alignment() const
 
    The default alignment is QwtScaleDraw::BottomScale
    \sa alignment()
-*/
+ */
 void QwtScaleDraw::setAlignment( Alignment align )
 {
     m_data->alignment = align;
 }
 
 /*!
-  Return the orientation
+   Return the orientation
 
-  TopScale, BottomScale are horizontal (Qt::Horizontal) scales,
-  LeftScale, RightScale are vertical (Qt::Vertical) scales.
+   TopScale, BottomScale are horizontal (Qt::Horizontal) scales,
+   LeftScale, RightScale are vertical (Qt::Vertical) scales.
 
-  \return Orientation of the scale
+   \return Orientation of the scale
 
-  \sa alignment()
-*/
+   \sa alignment()
+ */
 Qt::Orientation QwtScaleDraw::orientation() const
 {
     switch ( m_data->alignment )
@@ -349,17 +349,17 @@ Qt::Orientation QwtScaleDraw::orientation() const
 }
 
 /*!
-  \brief Determine the minimum border distance
+   \brief Determine the minimum border distance
 
-  This member function returns the minimum space
-  needed to draw the mark labels at the scale's endpoints.
+   This member function returns the minimum space
+   needed to draw the mark labels at the scale's endpoints.
 
-  \param font Font
-  \param start Start border distance
-  \param end End border distance
-*/
+   \param font Font
+   \param start Start border distance
+   \param end End border distance
+ */
 void QwtScaleDraw::getBorderDistHint(
-    const QFont &font, int &start, int &end ) const
+    const QFont& font, int& start, int& end ) const
 {
     start = 0;
     end = 1.0;
@@ -367,7 +367,7 @@ void QwtScaleDraw::getBorderDistHint(
     if ( !hasComponent( QwtAbstractScaleDraw::Labels ) )
         return;
 
-    const QList<double> &ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
+    const QList< double >& ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
     if ( ticks.count() == 0 )
         return;
 
@@ -424,21 +424,21 @@ void QwtScaleDraw::getBorderDistHint(
 }
 
 /*!
-  Determine the minimum distance between two labels, that is necessary
-  that the texts don't overlap.
+   Determine the minimum distance between two labels, that is necessary
+   that the texts don't overlap.
 
-  \param font Font
-  \return The maximum width of a label
+   \param font Font
+   \return The maximum width of a label
 
-  \sa getBorderDistHint()
-*/
+   \sa getBorderDistHint()
+ */
 
-int QwtScaleDraw::minLabelDist( const QFont &font ) const
+int QwtScaleDraw::minLabelDist( const QFont& font ) const
 {
     if ( !hasComponent( QwtAbstractScaleDraw::Labels ) )
         return 0;
 
-    const QList<double> &ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
+    const QList< double >& ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
     if ( ticks.isEmpty() )
         return 0;
 
@@ -519,8 +519,8 @@ int QwtScaleDraw::minLabelDist( const QFont &font ) const
    \return Extent
 
    \sa minLength()
-*/
-double QwtScaleDraw::extent( const QFont &font ) const
+ */
+double QwtScaleDraw::extent( const QFont& font ) const
 {
     double d = 0;
 
@@ -556,13 +556,13 @@ double QwtScaleDraw::extent( const QFont &font ) const
    \return Minimum length that is needed to draw the scale
 
    \sa extent()
-*/
-int QwtScaleDraw::minLength( const QFont &font ) const
+ */
+int QwtScaleDraw::minLength( const QFont& font ) const
 {
     int startDist, endDist;
     getBorderDistHint( font, startDist, endDist );
 
-    const QwtScaleDiv &sd = scaleDiv();
+    const QwtScaleDiv& sd = scaleDiv();
 
     const uint minorCount =
         sd.ticks( QwtScaleDiv::MinorTick ).count() +
@@ -592,7 +592,7 @@ int QwtScaleDraw::minLength( const QFont &font ) const
 
    \param value Value
    \return Position, where to paint a label
-*/
+ */
 QPointF QwtScaleDraw::labelPosition( double value ) const
 {
     const double tval = scaleMap().transform( value );
@@ -645,8 +645,8 @@ QPointF QwtScaleDraw::labelPosition( double value ) const
    \param len Length of the tick
 
    \sa drawBackbone(), drawLabel()
-*/
-void QwtScaleDraw::drawTick( QPainter *painter, double value, double len ) const
+ */
+void QwtScaleDraw::drawTick( QPainter* painter, double value, double len ) const
 {
     if ( len <= 0 )
         return;
@@ -664,8 +664,8 @@ void QwtScaleDraw::drawTick( QPainter *painter, double value, double len ) const
    \param painter Painter
 
    \sa drawTick(), drawLabel()
-*/
-void QwtScaleDraw::drawBackbone( QPainter *painter ) const
+ */
+void QwtScaleDraw::drawBackbone( QPainter* painter ) const
 {
     if ( QwtPainter::roundingAlignment( painter ) )
         QwtScaleRendererInt::drawBackbone( painter, this );
@@ -674,37 +674,37 @@ void QwtScaleDraw::drawBackbone( QPainter *painter ) const
 }
 
 /*!
-  \brief Move the position of the scale
+   \brief Move the position of the scale
 
-  The meaning of the parameter pos depends on the alignment:
-  <dl>
-  <dt>QwtScaleDraw::LeftScale
-  <dd>The origin is the topmost point of the
+   The meaning of the parameter pos depends on the alignment:
+   <dl>
+   <dt>QwtScaleDraw::LeftScale
+   <dd>The origin is the topmost point of the
       backbone. The backbone is a vertical line.
       Scale marks and labels are drawn
       at the left of the backbone.
-  <dt>QwtScaleDraw::RightScale
-  <dd>The origin is the topmost point of the
+   <dt>QwtScaleDraw::RightScale
+   <dd>The origin is the topmost point of the
       backbone. The backbone is a vertical line.
       Scale marks and labels are drawn
       at the right of the backbone.
-  <dt>QwtScaleDraw::TopScale
-  <dd>The origin is the leftmost point of the
+   <dt>QwtScaleDraw::TopScale
+   <dd>The origin is the leftmost point of the
       backbone. The backbone is a horizontal line.
       Scale marks and labels are drawn
       above the backbone.
-  <dt>QwtScaleDraw::BottomScale
-  <dd>The origin is the leftmost point of the
+   <dt>QwtScaleDraw::BottomScale
+   <dd>The origin is the leftmost point of the
       backbone. The backbone is a horizontal line
       Scale marks and labels are drawn
       below the backbone.
-  </dl>
+   </dl>
 
-  \param pos Origin of the scale
+   \param pos Origin of the scale
 
-  \sa pos(), setLength()
-*/
-void QwtScaleDraw::move( const QPointF &pos )
+   \sa pos(), setLength()
+ */
+void QwtScaleDraw::move( const QPointF& pos )
 {
     m_data->pos = pos;
     updateMap();
@@ -713,22 +713,22 @@ void QwtScaleDraw::move( const QPointF &pos )
 /*!
    \return Origin of the scale
    \sa move(), length()
-*/
+ */
 QPointF QwtScaleDraw::pos() const
 {
     return m_data->pos;
 }
 
 /*!
-  Set the length of the backbone.
+   Set the length of the backbone.
 
-  The length doesn't include the space needed for
-  overlapping labels.
+   The length doesn't include the space needed for
+   overlapping labels.
 
-  \param length Length of the backbone
+   \param length Length of the backbone
 
-  \sa move(), minLabelDist()
-*/
+   \sa move(), minLabelDist()
+ */
 void QwtScaleDraw::setLength( double length )
 {
 #if 0
@@ -749,7 +749,7 @@ void QwtScaleDraw::setLength( double length )
 /*!
    \return the length of the backbone
    \sa setLength(), pos()
-*/
+ */
 double QwtScaleDraw::length() const
 {
     return m_data->len;
@@ -762,8 +762,8 @@ double QwtScaleDraw::length() const
    \param value Value
 
    \sa drawTick(), drawBackbone(), boundingLabelRect()
-*/
-void QwtScaleDraw::drawLabel( QPainter *painter, double value ) const
+ */
+void QwtScaleDraw::drawLabel( QPainter* painter, double value ) const
 {
     QwtText lbl = tickLabel( painter->font(), value );
     if ( lbl.isEmpty() )
@@ -784,18 +784,18 @@ void QwtScaleDraw::drawLabel( QPainter *painter, double value ) const
 }
 
 /*!
-  \brief Find the bounding rectangle for the label.
+   \brief Find the bounding rectangle for the label.
 
-  The coordinates of the rectangle are absolute ( calculated from pos() ).
-  in direction of the tick.
+   The coordinates of the rectangle are absolute ( calculated from pos() ).
+   in direction of the tick.
 
-  \param font Font used for painting
-  \param value Value
+   \param font Font used for painting
+   \param value Value
 
-  \return Bounding rectangle
-  \sa labelRect()
-*/
-QRect QwtScaleDraw::boundingLabelRect( const QFont &font, double value ) const
+   \return Bounding rectangle
+   \sa labelRect()
+ */
+QRect QwtScaleDraw::boundingLabelRect( const QFont& font, double value ) const
 {
     QwtText lbl = tickLabel( font, value );
     if ( lbl.isEmpty() )
@@ -817,9 +817,9 @@ QRect QwtScaleDraw::boundingLabelRect( const QFont &font, double value ) const
 
    \return Transformation matrix
    \sa setLabelAlignment(), setLabelRotation()
-*/
+ */
 QTransform QwtScaleDraw::labelTransformation(
-    const QPointF &pos, const QSizeF &size ) const
+    const QPointF& pos, const QSizeF& size ) const
 {
     QTransform transform;
     transform.translate( pos.x(), pos.y() );
@@ -879,16 +879,16 @@ QTransform QwtScaleDraw::labelTransformation(
 }
 
 /*!
-  Find the bounding rectangle for the label. The coordinates of
-  the rectangle are relative to spacing + tick length from the backbone
-  in direction of the tick.
+   Find the bounding rectangle for the label. The coordinates of
+   the rectangle are relative to spacing + tick length from the backbone
+   in direction of the tick.
 
-  \param font Font used for painting
-  \param value Value
+   \param font Font used for painting
+   \param value Value
 
    \return Bounding rectangle that is needed to draw a label
-*/
-QRectF QwtScaleDraw::labelRect( const QFont &font, double value ) const
+ */
+QRectF QwtScaleDraw::labelRect( const QFont& font, double value ) const
 {
     QwtText lbl = tickLabel( font, value );
     if ( lbl.isEmpty() )
@@ -912,63 +912,63 @@ QRectF QwtScaleDraw::labelRect( const QFont &font, double value ) const
    \param value Value
 
    \return Size that is needed to draw a label
-*/
-QSizeF QwtScaleDraw::labelSize( const QFont &font, double value ) const
+ */
+QSizeF QwtScaleDraw::labelSize( const QFont& font, double value ) const
 {
     return labelRect( font, value ).size();
 }
 
 /*!
-  Rotate all labels.
+   Rotate all labels.
 
-  When changing the rotation, it might be necessary to
-  adjust the label flags too. Finding a useful combination is
-  often the result of try and error.
+   When changing the rotation, it might be necessary to
+   adjust the label flags too. Finding a useful combination is
+   often the result of try and error.
 
-  \param rotation Angle in degrees. When changing the label rotation,
+   \param rotation Angle in degrees. When changing the label rotation,
                   the label flags often needs to be adjusted too.
 
-  \sa setLabelAlignment(), labelRotation(), labelAlignment().
+   \sa setLabelAlignment(), labelRotation(), labelAlignment().
 
-*/
+ */
 void QwtScaleDraw::setLabelRotation( double rotation )
 {
     m_data->labelRotation = rotation;
 }
 
 /*!
-  \return the label rotation
-  \sa setLabelRotation(), labelAlignment()
-*/
+   \return the label rotation
+   \sa setLabelRotation(), labelAlignment()
+ */
 double QwtScaleDraw::labelRotation() const
 {
     return m_data->labelRotation;
 }
 
 /*!
-  \brief Change the label flags
+   \brief Change the label flags
 
-  Labels are aligned to the point tick length + spacing away from the backbone.
+   Labels are aligned to the point tick length + spacing away from the backbone.
 
-  The alignment is relative to the orientation of the label text.
-  In case of an flags of 0 the label will be aligned
-  depending on the orientation of the scale:
+   The alignment is relative to the orientation of the label text.
+   In case of an flags of 0 the label will be aligned
+   depending on the orientation of the scale:
 
       QwtScaleDraw::TopScale: Qt::AlignHCenter | Qt::AlignTop\n
       QwtScaleDraw::BottomScale: Qt::AlignHCenter | Qt::AlignBottom\n
       QwtScaleDraw::LeftScale: Qt::AlignLeft | Qt::AlignVCenter\n
       QwtScaleDraw::RightScale: Qt::AlignRight | Qt::AlignVCenter\n
 
-  Changing the alignment is often necessary for rotated labels.
+   Changing the alignment is often necessary for rotated labels.
 
-  \param alignment Or'd Qt::AlignmentFlags see <qnamespace.h>
+   \param alignment Or'd Qt::AlignmentFlags see <qnamespace.h>
 
-  \sa setLabelRotation(), labelRotation(), labelAlignment()
-  \warning The various alignments might be confusing.
+   \sa setLabelRotation(), labelRotation(), labelAlignment()
+   \warning The various alignments might be confusing.
            The alignment of the label is not the alignment
            of the scale and is not the alignment of the flags
            ( QwtText::flags() ) returned from QwtAbstractScaleDraw::label().
-*/
+ */
 
 void QwtScaleDraw::setLabelAlignment( Qt::Alignment alignment )
 {
@@ -976,23 +976,23 @@ void QwtScaleDraw::setLabelAlignment( Qt::Alignment alignment )
 }
 
 /*!
-  \return the label flags
-  \sa setLabelAlignment(), labelRotation()
-*/
+   \return the label flags
+   \sa setLabelAlignment(), labelRotation()
+ */
 Qt::Alignment QwtScaleDraw::labelAlignment() const
 {
     return m_data->labelAlignment;
 }
 
 /*!
-  \param font Font
-  \return the maximum width of a label
-*/
-int QwtScaleDraw::maxLabelWidth( const QFont &font ) const
+   \param font Font
+   \return the maximum width of a label
+ */
+int QwtScaleDraw::maxLabelWidth( const QFont& font ) const
 {
     double maxWidth = 0.0;
 
-    const QList<double> &ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
+    const QList< double >& ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
     for ( int i = 0; i < ticks.count(); i++ )
     {
         const double v = ticks[i];
@@ -1008,14 +1008,14 @@ int QwtScaleDraw::maxLabelWidth( const QFont &font ) const
 }
 
 /*!
-  \param font Font
-  \return the maximum height of a label
-*/
-int QwtScaleDraw::maxLabelHeight( const QFont &font ) const
+   \param font Font
+   \return the maximum height of a label
+ */
+int QwtScaleDraw::maxLabelHeight( const QFont& font ) const
 {
     double maxHeight = 0.0;
 
-    const QList<double> &ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
+    const QList< double >& ticks = scaleDiv().ticks( QwtScaleDiv::MajorTick );
     for ( int i = 0; i < ticks.count(); i++ )
     {
         const double v = ticks[i];
@@ -1035,7 +1035,7 @@ void QwtScaleDraw::updateMap()
     const QPointF pos = m_data->pos;
     double len = m_data->len;
 
-    QwtScaleMap &sm = scaleMap();
+    QwtScaleMap& sm = scaleMap();
     if ( orientation() == Qt::Vertical )
         sm.setPaintInterval( pos.y() + len, pos.y() );
     else

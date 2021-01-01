@@ -13,10 +13,10 @@
 #endif
 
 /*!
-  \brief Normalize an angle to be int the range [0.0, 2 * PI[
-  \param radians Angle in radians
-  \return Normalized angle in radians
-*/
+   \brief Normalize an angle to be int the range [0.0, 2 * PI[
+   \param radians Angle in radians
+   \return Normalized angle in radians
+ */
 double qwtNormalizeRadians( double radians )
 {
     double a = std::fmod( radians, 2.0 * M_PI );
@@ -28,10 +28,10 @@ double qwtNormalizeRadians( double radians )
 }
 
 /*!
-  \brief Normalize an angle to be int the range [0.0, 360.0[
-  \param radians Angle in degrees
-  \return Normalized angle in degrees
-*/
+   \brief Normalize an angle to be int the range [0.0, 360.0[
+   \param radians Angle in degrees
+   \return Normalized angle in degrees
+ */
 double qwtNormalizeDegrees( double degrees )
 {
     double a = std::fmod( degrees, 360.0 );
@@ -42,9 +42,9 @@ double qwtNormalizeDegrees( double degrees )
 }
 
 /*!
-  \brief Uses QRandomGenerator for Qt >= 5.10 and qRand() otherwise
-  \return A 32-bit random quantity
-*/
+   \brief Uses QRandomGenerator for Qt >= 5.10 and qRand() otherwise
+   \return A 32-bit random quantity
+ */
 quint32 qwtRand()
 {
 #if QT_VERSION >= 0x050a00

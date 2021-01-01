@@ -65,7 +65,7 @@
 #endif
 
 static inline double qwtDistance(
-    const QPointF &p1, const QPointF &p2 )
+    const QPointF& p1, const QPointF& p2 )
 {
     double dx = p2.x() - p1.x();
     double dy = p2.y() - p1.y();
@@ -74,21 +74,21 @@ static inline double qwtDistance(
 
 class QwtPolarRenderer::PrivateData
 {
-public:
-    PrivateData():
-        plot( NULL )
+  public:
+    PrivateData()
+        : plot( NULL )
     {
     }
 
-    QwtPolarPlot *plot;
+    QwtPolarPlot* plot;
 };
 
 /*!
-  Constructor
-  \param parent Parent object
+   Constructor
+   \param parent Parent object
  */
-QwtPolarRenderer::QwtPolarRenderer( QObject *parent ):
-    QObject( parent )
+QwtPolarRenderer::QwtPolarRenderer( QObject* parent )
+    : QObject( parent )
 {
     m_data = new PrivateData;
 }
@@ -100,44 +100,44 @@ QwtPolarRenderer::~QwtPolarRenderer()
 }
 
 /*!
-  Render a polar plot to a file
+   Render a polar plot to a file
 
-  The format of the document will be autodetected from the
-  suffix of the filename.
+   The format of the document will be autodetected from the
+   suffix of the filename.
 
-  \param plot Plot widget
-  \param fileName Path of the file, where the document will be stored
-  \param sizeMM Size for the document in millimeters.
-  \param resolution Resolution in dots per Inch (dpi)
-*/
-void QwtPolarRenderer::renderDocument( QwtPolarPlot *plot,
-    const QString &fileName, const QSizeF &sizeMM, int resolution )
+   \param plot Plot widget
+   \param fileName Path of the file, where the document will be stored
+   \param sizeMM Size for the document in millimeters.
+   \param resolution Resolution in dots per Inch (dpi)
+ */
+void QwtPolarRenderer::renderDocument( QwtPolarPlot* plot,
+    const QString& fileName, const QSizeF& sizeMM, int resolution )
 {
     renderDocument( plot, fileName,
         QFileInfo( fileName ).suffix(), sizeMM, resolution );
 }
 
 /*!
-  Render a plot to a file
+   Render a plot to a file
 
-  Supported formats are:
+   Supported formats are:
 
-  - pdf\n
-  - ps\n
-  - svg\n
-  - all image formats supported by Qt, see QImageWriter::supportedImageFormats()
+   - pdf\n
+   - ps\n
+   - svg\n
+   - all image formats supported by Qt, see QImageWriter::supportedImageFormats()
 
-  \param plot Plot widget
-  \param fileName Path of the file, where the document will be stored
-  \param format Format for the document
-  \param sizeMM Size for the document in millimeters.
-  \param resolution Resolution in dots per Inch (dpi)
+   \param plot Plot widget
+   \param fileName Path of the file, where the document will be stored
+   \param format Format for the document
+   \param sizeMM Size for the document in millimeters.
+   \param resolution Resolution in dots per Inch (dpi)
 
-  \sa renderTo(), render(), QwtPainter::setRoundingAlignment()
-*/
-void QwtPolarRenderer::renderDocument( QwtPolarPlot *plot,
-    const QString &fileName, const QString &format,
-    const QSizeF &sizeMM, int resolution )
+   \sa renderTo(), render(), QwtPainter::setRoundingAlignment()
+ */
+void QwtPolarRenderer::renderDocument( QwtPolarPlot* plot,
+    const QString& fileName, const QString& format,
+    const QSizeF& sizeMM, int resolution )
 {
     if ( plot == NULL || sizeMM.isEmpty() || resolution <= 0 )
         return;
@@ -232,20 +232,20 @@ void QwtPolarRenderer::renderDocument( QwtPolarPlot *plot,
 }
 
 /*!
-  \brief Render the plot to a \c QPaintDevice
+   \brief Render the plot to a \c QPaintDevice
 
-  This function renders the contents of a QwtPolarPlot instance to
-  \c QPaintDevice object. The target rectangle is derived from
-  its device metrics.
+   This function renders the contents of a QwtPolarPlot instance to
+   \c QPaintDevice object. The target rectangle is derived from
+   its device metrics.
 
-  \param plot Plot to be rendered
-  \param paintDevice device to paint on, f.e a QImage
+   \param plot Plot to be rendered
+   \param paintDevice device to paint on, f.e a QImage
 
-  \sa renderDocument(), render(), QwtPainter::setRoundingAlignment()
-*/
+   \sa renderDocument(), render(), QwtPainter::setRoundingAlignment()
+ */
 
 void QwtPolarRenderer::renderTo(
-    QwtPolarPlot *plot, QPaintDevice &paintDevice ) const
+    QwtPolarPlot* plot, QPaintDevice& paintDevice ) const
 {
     int w = paintDevice.width();
     int h = paintDevice.height();
@@ -256,22 +256,22 @@ void QwtPolarRenderer::renderTo(
 
 
 /*!
-  \brief Render the plot to a QPrinter
+   \brief Render the plot to a QPrinter
 
-  This function renders the contents of a QwtPolarPlot instance to
-  \c QPaintDevice object. The size is derived from the printer
-  metrics.
+   This function renders the contents of a QwtPolarPlot instance to
+   \c QPaintDevice object. The size is derived from the printer
+   metrics.
 
-  \param plot Plot to be rendered
-  \param printer Printer to paint on
+   \param plot Plot to be rendered
+   \param printer Printer to paint on
 
-  \sa renderDocument(), render(), QwtPainter::setRoundingAlignment()
-*/
+   \sa renderDocument(), render(), QwtPainter::setRoundingAlignment()
+ */
 
 #ifndef QT_NO_PRINTER
 
 void QwtPolarRenderer::renderTo(
-    QwtPolarPlot *plot, QPrinter &printer ) const
+    QwtPolarPlot* plot, QPrinter& printer ) const
 {
     int w = printer.width();
     int h = printer.height();
@@ -290,18 +290,18 @@ void QwtPolarRenderer::renderTo(
 #ifdef QWT_FORMAT_SVG
 
 /*!
-  \brief Render the plot to a QSvgGenerator
+   \brief Render the plot to a QSvgGenerator
 
-  If the generator has a view box, the plot will be rendered into it.
-  If it has no viewBox but a valid size the target coordinates
-  will be (0, 0, generator.width(), generator.height()). Otherwise
-  the target rectangle will be QRectF(0, 0, 800, 600);
+   If the generator has a view box, the plot will be rendered into it.
+   If it has no viewBox but a valid size the target coordinates
+   will be (0, 0, generator.width(), generator.height()). Otherwise
+   the target rectangle will be QRectF(0, 0, 800, 600);
 
-  \param plot Plot to be rendered
-  \param generator SVG generator
-*/
+   \param plot Plot to be rendered
+   \param generator SVG generator
+ */
 void QwtPolarRenderer::renderTo(
-    QwtPolarPlot *plot, QSvgGenerator &generator ) const
+    QwtPolarPlot* plot, QSvgGenerator& generator ) const
 {
     QRectF rect = generator.viewBoxF();
     if ( rect.isEmpty() )
@@ -322,9 +322,9 @@ void QwtPolarRenderer::renderTo(
    \param plot Plot widget to be rendered
    \param painter Painter
    \param plotRect Bounding rectangle for the plot
-*/
-void QwtPolarRenderer::render( QwtPolarPlot *plot,
-    QPainter *painter, const QRectF &plotRect ) const
+ */
+void QwtPolarRenderer::render( QwtPolarPlot* plot,
+    QPainter* painter, const QRectF& plotRect ) const
 {
     if ( plot == NULL || painter == NULL || !painter->isActive() ||
         !plotRect.isValid() || plot->size().isNull() )
@@ -335,9 +335,9 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
     m_data->plot = plot;
 
     /*
-      The layout engine uses the same methods as they are used
-      by the Qt layout system. Therefore we need to calculate the
-      layout in screen coordinates and paint with a scaled painter.
+       The layout engine uses the same methods as they are used
+       by the Qt layout system. Therefore we need to calculate the
+       layout in screen coordinates and paint with a scaled painter.
      */
     QTransform transform;
     transform.scale(
@@ -346,7 +346,7 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
 
     const QRectF layoutRect = transform.inverted().mapRect( plotRect );
 
-    QwtPolarLayout *layout = plot->plotLayout();
+    QwtPolarLayout* layout = plot->plotLayout();
 
     // All paint operations need to be scaled according to
     // the paint device metrics.
@@ -382,15 +382,15 @@ void QwtPolarRenderer::render( QwtPolarPlot *plot,
 }
 
 /*!
-  Render the title into a given rectangle.
+   Render the title into a given rectangle.
 
-  \param painter Painter
-  \param rect Bounding rectangle
-*/
+   \param painter Painter
+   \param rect Bounding rectangle
+ */
 
-void QwtPolarRenderer::renderTitle( QPainter *painter, const QRectF &rect ) const
+void QwtPolarRenderer::renderTitle( QPainter* painter, const QRectF& rect ) const
 {
-    QwtTextLabel *title = m_data->plot->titleLabel();
+    QwtTextLabel* title = m_data->plot->titleLabel();
 
     painter->setFont( title->font() );
 
@@ -402,14 +402,14 @@ void QwtPolarRenderer::renderTitle( QPainter *painter, const QRectF &rect ) cons
 }
 
 /*!
-  Render the legend into a given rectangle.
+   Render the legend into a given rectangle.
 
-  \param plot Plot widget
-  \param painter Painter
-  \param rect Bounding rectangle
-*/
-void QwtPolarRenderer::renderLegend( const QwtPolarPlot *plot,
-    QPainter *painter, const QRectF &rect ) const
+   \param plot Plot widget
+   \param painter Painter
+   \param rect Bounding rectangle
+ */
+void QwtPolarRenderer::renderLegend( const QwtPolarPlot* plot,
+    QPainter* painter, const QRectF& rect ) const
 {
     if ( plot->legend() )
         plot->legend()->renderLegend( painter, rect, true );
@@ -426,19 +426,19 @@ void QwtPolarRenderer::renderLegend( const QwtPolarPlot *plot,
    \param resolution Resolution in dots per Inch (dpi)
 
    \sa renderDocument()
-*/
-bool QwtPolarRenderer::exportTo( QwtPolarPlot *plot, 
-    const QString &documentName, const QSizeF &sizeMM, int resolution )
+ */
+bool QwtPolarRenderer::exportTo( QwtPolarPlot* plot,
+    const QString& documentName, const QSizeF& sizeMM, int resolution )
 {
     if ( plot == NULL )
         return false;
 
     QString fileName = documentName;
 
-    // What about translation 
+    // What about translation
 
 #ifndef QT_NO_FILEDIALOG
-    const QList<QByteArray> imageFormats =
+    const QList< QByteArray > imageFormats =
         QImageWriter::supportedImageFormats();
 
     QStringList filter;

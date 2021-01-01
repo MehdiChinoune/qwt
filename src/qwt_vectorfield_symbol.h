@@ -28,19 +28,19 @@ class QPainterPath;
 
     A new arrow implementation can be set with QwtPlotVectorField::setArrowSymbol(), whereby
     ownership is transferred to the plot field.
-*/
+ */
 class QWT_EXPORT QwtVectorFieldSymbol
 {
-public:
+  public:
     QwtVectorFieldSymbol();
     virtual ~QwtVectorFieldSymbol();
 
     virtual void setLength( qreal length ) = 0;
     virtual qreal length() const = 0;
 
-    virtual void paint( QPainter * ) const = 0;
+    virtual void paint( QPainter* ) const = 0;
 
-private:
+  private:
     Q_DISABLE_COPY(QwtVectorFieldSymbol)
 };
 
@@ -50,17 +50,17 @@ private:
  */
 class QWT_EXPORT QwtVectorFieldArrow : public QwtVectorFieldSymbol
 {
-public:
+  public:
     QwtVectorFieldArrow( qreal headWidth = 6.0, qreal tailWidth = 1.0 );
     virtual ~QwtVectorFieldArrow() QWT_OVERRIDE;
 
     virtual void setLength( qreal length ) QWT_OVERRIDE;
     virtual qreal length() const QWT_OVERRIDE;
-    virtual void paint( QPainter * ) const QWT_OVERRIDE;
+    virtual void paint( QPainter* ) const QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 /*!
@@ -69,17 +69,17 @@ private:
  */
 class QWT_EXPORT QwtVectorFieldThinArrow : public QwtVectorFieldSymbol
 {
-public:
+  public:
     QwtVectorFieldThinArrow( qreal headWidth = 6.0 );
     virtual ~QwtVectorFieldThinArrow() QWT_OVERRIDE;
 
     virtual void setLength( qreal length ) QWT_OVERRIDE;
     virtual qreal length() const QWT_OVERRIDE;
-    virtual void paint( QPainter * ) const QWT_OVERRIDE;
+    virtual void paint( QPainter* ) const QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

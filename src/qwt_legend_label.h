@@ -17,17 +17,17 @@
 class QwtText;
 
 /*!
-  \brief A widget representing something on a QwtLegend.
-*/
-class QWT_EXPORT QwtLegendLabel: public QwtTextLabel
+   \brief A widget representing something on a QwtLegend.
+ */
+class QWT_EXPORT QwtLegendLabel : public QwtTextLabel
 {
     Q_OBJECT
-public:
-    explicit QwtLegendLabel( QWidget *parent = 0 );
+  public:
+    explicit QwtLegendLabel( QWidget* parent = 0 );
     virtual ~QwtLegendLabel();
 
-    void setData( const QwtLegendData & );
-    const QwtLegendData &data() const;
+    void setData( const QwtLegendData& );
+    const QwtLegendData& data() const;
 
     void setItemMode( QwtLegendData::Mode );
     QwtLegendData::Mode itemMode() const;
@@ -35,19 +35,19 @@ public:
     void setSpacing( int spacing );
     int spacing() const;
 
-    virtual void setText( const QwtText & ) QWT_OVERRIDE;
+    virtual void setText( const QwtText& ) QWT_OVERRIDE;
 
-    void setIcon( const QPixmap & );
+    void setIcon( const QPixmap& );
     QPixmap icon() const;
 
     virtual QSize sizeHint() const QWT_OVERRIDE;
 
     bool isChecked() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setChecked( bool on );
 
-Q_SIGNALS:
+  Q_SIGNALS:
     //! Signal, when the legend item has been clicked
     void clicked();
 
@@ -60,19 +60,19 @@ Q_SIGNALS:
     //! Signal, when the legend item has been toggled
     void checked( bool );
 
-protected:
+  protected:
     void setDown( bool );
     bool isDown() const;
 
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
-    virtual void mousePressEvent( QMouseEvent * ) QWT_OVERRIDE;
-    virtual void mouseReleaseEvent( QMouseEvent * ) QWT_OVERRIDE;
-    virtual void keyPressEvent( QKeyEvent * ) QWT_OVERRIDE;
-    virtual void keyReleaseEvent( QKeyEvent * ) QWT_OVERRIDE;
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
+    virtual void mousePressEvent( QMouseEvent* ) QWT_OVERRIDE;
+    virtual void mouseReleaseEvent( QMouseEvent* ) QWT_OVERRIDE;
+    virtual void keyPressEvent( QKeyEvent* ) QWT_OVERRIDE;
+    virtual void keyReleaseEvent( QKeyEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

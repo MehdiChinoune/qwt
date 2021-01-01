@@ -20,120 +20,120 @@
 namespace QwtClip
 {
     // some templates used for inlining
-    template <class Point, typename T> class LeftEdge;
-    template <class Point, typename T> class RightEdge;
-    template <class Point, typename T> class TopEdge;
-    template <class Point, typename T> class BottomEdge;
+    template< class Point, typename T > class LeftEdge;
+    template< class Point, typename T > class RightEdge;
+    template< class Point, typename T > class TopEdge;
+    template< class Point, typename T > class BottomEdge;
 }
 
-template <class Point, typename Value>
+template< class Point, typename Value >
 class QwtClip::LeftEdge
 {
-public:
+  public:
     inline LeftEdge( Value x1, Value, Value, Value ):
         d_x1( x1 )
     {
     }
 
-    inline bool isInside( const Point &p  ) const
+    inline bool isInside( const Point& p  ) const
     {
         return p.x() >= d_x1;
     }
 
-    inline Point intersection( const Point &p1, const Point &p2 ) const
+    inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dy = ( p1.y() - p2.y() ) / double( p1.x() - p2.x() );
         return Point( d_x1, static_cast< Value >( p2.y() + ( d_x1 - p2.x() ) * dy ) );
     }
-private:
+  private:
     const Value d_x1;
 };
 
-template <class Point, typename Value>
+template< class Point, typename Value >
 class QwtClip::RightEdge
 {
-public:
+  public:
     inline RightEdge( Value, Value x2, Value, Value ):
         d_x2( x2 )
     {
     }
 
-    inline bool isInside( const Point &p  ) const
+    inline bool isInside( const Point& p  ) const
     {
         return p.x() <= d_x2;
     }
 
-    inline Point intersection( const Point &p1, const Point &p2 ) const
+    inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dy = ( p1.y() - p2.y() ) / double( p1.x() - p2.x() );
-        return Point( d_x2, static_cast<Value>( p2.y() + ( d_x2 - p2.x() ) * dy ) );
+        return Point( d_x2, static_cast< Value >( p2.y() + ( d_x2 - p2.x() ) * dy ) );
     }
 
-private:
+  private:
     const Value d_x2;
 };
 
-template <class Point, typename Value>
+template< class Point, typename Value >
 class QwtClip::TopEdge
 {
-public:
+  public:
     inline TopEdge( Value, Value, Value y1, Value ):
         d_y1( y1 )
     {
     }
 
-    inline bool isInside( const Point &p  ) const
+    inline bool isInside( const Point& p  ) const
     {
         return p.y() >= d_y1;
     }
 
-    inline Point intersection( const Point &p1, const Point &p2 ) const
+    inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dx = ( p1.x() - p2.x() ) / double( p1.y() - p2.y() );
-        return Point( static_cast<Value>( p2.x() + ( d_y1 - p2.y() ) * dx ), d_y1 );
+        return Point( static_cast< Value >( p2.x() + ( d_y1 - p2.y() ) * dx ), d_y1 );
     }
 
-private:
+  private:
     const Value d_y1;
 };
 
-template <class Point, typename Value>
+template< class Point, typename Value >
 class QwtClip::BottomEdge
 {
-public:
+  public:
     inline BottomEdge( Value, Value, Value, Value y2 ):
         d_y2( y2 )
     {
     }
 
-    inline bool isInside( const Point &p ) const
+    inline bool isInside( const Point& p ) const
     {
         return p.y() <= d_y2;
     }
 
-    inline Point intersection( const Point &p1, const Point &p2 ) const
+    inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dx = ( p1.x() - p2.x() ) / double( p1.y() - p2.y() );
-        return Point( static_cast<Value>( p2.x() + ( d_y2 - p2.y() ) * dx ), d_y2 );
+        return Point( static_cast< Value >( p2.x() + ( d_y2 - p2.y() ) * dx ), d_y2 );
     }
 
-private:
+  private:
     const Value d_y2;
 };
 
 using namespace QwtClip;
 
-template <class Polygon, class Rect, typename T>
+template< class Polygon, class Rect, typename T >
 class QwtPolygonClipper
 {
     typedef typename Polygon::value_type Point;
-public:
-    explicit QwtPolygonClipper( const Rect &clipRect ):
+  public:
+    explicit QwtPolygonClipper( const Rect& clipRect ):
         d_clipRect( clipRect )
     {
     }
 
-    void clipPolygon( Polygon &points1, bool closePolygon ) const
+    void clipPolygon( Polygon& points1, bool closePolygon ) const
     {
 #if 0
         if ( d_clipRect.contains( points1.boundingRect() ) )
@@ -143,16 +143,16 @@ public:
         Polygon points2;
         points2.reserve( qMin( 256, points1.size() ) );
 
-        clipEdge< LeftEdge<Point, T> >( closePolygon, points1, points2 );
-        clipEdge< RightEdge<Point, T> >( closePolygon, points2, points1 );
-        clipEdge< TopEdge<Point, T> >( closePolygon, points1, points2 );
-        clipEdge< BottomEdge<Point, T> >( closePolygon, points2, points1 );
+        clipEdge< LeftEdge< Point, T > >( closePolygon, points1, points2 );
+        clipEdge< RightEdge< Point, T > >( closePolygon, points2, points1 );
+        clipEdge< TopEdge< Point, T > >( closePolygon, points1, points2 );
+        clipEdge< BottomEdge< Point, T > >( closePolygon, points2, points1 );
     }
 
-private:
-    template <class Edge>
+  private:
+    template< class Edge >
     inline void clipEdge( bool closePolygon,
-        const Polygon &points, Polygon &clippedPoints ) const
+        const Polygon& points, Polygon& clippedPoints ) const
     {
         clippedPoints.clear();
 
@@ -169,15 +169,15 @@ private:
 
         if ( !closePolygon )
         {
-            const Point &p1 = points.first();
+            const Point& p1 = points.first();
 
             if ( edge.isInside( p1 ) )
                 clippedPoints += p1;
         }
         else
         {
-            const Point &p1 = points.first();
-            const Point &p2 = points.last();
+            const Point& p1 = points.first();
+            const Point& p2 = points.last();
 
             if ( edge.isInside( p1 ) )
             {
@@ -197,8 +197,8 @@ private:
 
         for ( uint i = 1; i < nPoints; i++ )
         {
-            const Point &p1 = p[i];
-            const Point &p2 = p[i - 1];
+            const Point& p1 = p[i];
+            const Point& p2 = p[i - 1];
 
             if ( edge.isInside( p1 ) )
             {
@@ -219,11 +219,11 @@ private:
 
 class QwtCircleClipper
 {
-public:
-    explicit QwtCircleClipper( const QRectF &r );
-    QVector<QwtInterval> clipCircle( const QPointF &, double radius ) const;
+  public:
+    explicit QwtCircleClipper( const QRectF& r );
+    QVector< QwtInterval > clipCircle( const QPointF&, double radius ) const;
 
-private:
+  private:
     enum Edge
     {
         Left,
@@ -234,30 +234,30 @@ private:
         NEdges
     };
 
-    QVector<QPointF> cuttingPoints(
-        Edge, const QPointF &pos, double radius ) const;
+    QVector< QPointF > cuttingPoints(
+        Edge, const QPointF& pos, double radius ) const;
 
-    double toAngle( const QPointF &, const QPointF & ) const;
+    double toAngle( const QPointF&, const QPointF& ) const;
 
     const QRectF d_rect;
 };
 
 
-QwtCircleClipper::QwtCircleClipper( const QRectF &r ):
-    d_rect( r )
+QwtCircleClipper::QwtCircleClipper( const QRectF& r )
+    : d_rect( r )
 {
 }
 
-QVector<QwtInterval> QwtCircleClipper::clipCircle(
-    const QPointF &pos, double radius ) const
+QVector< QwtInterval > QwtCircleClipper::clipCircle(
+    const QPointF& pos, double radius ) const
 {
     // using QVarLengthArray TODO ...
 
-    QVector<QPointF> points;
+    QVector< QPointF > points;
     for ( int edge = 0; edge < NEdges; edge++ )
-        points += cuttingPoints( static_cast<Edge>(edge), pos, radius );
+        points += cuttingPoints( static_cast< Edge >( edge ), pos, radius );
 
-    QVector<QwtInterval> intv;
+    QVector< QwtInterval > intv;
     if ( points.size() <= 0 )
     {
         QRectF cRect( 0, 0, 2 * radius, 2 * radius );
@@ -267,7 +267,7 @@ QVector<QwtInterval> QwtCircleClipper::clipCircle(
     }
     else
     {
-        QVector<double> angles;
+        QVector< double > angles;
         angles.reserve( points.size() );
 
         for ( int i = 0; i < points.size(); i++ )
@@ -282,12 +282,12 @@ QVector<QwtInterval> QwtCircleClipper::clipCircle(
         if ( in )
         {
             for ( int i = 0; i < angles.size() - 1; i += 2 )
-                intv += QwtInterval( angles[i], angles[i+1] );
+                intv += QwtInterval( angles[i], angles[i + 1] );
         }
         else
         {
             for ( int i = 1; i < angles.size() - 1; i += 2 )
-                intv += QwtInterval( angles[i], angles[i+1] );
+                intv += QwtInterval( angles[i], angles[i + 1] );
 
             intv += QwtInterval( angles.last(), angles.first() );
         }
@@ -297,7 +297,7 @@ QVector<QwtInterval> QwtCircleClipper::clipCircle(
 }
 
 double QwtCircleClipper::toAngle(
-    const QPointF &from, const QPointF &to ) const
+    const QPointF& from, const QPointF& to ) const
 {
     if ( from.x() == to.x() )
         return from.y() <= to.y() ? M_PI / 2.0 : 3 * M_PI / 2.0;
@@ -321,10 +321,10 @@ double QwtCircleClipper::toAngle(
     return angle;
 }
 
-QVector<QPointF> QwtCircleClipper::cuttingPoints(
-    Edge edge, const QPointF &pos, double radius ) const
+QVector< QPointF > QwtCircleClipper::cuttingPoints(
+    Edge edge, const QPointF& pos, double radius ) const
 {
-    QVector<QPointF> points;
+    QVector< QPointF > points;
 
     if ( edge == Left || edge == Right )
     {
@@ -365,9 +365,9 @@ QVector<QPointF> QwtCircleClipper::cuttingPoints(
    \param clipRect Clip rectangle
    \param polygon Polygon IN/OUT
    \param closePolygon True, when the polygon is closed
-*/
+ */
 void QwtClipper::clipPolygon(
-    const QRectF &clipRect, QPolygon &polygon, bool closePolygon )
+    const QRectF& clipRect, QPolygon& polygon, bool closePolygon )
 {
     const int minX = qCeil( clipRect.left() );
     const int maxX = qFloor( clipRect.right() );
@@ -376,7 +376,7 @@ void QwtClipper::clipPolygon(
 
     const QRect r( minX, minY, maxX - minX, maxY - minY );
 
-    QwtPolygonClipper<QPolygon, QRect, int> clipper( r );
+    QwtPolygonClipper< QPolygon, QRect, int > clipper( r );
     clipper.clipPolygon( polygon, closePolygon );
 }
 
@@ -386,11 +386,11 @@ void QwtClipper::clipPolygon(
    \param clipRect Clip rectangle
    \param polygon Polygon IN/OUT
    \param closePolygon True, when the polygon is closed
-*/
+ */
 void QwtClipper::clipPolygon(
-    const QRect &clipRect, QPolygon &polygon, bool closePolygon )
+    const QRect& clipRect, QPolygon& polygon, bool closePolygon )
 {
-    QwtPolygonClipper<QPolygon, QRect, int> clipper( clipRect );
+    QwtPolygonClipper< QPolygon, QRect, int > clipper( clipRect );
     clipper.clipPolygon( polygon, closePolygon );
 }
 
@@ -400,11 +400,11 @@ void QwtClipper::clipPolygon(
    \param clipRect Clip rectangle
    \param polygon Polygon IN/OUT
    \param closePolygon True, when the polygon is closed
-*/
+ */
 void QwtClipper::clipPolygonF(
-    const QRectF &clipRect, QPolygonF &polygon, bool closePolygon )
+    const QRectF& clipRect, QPolygonF& polygon, bool closePolygon )
 {
-    QwtPolygonClipper<QPolygonF, QRectF, double> clipper( clipRect );
+    QwtPolygonClipper< QPolygonF, QRectF, double > clipper( clipRect );
     clipper.clipPolygon( polygon, closePolygon );
 }
 
@@ -416,9 +416,9 @@ void QwtClipper::clipPolygonF(
    \param closePolygon True, when the polygon is closed
 
    \return Clipped polygon
-*/
+ */
 QPolygon QwtClipper::clippedPolygon(
-    const QRectF &clipRect, const QPolygon &polygon, bool closePolygon )
+    const QRectF& clipRect, const QPolygon& polygon, bool closePolygon )
 {
     QPolygon points( polygon );
     clipPolygon( clipRect, points, closePolygon );
@@ -433,9 +433,9 @@ QPolygon QwtClipper::clippedPolygon(
    \param closePolygon True, when the polygon is closed
 
    \return Clipped polygon
-*/
+ */
 QPolygon QwtClipper::clippedPolygon(
-    const QRect &clipRect, const QPolygon &polygon, bool closePolygon )
+    const QRect& clipRect, const QPolygon& polygon, bool closePolygon )
 {
     QPolygon points( polygon );
     clipPolygon( clipRect, points, closePolygon );
@@ -451,9 +451,9 @@ QPolygon QwtClipper::clippedPolygon(
    \param closePolygon True, when the polygon is closed
 
    \return Clipped polygon
-*/
+ */
 QPolygonF QwtClipper::clippedPolygonF(
-    const QRectF &clipRect, const QPolygonF &polygon, bool closePolygon )
+    const QRectF& clipRect, const QPolygonF& polygon, bool closePolygon )
 {
     QPolygonF points( polygon );
     clipPolygonF( clipRect, points, closePolygon );
@@ -473,9 +473,9 @@ QPolygonF QwtClipper::clippedPolygonF(
    \param radius Radius of the circle
 
    \return Arcs of the circle
-*/
-QVector<QwtInterval> QwtClipper::clipCircle( const QRectF &clipRect,
-    const QPointF &center, double radius )
+ */
+QVector< QwtInterval > QwtClipper::clipCircle( const QRectF& clipRect,
+    const QPointF& center, double radius )
 {
     QwtCircleClipper clipper( clipRect );
     return clipper.clipCircle( center, radius );

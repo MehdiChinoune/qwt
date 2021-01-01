@@ -72,9 +72,9 @@ class QImage;
 
     \sa QwtPainterCommand
  */
-class QWT_EXPORT QwtGraphic: public QwtNullPaintDevice
+class QWT_EXPORT QwtGraphic : public QwtNullPaintDevice
 {
-public:
+  public:
     /*!
         Hint how to render a graphic
         \sa setRenderHint(), testRenderHint()
@@ -119,18 +119,18 @@ public:
         Transformation = 1 << 2
     };
 
-    /*! 
+    /*!
        Flag indicating what types of painter commands are in a QskGraphic
        \sa commandTypes();
      */
     typedef QFlags< CommandType > CommandTypes;
 
     QwtGraphic();
-    QwtGraphic( const QwtGraphic & );
+    QwtGraphic( const QwtGraphic& );
 
     virtual ~QwtGraphic();
 
-    QwtGraphic& operator=( const QwtGraphic & );
+    QwtGraphic& operator=( const QwtGraphic& );
 
     void reset();
 
@@ -139,26 +139,26 @@ public:
 
     CommandTypes commandTypes() const;
 
-    void render( QPainter * ) const;
+    void render( QPainter* ) const;
 
-    void render( QPainter *, const QSizeF &,
+    void render( QPainter*, const QSizeF&,
         Qt::AspectRatioMode = Qt::IgnoreAspectRatio ) const;
 
-    void render( QPainter *, const QPointF &,
+    void render( QPainter*, const QPointF&,
         Qt::Alignment = Qt::AlignTop | Qt::AlignLeft ) const;
 
-    void render( QPainter *, const QRectF &,
+    void render( QPainter*, const QRectF&,
         Qt::AspectRatioMode = Qt::IgnoreAspectRatio ) const;
 
     QPixmap toPixmap( qreal devicePixelRatio = 0.0 ) const;
 
-    QPixmap toPixmap( const QSize &,
+    QPixmap toPixmap( const QSize&,
         Qt::AspectRatioMode = Qt::IgnoreAspectRatio,
         qreal devicePixelRatio = 0.0 ) const;
 
     QImage toImage( qreal devicePixelRatio = 0.0 ) const;
 
-    QImage toImage( const QSize &,
+    QImage toImage( const QSize&,
         Qt::AspectRatioMode = Qt::IgnoreAspectRatio,
         qreal devicePixelRatio = 0.0 ) const;
 
@@ -167,10 +167,10 @@ public:
     QRectF boundingRect() const;
     QRectF controlPointRect() const;
 
-    const QVector< QwtPainterCommand > &commands() const;
-    void setCommands( const QVector< QwtPainterCommand > & );
+    const QVector< QwtPainterCommand >& commands() const;
+    void setCommands( const QVector< QwtPainterCommand >& );
 
-    void setDefaultSize( const QSizeF & );
+    void setDefaultSize( const QSizeF& );
     QSizeF defaultSize() const;
 
     qreal heightForWidth( qreal width ) const;
@@ -181,29 +181,29 @@ public:
 
     RenderHints renderHints() const;
 
-protected:
+  protected:
     virtual QSize sizeMetrics() const QWT_OVERRIDE;
 
-    virtual void drawPath( const QPainterPath & ) QWT_OVERRIDE;
+    virtual void drawPath( const QPainterPath& ) QWT_OVERRIDE;
 
-    virtual void drawPixmap( const QRectF &,
-        const QPixmap &, const QRectF & ) QWT_OVERRIDE;
+    virtual void drawPixmap( const QRectF&,
+        const QPixmap&, const QRectF& ) QWT_OVERRIDE;
 
-    virtual void drawImage( const QRectF &, const QImage &,
-        const QRectF &, Qt::ImageConversionFlags ) QWT_OVERRIDE;
+    virtual void drawImage( const QRectF&, const QImage&,
+        const QRectF&, Qt::ImageConversionFlags ) QWT_OVERRIDE;
 
-    virtual void updateState( const QPaintEngineState & ) QWT_OVERRIDE;
+    virtual void updateState( const QPaintEngineState& ) QWT_OVERRIDE;
 
-private:
-    void renderGraphic( QPainter *, QTransform * ) const;
+  private:
+    void renderGraphic( QPainter*, QTransform* ) const;
 
-    void updateBoundingRect( const QRectF & );
-    void updateControlPointRect( const QRectF & );
+    void updateBoundingRect( const QRectF& );
+    void updateControlPointRect( const QRectF& );
 
     class PathInfo;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( QwtGraphic::RenderHints )

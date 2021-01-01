@@ -19,37 +19,37 @@ class QwtText;
 class QwtSymbol;
 
 /*!
-  \brief A class for drawing markers
+   \brief A class for drawing markers
 
-  A marker can be a horizontal line, a vertical line,
-  a symbol, a label or any combination of them, which can
-  be drawn around a center point inside a bounding rectangle.
+   A marker can be a horizontal line, a vertical line,
+   a symbol, a label or any combination of them, which can
+   be drawn around a center point inside a bounding rectangle.
 
-  The setSymbol() member assigns a symbol to the marker.
-  The symbol is drawn at the specified point.
+   The setSymbol() member assigns a symbol to the marker.
+   The symbol is drawn at the specified point.
 
-  With setLabel(), a label can be assigned to the marker.
-  The setLabelAlignment() member specifies where the label is
-  drawn. All the Align*-constants in Qt::AlignmentFlags (see Qt documentation)
-  are valid. The interpretation of the alignment depends on the marker's
-  line style. The alignment refers to the center point of
-  the marker, which means, for example, that the label would be printed
-  left above the center point if the alignment was set to
-  Qt::AlignLeft | Qt::AlignTop.
+   With setLabel(), a label can be assigned to the marker.
+   The setLabelAlignment() member specifies where the label is
+   drawn. All the Align*-constants in Qt::AlignmentFlags (see Qt documentation)
+   are valid. The interpretation of the alignment depends on the marker's
+   line style. The alignment refers to the center point of
+   the marker, which means, for example, that the label would be printed
+   left above the center point if the alignment was set to
+   Qt::AlignLeft | Qt::AlignTop.
 
-  \note QwtPlotTextLabel is intended to align a text label
+   \note QwtPlotTextLabel is intended to align a text label
         according to the geometry of canvas
         ( unrelated to plot coordinates )
-*/
+ */
 
-class QWT_EXPORT QwtPlotMarker: public QwtPlotItem
+class QWT_EXPORT QwtPlotMarker : public QwtPlotItem
 {
-public:
+  public:
 
     /*!
         Line styles.
         \sa setLineStyle(), lineStyle()
-    */
+     */
     enum LineStyle
     {
         //! No line
@@ -66,8 +66,8 @@ public:
     };
 
     explicit QwtPlotMarker();
-    explicit QwtPlotMarker( const QString &title );
-    explicit QwtPlotMarker( const QwtText &title );
+    explicit QwtPlotMarker( const QString& title );
+    explicit QwtPlotMarker( const QwtText& title );
 
     virtual ~QwtPlotMarker();
 
@@ -80,17 +80,17 @@ public:
     void setXValue( double );
     void setYValue( double );
     void setValue( double, double );
-    void setValue( const QPointF & );
+    void setValue( const QPointF& );
 
     void setLineStyle( LineStyle );
     LineStyle lineStyle() const;
 
-    void setLinePen( const QColor &, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
-    void setLinePen( const QPen & );
-    const QPen &linePen() const;
+    void setLinePen( const QColor&, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
+    void setLinePen( const QPen& );
+    const QPen& linePen() const;
 
-    void setSymbol( const QwtSymbol * );
-    const QwtSymbol *symbol() const;
+    void setSymbol( const QwtSymbol* );
+    const QwtSymbol* symbol() const;
 
     void setLabel( const QwtText& );
     QwtText label() const;
@@ -104,29 +104,29 @@ public:
     void setSpacing( int );
     int spacing() const;
 
-    virtual void draw( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF & ) const QWT_OVERRIDE;
+    virtual void draw( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& ) const QWT_OVERRIDE;
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 
     virtual QwtGraphic legendIcon(
-        int index, const QSizeF & ) const QWT_OVERRIDE;
+        int index, const QSizeF& ) const QWT_OVERRIDE;
 
-protected:
-    virtual void drawLines( QPainter *,
-        const QRectF &, const QPointF & ) const;
+  protected:
+    virtual void drawLines( QPainter*,
+        const QRectF&, const QPointF& ) const;
 
-    virtual void drawSymbol( QPainter *,
-        const QRectF &, const QPointF & ) const;
+    virtual void drawSymbol( QPainter*,
+        const QRectF&, const QPointF& ) const;
 
-    virtual void drawLabel( QPainter *,
-        const QRectF &, const QPointF & ) const;
+    virtual void drawLabel( QPainter*,
+        const QRectF&, const QPointF& ) const;
 
-private:
+  private:
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

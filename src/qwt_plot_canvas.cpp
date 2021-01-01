@@ -17,9 +17,9 @@
 
 class QwtPlotCanvas::PrivateData
 {
-public:
-    PrivateData():
-        backingStore( NULL )
+  public:
+    PrivateData()
+        : backingStore( NULL )
     {
     }
 
@@ -29,18 +29,18 @@ public:
     }
 
     QwtPlotCanvas::PaintAttributes paintAttributes;
-    QPixmap *backingStore;
+    QPixmap* backingStore;
 };
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  \param plot Parent plot widget
-  \sa QwtPlot::setCanvas()
-*/
-QwtPlotCanvas::QwtPlotCanvas( QwtPlot *plot ):
-    QFrame( plot ),
-    QwtPlotAbstractCanvas( this )
+   \param plot Parent plot widget
+   \sa QwtPlot::setCanvas()
+ */
+QwtPlotCanvas::QwtPlotCanvas( QwtPlot* plot )
+    : QFrame( plot )
+    , QwtPlotAbstractCanvas( this )
 {
     m_data = new PrivateData;
 
@@ -56,13 +56,13 @@ QwtPlotCanvas::~QwtPlotCanvas()
 }
 
 /*!
-  \brief Changing the paint attributes
+   \brief Changing the paint attributes
 
-  \param attribute Paint attribute
-  \param on On/Off
+   \param attribute Paint attribute
+   \param on On/Off
 
-  \sa testPaintAttribute(), backingStore()
-*/
+   \sa testPaintAttribute(), backingStore()
+ */
 void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 {
     if ( bool( m_data->paintAttributes & attribute ) == on )
@@ -114,19 +114,19 @@ void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 }
 
 /*!
-  Test whether a paint attribute is enabled
+   Test whether a paint attribute is enabled
 
-  \param attribute Paint attribute
-  \return true, when attribute is enabled
-  \sa setPaintAttribute()
-*/
+   \param attribute Paint attribute
+   \return true, when attribute is enabled
+   \sa setPaintAttribute()
+ */
 bool QwtPlotCanvas::testPaintAttribute( PaintAttribute attribute ) const
 {
     return m_data->paintAttributes & attribute;
 }
 
 //! \return Backing store, might be null
-const QPixmap *QwtPlotCanvas::backingStore() const
+const QPixmap* QwtPlotCanvas::backingStore() const
 {
     return m_data->backingStore;
 }
@@ -139,12 +139,12 @@ void QwtPlotCanvas::invalidateBackingStore()
 }
 
 /*!
-  Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
+   Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
 
-  \param event Qt Event
-  \return See QFrame::event()
-*/
-bool QwtPlotCanvas::event( QEvent *event )
+   \param event Qt Event
+   \return See QFrame::event()
+ */
+bool QwtPlotCanvas::event( QEvent* event )
 {
     if ( event->type() == QEvent::PolishRequest )
     {
@@ -168,10 +168,10 @@ bool QwtPlotCanvas::event( QEvent *event )
 }
 
 /*!
-  Paint event
-  \param event Paint event
-*/
-void QwtPlotCanvas::paintEvent( QPaintEvent *event )
+   Paint event
+   \param event Paint event
+ */
+void QwtPlotCanvas::paintEvent( QPaintEvent* event )
 {
     QPainter painter( this );
     painter.setClipRegion( event->region() );
@@ -179,7 +179,7 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
     if ( testPaintAttribute( QwtPlotCanvas::BackingStore ) &&
         m_data->backingStore != NULL )
     {
-        QPixmap &bs = *m_data->backingStore;
+        QPixmap& bs = *m_data->backingStore;
         if ( bs.size() != size() * QwtPainter::devicePixelRatio( &bs ) )
         {
             bs = QwtPainter::backingStore( this, size() );
@@ -264,12 +264,12 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
 }
 
 /*!
-  Draw the border of the plot canvas
+   Draw the border of the plot canvas
 
-  \param painter Painter
-  \sa setBorderRadius()
-*/
-void QwtPlotCanvas::drawBorder( QPainter *painter )
+   \param painter Painter
+   \sa setBorderRadius()
+ */
+void QwtPlotCanvas::drawBorder( QPainter* painter )
 {
     if ( borderRadius() <= 0 )
     {
@@ -281,10 +281,10 @@ void QwtPlotCanvas::drawBorder( QPainter *painter )
 }
 
 /*!
-  Resize event
-  \param event Resize event
-*/
-void QwtPlotCanvas::resizeEvent( QResizeEvent *event )
+   Resize event
+   \param event Resize event
+ */
+void QwtPlotCanvas::resizeEvent( QResizeEvent* event )
 {
     QFrame::resizeEvent( event );
     updateStyleSheetInfo();
@@ -293,7 +293,7 @@ void QwtPlotCanvas::resizeEvent( QResizeEvent *event )
 /*!
    Invalidate the paint cache and repaint the canvas
    \sa invalidatePaintCache()
-*/
+ */
 void QwtPlotCanvas::replot()
 {
     invalidateBackingStore();
@@ -312,8 +312,8 @@ void QwtPlotCanvas::replot()
 
    \param rect Bounding rectangle of the canvas
    \return Painter path, that can be used for clipping
-*/
-QPainterPath QwtPlotCanvas::borderPath( const QRect &rect ) const
+ */
+QPainterPath QwtPlotCanvas::borderPath( const QRect& rect ) const
 {
     return borderPath2( rect );
 }

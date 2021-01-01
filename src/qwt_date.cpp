@@ -29,12 +29,12 @@ static const QwtJulianDay maxJulianDayD = Q_INT64_C( 784354017364 );
 
 typedef int QwtJulianDay;
 static const QwtJulianDay minJulianDayD = 1;
-static const QwtJulianDay maxJulianDayD = std::numeric_limits<int>::max();
+static const QwtJulianDay maxJulianDayD = std::numeric_limits< int >::max();
 
 #endif
 
-static QString qwtExpandedFormat( const QString & format,
-    const QDateTime &dateTime, QwtDate::Week0Type week0Type )
+static QString qwtExpandedFormat( const QString& format,
+    const QDateTime& dateTime, QwtDate::Week0Type week0Type )
 {
     const int week = QwtDate::weekNumber( dateTime.date(), week0Type );
 
@@ -123,7 +123,7 @@ static inline Qt::DayOfWeek qwtFirstDayOfWeek()
 }
 
 static inline void qwtFloorTime(
-    QwtDate::IntervalType intervalType, QDateTime &dt )
+    QwtDate::IntervalType intervalType, QDateTime& dt )
 {
     // when dt is inside the special hour where DST is ending
     // an hour is no unique. Therefore we have to
@@ -161,13 +161,13 @@ static inline void qwtFloorTime(
 }
 
 static inline QDateTime qwtToTimeSpec(
-    const QDateTime &dt, Qt::TimeSpec spec )
+    const QDateTime& dt, Qt::TimeSpec spec )
 {
     if ( dt.timeSpec() == spec )
         return dt;
 
     const qint64 jd = dt.date().toJulianDay();
-    if ( jd < 0 || jd >= std::numeric_limits<int>::max() )
+    if ( jd < 0 || jd >= std::numeric_limits< int >::max() )
     {
         // the conversion between local time and UTC
         // is internally limited. To avoid
@@ -194,7 +194,7 @@ static inline double qwtToJulianDay( int year, int month, int day )
     const double y1 = std::floor( ( 4900.0 + year + m1 ) / 100 );
 
     return std::floor( ( 1461.0 * ( year + 4800 + m1 ) ) / 4 ) + m2
-            - std::floor( ( 3 * y1 ) / 4 ) + day - 32075;
+           - std::floor( ( 3 * y1 ) / 4 ) + day - 32075;
 }
 
 static inline qint64 qwtFloorDiv64( qint64 a, int b )
@@ -238,7 +238,7 @@ static inline QDate qwtToDate( int year, int month = 1, int day = 1 )
             return QDate();
         }
 
-        return QDate::fromJulianDay( static_cast<QwtJulianDay>( jd ) );
+        return QDate::fromJulianDay( static_cast< QwtJulianDay >( jd ) );
     }
     else
     {
@@ -248,21 +248,21 @@ static inline QDate qwtToDate( int year, int month = 1, int day = 1 )
 }
 
 /*!
-  Translate from double to QDateTime
+   Translate from double to QDateTime
 
-  \param value Number of milliseconds since the epoch,
+   \param value Number of milliseconds since the epoch,
                1970-01-01T00:00:00 UTC
-  \param timeSpec Time specification
-  \return Datetime value
+   \param timeSpec Time specification
+   \return Datetime value
 
-  \sa toDouble(), QDateTime::setMSecsSinceEpoch()
-  \note The return datetime for Qt::OffsetFromUTC will be Qt::UTC
+   \sa toDouble(), QDateTime::setMSecsSinceEpoch()
+   \note The return datetime for Qt::OffsetFromUTC will be Qt::UTC
  */
 QDateTime QwtDate::toDateTime( double value, Qt::TimeSpec timeSpec )
 {
     const int msecsPerDay = 86400000;
 
-    const double days = static_cast<qint64>( std::floor( value / msecsPerDay ) );
+    const double days = static_cast< qint64 >( std::floor( value / msecsPerDay ) );
 
     const double jd = QwtDate::JulianDayForEpoch + days;
     if ( ( jd > maxJulianDayD ) || ( jd < minJulianDayD ) )
@@ -271,9 +271,9 @@ QDateTime QwtDate::toDateTime( double value, Qt::TimeSpec timeSpec )
         return QDateTime();
     }
 
-    const QDate d = QDate::fromJulianDay( static_cast<QwtJulianDay>( jd ) );
+    const QDate d = QDate::fromJulianDay( static_cast< QwtJulianDay >( jd ) );
 
-    const int msecs = static_cast<int>( value - days * msecsPerDay );
+    const int msecs = static_cast< int >( value - days * msecsPerDay );
 
     static const QTime timeNull( 0, 0, 0, 0 );
 
@@ -286,16 +286,16 @@ QDateTime QwtDate::toDateTime( double value, Qt::TimeSpec timeSpec )
 }
 
 /*!
-  Translate from QDateTime to double
+   Translate from QDateTime to double
 
-  \param dateTime Datetime value
-  \return Number of milliseconds since 1970-01-01T00:00:00 UTC has passed.
+   \param dateTime Datetime value
+   \return Number of milliseconds since 1970-01-01T00:00:00 UTC has passed.
 
-  \sa toDateTime(), QDateTime::toMSecsSinceEpoch()
-  \warning For values very far below or above 1970-01-01 UTC rounding errors
+   \sa toDateTime(), QDateTime::toMSecsSinceEpoch()
+   \warning For values very far below or above 1970-01-01 UTC rounding errors
            will happen due to the limited significance of a double.
  */
-double QwtDate::toDouble( const QDateTime &dateTime )
+double QwtDate::toDouble( const QDateTime& dateTime )
 {
     const int msecsPerDay = 86400000;
 
@@ -311,16 +311,16 @@ double QwtDate::toDouble( const QDateTime &dateTime )
 }
 
 /*!
-  Ceil a datetime according the interval type
+   Ceil a datetime according the interval type
 
-  \param dateTime Datetime value
-  \param intervalType Interval type, how to ceil.
+   \param dateTime Datetime value
+   \param intervalType Interval type, how to ceil.
                       F.e. when intervalType = QwtDate::Months, the result
                       will be ceiled to the next beginning of a month
-  \return Ceiled datetime
-  \sa floor()
+   \return Ceiled datetime
+   \sa floor()
  */
-QDateTime QwtDate::ceil( const QDateTime &dateTime, IntervalType intervalType )
+QDateTime QwtDate::ceil( const QDateTime& dateTime, IntervalType intervalType )
 {
     if ( dateTime.date() >= QwtDate::maxDate() )
         return dateTime;
@@ -412,17 +412,17 @@ QDateTime QwtDate::ceil( const QDateTime &dateTime, IntervalType intervalType )
 }
 
 /*!
-  Floor a datetime according the interval type
+   Floor a datetime according the interval type
 
-  \param dateTime Datetime value
-  \param intervalType Interval type, how to ceil.
+   \param dateTime Datetime value
+   \param intervalType Interval type, how to ceil.
                       F.e. when intervalType = QwtDate::Months,
                       the result will be ceiled to the next
                       beginning of a month
-  \return Floored datetime
-  \sa floor()
+   \return Floored datetime
+   \sa floor()
  */
-QDateTime QwtDate::floor( const QDateTime &dateTime,
+QDateTime QwtDate::floor( const QDateTime& dateTime,
     IntervalType intervalType )
 {
     if ( dateTime.date() <= QwtDate::minDate() )
@@ -485,16 +485,16 @@ QDateTime QwtDate::floor( const QDateTime &dateTime,
 }
 
 /*!
-  Minimum for the supported date range
+   Minimum for the supported date range
 
-  The range of valid dates depends on how QDate stores the
-  Julian day internally.
+   The range of valid dates depends on how QDate stores the
+   Julian day internally.
 
-  - For Qt4 it is "Tue Jan 2 -4713"
-  - For Qt5 it is "Thu Jan 1 -2147483648"
+   - For Qt4 it is "Tue Jan 2 -4713"
+   - For Qt5 it is "Thu Jan 1 -2147483648"
 
-  \return minimum of the date range
-  \sa maxDate()
+   \return minimum of the date range
+   \sa maxDate()
  */
 QDate QwtDate::minDate()
 {
@@ -506,17 +506,17 @@ QDate QwtDate::minDate()
 }
 
 /*!
-  Maximum for the supported date range
+   Maximum for the supported date range
 
-  The range of valid dates depends on how QDate stores the
-  Julian day internally.
+   The range of valid dates depends on how QDate stores the
+   Julian day internally.
 
-  - For Qt4 it is "Tue Jun 3 5874898"
-  - For Qt5 it is "Tue Dec 31 2147483647"
+   - For Qt4 it is "Tue Jun 3 5874898"
+   - For Qt5 it is "Tue Dec 31 2147483647"
 
-  \return maximum of the date range
-  \sa minDate()
-  \note The maximum differs between Qt4 and Qt5
+   \return maximum of the date range
+   \sa minDate()
+   \note The maximum differs between Qt4 and Qt5
  */
 QDate QwtDate::maxDate()
 {
@@ -528,16 +528,16 @@ QDate QwtDate::maxDate()
 }
 
 /*!
-  \brief Date of the first day of the first week for a year
+   \brief Date of the first day of the first week for a year
 
-  The first day of a week depends on the current locale
-  ( QLocale::firstDayOfWeek() ).
+   The first day of a week depends on the current locale
+   ( QLocale::firstDayOfWeek() ).
 
-  \param year Year
-  \param type Option how to identify the first week
-  \return First day of week 0
+   \param year Year
+   \param type Option how to identify the first week
+   \return First day of week 0
 
-  \sa QLocale::firstDayOfWeek(), weekNumber()
+   \sa QLocale::firstDayOfWeek(), weekNumber()
  */
 QDate QwtDate::dateOfWeek0( int year, Week0Type type )
 {
@@ -569,20 +569,20 @@ QDate QwtDate::dateOfWeek0( int year, Week0Type type )
 }
 
 /*!
-  Find the week number of a date
+   Find the week number of a date
 
-  - QwtDate::FirstThursday\n
+   - QwtDate::FirstThursday\n
     Corresponding to ISO 8601 ( see QDate::weekNumber() ).
 
-  - QwtDate::FirstDay\n
+   - QwtDate::FirstDay\n
     Number of weeks that have begun since dateOfWeek0().
 
-  \param date Date
-  \param type Option how to identify the first week
+   \param date Date
+   \param type Option how to identify the first week
 
-  \return Week number, starting with 1
+   \return Week number, starting with 1
  */
-int QwtDate::weekNumber( const QDate &date, Week0Type type )
+int QwtDate::weekNumber( const QDate& date, Week0Type type )
 {
     int weekNo;
 
@@ -632,7 +632,7 @@ int QwtDate::weekNumber( const QDate &date, Week0Type type )
    \param dateTime Datetime value
    \return Offset in seconds
  */
-int QwtDate::utcOffset( const QDateTime &dateTime )
+int QwtDate::utcOffset( const QDateTime& dateTime )
 {
     int seconds = 0;
 
@@ -662,29 +662,29 @@ int QwtDate::utcOffset( const QDateTime &dateTime )
 }
 
 /*!
-  Translate a datetime into a string
+   Translate a datetime into a string
 
-  Beside the format expressions documented in QDateTime::toString()
-  the following expressions are supported:
+   Beside the format expressions documented in QDateTime::toString()
+   the following expressions are supported:
 
-  - w\n
+   - w\n
     week number: ( 1 - 53 )
-  - ww\n
+   - ww\n
     week number with a leading zero ( 01 - 53 )
 
-  As week 1 usually starts in the previous year a special rule
-  is applied for formats, where the year is expected to match the
-  week number - even if the date belongs to the previous year.
+   As week 1 usually starts in the previous year a special rule
+   is applied for formats, where the year is expected to match the
+   week number - even if the date belongs to the previous year.
 
-  \param dateTime Datetime value
-  \param format Format string
-  \param week0Type Specification of week 0
+   \param dateTime Datetime value
+   \param format Format string
+   \param week0Type Specification of week 0
 
-  \return Datetime string
-  \sa QDateTime::toString(), weekNumber(), QwtDateScaleDraw
+   \return Datetime string
+   \sa QDateTime::toString(), weekNumber(), QwtDateScaleDraw
  */
-QString QwtDate::toString( const QDateTime &dateTime,
-    const QString & format, Week0Type week0Type )
+QString QwtDate::toString( const QDateTime& dateTime,
+    const QString& format, Week0Type week0Type )
 {
     QString fmt = format;
     if ( fmt.contains( 'w' ) )

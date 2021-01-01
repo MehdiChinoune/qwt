@@ -18,20 +18,20 @@
 #include <qmath.h>
 
 /*!
-  \brief A point in polar coordinates
+   \brief A point in polar coordinates
 
-  In polar coordinates a point is determined by an angle and a distance.
-  See http://en.wikipedia.org/wiki/Polar_coordinate_system
-*/
+   In polar coordinates a point is determined by an angle and a distance.
+   See http://en.wikipedia.org/wiki/Polar_coordinate_system
+ */
 
 class QWT_EXPORT QwtPointPolar
 {
-public:
+  public:
     QwtPointPolar();
     QwtPointPolar( double azimuth, double radius );
-    QwtPointPolar( const QPointF & );
+    QwtPointPolar( const QPointF& );
 
-    void setPoint( const QPointF & );
+    void setPoint( const QPointF& );
     QPointF toPoint() const;
 
     bool isValid() const;
@@ -40,18 +40,18 @@ public:
     double radius() const;
     double azimuth() const;
 
-    double &rRadius();
-    double &rAzimuth();
+    double& rRadius();
+    double& rAzimuth();
 
     void setRadius( double );
     void setAzimuth( double );
 
-    bool operator==( const QwtPointPolar & ) const;
-    bool operator!=( const QwtPointPolar & ) const;
+    bool operator==( const QwtPointPolar& ) const;
+    bool operator!=( const QwtPointPolar& ) const;
 
     QwtPointPolar normalized() const;
 
-private:
+  private:
     double m_azimuth;
     double m_radius;
 };
@@ -59,10 +59,10 @@ private:
 /*!
     Constructs a null point, with a radius and azimuth set to 0.0.
     \sa QPointF::isNull()
-*/
-inline QwtPointPolar::QwtPointPolar():
-    m_azimuth( 0.0 ),
-    m_radius( 0.0 )
+ */
+inline QwtPointPolar::QwtPointPolar()
+    : m_azimuth( 0.0 )
+    , m_radius( 0.0 )
 {
 }
 
@@ -71,10 +71,10 @@ inline QwtPointPolar::QwtPointPolar():
 
    \param azimuth Azimuth
    \param radius Radius
-*/
-inline QwtPointPolar::QwtPointPolar( double azimuth, double radius ):
-    m_azimuth( azimuth ),
-    m_radius( radius )
+ */
+inline QwtPointPolar::QwtPointPolar( double azimuth, double radius )
+    : m_azimuth( azimuth )
+    , m_radius( radius )
 {
 }
 
@@ -103,13 +103,13 @@ inline double QwtPointPolar::azimuth() const
 }
 
 //! Returns the radius.
-inline double &QwtPointPolar::rRadius()
+inline double& QwtPointPolar::rRadius()
 {
     return m_radius;
 }
 
 //! Returns the azimuth.
-inline double &QwtPointPolar::rAzimuth()
+inline double& QwtPointPolar::rAzimuth()
 {
     return m_azimuth;
 }
@@ -127,10 +127,10 @@ inline void QwtPointPolar::setAzimuth( double azimuth )
 }
 
 #ifndef QT_NO_DEBUG_STREAM
-QWT_EXPORT QDebug operator<<( QDebug, const QwtPointPolar & );
+QWT_EXPORT QDebug operator<<( QDebug, const QwtPointPolar& );
 #endif
 
-inline QPoint qwtPolar2Pos( const QPoint &pole,
+inline QPoint qwtPolar2Pos( const QPoint& pole,
     double radius, double angle )
 {
     const double x = pole.x() + radius * std::cos( angle );
@@ -139,13 +139,13 @@ inline QPoint qwtPolar2Pos( const QPoint &pole,
     return QPoint( qRound( x ), qRound( y ) );
 }
 
-inline QPoint qwtDegree2Pos( const QPoint &pole,
+inline QPoint qwtDegree2Pos( const QPoint& pole,
     double radius, double angle )
 {
     return qwtPolar2Pos( pole, radius, angle / 180.0 * M_PI );
 }
 
-inline QPointF qwtPolar2Pos( const QPointF &pole,
+inline QPointF qwtPolar2Pos( const QPointF& pole,
     double radius, double angle )
 {
     const double x = pole.x() + radius * std::cos( angle );
@@ -154,13 +154,13 @@ inline QPointF qwtPolar2Pos( const QPointF &pole,
     return QPointF( x, y);
 }
 
-inline QPointF qwtDegree2Pos( const QPointF &pole,
+inline QPointF qwtDegree2Pos( const QPointF& pole,
     double radius, double angle )
 {
     return qwtPolar2Pos( pole, radius, angle / 180.0 * M_PI );
 }
 
-inline QPointF qwtFastPolar2Pos( const QPointF &pole,
+inline QPointF qwtFastPolar2Pos( const QPointF& pole,
     double radius, double angle )
 {
     const double x = pole.x() + radius * qFastCos( angle );
@@ -169,13 +169,13 @@ inline QPointF qwtFastPolar2Pos( const QPointF &pole,
     return QPointF( x, y);
 }
 
-inline QPointF qwtFastDegree2Pos( const QPointF &pole,
+inline QPointF qwtFastDegree2Pos( const QPointF& pole,
     double radius, double angle )
 {
     return qwtFastPolar2Pos( pole, radius, angle / 180.0 * M_PI );
 }
 
-inline QwtPointPolar qwtFastPos2Polar( const QPointF &pos )
+inline QwtPointPolar qwtFastPos2Polar( const QPointF& pos )
 {
     return QwtPointPolar( qwtFastAtan2( pos.y(), pos.x() ),
         qSqrt( qwtSqr( pos.x() ) + qwtSqr( pos.y() ) ) );

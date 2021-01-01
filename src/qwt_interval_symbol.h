@@ -20,13 +20,13 @@ class QPointF;
 class QColor;
 
 /*!
-  \brief A drawing primitive for displaying an interval like an error bar
+   \brief A drawing primitive for displaying an interval like an error bar
 
-  \sa QwtPlotIntervalCurve
-*/
+   \sa QwtPlotIntervalCurve
+ */
 class QWT_EXPORT QwtIntervalSymbol
 {
-public:
+  public:
     //! Symbol style
     enum Style
     {
@@ -34,52 +34,53 @@ public:
         NoSymbol = -1,
 
         /*!
-          The symbol displays a line with caps at the beginning/end.
-          The size of the caps depends on the symbol width().
+           The symbol displays a line with caps at the beginning/end.
+           The size of the caps depends on the symbol width().
          */
         Bar,
 
         /*!
-          The symbol displays a plain rectangle using pen() and brush().
-          The size of the rectangle depends on the translated interval and
-          the width(),
+           The symbol displays a plain rectangle using pen() and brush().
+           The size of the rectangle depends on the translated interval and
+           the width(),
          */
         Box,
 
         /*!
-          Styles >= UserSymbol are reserved for derived
-          classes of QwtIntervalSymbol that overload draw() with
-          additional application specific symbol types.
+           Styles >= UserSymbol are reserved for derived
+           classes of QwtIntervalSymbol that overload draw() with
+           additional application specific symbol types.
          */
         UserSymbol = 1000
     };
 
-public:
+  public:
     explicit QwtIntervalSymbol( Style = NoSymbol );
-    QwtIntervalSymbol( const QwtIntervalSymbol & );
+    QwtIntervalSymbol( const QwtIntervalSymbol& );
+
     virtual ~QwtIntervalSymbol();
 
-    QwtIntervalSymbol &operator=( const QwtIntervalSymbol & );
-    bool operator==( const QwtIntervalSymbol & ) const;
-    bool operator!=( const QwtIntervalSymbol & ) const;
+    QwtIntervalSymbol& operator=( const QwtIntervalSymbol& );
+    bool operator==( const QwtIntervalSymbol& ) const;
+    bool operator!=( const QwtIntervalSymbol& ) const;
 
     void setWidth( int );
     int width() const;
 
-    void setBrush( const QBrush & );
+    void setBrush( const QBrush& );
     const QBrush& brush() const;
 
-    void setPen( const QColor &, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
-    void setPen( const QPen & );
+    void setPen( const QColor&, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
+    void setPen( const QPen& );
     const QPen& pen() const;
 
     void setStyle( Style );
     Style style() const;
 
-    virtual void draw( QPainter *, Qt::Orientation,
+    virtual void draw( QPainter*, Qt::Orientation,
         const QPointF& from, const QPointF& to ) const;
 
-private:
+  private:
     class PrivateData;
     PrivateData* m_data;
 };

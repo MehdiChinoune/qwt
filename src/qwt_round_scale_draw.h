@@ -16,21 +16,21 @@
 #include <qpoint.h>
 
 /*!
-  \brief A class for drawing round scales
+   \brief A class for drawing round scales
 
-  QwtRoundScaleDraw can be used to draw round scales.
-  The circle segment can be adjusted by setAngleRange().
-  The geometry of the scale can be specified with
-  moveCenter() and setRadius().
+   QwtRoundScaleDraw can be used to draw round scales.
+   The circle segment can be adjusted by setAngleRange().
+   The geometry of the scale can be specified with
+   moveCenter() and setRadius().
 
-  After a scale division has been specified as a QwtScaleDiv object
-  using QwtAbstractScaleDraw::setScaleDiv(const QwtScaleDiv &s),
-  the scale can be drawn with the QwtAbstractScaleDraw::draw() member.
-*/
+   After a scale division has been specified as a QwtScaleDiv object
+   using QwtAbstractScaleDraw::setScaleDiv(const QwtScaleDiv &s),
+   the scale can be drawn with the QwtAbstractScaleDraw::draw() member.
+ */
 
-class QWT_EXPORT QwtRoundScaleDraw: public QwtAbstractScaleDraw
+class QWT_EXPORT QwtRoundScaleDraw : public QwtAbstractScaleDraw
 {
-public:
+  public:
     QwtRoundScaleDraw();
     virtual ~QwtRoundScaleDraw();
 
@@ -38,26 +38,26 @@ public:
     double radius() const;
 
     void moveCenter( double x, double y );
-    void moveCenter( const QPointF & );
+    void moveCenter( const QPointF& );
     QPointF center() const;
 
     void setAngleRange( double angle1, double angle2 );
 
-    virtual double extent( const QFont & ) const QWT_OVERRIDE;
+    virtual double extent( const QFont& ) const QWT_OVERRIDE;
 
-protected:
-    virtual void drawTick( QPainter *,
+  protected:
+    virtual void drawTick( QPainter*,
         double value, double len ) const QWT_OVERRIDE;
 
     virtual void drawBackbone(
-        QPainter * ) const QWT_OVERRIDE;
+        QPainter* ) const QWT_OVERRIDE;
 
     virtual void drawLabel(
-        QPainter *, double value ) const QWT_OVERRIDE;
+        QPainter*, double value ) const QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 //! Move the center of the scale draw, leaving the radius unchanged

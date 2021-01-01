@@ -21,7 +21,7 @@ class QPainter;
 
 /*!
    \brief A Widget which displays a QwtText
-*/
+ */
 
 class QWT_EXPORT QwtTextLabel : public QFrame
 {
@@ -31,23 +31,23 @@ class QWT_EXPORT QwtTextLabel : public QFrame
     Q_PROPERTY( int margin READ margin WRITE setMargin )
     Q_PROPERTY( QString plainText READ plainText WRITE setPlainText )
 
-public:
-    explicit QwtTextLabel( QWidget *parent = NULL );
-    explicit QwtTextLabel( const QwtText &, QWidget *parent = NULL );
+  public:
+    explicit QwtTextLabel( QWidget* parent = NULL );
+    explicit QwtTextLabel( const QwtText&, QWidget* parent = NULL );
     virtual ~QwtTextLabel();
 
-    void setPlainText( const QString & );
+    void setPlainText( const QString& );
     QString plainText() const;
 
-public Q_SLOTS:
-    void setText( const QString &,
+  public Q_SLOTS:
+    void setText( const QString&,
         QwtText::TextFormat textFormat = QwtText::AutoText );
-    virtual void setText( const QwtText & );
+    virtual void setText( const QwtText& );
 
     void clear();
 
-public:
-    const QwtText &text() const;
+  public:
+    const QwtText& text() const;
 
     int indent() const;
     void setIndent( int );
@@ -61,18 +61,18 @@ public:
 
     QRect textRect() const;
 
-    virtual void drawText( QPainter *, const QRectF & );
+    virtual void drawText( QPainter*, const QRectF& );
 
-protected:
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
-    virtual void drawContents( QPainter * );
+  protected:
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
+    virtual void drawContents( QPainter* );
 
-private:
+  private:
     void init();
     int defaultIndent() const;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

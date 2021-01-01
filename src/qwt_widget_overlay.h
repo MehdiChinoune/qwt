@@ -37,9 +37,9 @@ class QRegion;
 
    \sa QwtPlotCanvas::BackingStore
  */
-class QWT_EXPORT QwtWidgetOverlay: public QWidget
+class QWT_EXPORT QwtWidgetOverlay : public QWidget
 {
-public:
+  public:
     /*!
        \brief Mask mode
 
@@ -120,12 +120,12 @@ public:
     void setRenderMode( RenderMode );
     RenderMode renderMode() const;
 
-    virtual bool eventFilter( QObject *, QEvent *) QWT_OVERRIDE;
+    virtual bool eventFilter( QObject*, QEvent*) QWT_OVERRIDE;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void updateOverlay();
 
-protected:
+  protected:
     virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
     virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
@@ -135,15 +135,15 @@ protected:
        Draw the widget overlay
        \param painter Painter
      */
-    virtual void drawOverlay( QPainter *painter ) const = 0;
+    virtual void drawOverlay( QPainter* painter ) const = 0;
 
-private:
+  private:
     void updateMask();
-    void draw( QPainter * ) const;
+    void draw( QPainter* ) const;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

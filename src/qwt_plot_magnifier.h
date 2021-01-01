@@ -16,39 +16,39 @@
 class QwtPlot;
 
 /*!
-  \brief QwtPlotMagnifier provides zooming, by magnifying in steps.
+   \brief QwtPlotMagnifier provides zooming, by magnifying in steps.
 
-  Using QwtPlotMagnifier a plot can be zoomed in/out in steps using
-  keys, the mouse wheel or moving a mouse button in vertical direction.
+   Using QwtPlotMagnifier a plot can be zoomed in/out in steps using
+   keys, the mouse wheel or moving a mouse button in vertical direction.
 
-  Together with QwtPlotZoomer and QwtPlotPanner it is possible to implement
-  individual and powerful navigation of the plot canvas.
+   Together with QwtPlotZoomer and QwtPlotPanner it is possible to implement
+   individual and powerful navigation of the plot canvas.
 
-  \sa QwtPlotZoomer, QwtPlotPanner, QwtPlot
-*/
-class QWT_EXPORT QwtPlotMagnifier: public QwtMagnifier
+   \sa QwtPlotZoomer, QwtPlotPanner, QwtPlot
+ */
+class QWT_EXPORT QwtPlotMagnifier : public QwtMagnifier
 {
     Q_OBJECT
 
-public:
-    explicit QwtPlotMagnifier( QWidget * );
+  public:
+    explicit QwtPlotMagnifier( QWidget* );
     virtual ~QwtPlotMagnifier();
 
     void setAxisEnabled( int axis, bool on );
     bool isAxisEnabled( int axis ) const;
 
-    QWidget *canvas();
-    const QWidget *canvas() const;
+    QWidget* canvas();
+    const QWidget* canvas() const;
 
-    QwtPlot *plot();
-    const QwtPlot *plot() const;
+    QwtPlot* plot();
+    const QwtPlot* plot() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     virtual void rescale( double factor ) QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

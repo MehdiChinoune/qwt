@@ -14,33 +14,33 @@
 #include <qthread.h>
 
 /*!
-  \brief A thread collecting samples at regular intervals.
+   \brief A thread collecting samples at regular intervals.
 
-  Continuous signals are converted into a discrete signal by
-  collecting samples at regular intervals. A discrete signal
-  can be displayed by a QwtPlotSeriesItem on a QwtPlot widget.
+   Continuous signals are converted into a discrete signal by
+   collecting samples at regular intervals. A discrete signal
+   can be displayed by a QwtPlotSeriesItem on a QwtPlot widget.
 
-  QwtSamplingThread starts a thread calling periodically sample(),
-  to collect and store ( or emit ) a single sample.
+   QwtSamplingThread starts a thread calling periodically sample(),
+   to collect and store ( or emit ) a single sample.
 
-  \sa QwtPlotCurve, QwtPlotSeriesItem
-*/
-class QWT_EXPORT QwtSamplingThread: public QThread
+   \sa QwtPlotCurve, QwtPlotSeriesItem
+ */
+class QWT_EXPORT QwtSamplingThread : public QThread
 {
     Q_OBJECT
 
-public:
+  public:
     virtual ~QwtSamplingThread();
 
     double interval() const;
     double elapsed() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setInterval( double interval );
     void stop();
 
-protected:
-    explicit QwtSamplingThread( QObject *parent = NULL );
+  protected:
+    explicit QwtSamplingThread( QObject* parent = NULL );
 
     virtual void run() QWT_OVERRIDE;
 
@@ -51,9 +51,9 @@ protected:
      */
     virtual void sample( double elapsed ) = 0;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

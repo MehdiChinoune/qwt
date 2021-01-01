@@ -16,7 +16,7 @@
 #include <qstring.h>
 
 /*!
-  \brief A plot item, which displays
+   \brief A plot item, which displays
          a recorded sequence of QPainter commands
 
    QwtPlotGraphicItem renders a sequence of recorded painter commands
@@ -24,32 +24,32 @@
    done manually by QPainter or e.g. QSvgRenderer.
 
    \sa QwtPlotShapeItem, QwtPlotSvgItem
-*/
+ */
 
-class QWT_EXPORT QwtPlotGraphicItem: public QwtPlotItem
+class QWT_EXPORT QwtPlotGraphicItem : public QwtPlotItem
 {
-public:
+  public:
     explicit QwtPlotGraphicItem( const QString& title = QString() );
     explicit QwtPlotGraphicItem( const QwtText& title );
 
     virtual ~QwtPlotGraphicItem();
 
-    void setGraphic( const QRectF &rect, const QwtGraphic & );
+    void setGraphic( const QRectF& rect, const QwtGraphic& );
     QwtGraphic graphic() const;
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 
-    virtual void draw( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect ) const QWT_OVERRIDE;
 
     virtual int rtti() const QWT_OVERRIDE;
 
-private:
+  private:
     void init();
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

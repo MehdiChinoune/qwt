@@ -19,11 +19,11 @@
 
 class QwtPlotOpenGLCanvas::PrivateData
 {
-public:
-    PrivateData():
-        isPolished( false ),
-        fboDirty( true ),
-        fbo( NULL )
+  public:
+    PrivateData()
+        : isPolished( false )
+        , fboDirty( true )
+        , fbo( NULL )
     {
     }
 
@@ -41,14 +41,14 @@ public:
 
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  \param plot Parent plot widget
-  \sa QwtPlot::setCanvas()
-*/
-QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas( QwtPlot *plot ):
-    QOpenGLWidget( plot ),
-    QwtPlotAbstractGLCanvas( this )
+   \param plot Parent plot widget
+   \sa QwtPlot::setCanvas()
+ */
+QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas( QwtPlot* plot )
+    : QOpenGLWidget( plot )
+    , QwtPlotAbstractGLCanvas( this )
 {
     QSurfaceFormat fmt = format();
     fmt.setSamples( 4 );
@@ -56,14 +56,15 @@ QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas( QwtPlot *plot ):
     init( fmt );
 }
 
-QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas( const QSurfaceFormat &format, QwtPlot *plot ):
-    QOpenGLWidget( plot ),
-    QwtPlotAbstractGLCanvas( this )
+QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas(
+        const QSurfaceFormat& format, QwtPlot* plot )
+    : QOpenGLWidget( plot )
+    , QwtPlotAbstractGLCanvas( this )
 {
     init( format );
 }
 
-void QwtPlotOpenGLCanvas::init( const QSurfaceFormat &format )
+void QwtPlotOpenGLCanvas::init( const QSurfaceFormat& format )
 {
     m_data = new PrivateData;
     m_data->numSamples = format.samples();
@@ -82,23 +83,23 @@ QwtPlotOpenGLCanvas::~QwtPlotOpenGLCanvas()
 }
 
 /*!
-  Paint event
+   Paint event
 
-  \param event Paint event
-  \sa QwtPlot::drawCanvas()
-*/
-void QwtPlotOpenGLCanvas::paintEvent( QPaintEvent *event )
+   \param event Paint event
+   \sa QwtPlot::drawCanvas()
+ */
+void QwtPlotOpenGLCanvas::paintEvent( QPaintEvent* event )
 {
     if ( m_data->isPolished )
         QOpenGLWidget::paintEvent( event );
 }
 
 /*!
-  Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
-  \param event Qt Event
-  \return See QGLWidget::event()
-*/
-bool QwtPlotOpenGLCanvas::event( QEvent *event )
+   Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
+   \param event Qt Event
+   \return See QGLWidget::event()
+ */
+bool QwtPlotOpenGLCanvas::event( QEvent* event )
 {
     const bool ok = QOpenGLWidget::event( event );
 
@@ -140,7 +141,7 @@ void QwtPlotOpenGLCanvas::clearBackingStore()
     m_data->fbo = NULL;
 }
 
-QPainterPath QwtPlotOpenGLCanvas::borderPath( const QRect &rect ) const
+QPainterPath QwtPlotOpenGLCanvas::borderPath( const QRect& rect ) const
 {
     return borderPath2( rect );
 }

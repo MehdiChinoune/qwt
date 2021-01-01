@@ -17,7 +17,7 @@
 #include <qpixmap.h>
 
 static QRect qwtItemRect( int renderFlags,
-    const QRectF &rect, const QSizeF &itemSize )
+    const QRectF& rect, const QSizeF& itemSize )
 {
     int x;
     if ( renderFlags & Qt::AlignLeft )
@@ -52,9 +52,9 @@ static QRect qwtItemRect( int renderFlags,
 
 class QwtPlotTextLabel::PrivateData
 {
-public:
-    PrivateData():
-        margin( 5 )
+  public:
+    PrivateData()
+        : margin( 5 )
     {
     }
 
@@ -77,10 +77,10 @@ public:
    The z value is initialized by 150
 
    \sa QwtPlotItem::setItemAttribute(), QwtPlotItem::setZ()
-*/
+ */
 
-QwtPlotTextLabel::QwtPlotTextLabel():
-    QwtPlotItem( QwtText( "Label" ) )
+QwtPlotTextLabel::QwtPlotTextLabel()
+    : QwtPlotItem( QwtText( "Label" ) )
 {
     m_data = new PrivateData;
 
@@ -103,16 +103,16 @@ int QwtPlotTextLabel::rtti() const
 }
 
 /*!
-  Set the text
+   Set the text
 
-  The label will be aligned to the plot canvas according to
-  the alignment flags of text.
+   The label will be aligned to the plot canvas according to
+   the alignment flags of text.
 
-  \param text Text to be displayed
+   \param text Text to be displayed
 
-  \sa text(), QwtText::renderFlags()
-*/
-void QwtPlotTextLabel::setText( const QwtText &text )
+   \sa text(), QwtText::renderFlags()
+ */
+void QwtPlotTextLabel::setText( const QwtText& text )
 {
     if ( m_data->text != text )
     {
@@ -124,24 +124,24 @@ void QwtPlotTextLabel::setText( const QwtText &text )
 }
 
 /*!
-  \return Text to be displayed
-  \sa setText()
-*/
+   \return Text to be displayed
+   \sa setText()
+ */
 QwtText QwtPlotTextLabel::text() const
 {
     return m_data->text;
 }
 
 /*!
-  Set the margin
+   Set the margin
 
-  The margin is the distance between the contentsRect()
-  of the plot canvas and the rectangle where the label can
-  be displayed.
+   The margin is the distance between the contentsRect()
+   of the plot canvas and the rectangle where the label can
+   be displayed.
 
-  \param margin Margin
+   \param margin Margin
 
-  \sa margin(), textRect()
+   \sa margin(), textRect()
  */
 void QwtPlotTextLabel::setMargin( int margin )
 {
@@ -154,28 +154,28 @@ void QwtPlotTextLabel::setMargin( int margin )
 }
 
 /*!
-  \return Margin added to the contentsMargins() of the canvas
-  \sa setMargin()
-*/
+   \return Margin added to the contentsMargins() of the canvas
+   \sa setMargin()
+ */
 int QwtPlotTextLabel::margin() const
 {
     return m_data->margin;
 }
 
 /*!
-  Draw the text label
+   Draw the text label
 
-  \param painter Painter
-  \param xMap x Scale Map
-  \param yMap y Scale Map
-  \param canvasRect Contents rectangle of the canvas in painter coordinates
+   \param painter Painter
+   \param xMap x Scale Map
+   \param yMap y Scale Map
+   \param canvasRect Contents rectangle of the canvas in painter coordinates
 
-  \sa textRect()
-*/
+   \sa textRect()
+ */
 
-void QwtPlotTextLabel::draw( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect ) const
+void QwtPlotTextLabel::draw( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect ) const
 {
     Q_UNUSED( xMap );
     Q_UNUSED( yMap );
@@ -226,7 +226,7 @@ void QwtPlotTextLabel::draw( QPainter *painter,
 #endif
 
         if ( m_data->pixmap.isNull() ||
-            ( scaledSize != m_data->pixmap.size() )  )
+            ( scaledSize != m_data->pixmap.size() ) )
         {
             m_data->pixmap = QPixmap( scaledSize );
 #if QT_VERSION >= 0x050000
@@ -261,7 +261,7 @@ void QwtPlotTextLabel::draw( QPainter *painter,
    \sa setMargin(), QwtText::renderFlags(), QwtText::textSize()
  */
 QRectF QwtPlotTextLabel::textRect(
-    const QRectF &rect, const QSizeF &textSize ) const
+    const QRectF& rect, const QSizeF& textSize ) const
 {
     return qwtItemRect( m_data->text.renderFlags(), rect, textSize );
 }

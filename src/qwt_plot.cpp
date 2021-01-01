@@ -24,7 +24,7 @@
 #include <qapplication.h>
 #include <qcoreevent.h>
 
-static inline void qwtEnableLegendItems( QwtPlot *plot, bool on )
+static inline void qwtEnableLegendItems( QwtPlot* plot, bool on )
 {
     // gcc seems to have problems with const char sig[] in combination with certain options
     const char* sig = SIGNAL(legendDataChanged(QVariant,QList<QwtLegendData>));
@@ -37,17 +37,17 @@ static inline void qwtEnableLegendItems( QwtPlot *plot, bool on )
 }
 
 static void qwtSetTabOrder(
-    QWidget *first, QWidget *second, bool withChildren )
+    QWidget* first, QWidget* second, bool withChildren )
 {
-    QList<QWidget *> tabChain;
+    QList< QWidget* > tabChain;
     tabChain += first;
     tabChain += second;
 
     if ( withChildren )
     {
-        QList<QWidget *> children = second->findChildren<QWidget *>();
+        QList< QWidget* > children = second->findChildren< QWidget* >();
 
-        QWidget *w = second->nextInFocusChain();
+        QWidget* w = second->nextInFocusChain();
         while ( children.contains( w ) )
         {
             children.removeAll( w );
@@ -59,14 +59,14 @@ static void qwtSetTabOrder(
 
     for ( int i = 0; i < tabChain.size() - 1; i++ )
     {
-        QWidget *from = tabChain[i];
-        QWidget *to = tabChain[i+1];
+        QWidget* from = tabChain[i];
+        QWidget* to = tabChain[i + 1];
 
         const Qt::FocusPolicy policy1 = from->focusPolicy();
         const Qt::FocusPolicy policy2 = to->focusPolicy();
 
-        QWidget *proxy1 = from->focusProxy();
-        QWidget *proxy2 = to->focusProxy();
+        QWidget* proxy1 = from->focusProxy();
+        QWidget* proxy2 = to->focusProxy();
 
         from->setFocusPolicy( Qt::TabFocus );
         from->setFocusProxy( NULL);
@@ -86,33 +86,33 @@ static void qwtSetTabOrder(
 
 class QwtPlot::PrivateData
 {
-public:
-    QPointer<QwtTextLabel> titleLabel;
-    QPointer<QwtTextLabel> footerLabel;
-    QPointer<QWidget> canvas;
-    QPointer<QwtAbstractLegend> legend;
-    QwtPlotLayout *layout;
+  public:
+    QPointer< QwtTextLabel > titleLabel;
+    QPointer< QwtTextLabel > footerLabel;
+    QPointer< QWidget > canvas;
+    QPointer< QwtAbstractLegend > legend;
+    QwtPlotLayout* layout;
 
     bool autoReplot;
 };
 
 /*!
-  \brief Constructor
-  \param parent Parent widget
+   \brief Constructor
+   \param parent Parent widget
  */
-QwtPlot::QwtPlot( QWidget *parent ):
-    QFrame( parent )
+QwtPlot::QwtPlot( QWidget* parent )
+    : QFrame( parent )
 {
     initPlot( QwtText() );
 }
 
 /*!
-  \brief Constructor
-  \param title Title text
-  \param parent Parent widget
+   \brief Constructor
+   \param title Title text
+   \param parent Parent widget
  */
-QwtPlot::QwtPlot( const QwtText &title, QWidget *parent ):
-    QFrame( parent )
+QwtPlot::QwtPlot( const QwtText& title, QWidget* parent )
+    : QFrame( parent )
 {
     initPlot( title );
 }
@@ -129,10 +129,10 @@ QwtPlot::~QwtPlot()
 }
 
 /*!
-  \brief Initializes a QwtPlot instance
-  \param title Title text
+   \brief Initializes a QwtPlot instance
+   \param title Title text
  */
-void QwtPlot::initPlot( const QwtText &title )
+void QwtPlot::initPlot( const QwtText& title )
 {
     m_data = new PrivateData;
 
@@ -172,42 +172,42 @@ void QwtPlot::initPlot( const QwtText &title )
 
     resize( 200, 200 );
 
-    QList<QWidget *> focusChain;
+    QList< QWidget* > focusChain;
     focusChain << this << m_data->titleLabel << axisWidget( xTop )
-        << axisWidget( yLeft ) << m_data->canvas << axisWidget( yRight )
-        << axisWidget( xBottom ) << m_data->footerLabel;
+               << axisWidget( yLeft ) << m_data->canvas << axisWidget( yRight )
+               << axisWidget( xBottom ) << m_data->footerLabel;
 
     for ( int i = 0; i < focusChain.size() - 1; i++ )
-        qwtSetTabOrder( focusChain[i], focusChain[i+1], false );
+        qwtSetTabOrder( focusChain[i], focusChain[i + 1], false );
 
     qwtEnableLegendItems( this, true );
 }
 
 /*!
-  \brief Set the drawing canvas of the plot widget
+   \brief Set the drawing canvas of the plot widget
 
-  QwtPlot invokes methods of the canvas as meta methods ( see QMetaObject ).
-  In opposite to using conventional C++ techniques like virtual methods
-  they allow to use canvas implementations that are derived from
-  QWidget or QGLWidget.
+   QwtPlot invokes methods of the canvas as meta methods ( see QMetaObject ).
+   In opposite to using conventional C++ techniques like virtual methods
+   they allow to use canvas implementations that are derived from
+   QWidget or QGLWidget.
 
-  The following meta methods could be implemented:
+   The following meta methods could be implemented:
 
-  - replot()
+   - replot()
     When the canvas doesn't offer a replot method, QwtPlot calls
     update() instead.
 
-  - borderPath()
+   - borderPath()
     The border path is necessary to clip the content of the canvas
     When the canvas doesn't have any special border ( f.e rounded corners )
     it is o.k. not to implement this method.
 
-  The default canvas is a QwtPlotCanvas
+   The default canvas is a QwtPlotCanvas
 
-  \param canvas Canvas Widget
-  \sa canvas()
+   \param canvas Canvas Widget
+   \sa canvas()
  */
-void QwtPlot::setCanvas( QWidget *canvas )
+void QwtPlot::setCanvas( QWidget* canvas )
 {
     if ( canvas == m_data->canvas )
         return;
@@ -226,12 +226,12 @@ void QwtPlot::setCanvas( QWidget *canvas )
 }
 
 /*!
-  \brief Adds handling of layout requests
-  \param event Event
+   \brief Adds handling of layout requests
+   \param event Event
 
-  \return See QFrame::event()
-*/
-bool QwtPlot::event( QEvent *event )
+   \return See QFrame::event()
+ */
+bool QwtPlot::event( QEvent* event )
 {
     bool ok = QFrame::event( event );
     switch ( event->type() )
@@ -248,24 +248,24 @@ bool QwtPlot::event( QEvent *event )
 }
 
 /*!
-  \brief Event filter
+   \brief Event filter
 
-  The plot handles the following events for the canvas:
+   The plot handles the following events for the canvas:
 
-  - QEvent::Resize
+   - QEvent::Resize
     The canvas margins might depend on its size
 
-  - QEvent::ContentsRectChange
+   - QEvent::ContentsRectChange
     The layout needs to be recalculated
 
-  \param object Object to be filtered
-  \param event Event
+   \param object Object to be filtered
+   \param event Event
 
-  \return See QFrame::eventFilter()
+   \return See QFrame::eventFilter()
 
-  \sa updateCanvasMargins(), updateLayout()
-*/
-bool QwtPlot::eventFilter( QObject *object, QEvent *event )
+   \sa updateCanvasMargins(), updateLayout()
+ */
+bool QwtPlot::eventFilter( QObject* object, QEvent* event )
 {
     if ( object == m_data->canvas )
     {
@@ -290,39 +290,39 @@ void QwtPlot::autoRefresh()
 }
 
 /*!
-  \brief Set or reset the autoReplot option
+   \brief Set or reset the autoReplot option
 
-  If the autoReplot option is set, the plot will be
-  updated implicitly by manipulating member functions.
-  Since this may be time-consuming, it is recommended
-  to leave this option switched off and call replot()
-  explicitly if necessary.
+   If the autoReplot option is set, the plot will be
+   updated implicitly by manipulating member functions.
+   Since this may be time-consuming, it is recommended
+   to leave this option switched off and call replot()
+   explicitly if necessary.
 
-  The autoReplot option is set to false by default, which
-  means that the user has to call replot() in order to make
-  changes visible.
-  \param tf \c true or \c false. Defaults to \c true.
-  \sa replot()
-*/
+   The autoReplot option is set to false by default, which
+   means that the user has to call replot() in order to make
+   changes visible.
+   \param tf \c true or \c false. Defaults to \c true.
+   \sa replot()
+ */
 void QwtPlot::setAutoReplot( bool tf )
 {
     m_data->autoReplot = tf;
 }
 
 /*!
-  \return true if the autoReplot option is set.
-  \sa setAutoReplot()
-*/
+   \return true if the autoReplot option is set.
+   \sa setAutoReplot()
+ */
 bool QwtPlot::autoReplot() const
 {
     return m_data->autoReplot;
 }
 
 /*!
-  Change the plot's title
-  \param title New title
-*/
-void QwtPlot::setTitle( const QString &title )
+   Change the plot's title
+   \param title New title
+ */
+void QwtPlot::setTitle( const QString& title )
 {
     if ( title != m_data->titleLabel->text().text() )
     {
@@ -332,10 +332,10 @@ void QwtPlot::setTitle( const QString &title )
 }
 
 /*!
-  Change the plot's title
-  \param title New title
-*/
-void QwtPlot::setTitle( const QwtText &title )
+   Change the plot's title
+   \param title New title
+ */
+void QwtPlot::setTitle( const QwtText& title )
 {
     if ( title != m_data->titleLabel->text() )
     {
@@ -351,22 +351,22 @@ QwtText QwtPlot::title() const
 }
 
 //! \return Title label widget.
-QwtTextLabel *QwtPlot::titleLabel()
+QwtTextLabel* QwtPlot::titleLabel()
 {
     return m_data->titleLabel;
 }
 
 //! \return Title label widget.
-const QwtTextLabel *QwtPlot::titleLabel() const
+const QwtTextLabel* QwtPlot::titleLabel() const
 {
     return m_data->titleLabel;
 }
 
 /*!
-  Change the text the footer
-  \param text New text of the footer
-*/
-void QwtPlot::setFooter( const QString &text )
+   Change the text the footer
+   \param text New text of the footer
+ */
+void QwtPlot::setFooter( const QString& text )
 {
     if ( text != m_data->footerLabel->text().text() )
     {
@@ -376,10 +376,10 @@ void QwtPlot::setFooter( const QString &text )
 }
 
 /*!
-  Change the text the footer
-  \param text New text of the footer
-*/
-void QwtPlot::setFooter( const QwtText &text )
+   Change the text the footer
+   \param text New text of the footer
+ */
+void QwtPlot::setFooter( const QwtText& text )
 {
     if ( text != m_data->footerLabel->text() )
     {
@@ -395,13 +395,13 @@ QwtText QwtPlot::footer() const
 }
 
 //! \return Footer label widget.
-QwtTextLabel *QwtPlot::footerLabel()
+QwtTextLabel* QwtPlot::footerLabel()
 {
     return m_data->footerLabel;
 }
 
 //! \return Footer label widget.
-const QwtTextLabel *QwtPlot::footerLabel() const
+const QwtTextLabel* QwtPlot::footerLabel() const
 {
     return m_data->footerLabel;
 }
@@ -412,7 +412,7 @@ const QwtTextLabel *QwtPlot::footerLabel() const
    \param layout Layout()
    \sa plotLayout()
  */
-void QwtPlot::setPlotLayout( QwtPlotLayout *layout )
+void QwtPlot::setPlotLayout( QwtPlotLayout* layout )
 {
     if ( layout != m_data->layout )
     {
@@ -424,56 +424,56 @@ void QwtPlot::setPlotLayout( QwtPlotLayout *layout )
 }
 
 //! \return the plot's layout
-QwtPlotLayout *QwtPlot::plotLayout()
+QwtPlotLayout* QwtPlot::plotLayout()
 {
     return m_data->layout;
 }
 
 //! \return the plot's layout
-const QwtPlotLayout *QwtPlot::plotLayout() const
+const QwtPlotLayout* QwtPlot::plotLayout() const
 {
     return m_data->layout;
 }
 
 /*!
-  \return the plot's legend
-  \sa insertLegend()
-*/
-QwtAbstractLegend *QwtPlot::legend()
+   \return the plot's legend
+   \sa insertLegend()
+ */
+QwtAbstractLegend* QwtPlot::legend()
 {
     return m_data->legend;
 }
 
 /*!
-  \return the plot's legend
-  \sa insertLegend()
-*/
-const QwtAbstractLegend *QwtPlot::legend() const
+   \return the plot's legend
+   \sa insertLegend()
+ */
+const QwtAbstractLegend* QwtPlot::legend() const
 {
     return m_data->legend;
 }
 
 
 /*!
-  \return the plot's canvas
-*/
-QWidget *QwtPlot::canvas()
+   \return the plot's canvas
+ */
+QWidget* QwtPlot::canvas()
 {
     return m_data->canvas;
 }
 
 /*!
-  \return the plot's canvas
-*/
-const QWidget *QwtPlot::canvas() const
+   \return the plot's canvas
+ */
+const QWidget* QwtPlot::canvas() const
 {
     return m_data->canvas;
 }
 
 /*!
-  \return Size hint for the plot widget
-  \sa minimumSizeHint()
-*/
+   \return Size hint for the plot widget
+   \sa minimumSizeHint()
+ */
 QSize QwtPlot::sizeHint() const
 {
     int dw = 0;
@@ -483,8 +483,8 @@ QSize QwtPlot::sizeHint() const
         if ( axisEnabled( axisId ) )
         {
             const int niceDist = 40;
-            const QwtScaleWidget *scaleWidget = axisWidget( axisId );
-            const QwtScaleDiv &scaleDiv = scaleWidget->scaleDraw()->scaleDiv();
+            const QwtScaleWidget* scaleWidget = axisWidget( axisId );
+            const QwtScaleDiv& scaleDiv = scaleWidget->scaleDraw()->scaleDiv();
             const int majCnt = scaleDiv.ticks( QwtScaleDiv::MajorTick ).count();
 
             if ( axisId == yLeft || axisId == yRight )
@@ -507,8 +507,8 @@ QSize QwtPlot::sizeHint() const
 }
 
 /*!
-  \brief Return a minimum size hint
-*/
+   \brief Return a minimum size hint
+ */
 QSize QwtPlot::minimumSizeHint() const
 {
     QSize hint = m_data->layout->minimumSizeHint( this );
@@ -518,24 +518,24 @@ QSize QwtPlot::minimumSizeHint() const
 }
 
 /*!
-  Resize and update internal layout
-  \param e Resize event
-*/
-void QwtPlot::resizeEvent( QResizeEvent *e )
+   Resize and update internal layout
+   \param e Resize event
+ */
+void QwtPlot::resizeEvent( QResizeEvent* e )
 {
     QFrame::resizeEvent( e );
     updateLayout();
 }
 
 /*!
-  \brief Redraw the plot
+   \brief Redraw the plot
 
-  If the autoReplot option is not set (which is the default)
-  or if any curves are attached to raw data, the plot has to
-  be refreshed explicitly in order to make changes visible.
+   If the autoReplot option is not set (which is the default)
+   or if any curves are attached to raw data, the plot has to
+   be refreshed explicitly in order to make changes visible.
 
-  \sa updateAxes(), setAutoReplot()
-*/
+   \sa updateAxes(), setAutoReplot()
+ */
 void QwtPlot::replot()
 {
     bool doAutoReplot = autoReplot();
@@ -544,9 +544,9 @@ void QwtPlot::replot()
     updateAxes();
 
     /*
-      Maybe the layout needs to be updated, because of changed
-      axes labels. We need to process them here before painting
-      to avoid that scales and canvas get out of sync.
+       Maybe the layout needs to be updated, because of changed
+       axes labels. We need to process them here before painting
+       to avoid that scales and canvas get out of sync.
      */
     QApplication::sendPostedEvents( this, QEvent::LayoutRequest );
 
@@ -565,9 +565,9 @@ void QwtPlot::replot()
 }
 
 /*!
-  \brief Adjust plot content to its current size.
-  \sa resizeEvent()
-*/
+   \brief Adjust plot content to its current size.
+   \sa resizeEvent()
+ */
 void QwtPlot::updateLayout()
 {
     m_data->layout->activate( this, contentsRect() );
@@ -643,23 +643,23 @@ void QwtPlot::updateLayout()
 }
 
 /*!
-  \brief Calculate the canvas margins
+   \brief Calculate the canvas margins
 
-  \param maps QwtPlot::axisCnt maps, mapping between plot and paint device coordinates
-  \param canvasRect Bounding rectangle where to paint
-  \param left Return parameter for the left margin
-  \param top Return parameter for the top margin
-  \param right Return parameter for the right margin
-  \param bottom Return parameter for the bottom margin
+   \param maps QwtPlot::axisCnt maps, mapping between plot and paint device coordinates
+   \param canvasRect Bounding rectangle where to paint
+   \param left Return parameter for the left margin
+   \param top Return parameter for the top margin
+   \param right Return parameter for the right margin
+   \param bottom Return parameter for the bottom margin
 
-  Plot items might indicate, that they need some extra space
-  at the borders of the canvas by the QwtPlotItem::Margins flag.
+   Plot items might indicate, that they need some extra space
+   at the borders of the canvas by the QwtPlotItem::Margins flag.
 
-  updateCanvasMargins(), QwtPlotItem::getCanvasMarginHint()
+   updateCanvasMargins(), QwtPlotItem::getCanvasMarginHint()
  */
 void QwtPlot::getCanvasMarginsHint(
-    const QwtScaleMap maps[], const QRectF &canvasRect,
-    double &left, double &top, double &right, double &bottom) const
+    const QwtScaleMap maps[], const QRectF& canvasRect,
+    double& left, double& top, double& right, double& bottom) const
 {
     left = top = right = bottom = -1.0;
 
@@ -667,7 +667,7 @@ void QwtPlot::getCanvasMarginsHint(
     for ( QwtPlotItemIterator it = itmList.begin();
         it != itmList.end(); ++it )
     {
-        const QwtPlotItem *item = *it;
+        const QwtPlotItem* item = *it;
         if ( item->testItemAttribute( QwtPlotItem::Margins ) )
         {
             double m[ QwtPlot::axisCnt ];
@@ -684,12 +684,12 @@ void QwtPlot::getCanvasMarginsHint(
 }
 
 /*!
-  \brief Update the canvas margins
+   \brief Update the canvas margins
 
-  Plot items might indicate, that they need some extra space
-  at the borders of the canvas by the QwtPlotItem::Margins flag.
+   Plot items might indicate, that they need some extra space
+   at the borders of the canvas by the QwtPlotItem::Margins flag.
 
-  getCanvasMarginsHint(), QwtPlotItem::getCanvasMarginHint()
+   getCanvasMarginsHint(), QwtPlotItem::getCanvasMarginHint()
  */
 void QwtPlot::updateCanvasMargins()
 {
@@ -717,15 +717,15 @@ void QwtPlot::updateCanvasMargins()
 }
 
 /*!
-  Redraw the canvas.
-  \param painter Painter used for drawing
+   Redraw the canvas.
+   \param painter Painter used for drawing
 
-  \warning drawCanvas calls drawItems what is also used
+   \warning drawCanvas calls drawItems what is also used
            for printing. Applications that like to add individual
            plot items better overload drawItems()
-  \sa drawItems()
-*/
-void QwtPlot::drawCanvas( QPainter *painter )
+   \sa drawItems()
+ */
+void QwtPlot::drawCanvas( QPainter* painter )
 {
     QwtScaleMap maps[axisCnt];
     for ( int axisId = 0; axisId < axisCnt; axisId++ )
@@ -735,26 +735,26 @@ void QwtPlot::drawCanvas( QPainter *painter )
 }
 
 /*!
-  Redraw the canvas items.
+   Redraw the canvas items.
 
-  \param painter Painter used for drawing
-  \param canvasRect Bounding rectangle where to paint
-  \param maps QwtPlot::axisCnt maps, mapping between plot and paint device coordinates
+   \param painter Painter used for drawing
+   \param canvasRect Bounding rectangle where to paint
+   \param maps QwtPlot::axisCnt maps, mapping between plot and paint device coordinates
 
-  \note Usually canvasRect is contentsRect() of the plot canvas.
+   \note Usually canvasRect is contentsRect() of the plot canvas.
         Due to a bug in Qt this rectangle might be wrong for certain
         frame styles ( f.e QFrame::Box ) and it might be necessary to
         fix the margins manually using QWidget::setContentsMargins()
-*/
+ */
 
-void QwtPlot::drawItems( QPainter *painter, const QRectF &canvasRect,
-        const QwtScaleMap maps[axisCnt] ) const
+void QwtPlot::drawItems( QPainter* painter, const QRectF& canvasRect,
+    const QwtScaleMap maps[axisCnt] ) const
 {
     const QwtPlotItemList& itmList = itemList();
     for ( QwtPlotItemIterator it = itmList.begin();
         it != itmList.end(); ++it )
     {
-        QwtPlotItem *item = *it;
+        QwtPlotItem* item = *it;
         if ( item && item->isVisible() )
         {
             painter->save();
@@ -777,12 +777,12 @@ void QwtPlot::drawItems( QPainter *painter, const QRectF &canvasRect,
 }
 
 /*!
-  \param axisId Axis
-  \return Map for the axis on the canvas. With this map pixel coordinates can
+   \param axisId Axis
+   \return Map for the axis on the canvas. With this map pixel coordinates can
           translated to plot coordinates and vice versa.
-  \sa QwtScaleMap, transform(), invTransform()
+   \sa QwtScaleMap, transform(), invTransform()
 
-*/
+ */
 QwtScaleMap QwtPlot::canvasMap( int axisId ) const
 {
     QwtScaleMap map;
@@ -791,12 +791,12 @@ QwtScaleMap QwtPlot::canvasMap( int axisId ) const
 
     map.setTransformation( axisScaleEngine( axisId )->transformation() );
 
-    const QwtScaleDiv &sd = axisScaleDiv( axisId );
+    const QwtScaleDiv& sd = axisScaleDiv( axisId );
     map.setScaleInterval( sd.lowerBound(), sd.upperBound() );
 
     if ( axisEnabled( axisId ) )
     {
-        const QwtScaleWidget *s = axisWidget( axisId );
+        const QwtScaleWidget* s = axisWidget( axisId );
         if ( axisId == yLeft || axisId == yRight )
         {
             double y = s->y() + s->startBorderDist() - m_data->canvas->y();
@@ -812,7 +812,7 @@ QwtScaleMap QwtPlot::canvasMap( int axisId ) const
     }
     else
     {
-        const QRect &canvasRect = m_data->canvas->contentsRect();
+        const QRect& canvasRect = m_data->canvas->contentsRect();
         if ( axisId == yLeft || axisId == yRight )
         {
             int top = 0;
@@ -845,16 +845,16 @@ QwtScaleMap QwtPlot::canvasMap( int axisId ) const
 }
 
 /*!
-  \brief Change the background of the plotting area
+   \brief Change the background of the plotting area
 
-  Sets brush to QPalette::Window of all color groups of
-  the palette of the canvas. Using canvas()->setPalette()
-  is a more powerful way to set these colors.
+   Sets brush to QPalette::Window of all color groups of
+   the palette of the canvas. Using canvas()->setPalette()
+   is a more powerful way to set these colors.
 
-  \param brush New background brush
-  \sa canvasBackground()
-*/
-void QwtPlot::setCanvasBackground( const QBrush &brush )
+   \param brush New background brush
+   \sa canvasBackground()
+ */
+void QwtPlot::setCanvasBackground( const QBrush& brush )
 {
     QPalette pal = m_data->canvas->palette();
     pal.setBrush( QPalette::Window, brush );
@@ -863,12 +863,12 @@ void QwtPlot::setCanvasBackground( const QBrush &brush )
 }
 
 /*!
-  Nothing else than: canvas()->palette().brush(
+   Nothing else than: canvas()->palette().brush(
         QPalette::Normal, QPalette::Window);
 
-  \return Background brush of the plotting area.
-  \sa setCanvasBackground()
-*/
+   \return Background brush of the plotting area.
+   \sa setCanvasBackground()
+ */
 QBrush QwtPlot::canvasBackground() const
 {
     return canvas()->palette().brush(
@@ -876,8 +876,8 @@ QBrush QwtPlot::canvasBackground() const
 }
 
 /*!
-  \return \c true if the specified axis exists, otherwise \c false
-  \param axisId axis index
+   \return \c true if the specified axis exists, otherwise \c false
+   \param axisId axis index
  */
 bool QwtPlot::axisValid( int axisId )
 {
@@ -885,39 +885,39 @@ bool QwtPlot::axisValid( int axisId )
 }
 
 /*!
-  \brief Insert a legend
+   \brief Insert a legend
 
-  If the position legend is \c QwtPlot::LeftLegend or \c QwtPlot::RightLegend
-  the legend will be organized in one column from top to down.
-  Otherwise the legend items will be placed in a table
-  with a best fit number of columns from left to right.
+   If the position legend is \c QwtPlot::LeftLegend or \c QwtPlot::RightLegend
+   the legend will be organized in one column from top to down.
+   Otherwise the legend items will be placed in a table
+   with a best fit number of columns from left to right.
 
-  insertLegend() will set the plot widget as parent for the legend.
-  The legend will be deleted in the destructor of the plot or when
-  another legend is inserted.
+   insertLegend() will set the plot widget as parent for the legend.
+   The legend will be deleted in the destructor of the plot or when
+   another legend is inserted.
 
-  Legends, that are not inserted into the layout of the plot widget
-  need to connect to the legendDataChanged() signal. Calling updateLegend()
-  initiates this signal for an initial update. When the application code
-  wants to implement its own layout this also needs to be done for
-  rendering plots to a document ( see QwtPlotRenderer ).
+   Legends, that are not inserted into the layout of the plot widget
+   need to connect to the legendDataChanged() signal. Calling updateLegend()
+   initiates this signal for an initial update. When the application code
+   wants to implement its own layout this also needs to be done for
+   rendering plots to a document ( see QwtPlotRenderer ).
 
-  \param legend Legend
-  \param pos The legend's position. For top/left position the number
+   \param legend Legend
+   \param pos The legend's position. For top/left position the number
              of columns will be limited to 1, otherwise it will be set to
              unlimited.
 
-  \param ratio Ratio between legend and the bounding rectangle
+   \param ratio Ratio between legend and the bounding rectangle
                of title, canvas and axes. The legend will be shrunk
                if it would need more space than the given ratio.
                The ratio is limited to ]0.0 .. 1.0]. In case of <= 0.0
                it will be reset to the default ratio.
                The default vertical/horizontal ratio is 0.33/0.5.
 
-  \sa legend(), QwtPlotLayout::legendPosition(),
+   \sa legend(), QwtPlotLayout::legendPosition(),
       QwtPlotLayout::setLegendPosition()
-*/
-void QwtPlot::insertLegend( QwtAbstractLegend *legend,
+ */
+void QwtPlot::insertLegend( QwtAbstractLegend* legend,
     QwtPlot::LegendPosition pos, double ratio )
 {
     m_data->layout->setLegendPosition( pos, ratio );
@@ -933,8 +933,8 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
         {
             connect(
                 this, SIGNAL(legendDataChanged(QVariant,QList<QwtLegendData>)),
-                m_data->legend, SLOT(updateLegend(QVariant,QList<QwtLegendData>) )
-            );
+                m_data->legend, SLOT(updateLegend(QVariant,QList<QwtLegendData>))
+                );
 
             if ( m_data->legend->parent() != this )
                 m_data->legend->setParent( this );
@@ -943,7 +943,7 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
             updateLegend();
             qwtEnableLegendItems( this, true );
 
-            QwtLegend *lgd = qobject_cast<QwtLegend *>( legend );
+            QwtLegend* lgd = qobject_cast< QwtLegend* >( legend );
             if ( lgd )
             {
                 switch ( m_data->layout->legendPosition() )
@@ -966,7 +966,7 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
                 }
             }
 
-            QWidget *previousInChain = NULL;
+            QWidget* previousInChain = NULL;
             switch ( m_data->layout->legendPosition() )
             {
                 case LeftLegend:
@@ -1000,9 +1000,9 @@ void QwtPlot::insertLegend( QwtAbstractLegend *legend,
 }
 
 /*!
-  Emit legendDataChanged() for all plot item
+   Emit legendDataChanged() for all plot item
 
-  \sa QwtPlotItem::legendData(), legendDataChanged()
+   \sa QwtPlotItem::legendData(), legendDataChanged()
  */
 void QwtPlot::updateLegend()
 {
@@ -1015,48 +1015,48 @@ void QwtPlot::updateLegend()
 }
 
 /*!
-  Emit legendDataChanged() for a plot item
+   Emit legendDataChanged() for a plot item
 
-  \param plotItem Plot item
-  \sa QwtPlotItem::legendData(), legendDataChanged()
+   \param plotItem Plot item
+   \sa QwtPlotItem::legendData(), legendDataChanged()
  */
-void QwtPlot::updateLegend( const QwtPlotItem *plotItem )
+void QwtPlot::updateLegend( const QwtPlotItem* plotItem )
 {
     if ( plotItem == NULL )
         return;
 
-    QList<QwtLegendData> legendData;
+    QList< QwtLegendData > legendData;
 
     if ( plotItem->testItemAttribute( QwtPlotItem::Legend ) )
         legendData = plotItem->legendData();
 
-    const QVariant itemInfo = itemToInfo( const_cast< QwtPlotItem *>( plotItem) );
+    const QVariant itemInfo = itemToInfo( const_cast< QwtPlotItem* >( plotItem ) );
     Q_EMIT legendDataChanged( itemInfo, legendData );
 }
 
 /*!
-  \brief Update all plot items interested in legend attributes
+   \brief Update all plot items interested in legend attributes
 
-  Call QwtPlotItem::updateLegend(), when the QwtPlotItem::LegendInterest
-  flag is set.
+   Call QwtPlotItem::updateLegend(), when the QwtPlotItem::LegendInterest
+   flag is set.
 
-  \param itemInfo Info about the plot item
-  \param legendData Entries to be displayed for the plot item ( usually 1 )
+   \param itemInfo Info about the plot item
+   \param legendData Entries to be displayed for the plot item ( usually 1 )
 
-  \sa QwtPlotItem::LegendInterest,
+   \sa QwtPlotItem::LegendInterest,
       QwtPlotLegendItem, QwtPlotItem::updateLegend()
  */
-void QwtPlot::updateLegendItems( const QVariant &itemInfo,
-    const QList<QwtLegendData> &legendData )
+void QwtPlot::updateLegendItems( const QVariant& itemInfo,
+    const QList< QwtLegendData >& legendData )
 {
-    QwtPlotItem *plotItem = infoToItem( itemInfo );
+    QwtPlotItem* plotItem = infoToItem( itemInfo );
     if ( plotItem )
     {
         const QwtPlotItemList& itmList = itemList();
         for ( QwtPlotItemIterator it = itmList.begin();
             it != itmList.end(); ++it )
         {
-            QwtPlotItem *item = *it;
+            QwtPlotItem* item = *it;
             if ( item->testItemInterest( QwtPlotItem::LegendInterest ) )
                 item->updateLegend( plotItem, legendData );
         }
@@ -1064,12 +1064,12 @@ void QwtPlot::updateLegendItems( const QVariant &itemInfo,
 }
 
 /*!
-  \brief Attach/Detach a plot item
+   \brief Attach/Detach a plot item
 
-  \param plotItem Plot item
-  \param on When true attach the item, otherwise detach it
+   \param plotItem Plot item
+   \param on When true attach the item, otherwise detach it
  */
-void QwtPlot::attachItem( QwtPlotItem *plotItem, bool on )
+void QwtPlot::attachItem( QwtPlotItem* plotItem, bool on )
 {
     if ( plotItem->testItemInterest( QwtPlotItem::LegendInterest ) )
     {
@@ -1079,9 +1079,9 @@ void QwtPlot::attachItem( QwtPlotItem *plotItem, bool on )
         for ( QwtPlotItemIterator it = itmList.begin();
             it != itmList.end(); ++it )
         {
-            QwtPlotItem *item = *it;
+            QwtPlotItem* item = *it;
 
-            QList<QwtLegendData> legendData;
+            QList< QwtLegendData > legendData;
             if ( on && item->testItemAttribute( QwtPlotItem::Legend ) )
             {
                 legendData = item->legendData();
@@ -1108,7 +1108,7 @@ void QwtPlot::attachItem( QwtPlotItem *plotItem, bool on )
         else
         {
             const QVariant itemInfo = itemToInfo( plotItem );
-            Q_EMIT legendDataChanged( itemInfo, QList<QwtLegendData>() );
+            Q_EMIT legendDataChanged( itemInfo, QList< QwtLegendData >() );
         }
     }
 
@@ -1116,41 +1116,41 @@ void QwtPlot::attachItem( QwtPlotItem *plotItem, bool on )
 }
 
 /*!
-  \brief Build an information, that can be used to identify
+   \brief Build an information, that can be used to identify
          a plot item on the legend.
 
-  The default implementation simply wraps the plot item
-  into a QVariant object. When overloading itemToInfo()
-  usually infoToItem() needs to reimplemeted too.
+   The default implementation simply wraps the plot item
+   into a QVariant object. When overloading itemToInfo()
+   usually infoToItem() needs to reimplemeted too.
 
-  \param plotItem Plot item
-  \return Plot item embedded in a QVariant
-  \sa infoToItem()
+   \param plotItem Plot item
+   \return Plot item embedded in a QVariant
+   \sa infoToItem()
  */
-QVariant QwtPlot::itemToInfo( QwtPlotItem *plotItem ) const
+QVariant QwtPlot::itemToInfo( QwtPlotItem* plotItem ) const
 {
     return QVariant::fromValue( plotItem );
 }
 
 /*!
-  \brief Identify the plot item according to an item info object,
+   \brief Identify the plot item according to an item info object,
          that has bee generated from itemToInfo().
 
-  The default implementation simply tries to unwrap a QwtPlotItem
-  pointer:
+   The default implementation simply tries to unwrap a QwtPlotItem
+   pointer:
 
-\code
+   \code
     if ( itemInfo.canConvert<QwtPlotItem *>() )
         return qvariant_cast<QwtPlotItem *>( itemInfo );
-\endcode
-  \param itemInfo Plot item
-  \return A plot item, when successful, otherwise a NULL pointer.
-  \sa itemToInfo()
-*/
-QwtPlotItem *QwtPlot::infoToItem( const QVariant &itemInfo ) const
+   \endcode
+   \param itemInfo Plot item
+   \return A plot item, when successful, otherwise a NULL pointer.
+   \sa itemToInfo()
+ */
+QwtPlotItem* QwtPlot::infoToItem( const QVariant& itemInfo ) const
 {
-    if ( itemInfo.canConvert<QwtPlotItem *>() )
-        return qvariant_cast<QwtPlotItem *>( itemInfo );
+    if ( itemInfo.canConvert< QwtPlotItem* >() )
+        return qvariant_cast< QwtPlotItem* >( itemInfo );
 
     return NULL;
 }

@@ -18,11 +18,11 @@
 
 namespace
 {
-    class QwtPlotGLCanvasFormat: public QGLFormat
+    class QwtPlotGLCanvasFormat : public QGLFormat
     {
-    public:
-        QwtPlotGLCanvasFormat():
-            QGLFormat( QGLFormat::defaultFormat() )
+      public:
+        QwtPlotGLCanvasFormat()
+            : QGLFormat( QGLFormat::defaultFormat() )
         {
             setSampleBuffers( true );
         }
@@ -31,10 +31,10 @@ namespace
 
 class QwtPlotGLCanvas::PrivateData
 {
-public:
-    PrivateData():
-        fboDirty( true ),
-        fbo( NULL )
+  public:
+    PrivateData()
+        : fboDirty( true )
+        , fbo( NULL )
     {
     }
 
@@ -48,14 +48,14 @@ public:
 };
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  \param plot Parent plot widget
-  \sa QwtPlot::setCanvas()
-*/
-QwtPlotGLCanvas::QwtPlotGLCanvas( QwtPlot *plot ):
-    QGLWidget( QwtPlotGLCanvasFormat(), plot ),
-    QwtPlotAbstractGLCanvas( this )
+   \param plot Parent plot widget
+   \sa QwtPlot::setCanvas()
+ */
+QwtPlotGLCanvas::QwtPlotGLCanvas( QwtPlot* plot )
+    : QGLWidget( QwtPlotGLCanvasFormat(), plot )
+    , QwtPlotAbstractGLCanvas( this )
 {
     m_data = new PrivateData;
 #if 1
@@ -63,9 +63,9 @@ QwtPlotGLCanvas::QwtPlotGLCanvas( QwtPlot *plot ):
 #endif
 }
 
-QwtPlotGLCanvas::QwtPlotGLCanvas( const QGLFormat &format, QwtPlot *plot ):
-    QGLWidget( format, plot ),
-    QwtPlotAbstractGLCanvas( this )
+QwtPlotGLCanvas::QwtPlotGLCanvas( const QGLFormat& format, QwtPlot* plot )
+    : QGLWidget( format, plot )
+    , QwtPlotAbstractGLCanvas( this )
 {
     m_data = new PrivateData;
 #if 1
@@ -80,22 +80,22 @@ QwtPlotGLCanvas::~QwtPlotGLCanvas()
 }
 
 /*!
-  Paint event
+   Paint event
 
-  \param event Paint event
-  \sa QwtPlot::drawCanvas()
-*/
-void QwtPlotGLCanvas::paintEvent( QPaintEvent *event )
+   \param event Paint event
+   \sa QwtPlot::drawCanvas()
+ */
+void QwtPlotGLCanvas::paintEvent( QPaintEvent* event )
 {
     QGLWidget::paintEvent( event );
 }
 
 /*!
-  Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
-  \param event Qt Event
-  \return See QGLWidget::event()
-*/
-bool QwtPlotGLCanvas::event( QEvent *event )
+   Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
+   \param event Qt Event
+   \return See QGLWidget::event()
+ */
+bool QwtPlotGLCanvas::event( QEvent* event )
 {
     const bool ok = QGLWidget::event( event );
 
@@ -128,7 +128,7 @@ void QwtPlotGLCanvas::clearBackingStore()
     m_data->fbo = NULL;
 }
 
-QPainterPath QwtPlotGLCanvas::borderPath( const QRect &rect ) const
+QPainterPath QwtPlotGLCanvas::borderPath( const QRect& rect ) const
 {
     return borderPath2( rect );
 }

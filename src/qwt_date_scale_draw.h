@@ -15,47 +15,47 @@
 #include "qwt_date.h"
 
 /*!
-  \brief A class for drawing datetime scales
+   \brief A class for drawing datetime scales
 
-  QwtDateScaleDraw displays values as datetime labels.
-  The format of the labels depends on the alignment of
-  the major tick labels.
+   QwtDateScaleDraw displays values as datetime labels.
+   The format of the labels depends on the alignment of
+   the major tick labels.
 
-  The default format strings are:
+   The default format strings are:
 
-  - Millisecond\n
+   - Millisecond\n
     "hh:mm:ss:zzz\nddd dd MMM yyyy"
-  - Second\n
+   - Second\n
     "hh:mm:ss\nddd dd MMM yyyy"
-  - Minute\n
+   - Minute\n
     "hh:mm\nddd dd MMM yyyy"
-  - Hour\n
+   - Hour\n
     "hh:mm\nddd dd MMM yyyy"
-  - Day\n
+   - Day\n
     "ddd dd MMM yyyy"
-  - Week\n
+   - Week\n
     "Www yyyy"
-  - Month\n
+   - Month\n
     "MMM yyyy"
-  - Year\n
+   - Year\n
     "yyyy"
 
-  The format strings can be modified using setDateFormat()
-  or individually for each tick label by overloading dateFormatOfDate(),
+   The format strings can be modified using setDateFormat()
+   or individually for each tick label by overloading dateFormatOfDate(),
 
-  Usually QwtDateScaleDraw is used in combination with
-  QwtDateScaleEngine, that calculates scales for datetime
-  intervals.
+   Usually QwtDateScaleDraw is used in combination with
+   QwtDateScaleEngine, that calculates scales for datetime
+   intervals.
 
-  \sa QwtDateScaleEngine, QwtPlot::setAxisScaleDraw()
-*/
-class QWT_EXPORT QwtDateScaleDraw: public QwtScaleDraw
+   \sa QwtDateScaleEngine, QwtPlot::setAxisScaleDraw()
+ */
+class QWT_EXPORT QwtDateScaleDraw : public QwtScaleDraw
 {
-public:
+  public:
     explicit QwtDateScaleDraw( Qt::TimeSpec = Qt::LocalTime );
     virtual ~QwtDateScaleDraw();
 
-    void setDateFormat( QwtDate::IntervalType, const QString & );
+    void setDateFormat( QwtDate::IntervalType, const QString& );
     QString dateFormat( QwtDate::IntervalType ) const;
 
     void setTimeSpec( Qt::TimeSpec );
@@ -71,16 +71,16 @@ public:
 
     QDateTime toDateTime( double ) const;
 
-protected:
+  protected:
     virtual QwtDate::IntervalType
-        intervalType( const QwtScaleDiv & ) const;
+    intervalType( const QwtScaleDiv& ) const;
 
-    virtual QString dateFormatOfDate( const QDateTime &,
+    virtual QString dateFormatOfDate( const QDateTime&,
         QwtDate::IntervalType ) const;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

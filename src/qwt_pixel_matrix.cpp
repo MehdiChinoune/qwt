@@ -10,13 +10,13 @@
 #include "qwt_pixel_matrix.h"
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  \param rect Bounding rectangle for the matrix
-*/
-QwtPixelMatrix::QwtPixelMatrix( const QRect& rect ):
-    QBitArray( qMax( rect.width() * rect.height(), 0 ) ),
-    m_rect( rect )
+   \param rect Bounding rectangle for the matrix
+ */
+QwtPixelMatrix::QwtPixelMatrix( const QRect& rect )
+    : QBitArray( qMax( rect.width() * rect.height(), 0 ) )
+    , m_rect( rect )
 {
 }
 

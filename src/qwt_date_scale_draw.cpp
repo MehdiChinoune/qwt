@@ -12,11 +12,11 @@
 
 class QwtDateScaleDraw::PrivateData
 {
-public:
-    explicit PrivateData( Qt::TimeSpec spec ):
-        timeSpec( spec ),
-        utcOffset( 0 ),
-        week0Type( QwtDate::FirstThursday )
+  public:
+    explicit PrivateData( Qt::TimeSpec spec )
+        : timeSpec( spec )
+        , utcOffset( 0 )
+        , week0Type( QwtDate::FirstThursday )
     {
         dateFormats[ QwtDate::Millisecond ] = "hh:mm:ss:zzz\nddd dd MMM yyyy";
         dateFormats[ QwtDate::Second ] = "hh:mm:ss\nddd dd MMM yyyy";
@@ -35,15 +35,15 @@ public:
 };
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  The default setting is to display tick labels for the
-  given time specification. The first week of a year is defined like
-  for QwtDate::FirstThursday.
+   The default setting is to display tick labels for the
+   given time specification. The first week of a year is defined like
+   for QwtDate::FirstThursday.
 
-  \param timeSpec Time specification
+   \param timeSpec Time specification
 
-  \sa setTimeSpec(), setWeek0Type()
+   \sa setTimeSpec(), setWeek0Type()
  */
 QwtDateScaleDraw::QwtDateScaleDraw( Qt::TimeSpec timeSpec )
 {
@@ -57,10 +57,10 @@ QwtDateScaleDraw::~QwtDateScaleDraw()
 }
 
 /*!
-  Set the time specification used for the tick labels
+   Set the time specification used for the tick labels
 
-  \param timeSpec Time specification
-  \sa timeSpec(), setUtcOffset(), toDateTime()
+   \param timeSpec Time specification
+   \sa timeSpec(), setUtcOffset(), toDateTime()
  */
 void QwtDateScaleDraw::setTimeSpec( Qt::TimeSpec timeSpec )
 {
@@ -68,8 +68,8 @@ void QwtDateScaleDraw::setTimeSpec( Qt::TimeSpec timeSpec )
 }
 
 /*!
-  \return Time specification used for the tick labels
-  \sa setTimeSpec(), utcOffset(), toDateTime()
+   \return Time specification used for the tick labels
+   \sa setTimeSpec(), utcOffset(), toDateTime()
  */
 Qt::TimeSpec QwtDateScaleDraw::timeSpec() const
 {
@@ -77,14 +77,14 @@ Qt::TimeSpec QwtDateScaleDraw::timeSpec() const
 }
 
 /*!
-  Set the offset in seconds from Coordinated Universal Time
+   Set the offset in seconds from Coordinated Universal Time
 
-  \param seconds Offset in seconds
+   \param seconds Offset in seconds
 
-  \note The offset has no effect beside for the time specification
+   \note The offset has no effect beside for the time specification
         Qt::OffsetFromUTC.
 
-  \sa QDate::utcOffset(), setTimeSpec(), toDateTime()
+   \sa QDate::utcOffset(), setTimeSpec(), toDateTime()
  */
 void QwtDateScaleDraw::setUtcOffset( int seconds )
 {
@@ -92,11 +92,11 @@ void QwtDateScaleDraw::setUtcOffset( int seconds )
 }
 
 /*!
-  \return Offset in seconds from Coordinated Universal Time
-  \note The offset has no effect beside for the time specification
+   \return Offset in seconds from Coordinated Universal Time
+   \note The offset has no effect beside for the time specification
         Qt::OffsetFromUTC.
 
-  \sa QDate::setUtcOffset(), setTimeSpec(), toDateTime()
+   \sa QDate::setUtcOffset(), setTimeSpec(), toDateTime()
  */
 int QwtDateScaleDraw::utcOffset() const
 {
@@ -104,12 +104,12 @@ int QwtDateScaleDraw::utcOffset() const
 }
 
 /*!
-  Sets how to identify the first week of a year.
+   Sets how to identify the first week of a year.
 
-  \param week0Type Mode how to identify the first week of a year
+   \param week0Type Mode how to identify the first week of a year
 
-  \sa week0Type().
-  \note week0Type has no effect beside for intervals classified as
+   \sa week0Type().
+   \note week0Type has no effect beside for intervals classified as
         QwtDate::Week.
  */
 void QwtDateScaleDraw::setWeek0Type( QwtDate::Week0Type week0Type )
@@ -118,8 +118,8 @@ void QwtDateScaleDraw::setWeek0Type( QwtDate::Week0Type week0Type )
 }
 
 /*!
-  \return Setting how to identify the first week of a year.
-  \sa setWeek0Type()
+   \return Setting how to identify the first week of a year.
+   \sa setWeek0Type()
  */
 QwtDate::Week0Type QwtDateScaleDraw::week0Type() const
 {
@@ -127,15 +127,15 @@ QwtDate::Week0Type QwtDateScaleDraw::week0Type() const
 }
 
 /*!
-  Set the default format string for an datetime interval type
+   Set the default format string for an datetime interval type
 
-  \param intervalType Interval type
-  \param format Default format string
+   \param intervalType Interval type
+   \param format Default format string
 
-  \sa dateFormat(), dateFormatOfDate(), QwtDate::toString()
+   \sa dateFormat(), dateFormatOfDate(), QwtDate::toString()
  */
 void QwtDateScaleDraw::setDateFormat(
-    QwtDate::IntervalType intervalType, const QString &format )
+    QwtDate::IntervalType intervalType, const QString& format )
 {
     if ( intervalType >= QwtDate::Millisecond &&
         intervalType <= QwtDate::Year )
@@ -145,9 +145,9 @@ void QwtDateScaleDraw::setDateFormat(
 }
 
 /*!
-  \param intervalType Interval type
-  \return Default format string for an datetime interval type
-  \sa setDateFormat(), dateFormatOfDate()
+   \param intervalType Interval type
+   \return Default format string for an datetime interval type
+   \sa setDateFormat(), dateFormatOfDate()
  */
 QString QwtDateScaleDraw::dateFormat(
     QwtDate::IntervalType intervalType ) const
@@ -162,22 +162,22 @@ QString QwtDateScaleDraw::dateFormat(
 }
 
 /*!
-  Format string for the representation of a datetime
+   Format string for the representation of a datetime
 
-  dateFormatOfDate() is intended to be overloaded for
-  situations, where formats are individual for specific
-  datetime values.
+   dateFormatOfDate() is intended to be overloaded for
+   situations, where formats are individual for specific
+   datetime values.
 
-  The default setting ignores dateTime and return
-  the default format for the interval type.
+   The default setting ignores dateTime and return
+   the default format for the interval type.
 
-  \param dateTime Datetime value
-  \param intervalType Interval type
-  \return Format string
+   \param dateTime Datetime value
+   \param intervalType Interval type
+   \return Format string
 
-  \sa setDateFormat(), QwtDate::toString()
+   \sa setDateFormat(), QwtDate::toString()
  */
-QString QwtDateScaleDraw::dateFormatOfDate( const QDateTime &dateTime,
+QString QwtDateScaleDraw::dateFormatOfDate( const QDateTime& dateTime,
     QwtDate::IntervalType intervalType ) const
 {
     Q_UNUSED( dateTime )
@@ -192,16 +192,16 @@ QString QwtDateScaleDraw::dateFormatOfDate( const QDateTime &dateTime,
 }
 
 /*!
-  \brief Convert a value into its representing label
+   \brief Convert a value into its representing label
 
-  The value is converted to a datetime value using toDateTime()
-  and converted to a plain text using QwtDate::toString().
+   The value is converted to a datetime value using toDateTime()
+   and converted to a plain text using QwtDate::toString().
 
-  \param value Value
-  \return Label string.
+   \param value Value
+   \return Label string.
 
-  \sa dateFormatOfDate()
-*/
+   \sa dateFormatOfDate()
+ */
 QwtText QwtDateScaleDraw::label( double value ) const
 {
     const QDateTime dt = toDateTime( value );
@@ -212,29 +212,29 @@ QwtText QwtDateScaleDraw::label( double value ) const
 }
 
 /*!
-  Find the less detailed datetime unit, where no rounding
-  errors happen.
+   Find the less detailed datetime unit, where no rounding
+   errors happen.
 
-  \param scaleDiv Scale division
-  \return Interval type
+   \param scaleDiv Scale division
+   \return Interval type
 
-  \sa dateFormatOfDate()
+   \sa dateFormatOfDate()
  */
 QwtDate::IntervalType QwtDateScaleDraw::intervalType(
-    const QwtScaleDiv &scaleDiv ) const
+    const QwtScaleDiv& scaleDiv ) const
 {
     int intvType = QwtDate::Year;
 
     bool alignedToWeeks = true;
 
-    const QList<double> ticks = scaleDiv.ticks( QwtScaleDiv::MajorTick );
+    const QList< double > ticks = scaleDiv.ticks( QwtScaleDiv::MajorTick );
     for ( int i = 0; i < ticks.size(); i++ )
     {
         const QDateTime dt = toDateTime( ticks[i] );
         for ( int j = QwtDate::Second; j <= intvType; j++ )
         {
             const QDateTime dt0 = QwtDate::floor( dt,
-                static_cast<QwtDate::IntervalType>( j ) );
+                static_cast< QwtDate::IntervalType >( j ) );
 
             if ( dt0 != dt )
             {
@@ -257,14 +257,14 @@ QwtDate::IntervalType QwtDateScaleDraw::intervalType(
     if ( intvType == QwtDate::Week && !alignedToWeeks )
         intvType = QwtDate::Day;
 
-    return static_cast<QwtDate::IntervalType>( intvType );
+    return static_cast< QwtDate::IntervalType >( intvType );
 }
 
 /*!
-  Translate a double value into a QDateTime object.
+   Translate a double value into a QDateTime object.
 
-  \return QDateTime object initialized with timeSpec() and utcOffset().
-  \sa timeSpec(), utcOffset(), QwtDate::toDateTime()
+   \return QDateTime object initialized with timeSpec() and utcOffset().
+   \sa timeSpec(), utcOffset(), QwtDate::toDateTime()
  */
 QDateTime QwtDateScaleDraw::toDateTime( double value ) const
 {

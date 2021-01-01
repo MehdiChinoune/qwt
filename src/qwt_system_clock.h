@@ -14,23 +14,23 @@
 #include <qelapsedtimer.h>
 
 /*!
-  \brief QwtSystemClock provides high resolution clock time functions.
+   \brief QwtSystemClock provides high resolution clock time functions.
 
-  Precision and time intervals are multiples of milliseconds (ms).
+   Precision and time intervals are multiples of milliseconds (ms).
 
-  ( QwtSystemClock is deprecated as QElapsedTimer offers the same precision )
-*/
+   ( QwtSystemClock is deprecated as QElapsedTimer offers the same precision )
+ */
 
 class QWT_EXPORT QwtSystemClock
 {
-public:
+  public:
     bool isNull() const;
 
     void start();
     double restart();
     double elapsed() const;
 
-private:
+  private:
     QElapsedTimer m_timer;
 };
 

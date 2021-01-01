@@ -19,47 +19,47 @@ class QPainterPath;
 class QPolygonF;
 
 /*!
-  \brief A plot item, which displays any graphical shape,
+   \brief A plot item, which displays any graphical shape,
          that can be defined by a QPainterPath
 
-  A QPainterPath is a shape composed from intersecting and uniting
-  regions, rectangles, ellipses or irregular areas defined by lines, and curves.
-  QwtPlotShapeItem displays a shape with a pen and brush.
+   A QPainterPath is a shape composed from intersecting and uniting
+   regions, rectangles, ellipses or irregular areas defined by lines, and curves.
+   QwtPlotShapeItem displays a shape with a pen and brush.
 
-  QwtPlotShapeItem offers a couple of optimizations like clipping or weeding.
-  These algorithms need to convert the painter path into polygons that might be
-  less performant for paths built from curves and ellipses.
+   QwtPlotShapeItem offers a couple of optimizations like clipping or weeding.
+   These algorithms need to convert the painter path into polygons that might be
+   less performant for paths built from curves and ellipses.
 
-  More complex shapes, that can't be expressed by a QPainterPath can be displayed
-  using QwtPlotGraphicItem.
+   More complex shapes, that can't be expressed by a QPainterPath can be displayed
+   using QwtPlotGraphicItem.
 
-  \sa QwtPlotZone, QwtPlotGraphicItem
-*/
-class QWT_EXPORT QwtPlotShapeItem: public QwtPlotItem
+   \sa QwtPlotZone, QwtPlotGraphicItem
+ */
+class QWT_EXPORT QwtPlotShapeItem : public QwtPlotItem
 {
-public:
+  public:
     /*!
         Attributes to modify the drawing algorithm.
         The default disables all attributes
 
         \sa setPaintAttribute(), testPaintAttribute()
-    */
+     */
     enum PaintAttribute
     {
         /*!
-          Clip polygons before painting them. In situations, where points
-          are far outside the visible area (f.e when zooming deep) this
-          might be a substantial improvement for the painting performance
+           Clip polygons before painting them. In situations, where points
+           are far outside the visible area (f.e when zooming deep) this
+           might be a substantial improvement for the painting performance
 
-          But polygon clipping will convert the painter path into
-          polygons what might introduce a negative impact on the
-          performance of paths composed from curves or ellipses.
+           But polygon clipping will convert the painter path into
+           polygons what might introduce a negative impact on the
+           performance of paths composed from curves or ellipses.
          */
         ClipPolygons = 0x01,
     };
 
     //! Paint attributes
-    typedef QFlags<PaintAttribute> PaintAttributes;
+    typedef QFlags< PaintAttribute > PaintAttributes;
 
     //! Mode how to display the item on the legend
     enum LegendMode
@@ -71,8 +71,8 @@ public:
         LegendColor
     };
 
-    explicit QwtPlotShapeItem( const QString &title = QString() );
-    explicit QwtPlotShapeItem( const QwtText &title );
+    explicit QwtPlotShapeItem( const QString& title = QString() );
+    explicit QwtPlotShapeItem( const QwtText& title );
 
     virtual ~QwtPlotShapeItem();
 
@@ -82,17 +82,17 @@ public:
     void setLegendMode( LegendMode );
     LegendMode legendMode() const;
 
-    void setRect( const QRectF & );
-    void setPolygon( const QPolygonF & );
+    void setRect( const QRectF& );
+    void setPolygon( const QPolygonF& );
 
-    void setShape( const QPainterPath & );
+    void setShape( const QPainterPath& );
     QPainterPath shape() const;
 
-    void setPen( const QColor &, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
-    void setPen( const QPen & );
+    void setPen( const QColor&, qreal width = 0.0, Qt::PenStyle = Qt::SolidLine );
+    void setPen( const QPen& );
     QPen pen() const;
 
-    void setBrush( const QBrush & );
+    void setBrush( const QBrush& );
     QBrush brush() const;
 
     void setRenderTolerance( double );
@@ -100,20 +100,20 @@ public:
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 
-    virtual void draw( QPainter *,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &canvasRect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter*,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& canvasRect ) const QWT_OVERRIDE;
 
     virtual QwtGraphic legendIcon(
-        int index, const QSizeF & ) const QWT_OVERRIDE;
+        int index, const QSizeF& ) const QWT_OVERRIDE;
 
     virtual int rtti() const QWT_OVERRIDE;
 
-private:
+  private:
     void init();
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

@@ -10,28 +10,28 @@
 #include "qwt_series_data.h"
 #include "qwt_point_polar.h"
 
-static inline QRectF qwtBoundingRect( const QPointF &sample )
+static inline QRectF qwtBoundingRect( const QPointF& sample )
 {
     return QRectF( sample.x(), sample.y(), 0.0, 0.0 );
 }
 
-static inline QRectF qwtBoundingRect( const QwtPoint3D &sample )
+static inline QRectF qwtBoundingRect( const QwtPoint3D& sample )
 {
     return QRectF( sample.x(), sample.y(), 0.0, 0.0 );
 }
 
-static inline QRectF qwtBoundingRect( const QwtPointPolar &sample )
+static inline QRectF qwtBoundingRect( const QwtPointPolar& sample )
 {
     return QRectF( sample.azimuth(), sample.radius(), 0.0, 0.0 );
 }
 
-static inline QRectF qwtBoundingRect( const QwtIntervalSample &sample )
+static inline QRectF qwtBoundingRect( const QwtIntervalSample& sample )
 {
     return QRectF( sample.interval.minValue(), sample.value,
         sample.interval.maxValue() - sample.interval.minValue(), 0.0 );
 }
 
-static inline QRectF qwtBoundingRect( const QwtSetSample &sample )
+static inline QRectF qwtBoundingRect( const QwtSetSample& sample )
 {
     if ( sample.set.empty() )
         return QRectF( sample.value, 0.0, 0.0, -1.0 );
@@ -51,13 +51,13 @@ static inline QRectF qwtBoundingRect( const QwtSetSample &sample )
     return QRectF( sample.value, minY, 0.0, maxY - minY );
 }
 
-static inline QRectF qwtBoundingRect( const QwtOHLCSample &sample )
+static inline QRectF qwtBoundingRect( const QwtOHLCSample& sample )
 {
     const QwtInterval interval = sample.boundingInterval();
     return QRectF( interval.minValue(), sample.time, interval.width(), 0.0 );
 }
 
-static inline QRectF qwtBoundingRect( const QwtVectorFieldSample &sample )
+static inline QRectF qwtBoundingRect( const QwtVectorFieldSample& sample )
 {
     /*
         When displaying a sample as an arrow its length will be
@@ -70,20 +70,19 @@ static inline QRectF qwtBoundingRect( const QwtVectorFieldSample &sample )
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 
-template <class T>
-QRectF qwtBoundingRectT(
-    const QwtSeriesData<T>& series, int from, int to )
+template< class T >
+QRectF qwtBoundingRectT( const QwtSeriesData< T >& series, int from, int to )
 {
     QRectF boundingRect( 1.0, 1.0, -2.0, -2.0 ); // invalid;
 
@@ -124,145 +123,143 @@ QRectF qwtBoundingRectT(
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
-QRectF qwtBoundingRect(
-    const QwtSeriesData<QPointF> &series, int from, int to )
+   \return Bounding rectangle
+ */
+QRectF qwtBoundingRect( const QwtSeriesData< QPointF >& series, int from, int to )
 {
-    return qwtBoundingRectT<QPointF>( series, from, to );
+    return qwtBoundingRectT< QPointF >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtPoint3D> &series, int from, int to )
+    const QwtSeriesData< QwtPoint3D >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtPoint3D>( series, from, to );
+    return qwtBoundingRectT< QwtPoint3D >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  The horizontal coordinates represent the azimuth, the
-  vertical coordinates the radius.
+   The horizontal coordinates represent the azimuth, the
+   vertical coordinates the radius.
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtPointPolar> &series, int from, int to )
+    const QwtSeriesData< QwtPointPolar >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtPointPolar>( series, from, to );
+    return qwtBoundingRectT< QwtPointPolar >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtIntervalSample>& series, int from, int to )
+    const QwtSeriesData< QwtIntervalSample >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtIntervalSample>( series, from, to );
+    return qwtBoundingRectT< QwtIntervalSample >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtOHLCSample>& series, int from, int to )
+    const QwtSeriesData< QwtOHLCSample >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtOHLCSample>( series, from, to );
+    return qwtBoundingRectT< QwtOHLCSample >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtSetSample>& series, int from, int to )
+    const QwtSeriesData< QwtSetSample >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtSetSample>( series, from, to );
+    return qwtBoundingRectT< QwtSetSample >( series, from, to );
 }
 
 /*!
-  \brief Calculate the bounding rectangle of a series subset
+   \brief Calculate the bounding rectangle of a series subset
 
-  Slow implementation, that iterates over the series.
+   Slow implementation, that iterates over the series.
 
-  \param series Series
-  \param from Index of the first sample, <= 0 means from the beginning
-  \param to Index of the last sample, < 0 means to the end
+   \param series Series
+   \param from Index of the first sample, <= 0 means from the beginning
+   \param to Index of the last sample, < 0 means to the end
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF qwtBoundingRect(
-    const QwtSeriesData<QwtVectorFieldSample> &series, int from, int to )
+    const QwtSeriesData< QwtVectorFieldSample >& series, int from, int to )
 {
-    return qwtBoundingRectT<QwtVectorFieldSample>( series, from, to );
+    return qwtBoundingRectT< QwtVectorFieldSample >( series, from, to );
 }
 
 /*!
    Constructor
    \param samples Samples
-*/
-QwtPointSeriesData::QwtPointSeriesData(
-        const QVector<QPointF> &samples ):
-    QwtArraySeriesData<QPointF>( samples )
+ */
+QwtPointSeriesData::QwtPointSeriesData( const QVector< QPointF >& samples )
+    : QwtArraySeriesData< QPointF >( samples )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtPointSeriesData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )
@@ -274,21 +271,21 @@ QRectF QwtPointSeriesData::boundingRect() const
 /*!
    Constructor
    \param samples Samples
-*/
+ */
 QwtPoint3DSeriesData::QwtPoint3DSeriesData(
-        const QVector<QwtPoint3D> &samples ):
-    QwtArraySeriesData<QwtPoint3D>( samples )
+        const QVector< QwtPoint3D >& samples )
+    : QwtArraySeriesData< QwtPoint3D >( samples )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtPoint3DSeriesData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )
@@ -300,21 +297,21 @@ QRectF QwtPoint3DSeriesData::boundingRect() const
 /*!
    Constructor
    \param samples Samples
-*/
+ */
 QwtIntervalSeriesData::QwtIntervalSeriesData(
-        const QVector<QwtIntervalSample> &samples ):
-    QwtArraySeriesData<QwtIntervalSample>( samples )
+        const QVector< QwtIntervalSample >& samples )
+    : QwtArraySeriesData< QwtIntervalSample >( samples )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtIntervalSeriesData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )
@@ -326,22 +323,22 @@ QRectF QwtIntervalSeriesData::boundingRect() const
 /*!
    Constructor
    \param samples Samples
-*/
+ */
 QwtVectorFieldData::QwtVectorFieldData(
-        const QVector<QwtVectorFieldSample> &samples ):
-    QwtArraySeriesData<QwtVectorFieldSample>( samples ),
-    m_maxMagnitude( -1.0 )
+        const QVector< QwtVectorFieldSample >& samples )
+    : QwtArraySeriesData< QwtVectorFieldSample >( samples )
+    , m_maxMagnitude( -1.0 )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtVectorFieldData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )
@@ -374,21 +371,20 @@ double QwtVectorFieldData::maxMagnitude() const
 /*!
    Constructor
    \param samples Samples
-*/
-QwtSetSeriesData::QwtSetSeriesData(
-        const QVector<QwtSetSample> &samples ):
-    QwtArraySeriesData<QwtSetSample>( samples )
+ */
+QwtSetSeriesData::QwtSetSeriesData( const QVector< QwtSetSample >& samples )
+    : QwtArraySeriesData< QwtSetSample >( samples )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtSetSeriesData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )
@@ -400,21 +396,20 @@ QRectF QwtSetSeriesData::boundingRect() const
 /*!
    Constructor
    \param samples Samples
-*/
-QwtTradingChartData::QwtTradingChartData(
-        const QVector<QwtOHLCSample> &samples ):
-    QwtArraySeriesData<QwtOHLCSample>( samples )
+ */
+QwtTradingChartData::QwtTradingChartData( const QVector< QwtOHLCSample >& samples )
+    : QwtArraySeriesData< QwtOHLCSample >( samples )
 {
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  The bounding rectangle is calculated once by iterating over all
-  points and is stored for all following requests.
+   The bounding rectangle is calculated once by iterating over all
+   points and is stored for all following requests.
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtTradingChartData::boundingRect() const
 {
     if ( cachedBoundingRect.width() < 0.0 )

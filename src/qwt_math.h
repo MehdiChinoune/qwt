@@ -13,12 +13,12 @@
 #include "qwt_global.h"
 
 /*
-  Microsoft says:
+   Microsoft says:
 
-  Define _USE_MATH_DEFINES before including math.h to expose these macro
-  definitions for common math constants.  These are placed under an #ifdef
-  since these commonly-defined names are not part of the C/C++ standards.
-*/
+   Define _USE_MATH_DEFINES before including math.h to expose these macro
+   definitions for common math constants.  These are placed under an #ifdef
+   since these commonly-defined names are not part of the C/C++ standards.
+ */
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
@@ -33,55 +33,55 @@
 #endif
 
 #ifndef M_E
-#define M_E (2.7182818284590452354)
+#define M_E ( 2.7182818284590452354 )
 #endif
 
 #ifndef M_LOG2E
-#define M_LOG2E (1.4426950408889634074)
+#define M_LOG2E ( 1.4426950408889634074 )
 #endif
 
 #ifndef M_LOG10E
-#define M_LOG10E (0.43429448190325182765)
+#define M_LOG10E ( 0.43429448190325182765 )
 #endif
 
 #ifndef M_LN2
-#define M_LN2 (0.69314718055994530942)
+#define M_LN2 ( 0.69314718055994530942 )
 #endif
 
 #ifndef M_LN10
-#define M_LN10 (2.30258509299404568402)
+#define M_LN10 ( 2.30258509299404568402 )
 #endif
 
 #ifndef M_PI
-#define M_PI (3.14159265358979323846)
+#define M_PI ( 3.14159265358979323846 )
 #endif
 
 #ifndef M_PI_2
-#define M_PI_2 (1.57079632679489661923)
+#define M_PI_2 ( 1.57079632679489661923 )
 #endif
 
 #ifndef M_PI_4
-#define M_PI_4 (0.78539816339744830962)
+#define M_PI_4 ( 0.78539816339744830962 )
 #endif
 
 #ifndef M_1_PI
-#define M_1_PI (0.31830988618379067154)
+#define M_1_PI ( 0.31830988618379067154 )
 #endif
 
 #ifndef M_2_PI
-#define M_2_PI (0.63661977236758134308)
+#define M_2_PI ( 0.63661977236758134308 )
 #endif
 
 #ifndef M_2_SQRTPI
-#define M_2_SQRTPI (1.12837916709551257390)
+#define M_2_SQRTPI ( 1.12837916709551257390 )
 #endif
 
 #ifndef M_SQRT2
-#define M_SQRT2 (1.41421356237309504880)
+#define M_SQRT2 ( 1.41421356237309504880 )
 #endif
 
 #ifndef M_SQRT1_2
-#define M_SQRT1_2 (0.70710678118654752440)
+#define M_SQRT1_2 ( 0.70710678118654752440 )
 #endif
 
 #if defined( QT_WARNING_PUSH )
@@ -152,17 +152,17 @@ QWT_EXPORT double qwtNormalizeDegrees( double degrees );
 QWT_EXPORT quint32 qwtRand();
 
 /*!
-  \brief Compare 2 values, relative to an interval
+   \brief Compare 2 values, relative to an interval
 
-  Values are "equal", when :
-  \f$\cdot value2 - value1 <= abs(intervalSize * 10e^{-6})\f$
+   Values are "equal", when :
+   \f$\cdot value2 - value1 <= abs(intervalSize * 10e^{-6})\f$
 
-  \param value1 First value to compare
-  \param value2 Second value to compare
-  \param intervalSize interval size
+   \param value1 First value to compare
+   \param value2 Second value to compare
+   \param intervalSize interval size
 
-  \return 0: if equal, -1: if value2 > value1, 1: if value1 > value2
-*/
+   \return 0: if equal, -1: if value2 > value1, 1: if value1 > value2
+ */
 inline int qwtFuzzyCompare( double value1, double value2, double intervalSize )
 {
     const double eps = qAbs( 1.0e-6 * intervalSize );
@@ -236,7 +236,7 @@ inline double qwtFastAtan2( double y, double x )
    \param d Connstant offset
 
    \return Value of the polyonom for x
-*/
+ */
 inline double qwtCubicPolynom( double x,
     double a, double b, double c, double d )
 {

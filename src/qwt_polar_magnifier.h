@@ -16,44 +16,44 @@ class QwtPolarPlot;
 class QwtPolarCanvas;
 
 /*!
-  \brief QwtPolarMagnifier provides zooming, by magnifying in steps.
+   \brief QwtPolarMagnifier provides zooming, by magnifying in steps.
 
-  Using QwtPlotMagnifier a plot can be zoomed in/out in steps using
-  keys, the mouse wheel or moving a mouse button in vertical direction.
+   Using QwtPlotMagnifier a plot can be zoomed in/out in steps using
+   keys, the mouse wheel or moving a mouse button in vertical direction.
 
-  Together with QwtPolarPanner it is possible to implement
-  an individual navigation of the plot canvas.
+   Together with QwtPolarPanner it is possible to implement
+   an individual navigation of the plot canvas.
 
-  \sa QwtPolarPanner, QwtPolarPlot, QwtPolarCanvas
-*/
+   \sa QwtPolarPanner, QwtPolarPlot, QwtPolarCanvas
+ */
 
-class QWT_EXPORT QwtPolarMagnifier: public QwtMagnifier
+class QWT_EXPORT QwtPolarMagnifier : public QwtMagnifier
 {
     Q_OBJECT
 
-public:
-    explicit QwtPolarMagnifier( QwtPolarCanvas * );
+  public:
+    explicit QwtPolarMagnifier( QwtPolarCanvas* );
     virtual ~QwtPolarMagnifier();
 
     void setUnzoomKey( int key, int modifiers );
-    void getUnzoomKey( int &key, int &modifiers ) const;
+    void getUnzoomKey( int& key, int& modifiers ) const;
 
-    QwtPolarPlot *plot();
-    const QwtPolarPlot *plot() const;
+    QwtPolarPlot* plot();
+    const QwtPolarPlot* plot() const;
 
-    QwtPolarCanvas *canvas();
-    const QwtPolarCanvas *canvas() const;
+    QwtPolarCanvas* canvas();
+    const QwtPolarCanvas* canvas() const;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     virtual void rescale( double factor ) QWT_OVERRIDE;
     void unzoom();
 
-protected:
-    virtual void widgetKeyPressEvent( QKeyEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void widgetKeyPressEvent( QKeyEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

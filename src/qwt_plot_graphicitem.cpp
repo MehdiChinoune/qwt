@@ -15,11 +15,7 @@
 
 class QwtPlotGraphicItem::PrivateData
 {
-public:
-    PrivateData()
-    {
-    }
-
+  public:
     QRectF boundingRect;
     QwtGraphic graphic;
 };
@@ -32,9 +28,9 @@ public:
    - QwtPlotItem::Legend:    false
 
    \param title Title
-*/
-QwtPlotGraphicItem::QwtPlotGraphicItem( const QString& title ):
-    QwtPlotItem( QwtText( title ) )
+ */
+QwtPlotGraphicItem::QwtPlotGraphicItem( const QString& title )
+    : QwtPlotItem( QwtText( title ) )
 {
     init();
 }
@@ -47,9 +43,9 @@ QwtPlotGraphicItem::QwtPlotGraphicItem( const QString& title ):
    - QwtPlotItem::Legend:    false
 
    \param title Title
-*/
-QwtPlotGraphicItem::QwtPlotGraphicItem( const QwtText& title ):
-    QwtPlotItem( title )
+ */
+QwtPlotGraphicItem::QwtPlotGraphicItem( const QwtText& title )
+    : QwtPlotItem( title )
 {
     init();
 }
@@ -84,18 +80,18 @@ int QwtPlotGraphicItem::rtti() const
    \param graphic Recorded sequence of painter commands
  */
 void QwtPlotGraphicItem::setGraphic(
-    const QRectF &rect, const QwtGraphic &graphic )
+    const QRectF& rect, const QwtGraphic& graphic )
 {
     m_data->boundingRect = rect;
     m_data->graphic = graphic;
-    
+
     legendChanged();
     itemChanged();
 }
 
 /*!
-  \return Recorded sequence of painter commands
-  \sa setGraphic()
+   \return Recorded sequence of painter commands
+   \sa setGraphic()
  */
 QwtGraphic QwtPlotGraphicItem::graphic() const
 {
@@ -109,16 +105,16 @@ QRectF QwtPlotGraphicItem::boundingRect() const
 }
 
 /*!
-  Draw the item
+   Draw the item
 
-  \param painter Painter
-  \param xMap X-Scale Map
-  \param yMap Y-Scale Map
-  \param canvasRect Contents rect of the plot canvas
-*/
-void QwtPlotGraphicItem::draw( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect ) const
+   \param painter Painter
+   \param xMap X-Scale Map
+   \param yMap Y-Scale Map
+   \param canvasRect Contents rect of the plot canvas
+ */
+void QwtPlotGraphicItem::draw( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect ) const
 {
     if ( m_data->graphic.isEmpty() )
         return;

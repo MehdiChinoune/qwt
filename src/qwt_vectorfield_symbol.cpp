@@ -22,16 +22,16 @@ QwtVectorFieldSymbol::~QwtVectorFieldSymbol()
 
 class QwtVectorFieldArrow::PrivateData
 {
-public:
-    PrivateData( qreal headW, qreal tailW ):
-        headWidth( headW ),
-        tailWidth( tailW ),
-        length( headW + 4.0 )
+  public:
+    PrivateData( qreal headW, qreal tailW )
+        : headWidth( headW )
+        , tailWidth( tailW )
+        , length( headW + 4.0 )
     {
         /*
             Arrow is drawn horizontally, pointing into positive x direction
             with tip at 0,0.
-        */
+         */
 
         path.lineTo( -headWidth, headWidth );
         path.lineTo( -headWidth, tailWidth );
@@ -42,7 +42,7 @@ public:
 
         path.closeSubpath();
     }
-        
+
     void setLength( qreal l )
     {
         length = qMax( l, headWidth );
@@ -79,17 +79,17 @@ qreal QwtVectorFieldArrow::length() const
     return m_data->length;
 }
 
-void QwtVectorFieldArrow::paint( QPainter *painter ) const
+void QwtVectorFieldArrow::paint( QPainter* painter ) const
 {
     painter->drawPath( m_data->path );
 }
 
 class QwtVectorFieldThinArrow::PrivateData
 {
-public:
-    PrivateData( qreal headW ):
-        headWidth( headW ),
-        length( headW + 4.0 )
+  public:
+    PrivateData( qreal headW )
+        : headWidth( headW )
+        , length( headW + 4.0 )
     {
         path.lineTo( -headWidth, headWidth * 0.6 );
         path.moveTo( 0, 0 );
@@ -132,7 +132,7 @@ qreal QwtVectorFieldThinArrow::length() const
     return m_data->length;
 }
 
-void QwtVectorFieldThinArrow::paint(QPainter * p) const
+void QwtVectorFieldThinArrow::paint(QPainter* p) const
 {
     p->drawPath( m_data->path );
 }

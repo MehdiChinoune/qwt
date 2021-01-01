@@ -12,7 +12,7 @@
 
 #include <qpainterpath.h>
 
-static inline double qwtChordalLength( const QPointF &point1, const QPointF &point2 )
+static inline double qwtChordalLength( const QPointF& point1, const QPointF& point2 )
 {
     const double dx = point2.x() - point1.x();
     const double dy = point2.y() - point1.y();
@@ -22,14 +22,14 @@ static inline double qwtChordalLength( const QPointF &point1, const QPointF &poi
 
 template< class Param >
 static QPointF qwtVector( Param param,
-    const QPointF &p1, const QPointF &p2 )
+    const QPointF& p1, const QPointF& p2 )
 {
     return ( p2 - p1 ) / param( p1, p2 );
 }
 
 template< class Param >
 static QPointF qwtVectorCardinal( Param param,
-    const QPointF &p1, const QPointF &p2, const QPointF &p3 )
+    const QPointF& p1, const QPointF& p2, const QPointF& p3 )
 {
     const double t1 = param( p1, p2 );
     const double t2 = param( p2, p3 );
@@ -47,22 +47,22 @@ namespace QwtSplinePleasingP
 
     struct param
     {
-        param( const QwtSplineParametrization *p ):
+        param( const QwtSplineParametrization* p ):
             parameter( p )
         {
         }
 
-        inline double operator()( const QPointF &p1, const QPointF &p2 ) const
+        inline double operator()( const QPointF& p1, const QPointF& p2 ) const
         {
             return parameter->valueIncrement( p1, p2 );
         }
 
-        const QwtSplineParametrization *parameter;
+        const QwtSplineParametrization* parameter;
     };
 
     struct paramUniform
     {
-        inline double operator()( const QPointF &p1, const QPointF &p2 ) const
+        inline double operator()( const QPointF& p1, const QPointF& p2 ) const
         {
             return QwtSplineParametrization::valueIncrementUniform( p1, p2 );
         }
@@ -70,18 +70,18 @@ namespace QwtSplinePleasingP
 
     class PathStore
     {
-    public:
+      public:
         inline void init( int )
         {
         }
 
-        inline void start( const QPointF &p0 )
+        inline void start( const QPointF& p0 )
         {
             path.moveTo( p0 );
         }
 
-        inline void addCubic( const QPointF &cp1,
-            const QPointF &cp2, const QPointF &p2 )
+        inline void addCubic( const QPointF& cp1,
+            const QPointF& cp2, const QPointF& p2 )
         {
             path.cubicTo( cp1, cp2, p2 );
         }
@@ -91,7 +91,7 @@ namespace QwtSplinePleasingP
 
     class ControlPointsStore
     {
-    public:
+      public:
         inline ControlPointsStore():
             d_cp( NULL )
         {
@@ -103,28 +103,28 @@ namespace QwtSplinePleasingP
             d_cp = controlPoints.data();
         }
 
-        inline void start( const QPointF & )
+        inline void start( const QPointF& )
         {
         }
 
-        inline void addCubic( const QPointF &cp1,
-            const QPointF &cp2, const QPointF & )
+        inline void addCubic( const QPointF& cp1,
+            const QPointF& cp2, const QPointF& )
         {
-            QLineF &l = *d_cp++;
+            QLineF& l = *d_cp++;
             l.setPoints( cp1, cp2 );
         }
 
-        QVector<QLineF> controlPoints;
+        QVector< QLineF > controlPoints;
 
-    private:
+      private:
         QLineF* d_cp;
     };
 }
 
 static inline QwtSplinePleasingP::Tension qwtTensionPleasing(
     double d13, double d23, double d24,
-    const QPointF &p1, const QPointF &p2,
-    const QPointF &p3, const QPointF &p4 )
+    const QPointF& p1, const QPointF& p2,
+    const QPointF& p3, const QPointF& p4 )
 {
     QwtSplinePleasingP::Tension tension;
 
@@ -160,14 +160,14 @@ static inline QwtSplinePleasingP::Tension qwtTensionPleasing(
 }
 
 template< class SplineStore, class Param >
-static SplineStore qwtSplinePathPleasing( const QPolygonF &points,
+static SplineStore qwtSplinePathPleasing( const QPolygonF& points,
     bool isClosed, Param param )
 {
     using namespace QwtSplinePleasingP;
 
     const int size = points.size();
 
-    const QPointF *p = points.constData();
+    const QPointF* p = points.constData();
 
     SplineStore store;
     store.init( isClosed ? size : size - 1 );
@@ -181,11 +181,11 @@ static SplineStore qwtSplinePathPleasing( const QPolygonF &points,
         d13 = qwtChordalLength(p[0], p[2]);
 
         const Tension t0 = qwtTensionPleasing(
-            qwtChordalLength( p[size-1], p[1]), qwtChordalLength(p[0], p[1]),
-            d13, p[size-1], p[0], p[1], p[2] );
+            qwtChordalLength( p[size - 1], p[1]), qwtChordalLength(p[0], p[1]),
+            d13, p[size - 1], p[0], p[1], p[2] );
 
-        const QPointF vec0 = qwtVectorCardinal<Param>( param, p[size-1], p[0], p[1] );
-        vec1 = qwtVectorCardinal<Param>( param, p[0], p[1], p[2] );
+        const QPointF vec0 = qwtVectorCardinal< Param >( param, p[size - 1], p[0], p[1] );
+        vec1 = qwtVectorCardinal< Param >( param, p[0], p[1], p[2] );
 
         store.addCubic( p[0] + vec0 * t0.t1, p[1] - vec1 * t0.t2, p[1] );
     }
@@ -197,23 +197,23 @@ static SplineStore qwtSplinePathPleasing( const QPolygonF &points,
             qwtChordalLength( p[0], p[1]), qwtChordalLength(p[0], p[1]),
             d13,  p[0], p[0], p[1], p[2] );
 
-        const QPointF vec0 = 0.5 * qwtVector<Param>( param, p[0], p[1] );
-        vec1 = qwtVectorCardinal<Param>( param, p[0], p[1], p[2] );
+        const QPointF vec0 = 0.5 * qwtVector< Param >( param, p[0], p[1] );
+        vec1 = qwtVectorCardinal< Param >( param, p[0], p[1], p[2] );
 
         store.addCubic( p[0] + vec0 * t0.t1, p[1] - vec1 * t0.t2, p[1] );
     }
 
     for ( int i = 1; i < size - 2; i++ )
     {
-        const double d23 = qwtChordalLength( p[i], p[i+1] );
-        const double d24 = qwtChordalLength( p[i], p[i+2] );
+        const double d23 = qwtChordalLength( p[i], p[i + 1] );
+        const double d24 = qwtChordalLength( p[i], p[i + 2] );
 
-        const QPointF vec2 = qwtVectorCardinal<Param>( param, p[i], p[i+1], p[i+2] );
+        const QPointF vec2 = qwtVectorCardinal< Param >( param, p[i], p[i + 1], p[i + 2] );
 
         const Tension t = qwtTensionPleasing(
-            d13, d23, d24, p[i-1], p[i], p[i+1], p[i+2] );
+            d13, d23, d24, p[i - 1], p[i], p[i + 1], p[i + 2] );
 
-        store.addCubic( p[i] + vec1 * t.t1, p[i+1] - vec2 * t.t2, p[i+1] );
+        store.addCubic( p[i] + vec1 * t.t1, p[i + 1] - vec2 * t.t2, p[i + 1] );
 
         d13 = d24;
         vec1 = vec2;
@@ -221,46 +221,46 @@ static SplineStore qwtSplinePathPleasing( const QPolygonF &points,
 
     if ( isClosed )
     {
-        const double d24 = qwtChordalLength( p[size-2], p[0] );
+        const double d24 = qwtChordalLength( p[size - 2], p[0] );
 
         const Tension tn = qwtTensionPleasing(
-            d13, qwtChordalLength( p[size-2], p[size-1] ), d24,
-            p[size-3], p[size-2], p[size-1], p[0] );
+            d13, qwtChordalLength( p[size - 2], p[size - 1] ), d24,
+            p[size - 3], p[size - 2], p[size - 1], p[0] );
 
-        const QPointF vec2 = qwtVectorCardinal<Param>( param, p[size-2], p[size-1], p[0] );
-        store.addCubic( p[size-2] + vec1 * tn.t1, p[size-1] - vec2 * tn.t2, p[size-1] );
+        const QPointF vec2 = qwtVectorCardinal< Param >( param, p[size - 2], p[size - 1], p[0] );
+        store.addCubic( p[size - 2] + vec1 * tn.t1, p[size - 1] - vec2 * tn.t2, p[size - 1] );
 
-        const double d34 = qwtChordalLength( p[size-1], p[0] );
-        const double d35 = qwtChordalLength( p[size-1], p[1] );
+        const double d34 = qwtChordalLength( p[size - 1], p[0] );
+        const double d35 = qwtChordalLength( p[size - 1], p[1] );
 
-        const Tension tc = qwtTensionPleasing( d24, d34, d35, p[size-2], p[size-1], p[0], p[1] );
+        const Tension tc = qwtTensionPleasing( d24, d34, d35, p[size - 2], p[size - 1], p[0], p[1] );
 
-        const QPointF vec3 = qwtVectorCardinal<Param>( param, p[size-1], p[0], p[1] );
+        const QPointF vec3 = qwtVectorCardinal< Param >( param, p[size - 1], p[0], p[1] );
 
-        store.addCubic( p[size-1] + vec2 * tc.t1, p[0] - vec3 * tc.t2, p[0] );
+        store.addCubic( p[size - 1] + vec2 * tc.t1, p[0] - vec3 * tc.t2, p[0] );
     }
     else
     {
-        const double d24 = qwtChordalLength( p[size-2], p[size-1] );
+        const double d24 = qwtChordalLength( p[size - 2], p[size - 1] );
 
         const Tension tn = qwtTensionPleasing(
-            d13, qwtChordalLength( p[size-2], p[size-1] ), d24,
-            p[size-3], p[size-2], p[size-1], p[size-1] );
+            d13, qwtChordalLength( p[size - 2], p[size - 1] ), d24,
+            p[size - 3], p[size - 2], p[size - 1], p[size - 1] );
 
-        const QPointF vec2 = 0.5 * qwtVector<Param>( param, p[size-2], p[size-1] );
-        store.addCubic( p[size-2] + vec1 * tn.t1, p[size-1] - vec2 * tn.t2, p[size-1] );
+        const QPointF vec2 = 0.5 * qwtVector< Param >( param, p[size - 2], p[size - 1] );
+        store.addCubic( p[size - 2] + vec1 * tn.t1, p[size - 1] - vec2 * tn.t2, p[size - 1] );
     }
 
     return store;
 }
 
 /*!
-  \brief Constructor
+   \brief Constructor
 
-  The default setting is a non closing spline with uniform parametrization.
-  ( QwtSplineParametrization::ParameterUniform ).
+   The default setting is a non closing spline with uniform parametrization.
+   ( QwtSplineParametrization::ParameterUniform ).
 
-  \sa QwtSpline::setParametrization(), QwtSpline::setBoundaryType()
+   \sa QwtSpline::setParametrization(), QwtSpline::setBoundaryType()
  */
 QwtSplinePleasing::QwtSplinePleasing()
 {
@@ -279,15 +279,15 @@ uint QwtSplinePleasing::locality() const
 }
 
 /*!
-  \brief Interpolate a curve with Bezier curves
+   \brief Interpolate a curve with Bezier curves
 
-  Interpolates a polygon piecewise with cubic Bezier curves
-  and returns them as QPainterPath.
+   Interpolates a polygon piecewise with cubic Bezier curves
+   and returns them as QPainterPath.
 
-  \param points Control points
-  \return QPainterPath Painter path, that can be rendered by QPainter
+   \param points Control points
+   \return QPainterPath Painter path, that can be rendered by QPainter
  */
-QPainterPath QwtSplinePleasing::painterPath( const QPolygonF &points ) const
+QPainterPath QwtSplinePleasing::painterPath( const QPolygonF& points ) const
 {
     const int size = points.size();
     if ( size <= 2 )
@@ -300,12 +300,12 @@ QPainterPath QwtSplinePleasing::painterPath( const QPolygonF &points ) const
     PathStore store;
     if ( parametrization()->type() == QwtSplineParametrization::ParameterUniform )
     {
-        store = qwtSplinePathPleasing<PathStore>( points,
+        store = qwtSplinePathPleasing< PathStore >( points,
             isClosing, paramUniform() );
     }
     else
     {
-        store = qwtSplinePathPleasing<PathStore>( points,
+        store = qwtSplinePathPleasing< PathStore >( points,
             isClosing, param( parametrization() ) );
     }
 
@@ -316,20 +316,20 @@ QPainterPath QwtSplinePleasing::painterPath( const QPolygonF &points ) const
 }
 
 /*!
-  \brief Interpolate a curve with Bezier curves
+   \brief Interpolate a curve with Bezier curves
 
-  Interpolates a polygon piecewise with cubic Bezier curves
-  and returns the 2 control points of each curve as QLineF.
+   Interpolates a polygon piecewise with cubic Bezier curves
+   and returns the 2 control points of each curve as QLineF.
 
-  \param points Control points
-  \return Control points of the interpolating Bezier curves
+   \param points Control points
+   \return Control points of the interpolating Bezier curves
  */
-QVector<QLineF> QwtSplinePleasing::bezierControlLines(
-    const QPolygonF &points ) const
+QVector< QLineF > QwtSplinePleasing::bezierControlLines(
+    const QPolygonF& points ) const
 {
     const int size = points.size();
     if ( size <= 2 )
-        return QVector<QLineF>();
+        return QVector< QLineF >();
 
     const bool isClosing = ( boundaryType() == QwtSpline::ClosedPolygon );
 
@@ -338,12 +338,12 @@ QVector<QLineF> QwtSplinePleasing::bezierControlLines(
     ControlPointsStore store;
     if ( parametrization()->type() == QwtSplineParametrization::ParameterUniform )
     {
-        store = qwtSplinePathPleasing<ControlPointsStore>( points,
+        store = qwtSplinePathPleasing< ControlPointsStore >( points,
             isClosing, paramUniform() );
     }
     else
     {
-        store = qwtSplinePathPleasing<ControlPointsStore>( points,
+        store = qwtSplinePathPleasing< ControlPointsStore >( points,
             isClosing, param( parametrization() ) );
     }
 

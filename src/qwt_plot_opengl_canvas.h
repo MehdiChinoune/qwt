@@ -17,7 +17,7 @@
 
 class QwtPlot;
 
-class QWT_EXPORT QwtPlotOpenGLCanvas: public QOpenGLWidget, public QwtPlotAbstractGLCanvas
+class QWT_EXPORT QwtPlotOpenGLCanvas : public QOpenGLWidget, public QwtPlotAbstractGLCanvas
 {
     Q_OBJECT
 
@@ -30,32 +30,32 @@ class QWT_EXPORT QwtPlotOpenGLCanvas: public QOpenGLWidget, public QwtPlotAbstra
 
     Q_PROPERTY( double borderRadius READ borderRadius WRITE setBorderRadius )
 
-public:
-    explicit QwtPlotOpenGLCanvas( QwtPlot * = NULL );
-    explicit QwtPlotOpenGLCanvas( const QSurfaceFormat &, QwtPlot * = NULL);
+  public:
+    explicit QwtPlotOpenGLCanvas( QwtPlot* = NULL );
+    explicit QwtPlotOpenGLCanvas( const QSurfaceFormat&, QwtPlot* = NULL);
     virtual ~QwtPlotOpenGLCanvas();
 
     Q_INVOKABLE virtual void invalidateBackingStore() QWT_OVERRIDE;
-    Q_INVOKABLE QPainterPath borderPath( const QRect & ) const;
+    Q_INVOKABLE QPainterPath borderPath( const QRect& ) const;
 
-    virtual bool event( QEvent * ) QWT_OVERRIDE;
+    virtual bool event( QEvent* ) QWT_OVERRIDE;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void replot();
 
-protected:
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
 
     virtual void initializeGL() QWT_OVERRIDE;
     virtual void paintGL() QWT_OVERRIDE;
     virtual void resizeGL( int width, int height ) QWT_OVERRIDE;
 
-private:
-    void init( const QSurfaceFormat & );
+  private:
+    void init( const QSurfaceFormat& );
     virtual void clearBackingStore() QWT_OVERRIDE;
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

@@ -19,7 +19,7 @@
 #include <qpainter.h>
 #include <qpainterpath.h>
 
-static QBitmap qwtBorderMask( const QWidget *canvas, const QSize &size )
+static QBitmap qwtBorderMask( const QWidget* canvas, const QSize& size )
 {
 #if QT_VERSION >= 0x050000
     const qreal pixelRatio = QwtPainter::devicePixelRatio( canvas );
@@ -30,7 +30,7 @@ static QBitmap qwtBorderMask( const QWidget *canvas, const QSize &size )
     QPainterPath borderPath;
 
     ( void )QMetaObject::invokeMethod(
-        const_cast< QWidget *>( canvas ), "borderPath", Qt::DirectConnection,
+        const_cast< QWidget* >( canvas ), "borderPath", Qt::DirectConnection,
         Q_RETURN_ARG( QPainterPath, borderPath ), Q_ARG( QRect, r ) );
 
     if ( borderPath.isEmpty() )
@@ -39,7 +39,7 @@ static QBitmap qwtBorderMask( const QWidget *canvas, const QSize &size )
             return QBitmap();
 
 #if QT_VERSION >= 0x050000
-        QBitmap mask( size * pixelRatio );
+        QBitmap mask( size* pixelRatio );
         mask.setDevicePixelRatio( pixelRatio );
 #else
         QBitmap mask( size );
@@ -53,7 +53,7 @@ static QBitmap qwtBorderMask( const QWidget *canvas, const QSize &size )
     }
 
 #if QT_VERSION >= 0x050000
-    QImage image( size * pixelRatio, QImage::Format_ARGB32_Premultiplied );
+    QImage image( size* pixelRatio, QImage::Format_ARGB32_Premultiplied );
     image.setDevicePixelRatio( pixelRatio );
 #else
     QImage image( size, QImage::Format_ARGB32_Premultiplied );
@@ -106,7 +106,7 @@ static QBitmap qwtBorderMask( const QWidget *canvas, const QSize &size )
 
 class QwtPlotPanner::PrivateData
 {
-public:
+  public:
     PrivateData()
     {
         for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
@@ -117,16 +117,16 @@ public:
 };
 
 /*!
-  \brief A panner for the canvas of a QwtPlot
+   \brief A panner for the canvas of a QwtPlot
 
-  The panner is enabled for all axes
+   The panner is enabled for all axes
 
-  \param canvas Plot canvas to pan, also the parent object
+   \param canvas Plot canvas to pan, also the parent object
 
-  \sa setAxisEnabled()
-*/
-QwtPlotPanner::QwtPlotPanner( QWidget *canvas ):
-    QwtPanner( canvas )
+   \sa setAxisEnabled()
+ */
+QwtPlotPanner::QwtPlotPanner( QWidget* canvas )
+    : QwtPanner( canvas )
 {
     m_data = new PrivateData();
 
@@ -150,7 +150,7 @@ QwtPlotPanner::~QwtPlotPanner()
    \param on On/Off
 
    \sa isAxisEnabled(), moveCanvas()
-*/
+ */
 void QwtPlotPanner::setAxisEnabled( int axis, bool on )
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
@@ -164,7 +164,7 @@ void QwtPlotPanner::setAxisEnabled( int axis, bool on )
    \return True, if the axis is enabled
 
    \sa setAxisEnabled(), moveCanvas()
-*/
+ */
 bool QwtPlotPanner::isAxisEnabled( int axis ) const
 {
     if ( axis >= 0 && axis < QwtPlot::axisCnt )
@@ -174,35 +174,35 @@ bool QwtPlotPanner::isAxisEnabled( int axis ) const
 }
 
 //! Return observed plot canvas
-QWidget *QwtPlotPanner::canvas()
+QWidget* QwtPlotPanner::canvas()
 {
     return parentWidget();
 }
 
 //! Return Observed plot canvas
-const QWidget *QwtPlotPanner::canvas() const
+const QWidget* QwtPlotPanner::canvas() const
 {
     return parentWidget();
 }
 
 //! Return plot widget, containing the observed plot canvas
-QwtPlot *QwtPlotPanner::plot()
+QwtPlot* QwtPlotPanner::plot()
 {
-    QWidget *w = canvas();
+    QWidget* w = canvas();
     if ( w )
         w = w->parentWidget();
 
-    return qobject_cast<QwtPlot *>( w );
+    return qobject_cast< QwtPlot* >( w );
 }
 
 //! Return plot widget, containing the observed plot canvas
-const QwtPlot *QwtPlotPanner::plot() const
+const QwtPlot* QwtPlotPanner::plot() const
 {
-    const QWidget *w = canvas();
+    const QWidget* w = canvas();
     if ( w )
         w = w->parentWidget();
 
-    return qobject_cast<const QwtPlot *>( w );
+    return qobject_cast< const QwtPlot* >( w );
 }
 
 /*!
@@ -212,13 +212,13 @@ const QwtPlot *QwtPlotPanner::plot() const
    \param dy Pixel offset in y direction
 
    \sa QwtPanner::panned()
-*/
+ */
 void QwtPlotPanner::moveCanvas( int dx, int dy )
 {
     if ( dx == 0 && dy == 0 )
         return;
 
-    QwtPlot *plot = this->plot();
+    QwtPlot* plot = this->plot();
     if ( plot == NULL )
         return;
 
@@ -259,7 +259,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
 
    \return Mask as bitmap
    \sa QwtPlotCanvas::borderPath()
-*/
+ */
 QBitmap QwtPlotPanner::contentsMask() const
 {
     if ( canvas() )
@@ -273,7 +273,7 @@ QBitmap QwtPlotPanner::contentsMask() const
  */
 QPixmap QwtPlotPanner::grab() const
 {
-    const QWidget *cv = canvas();
+    const QWidget* cv = canvas();
     if ( cv && cv->inherits( "QGLWidget" ) )
     {
         // we can't grab from a QGLWidget
@@ -282,7 +282,7 @@ QPixmap QwtPlotPanner::grab() const
         QwtPainter::fillPixmap( cv, pm );
 
         QPainter painter( &pm );
-        const_cast<QwtPlot *>( plot() )->drawCanvas( &painter );
+        const_cast< QwtPlot* >( plot() )->drawCanvas( &painter );
 
         return pm;
     }

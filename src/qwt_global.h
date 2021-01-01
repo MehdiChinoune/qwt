@@ -17,7 +17,7 @@
 #define QWT_VERSION       0x060200
 #define QWT_VERSION_STR   "6.2.0"
 
-#if defined(_MSC_VER) /* MSVC Compiler */
+#if defined( _MSC_VER ) /* MSVC Compiler */
 /* template-class specialization 'identifier' is already instantiated */
 #pragma warning(disable: 4660)
 /* inherits via dominance */
@@ -26,7 +26,7 @@
 
 #ifdef QWT_DLL
 
-#if defined(QWT_MAKEDLL)     // create a Qwt DLL library
+#if defined( QWT_MAKEDLL )     // create a Qwt DLL library
 #define QWT_EXPORT Q_DECL_EXPORT
 #else                        // use a Qwt DLL library
 #define QWT_EXPORT Q_DECL_IMPORT

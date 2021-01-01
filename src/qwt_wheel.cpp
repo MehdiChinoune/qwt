@@ -22,33 +22,33 @@
 
 class QwtWheel::PrivateData
 {
-public:
-    PrivateData():
-        orientation( Qt::Horizontal ),
-        viewAngle( 175.0 ),
-        totalAngle( 360.0 ),
-        tickCount( 10 ),
-        wheelBorderWidth( 2 ),
-        borderWidth( 2 ),
-        wheelWidth( 20 ),
-        isScrolling( false ),
-        mouseOffset( 0.0 ),
-        tracking( true ),
-        pendingValueChanged( false ),
-        updateInterval( 50 ),
-        mass( 0.0 ),
-        timerId( 0 ),
-        speed( 0.0 ),
-        mouseValue( 0.0 ),
-        flyingValue( 0.0 ),
-        minimum( 0.0 ),
-        maximum( 100.0 ),
-        singleStep( 1.0 ),
-        pageStepCount( 1 ),
-        stepAlignment( true ),
-        value( 0.0 ),
-        inverted( false ),
-        wrapping( false )
+  public:
+    PrivateData()
+        : orientation( Qt::Horizontal )
+        , viewAngle( 175.0 )
+        , totalAngle( 360.0 )
+        , tickCount( 10 )
+        , wheelBorderWidth( 2 )
+        , borderWidth( 2 )
+        , wheelWidth( 20 )
+        , mouseOffset( 0.0 )
+        , updateInterval( 50 )
+        , mass( 0.0 )
+        , timerId( 0 )
+        , speed( 0.0 )
+        , mouseValue( 0.0 )
+        , flyingValue( 0.0 )
+        , minimum( 0.0 )
+        , maximum( 100.0 )
+        , singleStep( 1.0 )
+        , pageStepCount( 1 )
+        , value( 0.0 )
+        , isScrolling( false )
+        , tracking( true )
+        , stepAlignment( true )
+        , pendingValueChanged( false )
+        , inverted( false )
+        , wrapping( false )
     {
     }
 
@@ -60,11 +60,7 @@ public:
     int borderWidth;
     int wheelWidth;
 
-    bool isScrolling;
     double mouseOffset;
-
-    bool tracking;
-    bool pendingValueChanged; // when not tracking
 
     int updateInterval;
     double mass;
@@ -81,16 +77,19 @@ public:
 
     double singleStep;
     int pageStepCount;
-    bool stepAlignment;
 
     double value;
 
+    bool isScrolling;
+    bool tracking;
+    bool stepAlignment;
+    bool pendingValueChanged; // when not tracking
     bool inverted;
     bool wrapping;
 };
 
 //! Constructor
-QwtWheel::QwtWheel( QWidget *parent ):
+QwtWheel::QwtWheel( QWidget* parent ):
     QWidget( parent )
 {
     m_data = new PrivateData;
@@ -107,16 +106,16 @@ QwtWheel::~QwtWheel()
 }
 
 /*!
-  \brief En/Disable tracking
+   \brief En/Disable tracking
 
-  If tracking is enabled (the default), the wheel emits the valueChanged()
-  signal while the wheel is moving. If tracking is disabled, the wheel
-  emits the valueChanged() signal only when the wheel movement is terminated.
+   If tracking is enabled (the default), the wheel emits the valueChanged()
+   signal while the wheel is moving. If tracking is disabled, the wheel
+   emits the valueChanged() signal only when the wheel movement is terminated.
 
-  The wheelMoved() signal is emitted regardless id tracking is enabled or not.
+   The wheelMoved() signal is emitted regardless id tracking is enabled or not.
 
-  \param enable On/Off
-  \sa isTracking()
+   \param enable On/Off
+   \sa isTracking()
  */
 void QwtWheel::setTracking( bool enable )
 {
@@ -124,30 +123,30 @@ void QwtWheel::setTracking( bool enable )
 }
 
 /*!
-  \return True, when tracking is enabled
-  \sa setTracking(), valueChanged(), wheelMoved()
-*/
+   \return True, when tracking is enabled
+   \sa setTracking(), valueChanged(), wheelMoved()
+ */
 bool QwtWheel::isTracking() const
 {
     return m_data->tracking;
 }
 
 /*!
-  \brief Specify the update interval when the wheel is flying
+   \brief Specify the update interval when the wheel is flying
 
-  Default and minimum value is 50 ms.
+   Default and minimum value is 50 ms.
 
-  \param interval Interval in milliseconds
-  \sa updateInterval(), setMass(), setTracking()
-*/
+   \param interval Interval in milliseconds
+   \sa updateInterval(), setMass(), setTracking()
+ */
 void QwtWheel::setUpdateInterval( int interval )
 {
     m_data->updateInterval = qMax( interval, 50 );
 }
 
 /*!
-  \return Update interval when the wheel is flying
-  \sa setUpdateInterval(), mass(), isTracking()
+   \return Update interval when the wheel is flying
+   \sa setUpdateInterval(), mass(), isTracking()
  */
 int QwtWheel::updateInterval() const
 {
@@ -160,8 +159,8 @@ int QwtWheel::updateInterval() const
    Start movement of the wheel.
 
    \param event Mouse event
-*/
-void QwtWheel::mousePressEvent( QMouseEvent *event )
+ */
+void QwtWheel::mousePressEvent( QMouseEvent* event )
 {
     stopFlying();
 
@@ -185,8 +184,8 @@ void QwtWheel::mousePressEvent( QMouseEvent *event )
    Turn the wheel according to the mouse position
 
    \param event Mouse event
-*/
-void QwtWheel::mouseMoveEvent( QMouseEvent *event )
+ */
+void QwtWheel::mouseMoveEvent( QMouseEvent* event )
 {
     if ( !m_data->isScrolling )
         return;
@@ -233,9 +232,9 @@ void QwtWheel::mouseMoveEvent( QMouseEvent *event )
    it starts flying.
 
    \param event Mouse event
-*/
+ */
 
-void QwtWheel::mouseReleaseEvent( QMouseEvent *event )
+void QwtWheel::mouseReleaseEvent( QMouseEvent* event )
 {
     Q_UNUSED( event );
 
@@ -273,15 +272,15 @@ void QwtWheel::mouseReleaseEvent( QMouseEvent *event )
 }
 
 /*!
-  \brief Qt timer event
+   \brief Qt timer event
 
-  The flying wheel effect is implemented using a timer
+   The flying wheel effect is implemented using a timer
 
-  \param event Timer event
+   \param event Timer event
 
-  \sa updateInterval()
+   \sa updateInterval()
  */
-void QwtWheel::timerEvent( QTimerEvent *event )
+void QwtWheel::timerEvent( QTimerEvent* event )
 {
     if ( event->timerId() != m_data->timerId )
     {
@@ -316,13 +315,13 @@ void QwtWheel::timerEvent( QTimerEvent *event )
 
 
 /*!
-  \brief Handle wheel events
+   \brief Handle wheel events
 
-  In/Decrement the value
+   In/Decrement the value
 
-  \param event Wheel event
-*/
-void QwtWheel::wheelEvent( QWheelEvent *event )
+   \param event Wheel event
+ */
+void QwtWheel::wheelEvent( QWheelEvent* event )
 {
 #if QT_VERSION < 0x050e00
     const QPoint wheelPos = event->pos();
@@ -348,7 +347,7 @@ void QwtWheel::wheelEvent( QWheelEvent *event )
 
     double increment = 0.0;
 
-    if ( ( event->modifiers() & Qt::ControlModifier) ||
+    if ( ( event->modifiers() & Qt::ControlModifier ) ||
         ( event->modifiers() & Qt::ShiftModifier ) )
     {
         // one page regardless of delta
@@ -381,33 +380,33 @@ void QwtWheel::wheelEvent( QWheelEvent *event )
 }
 
 /*!
-  Handle key events
+   Handle key events
 
-  - Qt::Key_Home\n
+   - Qt::Key_Home\n
     Step to minimum()
 
-  - Qt::Key_End\n
+   - Qt::Key_End\n
     Step to maximum()
 
-  - Qt::Key_Up\n
+   - Qt::Key_Up\n
     In case of a horizontal or not inverted vertical wheel the value
     will be incremented by the step size. For an inverted vertical wheel
     the value will be decremented by the step size.
 
-  - Qt::Key_Down\n
+   - Qt::Key_Down\n
     In case of a horizontal or not inverted vertical wheel the value
     will be decremented by the step size. For an inverted vertical wheel
     the value will be incremented by the step size.
 
-  - Qt::Key_PageUp\n
+   - Qt::Key_PageUp\n
     The value will be incremented by pageStepSize() * singleStepSize().
 
-  - Qt::Key_PageDown\n
+   - Qt::Key_PageDown\n
     The value will be decremented by pageStepSize() * singleStepSize().
 
-  \param event Key event
-*/
-void QwtWheel::keyPressEvent( QKeyEvent *event )
+   \param event Key event
+ */
+void QwtWheel::keyPressEvent( QKeyEvent* event )
 {
     if ( m_data->isScrolling )
     {
@@ -481,9 +480,9 @@ void QwtWheel::keyPressEvent( QKeyEvent *event )
             break;
         }
         default:;
-        {
-            event->ignore();
-        }
+            {
+                event->ignore();
+            }
     }
 
     if ( event->isAccepted() )
@@ -508,15 +507,15 @@ void QwtWheel::keyPressEvent( QKeyEvent *event )
 }
 
 /*!
-  \brief Adjust the number of grooves in the wheel's surface.
+   \brief Adjust the number of grooves in the wheel's surface.
 
-  The number of grooves is limited to 6 <= count <= 50.
-  Values outside this range will be clipped.
-  The default value is 10.
+   The number of grooves is limited to 6 <= count <= 50.
+   Values outside this range will be clipped.
+   The default value is 10.
 
-  \param count Number of grooves per 360 degrees
-  \sa tickCount()
-*/
+   \param count Number of grooves per 360 degrees
+   \sa tickCount()
+ */
 void QwtWheel::setTickCount( int count )
 {
     count = qBound( 6, count, 50 );
@@ -529,26 +528,26 @@ void QwtWheel::setTickCount( int count )
 }
 
 /*!
-  \return Number of grooves in the wheel's surface.
-  \sa setTickCnt()
-*/
+   \return Number of grooves in the wheel's surface.
+   \sa setTickCnt()
+ */
 int QwtWheel::tickCount() const
 {
     return m_data->tickCount;
 }
 
 /*!
-  \brief Set the wheel border width of the wheel.
+   \brief Set the wheel border width of the wheel.
 
-  The wheel border must not be smaller than 1
-  and is limited in dependence on the wheel's size.
-  Values outside the allowed range will be clipped.
+   The wheel border must not be smaller than 1
+   and is limited in dependence on the wheel's size.
+   Values outside the allowed range will be clipped.
 
-  The wheel border defaults to 2.
+   The wheel border defaults to 2.
 
-  \param borderWidth Border width
-  \sa internalBorder()
-*/
+   \param borderWidth Border width
+   \sa internalBorder()
+ */
 void QwtWheel::setWheelBorderWidth( int borderWidth )
 {
     const int d = qMin( width(), height() ) / 3;
@@ -560,20 +559,20 @@ void QwtWheel::setWheelBorderWidth( int borderWidth )
 /*!
    \return Wheel border width
    \sa setWheelBorderWidth()
-*/
+ */
 int QwtWheel::wheelBorderWidth() const
 {
     return m_data->wheelBorderWidth;
 }
 
 /*!
-  \brief Set the border width
+   \brief Set the border width
 
-  The border defaults to 2.
+   The border defaults to 2.
 
-  \param width Border width
-  \sa borderWidth()
-*/
+   \param width Border width
+   \sa borderWidth()
+ */
 void QwtWheel::setBorderWidth( int width )
 {
     m_data->borderWidth = qMax( width, 0 );
@@ -583,7 +582,7 @@ void QwtWheel::setBorderWidth( int width )
 /*!
    \return Border width
    \sa setBorderWidth()
-*/
+ */
 int QwtWheel::borderWidth() const
 {
     return m_data->borderWidth;
@@ -591,7 +590,7 @@ int QwtWheel::borderWidth() const
 
 /*!
    \return Rectangle of the wheel without the outer border
-*/
+ */
 QRect QwtWheel::wheelRect() const
 {
     const int bw = m_data->borderWidth;
@@ -599,18 +598,18 @@ QRect QwtWheel::wheelRect() const
 }
 
 /*!
-  \brief Set the total angle which the wheel can be turned.
+   \brief Set the total angle which the wheel can be turned.
 
-  One full turn of the wheel corresponds to an angle of
-  360 degrees. A total angle of n*360 degrees means
-  that the wheel has to be turned n times around its axis
-  to get from the minimum value to the maximum value.
+   One full turn of the wheel corresponds to an angle of
+   360 degrees. A total angle of n*360 degrees means
+   that the wheel has to be turned n times around its axis
+   to get from the minimum value to the maximum value.
 
-  The default setting of the total angle is 360 degrees.
+   The default setting of the total angle is 360 degrees.
 
-  \param angle total angle in degrees
-  \sa totalAngle()
-*/
+   \param angle total angle in degrees
+   \sa totalAngle()
+ */
 void QwtWheel::setTotalAngle( double angle )
 {
     if ( angle < 0.0 )
@@ -621,22 +620,22 @@ void QwtWheel::setTotalAngle( double angle )
 }
 
 /*!
-  \return Total angle which the wheel can be turned.
-  \sa setTotalAngle()
-*/
+   \return Total angle which the wheel can be turned.
+   \sa setTotalAngle()
+ */
 double QwtWheel::totalAngle() const
 {
     return m_data->totalAngle;
 }
 
 /*!
-  \brief Set the wheel's orientation.
+   \brief Set the wheel's orientation.
 
-  The default orientation is Qt::Horizontal.
+   The default orientation is Qt::Horizontal.
 
-  \param orientation Qt::Horizontal or Qt::Vertical.
-  \sa orientation()
-*/
+   \param orientation Qt::Horizontal or Qt::Vertical.
+   \sa orientation()
+ */
 void QwtWheel::setOrientation( Qt::Orientation orientation )
 {
     if ( m_data->orientation == orientation )
@@ -656,24 +655,24 @@ void QwtWheel::setOrientation( Qt::Orientation orientation )
 }
 
 /*!
-  \return Orientation
-  \sa setOrientation()
-*/
+   \return Orientation
+   \sa setOrientation()
+ */
 Qt::Orientation QwtWheel::orientation() const
 {
     return m_data->orientation;
 }
 
 /*!
-  \brief Specify the visible portion of the wheel.
+   \brief Specify the visible portion of the wheel.
 
-  You may use this function for fine-tuning the appearance of
-  the wheel. The default value is 175 degrees. The value is
-  limited from 10 to 175 degrees.
+   You may use this function for fine-tuning the appearance of
+   the wheel. The default value is 175 degrees. The value is
+   limited from 10 to 175 degrees.
 
-  \param angle Visible angle in degrees
-  \sa viewAngle(), setTotalAngle()
-*/
+   \param angle Visible angle in degrees
+   \sa viewAngle(), setTotalAngle()
+ */
 void QwtWheel::setViewAngle( double angle )
 {
     m_data->viewAngle = qBound( 10.0, angle, 175.0 );
@@ -681,21 +680,21 @@ void QwtWheel::setViewAngle( double angle )
 }
 
 /*!
-  \return Visible portion of the wheel
-  \sa setViewAngle(), totalAngle()
-*/
+   \return Visible portion of the wheel
+   \sa setViewAngle(), totalAngle()
+ */
 double QwtWheel::viewAngle() const
 {
     return m_data->viewAngle;
 }
 
 /*!
-  Determine the value corresponding to a specified point
+   Determine the value corresponding to a specified point
 
-  \param pos Position
-  \return Value corresponding to pos
-*/
-double QwtWheel::valueAt( const QPoint &pos ) const
+   \param pos Position
+   \return Value corresponding to pos
+ */
+double QwtWheel::valueAt( const QPoint& pos ) const
 {
     const QRectF rect = wheelRect();
 
@@ -733,8 +732,8 @@ double QwtWheel::valueAt( const QPoint &pos ) const
 /*!
    \brief Qt Paint Event
    \param event Paint event
-*/
-void QwtWheel::paintEvent( QPaintEvent *event )
+ */
+void QwtWheel::paintEvent( QPaintEvent* event )
 {
     QPainter painter( this );
     painter.setClipRegion( event->region() );
@@ -758,9 +757,9 @@ void QwtWheel::paintEvent( QPaintEvent *event )
 
    \param painter Painter
    \param rect Geometry for the wheel
-*/
+ */
 void QwtWheel::drawWheelBackground(
-    QPainter *painter, const QRectF &rect )
+    QPainter* painter, const QRectF& rect )
 {
     painter->save();
 
@@ -814,8 +813,8 @@ void QwtWheel::drawWheelBackground(
 
    \param painter Painter
    \param rect Geometry for the wheel
-*/
-void QwtWheel::drawTicks( QPainter *painter, const QRectF &rect )
+ */
+void QwtWheel::drawTicks( QPainter* painter, const QRectF& rect )
 {
     const double range = m_data->maximum - m_data->minimum;
 
@@ -871,7 +870,7 @@ void QwtWheel::drawTicks( QPainter *painter, const QRectF &rect )
             if ( ( tickPos <= maxpos ) && ( tickPos > minpos ) )
             {
                 painter->setPen( darkPen );
-                painter->drawLine( QPointF( tickPos - 1 , l1 ),
+                painter->drawLine( QPointF( tickPos - 1, l1 ),
                     QPointF( tickPos - 1,  l2 ) );
                 painter->setPen( lightPen );
                 painter->drawLine( QPointF( tickPos, l1 ),
@@ -924,14 +923,14 @@ void QwtWheel::drawTicks( QPainter *painter, const QRectF &rect )
 }
 
 /*!
-  \brief Set the width of the wheel
+   \brief Set the width of the wheel
 
-  Corresponds to the wheel height for horizontal orientation,
-  and the wheel width for vertical orientation.
+   Corresponds to the wheel height for horizontal orientation,
+   and the wheel width for vertical orientation.
 
-  \param width the wheel's width
-  \sa wheelWidth()
-*/
+   \param width the wheel's width
+   \sa wheelWidth()
+ */
 void QwtWheel::setWheelWidth( int width )
 {
     m_data->wheelWidth = width;
@@ -939,17 +938,17 @@ void QwtWheel::setWheelWidth( int width )
 }
 
 /*!
-  \return Width of the wheel
-  \sa setWheelWidth()
-*/
+   \return Width of the wheel
+   \sa setWheelWidth()
+ */
 int QwtWheel::wheelWidth() const
 {
     return m_data->wheelWidth;
 }
 
 /*!
-  \return a size hint
-*/
+   \return a size hint
+ */
 QSize QwtWheel::sizeHint() const
 {
     const QSize hint = minimumSizeHint();
@@ -957,9 +956,9 @@ QSize QwtWheel::sizeHint() const
 }
 
 /*!
-  \return Minimum size hint
-  \warning The return value is based on the wheel width.
-*/
+   \return Minimum size hint
+   \warning The return value is based on the wheel width.
+ */
 QSize QwtWheel::minimumSizeHint() const
 {
     QSize sz( 3 * m_data->wheelWidth + 2 * m_data->borderWidth,
@@ -971,21 +970,21 @@ QSize QwtWheel::minimumSizeHint() const
 }
 
 /*!
-  \brief Set the step size of the counter
+   \brief Set the step size of the counter
 
-  A value <= 0.0 disables stepping
+   A value <= 0.0 disables stepping
 
-  \param stepSize Single step size
-  \sa singleStep(), setPageStepCount()
-*/
+   \param stepSize Single step size
+   \sa singleStep(), setPageStepCount()
+ */
 void QwtWheel::setSingleStep( double stepSize )
 {
     m_data->singleStep = qwtMaxF( stepSize, 0.0 );
 }
 
 /*!
-  \return Single step size
-  \sa setSingleStep()
+   \return Single step size
+   \sa setSingleStep()
  */
 double QwtWheel::singleStep() const
 {
@@ -993,14 +992,14 @@ double QwtWheel::singleStep() const
 }
 
 /*!
-  \brief En/Disable step alignment
+   \brief En/Disable step alignment
 
-  When step alignment is enabled value changes initiated by
-  user input ( mouse, keyboard, wheel ) are aligned to
-  the multiples of the single step.
+   When step alignment is enabled value changes initiated by
+   user input ( mouse, keyboard, wheel ) are aligned to
+   the multiples of the single step.
 
-  \param on On/Off
-  \sa stepAlignment(), setSingleStep()
+   \param on On/Off
+   \sa stepAlignment(), setSingleStep()
  */
 void QwtWheel::setStepAlignment( bool on )
 {
@@ -1011,8 +1010,8 @@ void QwtWheel::setStepAlignment( bool on )
 }
 
 /*!
-  \return True, when the step alignment is enabled
-  \sa setStepAlignment(), singleStep()
+   \return True, when the step alignment is enabled
+   \sa setStepAlignment(), singleStep()
  */
 bool QwtWheel::stepAlignment() const
 {
@@ -1020,17 +1019,17 @@ bool QwtWheel::stepAlignment() const
 }
 
 /*!
-  \brief Set the page step count
+   \brief Set the page step count
 
-  pageStepCount is a multiplicator for the single step size
-  that typically corresponds to the user pressing PageUp or PageDown.
+   pageStepCount is a multiplicator for the single step size
+   that typically corresponds to the user pressing PageUp or PageDown.
 
-  A value of 0 disables page stepping.
+   A value of 0 disables page stepping.
 
-  The default value is 1.
+   The default value is 1.
 
-  \param count Multiplicator for the single step size
-  \sa pageStepCount(), setSingleStep()
+   \param count Multiplicator for the single step size
+   \sa pageStepCount(), setSingleStep()
  */
 void QwtWheel::setPageStepCount( int count )
 {
@@ -1038,8 +1037,8 @@ void QwtWheel::setPageStepCount( int count )
 }
 
 /*!
-  \return Page step count
-  \sa setPageStepCount(), singleStep()
+   \return Page step count
+   \sa setPageStepCount(), singleStep()
  */
 int QwtWheel::pageStepCount() const
 {
@@ -1047,15 +1046,15 @@ int QwtWheel::pageStepCount() const
 }
 
 /*!
-  \brief Set the minimum and maximum values
+   \brief Set the minimum and maximum values
 
-  The maximum is adjusted if necessary to ensure that the range remains valid.
-  The value might be modified to be inside of the range.
+   The maximum is adjusted if necessary to ensure that the range remains valid.
+   The value might be modified to be inside of the range.
 
-  \param min Minimum value
-  \param max Maximum value
+   \param min Minimum value
+   \param max Maximum value
 
-  \sa minimum(), maximum()
+   \sa minimum(), maximum()
  */
 void QwtWheel::setRange( double min, double max )
 {
@@ -1076,55 +1075,55 @@ void QwtWheel::setRange( double min, double max )
     }
 }
 /*!
-  Set the minimum value of the range
+   Set the minimum value of the range
 
-  \param value Minimum value
-  \sa setRange(), setMaximum(), minimum()
+   \param value Minimum value
+   \sa setRange(), setMaximum(), minimum()
 
-  \note The maximum is adjusted if necessary to ensure that the range remains valid.
-*/
+   \note The maximum is adjusted if necessary to ensure that the range remains valid.
+ */
 void QwtWheel::setMinimum( double value )
 {
     setRange( value, maximum() );
 }
 
 /*!
-  \return The minimum of the range
-  \sa setRange(), setMinimum(), maximum()
-*/
+   \return The minimum of the range
+   \sa setRange(), setMinimum(), maximum()
+ */
 double QwtWheel::minimum() const
 {
     return m_data->minimum;
 }
 
 /*!
-  Set the maximum value of the range
+   Set the maximum value of the range
 
-  \param value Maximum value
-  \sa setRange(), setMinimum(), maximum()
-*/
+   \param value Maximum value
+   \sa setRange(), setMinimum(), maximum()
+ */
 void QwtWheel::setMaximum( double value )
 {
     setRange( minimum(), value );
 }
 
 /*!
-  \return The maximum of the range
-  \sa setRange(), setMaximum(), minimum()
-*/
+   \return The maximum of the range
+   \sa setRange(), setMaximum(), minimum()
+ */
 double QwtWheel::maximum() const
 {
     return m_data->maximum;
 }
 
 /*!
-  \brief Set a new value without adjusting to the step raster
+   \brief Set a new value without adjusting to the step raster
 
-  \param value New value
+   \param value New value
 
-  \sa value(), valueChanged()
-  \warning The value is clipped when it lies outside the range.
-*/
+   \sa value(), valueChanged()
+   \warning The value is clipped when it lies outside the range.
+ */
 void QwtWheel::setValue( double value )
 {
     stopFlying();
@@ -1142,8 +1141,8 @@ void QwtWheel::setValue( double value )
 }
 
 /*!
-  \return Current value of the wheel
-  \sa setValue(), valueChanged()
+   \return Current value of the wheel
+   \sa setValue(), valueChanged()
  */
 double QwtWheel::value() const
 {
@@ -1151,14 +1150,14 @@ double QwtWheel::value() const
 }
 
 /*!
-  \brief En/Disable inverted appearance
+   \brief En/Disable inverted appearance
 
-  An inverted wheel increases its values in the opposite direction.
-  The direction of an inverted horizontal wheel will be from right to left
-  an inverted vertical wheel will increase from bottom to top.
+   An inverted wheel increases its values in the opposite direction.
+   The direction of an inverted horizontal wheel will be from right to left
+   an inverted vertical wheel will increase from bottom to top.
 
-  \param on En/Disable inverted appearance
-  \sa isInverted()
+   \param on En/Disable inverted appearance
+   \sa isInverted()
 
  */
 void QwtWheel::setInverted( bool on )
@@ -1171,8 +1170,8 @@ void QwtWheel::setInverted( bool on )
 }
 
 /*!
-  \return True, when the wheel is inverted
-  \sa setInverted()
+   \return True, when the wheel is inverted
+   \sa setInverted()
  */
 bool QwtWheel::isInverted() const
 {
@@ -1180,13 +1179,13 @@ bool QwtWheel::isInverted() const
 }
 
 /*!
-  \brief En/Disable wrapping
+   \brief En/Disable wrapping
 
-  If wrapping is true stepping up from maximum() value will take
-  you to the minimum() value and vice versa.
+   If wrapping is true stepping up from maximum() value will take
+   you to the minimum() value and vice versa.
 
-  \param on En/Disable wrapping
-  \sa wrapping()
+   \param on En/Disable wrapping
+   \sa wrapping()
  */
 void QwtWheel::setWrapping( bool on )
 {
@@ -1194,8 +1193,8 @@ void QwtWheel::setWrapping( bool on )
 }
 
 /*!
-  \return True, when wrapping is set
-  \sa setWrapping()
+   \return True, when wrapping is set
+   \sa setWrapping()
  */
 bool QwtWheel::wrapping() const
 {
@@ -1203,22 +1202,22 @@ bool QwtWheel::wrapping() const
 }
 
 /*!
-  \brief Set the slider's mass for flywheel effect.
+   \brief Set the slider's mass for flywheel effect.
 
-  If the slider's mass is greater then 0, it will continue
-  to move after the mouse button has been released. Its speed
-  decreases with time at a rate depending on the slider's mass.
-  A large mass means that it will continue to move for a
-  long time.
+   If the slider's mass is greater then 0, it will continue
+   to move after the mouse button has been released. Its speed
+   decreases with time at a rate depending on the slider's mass.
+   A large mass means that it will continue to move for a
+   long time.
 
-  Derived widgets may overload this function to make it public.
+   Derived widgets may overload this function to make it public.
 
-  \param mass New mass in kg
+   \param mass New mass in kg
 
-  \bug If the mass is smaller than 1g, it is set to zero.
+   \bug If the mass is smaller than 1g, it is set to zero.
        The maximal mass is limited to 100kg.
-  \sa mass()
-*/
+   \sa mass()
+ */
 void QwtWheel::setMass( double mass )
 {
     if ( mass < 0.001 )
@@ -1235,9 +1234,9 @@ void QwtWheel::setMass( double mass )
 }
 
 /*!
-  \return mass
-  \sa setMass()
-*/
+   \return mass
+   \sa setMass()
+ */
 double QwtWheel::mass() const
 {
     return m_data->mass;

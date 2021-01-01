@@ -30,7 +30,7 @@ static inline double qwtHermiteInterpolate(
 
 static inline double qwtBicubicInterpolate(
     double v00, double v10, double v20, double v30,
-    double v01, double v11, double v21, double v31, 
+    double v01, double v11, double v21, double v31,
     double v02, double v12, double v22, double v32,
     double v03, double v13, double v23, double v33,
     double dx, double dy )
@@ -45,10 +45,10 @@ static inline double qwtBicubicInterpolate(
 
 class QwtMatrixRasterData::PrivateData
 {
-public:
-    PrivateData():
-        resampleMode(QwtMatrixRasterData::NearestNeighbour),
-        numColumns(0)
+  public:
+    PrivateData()
+        : resampleMode( QwtMatrixRasterData::NearestNeighbour )
+        , numColumns(0)
     {
     }
 
@@ -60,7 +60,7 @@ public:
     QwtInterval intervals[3];
     QwtMatrixRasterData::ResampleMode resampleMode;
 
-    QVector<double> values;
+    QVector< double > values;
     int numColumns;
     int numRows;
 
@@ -86,7 +86,7 @@ QwtMatrixRasterData::~QwtMatrixRasterData()
 
    \param mode Resampling mode
    \sa resampleMode(), value()
-*/
+ */
 void QwtMatrixRasterData::setResampleMode( ResampleMode mode )
 {
     m_data->resampleMode = mode;
@@ -95,7 +95,7 @@ void QwtMatrixRasterData::setResampleMode( ResampleMode mode )
 /*!
    \return resampling algorithm
    \sa setResampleMode(), value()
-*/
+ */
 QwtMatrixRasterData::ResampleMode QwtMatrixRasterData::resampleMode() const
 {
     return m_data->resampleMode;
@@ -116,9 +116,9 @@ QwtMatrixRasterData::ResampleMode QwtMatrixRasterData::resampleMode() const
    \param interval Interval
 
    \sa QwtRasterData::interval(), setValueMatrix()
-*/
+ */
 void QwtMatrixRasterData::setInterval(
-    Qt::Axis axis, const QwtInterval &interval )
+    Qt::Axis axis, const QwtInterval& interval )
 {
     if ( axis >= 0 && axis <= 2 )
     {
@@ -130,7 +130,7 @@ void QwtMatrixRasterData::setInterval(
 /*!
    \return Bounding interval for an axis
    \sa setInterval
-*/
+ */
 QwtInterval QwtMatrixRasterData::interval( Qt::Axis axis ) const
 {
     if ( axis >= 0 && axis <= 2 )
@@ -151,9 +151,9 @@ QwtInterval QwtMatrixRasterData::interval( Qt::Axis axis ) const
    \param numColumns Number of columns
 
    \sa valueMatrix(), numColumns(), numRows(), setInterval()()
-*/
+ */
 void QwtMatrixRasterData::setValueMatrix(
-    const QVector<double> &values, int numColumns )
+    const QVector< double >& values, int numColumns )
 {
     m_data->values = values;
     m_data->numColumns = qMax( numColumns, 0 );
@@ -163,21 +163,21 @@ void QwtMatrixRasterData::setValueMatrix(
 /*!
    \return Value matrix
    \sa setValueMatrix(), numColumns(), numRows(), setInterval()
-*/
-const QVector<double> QwtMatrixRasterData::valueMatrix() const
+ */
+const QVector< double > QwtMatrixRasterData::valueMatrix() const
 {
     return m_data->values;
 }
 
 /*!
-  \brief Change a single value in the matrix
+   \brief Change a single value in the matrix
 
-  \param row Row index
-  \param col Column index
-  \param value New value
+   \param row Row index
+   \param col Column index
+   \param value New value
 
-  \sa value(), setValueMatrix()
-*/
+   \sa value(), setValueMatrix()
+ */
 void QwtMatrixRasterData::setValue( int row, int col, double value )
 {
     if ( row >= 0 && row < m_data->numRows &&
@@ -191,7 +191,7 @@ void QwtMatrixRasterData::setValue( int row, int col, double value )
 /*!
    \return Number of columns of the value matrix
    \sa valueMatrix(), numRows(), setValueMatrix()
-*/
+ */
 int QwtMatrixRasterData::numColumns() const
 {
     return m_data->numColumns;
@@ -200,7 +200,7 @@ int QwtMatrixRasterData::numColumns() const
 /*!
    \return Number of rows of the value matrix
    \sa valueMatrix(), numColumns(), setValueMatrix()
-*/
+ */
 int QwtMatrixRasterData::numRows() const
 {
     return m_data->numRows;
@@ -225,8 +225,8 @@ int QwtMatrixRasterData::numRows() const
    \return Calculated hint
 
    \sa ResampleMode, setMatrix(), setInterval()
-*/
-QRectF QwtMatrixRasterData::pixelHint( const QRectF &area ) const
+ */
+QRectF QwtMatrixRasterData::pixelHint( const QRectF& area ) const
 {
     Q_UNUSED( area )
 
@@ -252,7 +252,7 @@ QRectF QwtMatrixRasterData::pixelHint( const QRectF &area ) const
    \param y Y value in plot coordinates
 
    \sa ResampleMode
-*/
+ */
 double QwtMatrixRasterData::value( double x, double y ) const
 {
     const QwtInterval xInterval = interval( Qt::XAxis );
@@ -300,10 +300,10 @@ double QwtMatrixRasterData::value( double x, double y ) const
 
             if ( row0 < 0 )
                 row0 = row1;
-            
+
             if ( row2 >= m_data->numRows )
                 row2 = row1;
-            
+
             if ( row3 >= m_data->numRows )
                 row3 = row2;
 

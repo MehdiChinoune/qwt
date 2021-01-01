@@ -15,33 +15,33 @@
 #include "qwt_scale_engine.h"
 
 /*!
-  \brief A scale engine for date/time values
+   \brief A scale engine for date/time values
 
-  QwtDateScaleEngine builds scales from a time intervals.
-  Together with QwtDateScaleDraw it can be used for
-  axes according to date/time values.
+   QwtDateScaleEngine builds scales from a time intervals.
+   Together with QwtDateScaleDraw it can be used for
+   axes according to date/time values.
 
-  Years, months, weeks, days, hours and minutes are organized
-  in steps with non constant intervals. QwtDateScaleEngine
-  classifies intervals and aligns the boundaries and tick positions
-  according to this classification.
+   Years, months, weeks, days, hours and minutes are organized
+   in steps with non constant intervals. QwtDateScaleEngine
+   classifies intervals and aligns the boundaries and tick positions
+   according to this classification.
 
-  QwtDateScaleEngine supports representations depending
-  on Qt::TimeSpec specifications. The valid range for scales
-  is limited by the range of QDateTime, that differs
-  between Qt4 and Qt5.
+   QwtDateScaleEngine supports representations depending
+   on Qt::TimeSpec specifications. The valid range for scales
+   is limited by the range of QDateTime, that differs
+   between Qt4 and Qt5.
 
-  Datetime values are expected as the number of milliseconds since
-  1970-01-01T00:00:00 Universal Coordinated Time - also known
-  as "The Epoch", that can be converted to QDateTime using
-  QwtDate::toDateTime().
+   Datetime values are expected as the number of milliseconds since
+   1970-01-01T00:00:00 Universal Coordinated Time - also known
+   as "The Epoch", that can be converted to QDateTime using
+   QwtDate::toDateTime().
 
-  \sa QwtDate, QwtPlot::setAxisScaleEngine(),
+   \sa QwtDate, QwtPlot::setAxisScaleEngine(),
       QwtAbstractScale::setScaleEngine()
-*/
-class QWT_EXPORT QwtDateScaleEngine: public QwtLinearScaleEngine
+ */
+class QWT_EXPORT QwtDateScaleEngine : public QwtLinearScaleEngine
 {
-public:
+  public:
     explicit QwtDateScaleEngine( Qt::TimeSpec = Qt::LocalTime );
     virtual ~QwtDateScaleEngine();
 
@@ -58,8 +58,8 @@ public:
     int maxWeeks() const;
 
     virtual void autoScale(
-        int maxNumSteps, double &x1, double &x2,
-        double &stepSize ) const QWT_OVERRIDE;
+        int maxNumSteps, double& x1, double& x2,
+        double& stepSize ) const QWT_OVERRIDE;
 
     virtual QwtScaleDiv divideScale(
         double x1, double x2,
@@ -67,22 +67,22 @@ public:
         double stepSize = 0.0 ) const QWT_OVERRIDE;
 
     virtual QwtDate::IntervalType intervalType(
-        const QDateTime &, const QDateTime &, int maxSteps ) const;
+        const QDateTime&, const QDateTime&, int maxSteps ) const;
 
     QDateTime toDateTime( double ) const;
 
-protected:
-    virtual QDateTime alignDate( const QDateTime &, double stepSize,
+  protected:
+    virtual QDateTime alignDate( const QDateTime&, double stepSize,
         QwtDate::IntervalType, bool up ) const;
 
-private:
-    QwtScaleDiv buildScaleDiv( const QDateTime &, const QDateTime &,
+  private:
+    QwtScaleDiv buildScaleDiv( const QDateTime&, const QDateTime&,
         int maxMajorSteps, int maxMinorSteps,
         QwtDate::IntervalType ) const;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

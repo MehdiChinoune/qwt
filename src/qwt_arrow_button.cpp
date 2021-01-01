@@ -21,7 +21,7 @@ static const int Spacing = 1;
 
 class QwtArrowButton::PrivateData
 {
-public:
+  public:
     int num;
     Qt::ArrowType arrowType;
 };
@@ -48,13 +48,12 @@ static QStyleOptionButton styleOpt( const QwtArrowButton* btn )
 }
 
 /*!
-  \param num Number of arrows
-  \param arrowType see Qt::ArrowType in the Qt docs.
-  \param parent Parent widget
-*/
-QwtArrowButton::QwtArrowButton( int num,
-        Qt::ArrowType arrowType, QWidget *parent ):
-    QPushButton( parent )
+   \param num Number of arrows
+   \param arrowType see Qt::ArrowType in the Qt docs.
+   \param parent Parent widget
+ */
+QwtArrowButton::QwtArrowButton( int num, Qt::ArrowType arrowType, QWidget* parent )
+    : QPushButton( parent )
 {
     m_data = new PrivateData;
     m_data->num = qBound( 1, num, MaxNum );
@@ -84,24 +83,24 @@ QwtArrowButton::~QwtArrowButton()
 }
 
 /*!
-  \brief The direction of the arrows
-*/
+   \brief The direction of the arrows
+ */
 Qt::ArrowType QwtArrowButton::arrowType() const
 {
     return m_data->arrowType;
 }
 
 /*!
-  \brief The number of arrows
-*/
+   \brief The number of arrows
+ */
 int QwtArrowButton::num() const
 {
     return m_data->num;
 }
 
 /*!
-  \return the bounding rectangle for the label
-*/
+   \return the bounding rectangle for the label
+ */
 QRect QwtArrowButton::labelRect() const
 {
     const int m = Margin;
@@ -127,8 +126,8 @@ QRect QwtArrowButton::labelRect() const
 /*!
    Paint event handler
    \param event Paint event
-*/
-void QwtArrowButton::paintEvent( QPaintEvent *event )
+ */
+void QwtArrowButton::paintEvent( QPaintEvent* event )
 {
     QPushButton::paintEvent( event );
     QPainter painter( this );
@@ -136,12 +135,12 @@ void QwtArrowButton::paintEvent( QPaintEvent *event )
 }
 
 /*!
-  \brief Draw the button label
+   \brief Draw the button label
 
-  \param painter Painter
-  \sa The Qt Manual for QPushButton
-*/
-void QwtArrowButton::drawButtonLabel( QPainter *painter )
+   \param painter Painter
+   \sa The Qt Manual for QPushButton
+ */
+void QwtArrowButton::drawButtonLabel( QPainter* painter )
 {
     const bool isVertical = m_data->arrowType == Qt::UpArrow ||
         m_data->arrowType == Qt::DownArrow;
@@ -212,9 +211,9 @@ void QwtArrowButton::drawButtonLabel( QPainter *painter )
     \param painter Painter
     \param r Rectangle where to paint the arrow
     \param arrowType Arrow type
-*/
-void QwtArrowButton::drawArrow( QPainter *painter,
-    const QRect &r, Qt::ArrowType arrowType ) const
+ */
+void QwtArrowButton::drawArrow( QPainter* painter,
+    const QRect& r, Qt::ArrowType arrowType ) const
 {
     QPolygon pa( 3 );
 
@@ -255,8 +254,8 @@ void QwtArrowButton::drawArrow( QPainter *painter,
 }
 
 /*!
-  \return a size hint
-*/
+   \return a size hint
+ */
 QSize QwtArrowButton::sizeHint() const
 {
     const QSize hint = minimumSizeHint();
@@ -264,8 +263,8 @@ QSize QwtArrowButton::sizeHint() const
 }
 
 /*!
-  \brief Return a minimum size hint
-*/
+   \brief Return a minimum size hint
+ */
 QSize QwtArrowButton::minimumSizeHint() const
 {
     const QSize asz = arrowSize( Qt::RightArrow, QSize() );
@@ -273,7 +272,7 @@ QSize QwtArrowButton::minimumSizeHint() const
     QSize sz(
         2 * Margin + ( MaxNum - 1 ) * Spacing + MaxNum * asz.width(),
         2 * Margin + asz.height()
-    );
+        );
 
     if ( m_data->arrowType == Qt::UpArrow || m_data->arrowType == Qt::DownArrow )
         sz.transpose();
@@ -293,9 +292,9 @@ QSize QwtArrowButton::minimumSizeHint() const
    \param arrowType Arrow type
    \param boundingSize Bounding size
    \return Size of the arrow
-*/
+ */
 QSize QwtArrowButton::arrowSize( Qt::ArrowType arrowType,
-    const QSize &boundingSize ) const
+    const QSize& boundingSize ) const
 {
     QSize bs = boundingSize;
     if ( arrowType == Qt::UpArrow || arrowType == Qt::DownArrow )
@@ -322,9 +321,9 @@ QSize QwtArrowButton::arrowSize( Qt::ArrowType arrowType,
 }
 
 /*!
-  \brief autoRepeat for the space keys
-*/
-void QwtArrowButton::keyPressEvent( QKeyEvent *event )
+   \brief autoRepeat for the space keys
+ */
+void QwtArrowButton::keyPressEvent( QKeyEvent* event )
 {
     if ( event->isAutoRepeat() && event->key() == Qt::Key_Space )
         Q_EMIT clicked();

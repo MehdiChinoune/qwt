@@ -16,14 +16,14 @@
 #include <qrect.h>
 
 /*!
-  \brief A bit field corresponding to the pixels of a rectangle
+   \brief A bit field corresponding to the pixels of a rectangle
 
-  QwtPixelMatrix is intended to filter out duplicates in an
-  unsorted array of points.
-*/
-class QWT_EXPORT QwtPixelMatrix: public QBitArray
+   QwtPixelMatrix is intended to filter out duplicates in an
+   unsorted array of points.
+ */
+class QWT_EXPORT QwtPixelMatrix : public QBitArray
 {
-public:
+  public:
     explicit QwtPixelMatrix( const QRect& rect );
     ~QwtPixelMatrix();
 
@@ -35,17 +35,17 @@ public:
 
     int index( int x, int y ) const;
 
-private:
+  private:
     QRect m_rect;
 };
 
 /*!
-  \brief Test if a pixel has been set
+   \brief Test if a pixel has been set
 
-  \param x X-coordinate
-  \param y Y-coordinate
+   \param x X-coordinate
+   \param y Y-coordinate
 
-  \return true, when pos is outside of rect(), or when the pixel
+   \return true, when pos is outside of rect(), or when the pixel
           has already been set.
  */
 inline bool QwtPixelMatrix::testPixel( int x, int y ) const
@@ -55,13 +55,13 @@ inline bool QwtPixelMatrix::testPixel( int x, int y ) const
 }
 
 /*!
-  \brief Set a pixel and test if a pixel has been set before
+   \brief Set a pixel and test if a pixel has been set before
 
-  \param x X-coordinate
-  \param y Y-coordinate
-  \param on Set/Clear the pixel
+   \param x X-coordinate
+   \param y Y-coordinate
+   \param on Set/Clear the pixel
 
-  \return true, when pos is outside of rect(), or when the pixel
+   \return true, when pos is outside of rect(), or when the pixel
           was set before.
  */
 inline bool QwtPixelMatrix::testAndSetPixel( int x, int y, bool on )
@@ -77,11 +77,11 @@ inline bool QwtPixelMatrix::testAndSetPixel( int x, int y, bool on )
 }
 
 /*!
-  \brief Calculate the index in the bit field corresponding to a position
+   \brief Calculate the index in the bit field corresponding to a position
 
-  \param x X-coordinate
-  \param y Y-coordinate
-  \return Index, when rect() contains pos - otherwise -1.
+   \param x X-coordinate
+   \param y Y-coordinate
+   \return Index, when rect() contains pos - otherwise -1.
  */
 inline int QwtPixelMatrix::index( int x, int y ) const
 {

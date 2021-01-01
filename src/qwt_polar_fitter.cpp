@@ -12,9 +12,9 @@
 
 class QwtPolarFitter::PrivateData
 {
-public:
-    PrivateData():
-        stepCount( 5 )
+  public:
+    PrivateData()
+        : stepCount( 5 )
     {
     }
 
@@ -26,7 +26,7 @@ public:
 
    \param stepCount Number of points, that will be inserted between 2 points
    \sa setStepCount()
-*/
+ */
 QwtPolarFitter::QwtPolarFitter( int stepCount )
     : QwtCurveFitter( QwtPolarFitter::Polygon )
 {
@@ -47,7 +47,7 @@ QwtPolarFitter::~QwtPolarFitter()
    \param stepCount Number of steps
 
    \sa stepCount()
-*/
+ */
 void QwtPolarFitter::setStepCount( int stepCount )
 {
     m_data->stepCount = qMax( stepCount, 0 );
@@ -56,7 +56,7 @@ void QwtPolarFitter::setStepCount( int stepCount )
 /*!
    \return Number of points, that will be inserted between 2 points
    \sa setStepCount()
-*/
+ */
 int QwtPolarFitter::stepCount() const
 {
     return m_data->stepCount;
@@ -68,8 +68,8 @@ int QwtPolarFitter::stepCount() const
 
    \param points Array of points
    \return Array of points including the additional points
-*/
-QPolygonF QwtPolarFitter::fitCurve( const QPolygonF &points ) const
+ */
+QPolygonF QwtPolarFitter::fitCurve( const QPolygonF& points ) const
 {
     if ( m_data->stepCount <= 0 || points.size() <= 1 )
         return points;
@@ -84,8 +84,8 @@ QPolygonF QwtPolarFitter::fitCurve( const QPolygonF &points ) const
     fittedPoints[index++] = points[0];
     for ( int i = 1; i < points.size(); i++ )
     {
-        const QPointF &p1 = points[i-1];
-        const QPointF &p2 = points[i];
+        const QPointF& p1 = points[i - 1];
+        const QPointF& p2 = points[i];
 
         const double dx = ( p2.x() - p1.x() ) / m_data->stepCount;
         const double dy = ( p2.y() - p1.y() ) / m_data->stepCount;
@@ -103,11 +103,11 @@ QPolygonF QwtPolarFitter::fitCurve( const QPolygonF &points ) const
 }
 
 /*!
-  \param points Series of data points
-  \return Curve path
-  \sa fitCurve()
-*/
-QPainterPath QwtPolarFitter::fitCurvePath( const QPolygonF &points ) const
+   \param points Series of data points
+   \return Curve path
+   \sa fitCurve()
+ */
+QPainterPath QwtPolarFitter::fitCurvePath( const QPolygonF& points ) const
 {
     QPainterPath path;
     path.addPolygon( fitCurve( points ) );

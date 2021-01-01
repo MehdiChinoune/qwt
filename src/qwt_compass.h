@@ -16,72 +16,72 @@
 
 class QwtCompassRose;
 class QString;
-template <class Key, class T> class QMap;
+template< class Key, class T > class QMap;
 
 
 /*!
-  \brief A special scale draw made for QwtCompass
+   \brief A special scale draw made for QwtCompass
 
-  QwtCompassScaleDraw maps values to strings using
-  a special map, that can be modified by the application
+   QwtCompassScaleDraw maps values to strings using
+   a special map, that can be modified by the application
 
-  The default map consists of the labels N, NE, E, SE, S, SW, W, NW.
+   The default map consists of the labels N, NE, E, SE, S, SW, W, NW.
 
-  \sa QwtCompass
-*/
-class QWT_EXPORT QwtCompassScaleDraw: public QwtRoundScaleDraw
+   \sa QwtCompass
+ */
+class QWT_EXPORT QwtCompassScaleDraw : public QwtRoundScaleDraw
 {
-public:
+  public:
     explicit QwtCompassScaleDraw();
-    explicit QwtCompassScaleDraw( const QMap<double, QString> &map );
+    explicit QwtCompassScaleDraw( const QMap< double, QString >& map );
 
     virtual ~QwtCompassScaleDraw();
 
-    void setLabelMap( const QMap<double, QString> &map );
-    QMap<double, QString> labelMap() const;
+    void setLabelMap( const QMap< double, QString >& map );
+    QMap< double, QString > labelMap() const;
 
     virtual QwtText label( double value ) const QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 /*!
-  \brief A Compass Widget
+   \brief A Compass Widget
 
-  QwtCompass is a widget to display and enter directions. It consists
-  of a scale, an optional needle and rose.
+   QwtCompass is a widget to display and enter directions. It consists
+   of a scale, an optional needle and rose.
 
-  \image html dials1.png
+   \image html dials1.png
 
-  \note The examples/dials example shows how to use QwtCompass.
-*/
+   \note The examples/dials example shows how to use QwtCompass.
+ */
 
-class QWT_EXPORT QwtCompass: public QwtDial
+class QWT_EXPORT QwtCompass : public QwtDial
 {
     Q_OBJECT
 
-public:
+  public:
     explicit QwtCompass( QWidget* parent = NULL );
     virtual ~QwtCompass();
 
-    void setRose( QwtCompassRose *rose );
-    const QwtCompassRose *rose() const;
-    QwtCompassRose *rose();
+    void setRose( QwtCompassRose* rose );
+    const QwtCompassRose* rose() const;
+    QwtCompassRose* rose();
 
-protected:
-    virtual void drawRose( QPainter *, const QPointF &center,
+  protected:
+    virtual void drawRose( QPainter*, const QPointF& center,
         double radius, double north, QPalette::ColorGroup ) const;
 
-    virtual void drawScaleContents( QPainter *,
-        const QPointF &center, double radius ) const QWT_OVERRIDE;
+    virtual void drawScaleContents( QPainter*,
+        const QPointF& center, double radius ) const QWT_OVERRIDE;
 
-    virtual void keyPressEvent( QKeyEvent * ) QWT_OVERRIDE;
+    virtual void keyPressEvent( QKeyEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

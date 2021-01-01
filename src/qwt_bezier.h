@@ -16,42 +16,42 @@ class QPointF;
 class QPolygonF;
 
 /*!
-  \brief An implementation of the de Casteljau’s Algorithm for interpolating
+   \brief An implementation of the de Casteljau’s Algorithm for interpolating
          Bézier curves
 
-  The flatness criterion for terminating the subdivison is based on
-  "Piecewise Linear Approximation of Bézier Curves" by
-  Roger Willcocks ( http://www.rops.org )
+   The flatness criterion for terminating the subdivison is based on
+   "Piecewise Linear Approximation of Bézier Curves" by
+   Roger Willcocks ( http://www.rops.org )
 
-  This article explains the maths behind in a very nice way:
-  https://jeremykun.com/2013/05/11/bezier-curves-and-picasso
+   This article explains the maths behind in a very nice way:
+   https://jeremykun.com/2013/05/11/bezier-curves-and-picasso
  */
 class QWT_EXPORT QwtBezier
 {
-public:
+  public:
     QwtBezier( double tolerance = 0.5 );
     ~QwtBezier();
 
     void setTolerance( double tolerance );
     double tolerance() const;
 
-    QPolygonF toPolygon( const QPointF &p1, const QPointF &cp1,
-        const QPointF &cp2, const QPointF &p2 ) const;
+    QPolygonF toPolygon( const QPointF& p1, const QPointF& cp1,
+        const QPointF& cp2, const QPointF& p2 ) const;
 
-    void appendToPolygon( const QPointF &p1, const QPointF &cp1,
-        const QPointF &cp2, const QPointF &p2, QPolygonF &polygon ) const;
+    void appendToPolygon( const QPointF& p1, const QPointF& cp1,
+        const QPointF& cp2, const QPointF& p2, QPolygonF& polygon ) const;
 
-    static QPointF pointAt( const QPointF &p1, const QPointF &cp1,
-        const QPointF &cp2, const QPointF &p2, double t );
+    static QPointF pointAt( const QPointF& p1, const QPointF& cp1,
+        const QPointF& cp2, const QPointF& p2, double t );
 
-private:
+  private:
     double m_tolerance;
     double m_flatness;
 };
 
 /*!
-  \return Tolerance, that is used as criterion for the subdivisn
-  \sa setTolerance()
+   \return Tolerance, that is used as criterion for the subdivisn
+   \sa setTolerance()
  */
 inline double QwtBezier::tolerance() const
 {

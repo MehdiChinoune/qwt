@@ -16,29 +16,29 @@
    \param interval Bounding interval for the points
 
    \sa setInterval(), setSize()
-*/
+ */
 QwtSyntheticPointData::QwtSyntheticPointData(
-        size_t size, const QwtInterval &interval ):
-    m_size( size ),
-    m_interval( interval )
+        size_t size, const QwtInterval& interval )
+    : m_size( size )
+    , m_interval( interval )
 {
 }
 
 /*!
-  Change the number of points
+   Change the number of points
 
-  \param size Number of points
-  \sa size(), setInterval()
-*/
+   \param size Number of points
+   \sa size(), setInterval()
+ */
 void QwtSyntheticPointData::setSize( size_t size )
 {
     m_size = size;
 }
 
 /*!
-  \return Number of points
-  \sa setSize(), interval()
-*/
+   \return Number of points
+   \sa setSize(), interval()
+ */
 size_t QwtSyntheticPointData::size() const
 {
     return m_size;
@@ -49,8 +49,8 @@ size_t QwtSyntheticPointData::size() const
 
    \param interval Interval
    \sa interval(), setSize()
-*/
-void QwtSyntheticPointData::setInterval( const QwtInterval &interval )
+ */
+void QwtSyntheticPointData::setInterval( const QwtInterval& interval )
 {
     m_interval = interval.normalized();
 }
@@ -58,7 +58,7 @@ void QwtSyntheticPointData::setInterval( const QwtInterval &interval )
 /*!
    \return Bounding interval
    \sa setInterval(), size()
-*/
+ */
 QwtInterval QwtSyntheticPointData::interval() const
 {
     return m_interval;
@@ -74,8 +74,8 @@ QwtInterval QwtSyntheticPointData::interval() const
    in the interval rect.left() -> rect.right().
 
    \sa rectOfInterest()
-*/
-void QwtSyntheticPointData::setRectOfInterest( const QRectF &rect )
+ */
+void QwtSyntheticPointData::setRectOfInterest( const QRectF& rect )
 {
     m_rectOfInterest = rect;
     m_intervalOfInterest = QwtInterval(
@@ -85,23 +85,23 @@ void QwtSyntheticPointData::setRectOfInterest( const QRectF &rect )
 /*!
    \return "rectangle of interest"
    \sa setRectOfInterest()
-*/
+ */
 QRectF QwtSyntheticPointData::rectOfInterest() const
 {
     return m_rectOfInterest;
 }
 
 /*!
-  \brief Calculate the bounding rectangle
+   \brief Calculate the bounding rectangle
 
-  This implementation iterates over all points, what could often
-  be implemented much faster using the characteristics of the series.
-  When there are many points it is recommended to overload and
-  reimplement this method using the characteristics of the series
-  ( if possible ).
+   This implementation iterates over all points, what could often
+   be implemented much faster using the characteristics of the series.
+   When there are many points it is recommended to overload and
+   reimplement this method using the characteristics of the series
+   ( if possible ).
 
-  \return Bounding rectangle
-*/
+   \return Bounding rectangle
+ */
 QRectF QwtSyntheticPointData::boundingRect() const
 {
     if ( m_size == 0 ||
@@ -121,7 +121,7 @@ QRectF QwtSyntheticPointData::boundingRect() const
 
    \warning For invalid indices ( index < 0 || index >= size() )
             (0, 0) is returned.
-*/
+ */
 QPointF QwtSyntheticPointData::sample( size_t index ) const
 {
     if ( index >= m_size )
@@ -144,10 +144,10 @@ QPointF QwtSyntheticPointData::sample( size_t index ) const
    \return Calculated x coordinate
 
    \sa interval(), rectOfInterest(), y()
-*/
+ */
 double QwtSyntheticPointData::x( uint index ) const
 {
-    const QwtInterval &interval = m_interval.isValid() ?
+    const QwtInterval& interval = m_interval.isValid() ?
         m_interval : m_intervalOfInterest;
 
     if ( !interval.isValid() )
