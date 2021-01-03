@@ -165,7 +165,7 @@ PlotCanvasInterface::PlotCanvasInterface( QObject* parent )
 
 QWidget* PlotCanvasInterface::createWidget( QWidget* parent )
 {
-    return new QwtPlotCanvas( qobject_cast< QwtPlot* >( parent ) );
+    return new QwtPlotCanvas( parent );
 }
 
 #endif
@@ -189,6 +189,11 @@ PolarPlotInterface::PolarPlotInterface( QObject* parent )
         "  </rect>\n"
         " </property>\n"
         "</widget>\n";
+}
+
+QWidget* PlotCanvasInterface::createWidget( QWidget* parent )
+{
+    return new QwtPolarPlot( parent );
 }
 
 #endif
