@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -10,8 +10,8 @@
 
 #include <qlayout.h>
 
-MainWindow::MainWindow( QWidget *parent ):
-    QWidget( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QWidget( parent )
 {
     const double intervalLength = 10.0; // seconds
 
@@ -37,19 +37,19 @@ MainWindow::MainWindow( QWidget *parent ):
     vLayout1->addWidget( m_amplitudeKnob );
     vLayout1->addWidget( m_frequencyKnob );
 
-    QHBoxLayout *layout = new QHBoxLayout( this );
+    QHBoxLayout* layout = new QHBoxLayout( this );
     layout->addWidget( m_plot, 10 );
     layout->addLayout( vLayout1 );
 
-    connect( m_amplitudeKnob, SIGNAL( valueChanged( double ) ),
-        SIGNAL( amplitudeChanged( double ) ) );
-    connect( m_frequencyKnob, SIGNAL( valueChanged( double ) ),
-        SIGNAL( frequencyChanged( double ) ) );
-    connect( m_timerWheel, SIGNAL( valueChanged( double ) ),
-        SIGNAL( signalIntervalChanged( double ) ) );
+    connect( m_amplitudeKnob, SIGNAL(valueChanged(double)),
+        SIGNAL(amplitudeChanged(double)) );
+    connect( m_frequencyKnob, SIGNAL(valueChanged(double)),
+        SIGNAL(frequencyChanged(double)) );
+    connect( m_timerWheel, SIGNAL(valueChanged(double)),
+        SIGNAL(signalIntervalChanged(double)) );
 
-    connect( m_intervalWheel, SIGNAL( valueChanged( double ) ),
-        m_plot, SLOT( setIntervalLength( double ) ) );
+    connect( m_intervalWheel, SIGNAL(valueChanged(double)),
+        m_plot, SLOT(setIntervalLength(double)) );
 }
 
 void MainWindow::start()

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "cpustat.h"
 
@@ -23,7 +23,7 @@ QTime CpuStat::upTime() const
     return t;
 }
 
-void CpuStat::statistic( double &user, double &system )
+void CpuStat::statistic( double& user, double& system )
 {
     double values[NValues];
 
@@ -224,7 +224,7 @@ void CpuStat::lookUp( double values[NValues] ) const
                 if ( valueList.count() >= 5 )
                 {
                     for ( int i = 0; i < NValues; i++ )
-                        values[i] = valueList[i+1].toDouble();
+                        values[i] = valueList[i + 1].toDouble();
                 }
                 break;
             }

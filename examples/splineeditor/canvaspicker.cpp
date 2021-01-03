@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "canvaspicker.h"
 
@@ -10,25 +10,25 @@
 
 #include <qevent.h>
 
-CanvasPicker::CanvasPicker( bool sortedX, QwtPlot *plot ):
-    QObject( plot ),
-    m_selectedPoint( -1 ),
-    m_sortedX( sortedX )
+CanvasPicker::CanvasPicker( bool sortedX, QwtPlot* plot )
+    : QObject( plot )
+    , m_selectedPoint( -1 )
+    , m_sortedX( sortedX )
 {
     plot->canvas()->installEventFilter( this );
 }
 
-QwtPlot *CanvasPicker::plot()
+QwtPlot* CanvasPicker::plot()
 {
-    return qobject_cast<QwtPlot *>( parent() );
+    return qobject_cast< QwtPlot* >( parent() );
 }
 
-const QwtPlot *CanvasPicker::plot() const
+const QwtPlot* CanvasPicker::plot() const
 {
-    return qobject_cast<const QwtPlot *>( parent() );
+    return qobject_cast< const QwtPlot* >( parent() );
 }
 
-bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
+bool CanvasPicker::eventFilter( QObject* object, QEvent* event )
 {
     if ( plot() == NULL || object != plot()->canvas() )
         return false;
@@ -37,13 +37,13 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
     {
         case QEvent::MouseButtonPress:
         {
-            const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
+            const QMouseEvent* mouseEvent = static_cast< QMouseEvent* >( event );
             select( mouseEvent->pos() );
             return true;
         }
         case QEvent::MouseMove:
         {
-            const QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
+            const QMouseEvent* mouseEvent = static_cast< QMouseEvent* >( event );
             move( mouseEvent->pos() );
             return true;
         }
@@ -57,9 +57,9 @@ bool CanvasPicker::eventFilter( QObject *object, QEvent *event )
 // Select the point at a position. If there is no point
 // deselect the selected point
 
-void CanvasPicker::select( const QPoint &pos )
+void CanvasPicker::select( const QPoint& pos )
 {
-    QwtPlotCurve *curve = NULL;
+    QwtPlotCurve* curve = NULL;
     double dist = 10e10;
     int index = -1;
 
@@ -69,7 +69,7 @@ void CanvasPicker::select( const QPoint &pos )
     {
         if ( ( *it )->rtti() == QwtPlotItem::Rtti_PlotCurve )
         {
-            QwtPlotCurve *c = static_cast<QwtPlotCurve *>( *it );
+            QwtPlotCurve* c = static_cast< QwtPlotCurve* >( *it );
             if ( c->isVisible() )
             {
                 double d;
@@ -95,18 +95,18 @@ void CanvasPicker::select( const QPoint &pos )
 }
 
 // Move the selected point
-void CanvasPicker::move( const QPoint &pos )
+void CanvasPicker::move( const QPoint& pos )
 {
     if ( m_selectedCurve == 0 || m_selectedPoint < 0  )
         return;
 
-    QVector<double> xData( m_selectedCurve->dataSize() );
-    QVector<double> yData( m_selectedCurve->dataSize() );
+    QVector< double > xData( m_selectedCurve->dataSize() );
+    QVector< double > yData( m_selectedCurve->dataSize() );
 
     double dx = 0.0;
     double dy = 0.0;
 
-    int numPoints = static_cast<int>( m_selectedCurve->dataSize() );
+    int numPoints = static_cast< int >( m_selectedCurve->dataSize() );
     for ( int i = 0; i < numPoints; i++ )
     {
         const QPointF sample = m_selectedCurve->sample( i );
@@ -152,14 +152,14 @@ void CanvasPicker::move( const QPoint &pos )
     QwtPlotItemList curves = plot()->itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curves.size(); i++ )
     {
-        QwtPlotCurve *curve = static_cast<QwtPlotCurve *>( curves[i] );
+        QwtPlotCurve* curve = static_cast< QwtPlotCurve* >( curves[i] );
         if ( curve == m_selectedCurve )
             continue;
 
         xData.resize( curve->dataSize() );
         yData.resize( curve->dataSize() );
 
-        numPoints = static_cast<int>( curve->dataSize() );
+        numPoints = static_cast< int >( curve->dataSize() );
         for ( int j = 0; j < numPoints; j++ )
         {
             const QPointF sample = curve->sample( j );

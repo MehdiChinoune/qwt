@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #ifndef DIAL_BOX_H
 #define DIAL_BOX_H
@@ -15,20 +15,20 @@
 class QLabel;
 class QwtDial;
 
-class DialBox: public QWidget
+class DialBox : public QWidget
 {
     Q_OBJECT
-public:
-    DialBox( QWidget *parent, int type );
+  public:
+    DialBox( QWidget* parent, int type );
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void setNum( double v );
 
-private:
-    QwtDial *createDial( int type ) const;
+  private:
+    QwtDial* createDial( int type ) const;
 
-    QwtDial *m_dial;
-    QLabel *m_label;
+    QwtDial* m_dial;
+    QLabel* m_label;
 };
 
 #endif

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -15,39 +15,39 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
-public:
-    MainWindow( QWidget * = NULL );
+  public:
+    MainWindow( QWidget* = NULL );
 
-private:
-    Plot *d_plot;
+  private:
+    Plot* d_plot;
 };
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
     d_plot = new Plot( this );
     d_plot->setContentsMargins( 0, 5, 0, 10 );
 
     setCentralWidget( d_plot );
 
-    QToolBar *toolBar = new QToolBar( this );
+    QToolBar* toolBar = new QToolBar( this );
 
 #ifndef QT_NO_PRINTER
-    QToolButton *btnPrint = new QToolButton( toolBar );
+    QToolButton* btnPrint = new QToolButton( toolBar );
     btnPrint->setText( "Print" );
     btnPrint->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnPrint );
-    connect( btnPrint, SIGNAL( clicked() ),
-        d_plot, SLOT( printPlot() ) );
+    connect( btnPrint, SIGNAL(clicked()),
+        d_plot, SLOT(printPlot()) );
 
     toolBar->addSeparator();
 #endif
 
     toolBar->addWidget( new QLabel("Color Map " ) );
 
-    QComboBox *mapBox = new QComboBox( toolBar );
+    QComboBox* mapBox = new QComboBox( toolBar );
     mapBox->addItem( "RGB" );
     mapBox->addItem( "Hue" );
     mapBox->addItem( "Saturation" );
@@ -57,52 +57,52 @@ MainWindow::MainWindow( QWidget *parent ):
     mapBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
     toolBar->addWidget( mapBox );
 
-    connect( mapBox, SIGNAL( currentIndexChanged( int ) ),
-             d_plot, SLOT( setColorMap( int ) ) );
+    connect( mapBox, SIGNAL(currentIndexChanged(int)),
+        d_plot, SLOT(setColorMap(int)) );
 
     toolBar->addWidget( new QLabel("Table " ) );
 
-    QComboBox *colorTableBox = new QComboBox( toolBar );
+    QComboBox* colorTableBox = new QComboBox( toolBar );
     colorTableBox->addItem( "None" );
     colorTableBox->addItem( "256" );
     colorTableBox->addItem( "1024" );
     colorTableBox->addItem( "16384" );
     toolBar->addWidget( colorTableBox );
 
-    connect( colorTableBox, SIGNAL( currentIndexChanged( int ) ),
-             d_plot, SLOT( setColorTableSize( int ) ) );
+    connect( colorTableBox, SIGNAL(currentIndexChanged(int)),
+        d_plot, SLOT(setColorTableSize(int)) );
 
     toolBar->addWidget( new QLabel( " Opacity " ) );
-    QSlider *slider = new QSlider( Qt::Horizontal );
+    QSlider* slider = new QSlider( Qt::Horizontal );
     slider->setRange( 0, 255 );
     slider->setValue( 255 );
-    connect( slider, SIGNAL( valueChanged( int ) ),
-        d_plot, SLOT( setAlpha( int ) ) );
+    connect( slider, SIGNAL(valueChanged(int)),
+        d_plot, SLOT(setAlpha(int)) );
 
     toolBar->addWidget( slider );
     toolBar->addWidget( new QLabel("   " ) );
 
-    QCheckBox *btnSpectrogram = new QCheckBox( "Spectrogram", toolBar );
+    QCheckBox* btnSpectrogram = new QCheckBox( "Spectrogram", toolBar );
     toolBar->addWidget( btnSpectrogram );
-    connect( btnSpectrogram, SIGNAL( toggled( bool ) ),
-        d_plot, SLOT( showSpectrogram( bool ) ) );
+    connect( btnSpectrogram, SIGNAL(toggled(bool)),
+        d_plot, SLOT(showSpectrogram(bool)) );
 
-    QCheckBox *btnContour = new QCheckBox( "Contour", toolBar );
+    QCheckBox* btnContour = new QCheckBox( "Contour", toolBar );
     toolBar->addWidget( btnContour );
-    connect( btnContour, SIGNAL( toggled( bool ) ),
-        d_plot, SLOT( showContour( bool ) ) );
+    connect( btnContour, SIGNAL(toggled(bool)),
+        d_plot, SLOT(showContour(bool)) );
 
     addToolBar( toolBar );
 
     btnSpectrogram->setChecked( true );
     btnContour->setChecked( false );
 
-    connect( d_plot, SIGNAL( rendered( const QString& ) ),
-        statusBar(), SLOT( showMessage( const QString& ) ),
+    connect( d_plot, SIGNAL(rendered(const QString&)),
+        statusBar(), SLOT(showMessage(const QString&)),
         Qt::QueuedConnection );
 }
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
     a.setStyle( "Windows" );

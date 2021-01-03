@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "curvetracker.h"
 
@@ -15,14 +15,14 @@
 
 struct compareX
 {
-    inline bool operator()( const double x, const QPointF &pos ) const
+    inline bool operator()( const double x, const QPointF& pos ) const
     {
         return ( x < pos.x() );
     }
 };
 
-CurveTracker::CurveTracker( QWidget *canvas ):
-    QwtPlotPicker( canvas )
+CurveTracker::CurveTracker( QWidget* canvas )
+    : QwtPlotPicker( canvas )
 {
     setTrackerMode( QwtPlotPicker::ActiveOnly );
     setRubberBand( VLineRubberBand );
@@ -30,7 +30,7 @@ CurveTracker::CurveTracker( QWidget *canvas ):
     setStateMachine( new QwtPickerDragPointMachine() );
 }
 
-QRect CurveTracker::trackerRect( const QFont &font ) const
+QRect CurveTracker::trackerRect( const QFont& font ) const
 {
     QRect r = QwtPlotPicker::trackerRect( font );
 
@@ -42,7 +42,7 @@ QRect CurveTracker::trackerRect( const QFont &font ) const
         QPointF pos = invTransform( trackerPosition() );
 
         const QLineF line = curveLineAt(
-            static_cast<const QwtPlotCurve *>( curves[0] ), pos.x() );
+            static_cast< const QwtPlotCurve* >( curves[0] ), pos.x() );
         if ( !line.isNull() )
         {
             const double curveY = line.pointAt(
@@ -58,7 +58,7 @@ QRect CurveTracker::trackerRect( const QFont &font ) const
     return r;
 }
 
-QwtText CurveTracker::trackerTextF( const QPointF &pos ) const
+QwtText CurveTracker::trackerTextF( const QPointF& pos ) const
 {
     QwtText trackerText;
 
@@ -77,7 +77,7 @@ QwtText CurveTracker::trackerTextF( const QPointF &pos ) const
     for ( int i = 0; i < curves.size(); i++ )
     {
         const QString curveInfo = curveInfoAt(
-            static_cast<const QwtPlotCurve *>( curves[i] ), pos );
+            static_cast< const QwtPlotCurve* >( curves[i] ), pos );
 
         if ( !curveInfo.isEmpty() )
         {
@@ -93,7 +93,7 @@ QwtText CurveTracker::trackerTextF( const QPointF &pos ) const
 }
 
 QString CurveTracker::curveInfoAt(
-    const QwtPlotCurve *curve, const QPointF &pos ) const
+    const QwtPlotCurve* curve, const QPointF& pos ) const
 {
     const QLineF line = curveLineAt( curve, pos.x() );
     if ( line.isNull() )
@@ -102,12 +102,12 @@ QString CurveTracker::curveInfoAt(
     const double y = line.pointAt(
         ( pos.x() - line.p1().x() ) / line.dx() ).y();
 
-    QString info( "<font color=""%1"">%2</font>" );
+    QString info( "<font color=" "%1" ">%2</font>" );
     return info.arg( curve->pen().color().name() ).arg( y );
 }
 
 QLineF CurveTracker::curveLineAt(
-    const QwtPlotCurve *curve, double x ) const
+    const QwtPlotCurve* curve, double x ) const
 {
     QLineF line;
 
@@ -116,7 +116,7 @@ QLineF CurveTracker::curveLineAt(
         const QRectF br = curve->boundingRect();
         if ( ( br.width() > 0 ) && ( x >= br.left() ) && ( x <= br.right() ) )
         {
-            int index = qwtUpperSampleIndex<QPointF>(
+            int index = qwtUpperSampleIndex< QPointF >(
                 *curve->data(), x, compareX() );
 
             if ( index == -1 &&

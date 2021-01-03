@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "settings.h"
@@ -16,9 +16,9 @@
 
 #include <qpen.h>
 
-class LegendItem: public QwtPlotLegendItem
+class LegendItem : public QwtPlotLegendItem
 {
-public:
+  public:
     LegendItem()
     {
         setRenderHint( QwtPlotItem::RenderAntialiased );
@@ -37,9 +37,9 @@ public:
     }
 };
 
-class Curve: public QwtPlotCurve
+class Curve : public QwtPlotCurve
 {
-public:
+  public:
     Curve( int index ):
         m_index( index )
     {
@@ -47,7 +47,7 @@ public:
         initData();
     }
 
-    void setCurveTitle( const QString &title )
+    void setCurveTitle( const QString& title )
     {
         QString txt("%1 %2");
         setTitle( QString( "%1 %2" ).arg( title ).arg( m_index ) );
@@ -55,7 +55,7 @@ public:
 
     void initData()
     {
-        QVector<QPointF> points;
+        QVector< QPointF > points;
 
         double y = qwtRand() % 1000;
 
@@ -73,17 +73,17 @@ public:
         setSamples( points );
     }
 
-private:
+  private:
     const int m_index;
 };
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent ),
-    m_externalLegend( NULL ),
-    m_legendItem( NULL ),
-    m_isDirty( false )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
+    , m_externalLegend( NULL )
+    , m_legendItem( NULL )
+    , m_isDirty( false )
 {
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setFocusIndicator( QwtPlotCanvas::CanvasFocusIndicator );
     canvas->setFocusPolicy( Qt::StrongFocus );
     canvas->setPalette( Qt::black );
@@ -95,7 +95,7 @@ Plot::Plot( QWidget *parent ):
     setFooter( "Footer" );
 
     // grid
-    QwtPlotGrid *grid = new QwtPlotGrid;
+    QwtPlotGrid* grid = new QwtPlotGrid;
     grid->enableXMin( true );
     grid->setMajorPen( Qt::gray, 0, Qt::DotLine );
     grid->setMinorPen( Qt::darkGray, 0, Qt::DotLine );
@@ -115,7 +115,7 @@ void Plot::insertCurve()
 {
     static int counter = 1;
 
-    const char *colors[] =
+    const char* colors[] =
     {
         "LightSalmon",
         "SteelBlue",
@@ -130,12 +130,12 @@ void Plot::insertCurve()
     };
     const int numColors = sizeof( colors ) / sizeof( colors[0] );
 
-    QwtPlotCurve *curve = new Curve( counter++ );
+    QwtPlotCurve* curve = new Curve( counter++ );
     curve->setPen( QColor( colors[ counter % numColors ] ), 2 );
     curve->attach( this );
 }
 
-void Plot::applySettings( const Settings &settings )
+void Plot::applySettings( const Settings& settings )
 {
     m_isDirty = false;
     setAutoReplot( true );
@@ -157,11 +157,11 @@ void Plot::applySettings( const Settings &settings )
 
                 connect(
                     this,
-                    SIGNAL( legendDataChanged( const QVariant &,
-                        const QList<QwtLegendData> & ) ),
+                    SIGNAL(legendDataChanged(const QVariant&,
+                        const QList<QwtLegendData>&)),
                     m_externalLegend,
-                    SLOT( updateLegend( const QVariant &,
-                        const QList<QwtLegendData> & ) ) );
+                    SLOT(updateLegend(const QVariant&,
+                        const QList<QwtLegendData>&)) );
 
                 m_externalLegend->show();
 
@@ -244,7 +244,7 @@ void Plot::applySettings( const Settings &settings )
     curveList = itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curveList.count(); i++ )
     {
-        Curve* curve = static_cast<Curve*>( curveList[i] );
+        Curve* curve = static_cast< Curve* >( curveList[i] );
         curve->setCurveTitle( settings.curve.title );
 
         int sz = 0.5 * settings.legendItem.size;

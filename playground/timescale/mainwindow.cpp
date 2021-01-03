@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -12,8 +12,8 @@
 
 #include <qlayout.h>
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
     Settings settings;
 #if 1
@@ -31,9 +31,9 @@ MainWindow::MainWindow( QWidget *parent ):
     m_panel = new Panel();
     m_panel->setSettings( settings );
 
-    QWidget *box = new QWidget( this );
+    QWidget* box = new QWidget( this );
 
-    QHBoxLayout *layout = new QHBoxLayout( box );
+    QHBoxLayout* layout = new QHBoxLayout( box );
     layout->addWidget( m_plot, 10 );
     layout->addWidget( m_panel );
 
@@ -41,9 +41,9 @@ MainWindow::MainWindow( QWidget *parent ):
 
     updatePlot();
 
-    connect( m_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
+    connect( m_panel, SIGNAL(edited()), SLOT(updatePlot()) );
     connect( m_plot->axisWidget( QwtPlot::yLeft ),
-        SIGNAL( scaleDivChanged() ), SLOT( updatePanel() ) );
+        SIGNAL(scaleDivChanged()), SLOT(updatePanel()) );
 }
 
 void MainWindow::updatePlot()

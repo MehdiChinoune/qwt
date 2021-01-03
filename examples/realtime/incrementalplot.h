@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef INCREMENTAL_PLOT_H
 #define INCREMENTAL_PLOT_H
@@ -15,19 +15,19 @@ class IncrementalPlot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    IncrementalPlot( QWidget *parent = NULL );
+  public:
+    IncrementalPlot( QWidget* parent = NULL );
     virtual ~IncrementalPlot();
 
-    void appendPoint( const QPointF & );
+    void appendPoint( const QPointF& );
     void clearPoints();
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void showSymbols( bool );
 
-private:
-    QwtPlotCurve *m_curve;
-    QwtPlotDirectPainter *m_directPainter;
+  private:
+    QwtPlotCurve* m_curve;
+    QwtPlotDirectPainter* m_directPainter;
 };
 
 #endif

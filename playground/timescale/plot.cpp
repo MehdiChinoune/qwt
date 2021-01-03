@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "settings.h"
@@ -14,8 +14,8 @@
 #include <qwt_plot_grid.h>
 #include <qwt_plot_layout.h>
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setAutoFillBackground( true );
     setPalette( Qt::darkGray );
@@ -27,8 +27,8 @@ Plot::Plot( QWidget *parent ):
     initAxis( QwtPlot::yRight,
         "Coordinated Universal Time ( UTC )", Qt::UTC );
 
-    QwtPlotPanner *panner = new QwtPlotPanner( canvas() );
-    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( canvas() );
+    QwtPlotPanner* panner = new QwtPlotPanner( canvas() );
+    QwtPlotMagnifier* magnifier = new QwtPlotMagnifier( canvas() );
 
     for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
     {
@@ -40,9 +40,9 @@ Plot::Plot( QWidget *parent ):
         magnifier->setAxisEnabled( axis, on );
     }
 
-    QwtPlotGrid *grid = new QwtPlotGrid();
+    QwtPlotGrid* grid = new QwtPlotGrid();
     grid->setMajorPen( Qt::black, 0, Qt::SolidLine );
-    grid->setMinorPen( Qt::gray, 0 , Qt::SolidLine );
+    grid->setMinorPen( Qt::gray, 0, Qt::SolidLine );
     grid->enableX( false );
     grid->enableXMin( false );
     grid->enableY( true );
@@ -56,8 +56,8 @@ void Plot::initAxis( int axis,
 {
     setAxisTitle( axis, title );
 
-    QwtDateScaleDraw *scaleDraw = new QwtDateScaleDraw( timeSpec );
-    QwtDateScaleEngine *scaleEngine = new QwtDateScaleEngine( timeSpec );
+    QwtDateScaleDraw* scaleDraw = new QwtDateScaleDraw( timeSpec );
+    QwtDateScaleEngine* scaleEngine = new QwtDateScaleEngine( timeSpec );
 
 #if 0
     if ( timeSpec == Qt::LocalTime )
@@ -73,7 +73,7 @@ void Plot::initAxis( int axis,
     setAxisScaleEngine( axis, scaleEngine );
 }
 
-void Plot::applySettings( const Settings &settings )
+void Plot::applySettings( const Settings& settings )
 {
     applyAxisSettings( QwtPlot::yLeft, settings );
     applyAxisSettings( QwtPlot::yRight, settings );
@@ -81,10 +81,10 @@ void Plot::applySettings( const Settings &settings )
     replot();
 }
 
-void Plot::applyAxisSettings( int axis, const Settings &settings )
+void Plot::applyAxisSettings( int axis, const Settings& settings )
 {
-    QwtDateScaleEngine *scaleEngine =
-        static_cast<QwtDateScaleEngine *>( axisScaleEngine( axis ) );
+    QwtDateScaleEngine* scaleEngine =
+        static_cast< QwtDateScaleEngine* >( axisScaleEngine( axis ) );
 
     scaleEngine->setMaxWeeks( settings.maxWeeks );
     setAxisMaxMinor( axis, settings.maxMinorSteps );

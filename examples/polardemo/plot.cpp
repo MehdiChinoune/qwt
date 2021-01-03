@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -15,92 +15,94 @@
 
 #include <qpen.h>
 
-const QwtInterval s_radialInterval( 0.0, 10.0 );
-const QwtInterval s_azimuthInterval( 0.0, 360.0 );
+static const QwtInterval s_radialInterval( 0.0, 10.0 );
+static const QwtInterval s_azimuthInterval( 0.0, 360.0 );
 
-class Data: public QwtSeriesData<QwtPointPolar>
+namespace
 {
-public:
-    Data( const QwtInterval &radialInterval,
-          const QwtInterval &azimuthInterval, size_t size ):
-        m_radialInterval( radialInterval ),
-        m_azimuthInterval( azimuthInterval ),
-        m_size( size )
+    class Data : public QwtSeriesData< QwtPointPolar >
     {
-    }
+      public:
+        Data( const QwtInterval& radialInterval,
+                const QwtInterval& azimuthInterval, size_t size )
+            : m_radialInterval( radialInterval )
+            , m_azimuthInterval( azimuthInterval )
+            , m_size( size )
+        {
+        }
 
-    virtual size_t size() const QWT_OVERRIDE
+        virtual size_t size() const QWT_OVERRIDE
+        {
+            return m_size;
+        }
+
+      protected:
+        QwtInterval m_radialInterval;
+        QwtInterval m_azimuthInterval;
+        size_t m_size;
+    };
+
+    class SpiralData : public Data
     {
-        return m_size;
-    }
+      public:
+        SpiralData( const QwtInterval& radialInterval,
+                const QwtInterval& azimuthInterval, size_t size )
+            : Data( radialInterval, azimuthInterval, size )
+        {
+        }
 
-protected:
-    QwtInterval m_radialInterval;
-    QwtInterval m_azimuthInterval;
-    size_t m_size;
-};
+        virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
+        {
+            const double stepA = 4 * m_azimuthInterval.width() / m_size;
+            const double a = m_azimuthInterval.minValue() + i * stepA;
 
-class SpiralData: public Data
-{
-public:
-    SpiralData( const QwtInterval &radialInterval,
-            const QwtInterval &azimuthInterval, size_t size ):
-        Data( radialInterval, azimuthInterval, size )
+            const double stepR = m_radialInterval.width() / m_size;
+            const double r = m_radialInterval.minValue() + i * stepR;
+
+            return QwtPointPolar( a, r );
+        }
+
+        virtual QRectF boundingRect() const QWT_OVERRIDE
+        {
+            if ( cachedBoundingRect.width() < 0.0 )
+                cachedBoundingRect = qwtBoundingRect( *this );
+
+            return cachedBoundingRect;
+        }
+    };
+
+    class RoseData : public Data
     {
-    }
+      public:
+        RoseData( const QwtInterval& radialInterval,
+                const QwtInterval& azimuthInterval, size_t size )
+            : Data( radialInterval, azimuthInterval, size )
+        {
+        }
 
-    virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
-    {
-        const double stepA = 4 * m_azimuthInterval.width() / m_size;
-        const double a = m_azimuthInterval.minValue() + i * stepA;
+        virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
+        {
+            const double stepA = m_azimuthInterval.width() / m_size;
+            const double a = m_azimuthInterval.minValue() + i * stepA;
 
-        const double stepR = m_radialInterval.width() / m_size;
-        const double r = m_radialInterval.minValue() + i * stepR;
+            const double d = a / 360.0 * M_PI;
+            const double r = m_radialInterval.maxValue() * qAbs( qSin( 4 * d ) );
 
-        return QwtPointPolar( a, r );
-    }
+            return QwtPointPolar( a, r );
+        }
 
-    virtual QRectF boundingRect() const QWT_OVERRIDE
-    {
-        if ( cachedBoundingRect.width() < 0.0 )
-            cachedBoundingRect = qwtBoundingRect( *this );
+        virtual QRectF boundingRect() const QWT_OVERRIDE
+        {
+            if ( cachedBoundingRect.width() < 0.0 )
+                cachedBoundingRect = qwtBoundingRect( *this );
 
-        return cachedBoundingRect;
-    }
-};
+            return cachedBoundingRect;
+        }
+    };
+}
 
-class RoseData: public Data
-{
-public:
-    RoseData( const QwtInterval &radialInterval,
-            const QwtInterval &azimuthInterval, size_t size ):
-        Data( radialInterval, azimuthInterval, size )
-    {
-    }
-
-    virtual QwtPointPolar sample( size_t i ) const QWT_OVERRIDE
-    {
-        const double stepA = m_azimuthInterval.width() / m_size;
-        const double a = m_azimuthInterval.minValue() + i * stepA;
-
-        const double d = a / 360.0 * M_PI;
-        const double r = m_radialInterval.maxValue() * qAbs( qSin( 4 * d ) );
-
-        return QwtPointPolar( a, r );
-    }
-
-    virtual QRectF boundingRect() const QWT_OVERRIDE
-    {
-        if ( cachedBoundingRect.width() < 0.0 )
-            cachedBoundingRect = qwtBoundingRect( *this );
-
-        return cachedBoundingRect;
-    }
-};
-
-
-Plot::Plot( QWidget *parent ):
-    QwtPolarPlot( QwtText( "Polar Plot Demo" ), parent )
+Plot::Plot( QWidget* parent )
+    : QwtPolarPlot( QwtText( "Polar Plot Demo" ), parent )
 {
     setAutoReplot( false );
     setPlotBackground( Qt::darkBlue );
@@ -149,7 +151,7 @@ Plot::Plot( QWidget *parent ):
     }
 
     // markers
-    QwtPolarMarker *marker = new QwtPolarMarker();
+    QwtPolarMarker* marker = new QwtPolarMarker();
     marker->setPosition( QwtPointPolar( 57.3, 4.72 ) );
     marker->setSymbol( new QwtSymbol( QwtSymbol::Ellipse,
         QBrush( Qt::white ), QPen( Qt::green ), QSize( 9, 9 ) ) );
@@ -164,7 +166,7 @@ Plot::Plot( QWidget *parent ):
     marker->setLabel( text );
     marker->attach( this );
 
-    QwtLegend *legend = new QwtLegend;
+    QwtLegend* legend = new QwtLegend;
     insertLegend( legend,  QwtPolarPlot::BottomLegend );
 }
 
@@ -187,10 +189,10 @@ PlotSettings Plot::settings() const
     s.flags[PlotSettings::AutoScaling] =
         m_grid->testGridAttribute( QwtPolarGrid::AutoScaling );
 
-    s.flags[PlotSettings::Logarithmic] = 
+    s.flags[PlotSettings::Logarithmic] =
         scaleEngine( QwtPolar::Radius )->transformation();
 
-    const QwtScaleDiv *sd = scaleDiv( QwtPolar::Radius );
+    const QwtScaleDiv* sd = scaleDiv( QwtPolar::Radius );
     s.flags[PlotSettings::Inverted] = sd->lowerBound() > sd->upperBound();
 
     s.flags[PlotSettings::Antialiasing] =
@@ -252,7 +254,7 @@ void Plot::applySettings( const PlotSettings& s )
     for ( int curveId = 0; curveId < PlotSettings::NumCurves; curveId++ )
     {
         m_curve[curveId]->setRenderHint( QwtPolarItem::RenderAntialiased,
-                                         s.flags[PlotSettings::Antialiasing] );
+            s.flags[PlotSettings::Antialiasing] );
         m_curve[curveId]->setVisible(
             s.flags[PlotSettings::CurveBegin + curveId] );
     }
@@ -260,11 +262,11 @@ void Plot::applySettings( const PlotSettings& s )
     replot();
 }
 
-QwtPolarCurve *Plot::createCurve( int id ) const
+QwtPolarCurve* Plot::createCurve( int id ) const
 {
     const int numPoints = 200;
 
-    QwtPolarCurve *curve = new QwtPolarCurve();
+    QwtPolarCurve* curve = new QwtPolarCurve();
     curve->setStyle( QwtPolarCurve::Lines );
     //curve->setLegendAttribute( QwtPolarCurve::LegendShowLine, true );
     //curve->setLegendAttribute( QwtPolarCurve::LegendShowSymbol, true );

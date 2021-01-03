@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "incrementalplot.h"
 
@@ -12,37 +12,36 @@
 #include <qwt_plot_directpainter.h>
 #include <qwt_painter.h>
 
-class CurveData: public QwtArraySeriesData<QPointF>
+namespace
 {
-public:
-    CurveData()
+    class CurveData : public QwtArraySeriesData< QPointF >
     {
-    }
+      public:
+        virtual QRectF boundingRect() const QWT_OVERRIDE
+        {
+            if ( cachedBoundingRect.width() < 0.0 )
+                cachedBoundingRect = qwtBoundingRect( *this );
 
-    virtual QRectF boundingRect() const QWT_OVERRIDE
-    {
-        if ( cachedBoundingRect.width() < 0.0 )
-            cachedBoundingRect = qwtBoundingRect( *this );
+            return cachedBoundingRect;
+        }
 
-        return cachedBoundingRect;
-    }
+        inline void append( const QPointF& point )
+        {
+            m_samples += point;
+        }
 
-    inline void append( const QPointF &point )
-    {
-        m_samples += point;
-    }
+        void clear()
+        {
+            m_samples.clear();
+            m_samples.squeeze();
+            cachedBoundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
+        }
+    };
+}
 
-    void clear()
-    {
-        m_samples.clear();
-        m_samples.squeeze();
-        cachedBoundingRect = QRectF( 0.0, 0.0, -1.0, -1.0 );
-    }
-};
-
-IncrementalPlot::IncrementalPlot( QWidget *parent ):
-    QwtPlot( parent ),
-    m_curve( NULL )
+IncrementalPlot::IncrementalPlot( QWidget* parent )
+    : QwtPlot( parent )
+    , m_curve( NULL )
 {
     m_directPainter = new QwtPlotDirectPainter( this );
 
@@ -68,9 +67,9 @@ IncrementalPlot::~IncrementalPlot()
     delete m_curve;
 }
 
-void IncrementalPlot::appendPoint( const QPointF &point )
+void IncrementalPlot::appendPoint( const QPointF& point )
 {
-    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    CurveData* curveData = static_cast< CurveData* >( m_curve->data() );
     curveData->append( point );
 
     const bool doClip = !canvas()->testAttribute( Qt::WA_PaintOnScreen );
@@ -104,7 +103,7 @@ void IncrementalPlot::appendPoint( const QPointF &point )
 
 void IncrementalPlot::clearPoints()
 {
-    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    CurveData* curveData = static_cast< CurveData* >( m_curve->data() );
     curveData->clear();
 
     replot();

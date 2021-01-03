@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "speedo_meter.h"
 
@@ -10,11 +10,11 @@
 
 #include <qpainter.h>
 
-SpeedoMeter::SpeedoMeter( QWidget *parent ):
-    QwtDial( parent ),
-    m_label( "km/h" )
+SpeedoMeter::SpeedoMeter( QWidget* parent )
+    : QwtDial( parent )
+    , m_label( "km/h" )
 {
-    QwtRoundScaleDraw *scaleDraw = new QwtRoundScaleDraw();
+    QwtRoundScaleDraw* scaleDraw = new QwtRoundScaleDraw();
     scaleDraw->setSpacing( 8 );
     scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
     scaleDraw->setTickLength( QwtScaleDiv::MinorTick, 0 );
@@ -28,13 +28,13 @@ SpeedoMeter::SpeedoMeter( QWidget *parent ):
     setOrigin( 135.0 );
     setScaleArc( 0.0, 270.0 );
 
-    QwtDialSimpleNeedle *needle = new QwtDialSimpleNeedle(
+    QwtDialSimpleNeedle* needle = new QwtDialSimpleNeedle(
         QwtDialSimpleNeedle::Arrow, true, Qt::red,
         QColor( Qt::gray ).lighter( 130 ) );
     setNeedle( needle );
 }
 
-void SpeedoMeter::setLabel( const QString &label )
+void SpeedoMeter::setLabel( const QString& label )
 {
     m_label = label;
     update();
@@ -45,8 +45,8 @@ QString SpeedoMeter::label() const
     return m_label;
 }
 
-void SpeedoMeter::drawScaleContents( QPainter *painter,
-    const QPointF &center, double radius ) const
+void SpeedoMeter::drawScaleContents( QPainter* painter,
+    const QPointF& center, double radius ) const
 {
     QRectF rect( 0.0, 0.0, 2.0 * radius, 2.0 * radius - 10.0 );
     rect.moveCenter( center );

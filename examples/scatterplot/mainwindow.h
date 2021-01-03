@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H 1
@@ -10,18 +10,18 @@
 
 class Plot;
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     MainWindow();
 
-private:
+  private:
     void setSamples( int samples );
 
-private:
-    Plot *m_plot;
+  private:
+    Plot* m_plot;
 };
 
 #endif

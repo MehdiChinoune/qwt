@@ -9,88 +9,88 @@
 #include <qline.h>
 #include <qdebug.h>
 
-static void testSpline( const char *name, QwtSplineInterpolating *spline,
-	int type, const QPolygonF &points )
+static void testSpline( const char* name, QwtSplineInterpolating* spline,
+    int type, const QPolygonF& points )
 {
-	spline->setParametrization( type );
+    spline->setParametrization( type );
 
-	QElapsedTimer timer;
-	timer.start();
+    QElapsedTimer timer;
+    timer.start();
 
-	const QVector<QLineF> lines = spline->bezierControlLines( points );
+    const QVector< QLineF > lines = spline->bezierControlLines( points );
 
-	qDebug() << name << ":" << timer.elapsed();
+    qDebug() << name << ":" << timer.elapsed();
 }
 
-static void testSplines( int paramType, const QPolygonF &points )
+static void testSplines( int paramType, const QPolygonF& points )
 {
 #if 0
-	QwtSplinePleasing splinePleasing;
-	testSpline( "Pleasing", &splinePleasing, paramType, points );
+    QwtSplinePleasing splinePleasing;
+    testSpline( "Pleasing", &splinePleasing, paramType, points );
 #endif
 
 #if 1
-	QwtSplineLocal splineCardinal( QwtSplineLocal::Cardinal );
-	testSpline( "Cardinal", &splineCardinal, paramType, points );
+    QwtSplineLocal splineCardinal( QwtSplineLocal::Cardinal );
+    testSpline( "Cardinal", &splineCardinal, paramType, points );
 #endif
 
 #if 1
-	QwtSplineLocal splinePC( QwtSplineLocal::PChip );
-	testSpline( "PChip", &splinePC, paramType, points );
+    QwtSplineLocal splinePC( QwtSplineLocal::PChip );
+    testSpline( "PChip", &splinePC, paramType, points );
 #endif
 
 #if 1
-	QwtSplineLocal splineAkima( QwtSplineLocal::Akima );
-	testSpline( "Akima", &splineAkima, paramType, points );
+    QwtSplineLocal splineAkima( QwtSplineLocal::Akima );
+    testSpline( "Akima", &splineAkima, paramType, points );
 #endif
 
 #if 1
-	QwtSplineLocal splinePB( QwtSplineLocal::ParabolicBlending );
-	testSpline( "Parabolic Blending", &splinePB, paramType, points );
+    QwtSplineLocal splinePB( QwtSplineLocal::ParabolicBlending );
+    testSpline( "Parabolic Blending", &splinePB, paramType, points );
 #endif
 
 #if 1
-	QwtSplineCubic splineC2;
-	testSpline( "Cubic", &splineC2, paramType, points );
+    QwtSplineCubic splineC2;
+    testSpline( "Cubic", &splineC2, paramType, points );
 #endif
 }
 
 int main()
 {
-	QPolygonF points;
+    QPolygonF points;
 
-	for ( int i = 0; i < 10e6; i++ )
-		points += QPointF( i, std::sin( i ) );
+    for ( int i = 0; i < 10e6; i++ )
+        points += QPointF( i, std::sin( i ) );
 
 #if 1
-	qDebug() << "=== X";
-	testSplines( QwtSplineParametrization::ParameterX, points );
+    qDebug() << "=== X";
+    testSplines( QwtSplineParametrization::ParameterX, points );
 #endif
 
 #if 1
-	qDebug() << "=== Y";
-	testSplines( QwtSplineParametrization::ParameterY, points );
+    qDebug() << "=== Y";
+    testSplines( QwtSplineParametrization::ParameterY, points );
 #endif
 
 #if 1
-	qDebug() << "=== Uniform";
-	testSplines( QwtSplineParametrization::ParameterUniform, points );
+    qDebug() << "=== Uniform";
+    testSplines( QwtSplineParametrization::ParameterUniform, points );
 #endif
 
 #if 1
-	qDebug() << "=== Manhattan";
-	testSplines( QwtSplineParametrization::ParameterManhattan, points );
+    qDebug() << "=== Manhattan";
+    testSplines( QwtSplineParametrization::ParameterManhattan, points );
 #endif
 
 #if 1
-	qDebug() << "=== Chordal";
-	testSplines( QwtSplineParametrization::ParameterChordal, points );
+    qDebug() << "=== Chordal";
+    testSplines( QwtSplineParametrization::ParameterChordal, points );
 #endif
 
 #if 1
-	qDebug() << "=== Centripetral";
-	testSplines( QwtSplineParametrization::ParameterCentripetal, points );
+    qDebug() << "=== Centripetral";
+    testSplines( QwtSplineParametrization::ParameterCentripetal, points );
 #endif
 
-	return 0;
+    return 0;
 }

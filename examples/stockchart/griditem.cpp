@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "griditem.h"
 
@@ -11,12 +11,12 @@
 #include <qpainter.h>
 #include <algorithm>
 
-GridItem::GridItem():
-    QwtPlotItem( "Grid" ),
-    m_orientations( Qt::Horizontal | Qt::Vertical ),
-    m_gridAttributes( AutoUpdate | FillCanvas ),
-    m_isXMinEnabled( false ),
-    m_isYMinEnabled( false )
+GridItem::GridItem()
+    : QwtPlotItem( "Grid" )
+    , m_orientations( Qt::Horizontal | Qt::Vertical )
+    , m_gridAttributes( AutoUpdate | FillCanvas )
+    , m_isXMinEnabled( false )
+    , m_isYMinEnabled( false )
 {
     setItemInterest( QwtPlotItem::ScaleInterest, true );
     setZ( 10.0 );
@@ -91,7 +91,7 @@ bool GridItem::isYMinEnabled() const
     return m_isYMinEnabled;
 }
 
-void GridItem::setXDiv( const QwtScaleDiv &scaleDiv )
+void GridItem::setXDiv( const QwtScaleDiv& scaleDiv )
 {
     if ( m_xScaleDiv != scaleDiv )
     {
@@ -100,7 +100,7 @@ void GridItem::setXDiv( const QwtScaleDiv &scaleDiv )
     }
 }
 
-void GridItem::setYDiv( const QwtScaleDiv &scaleDiv )
+void GridItem::setYDiv( const QwtScaleDiv& scaleDiv )
 {
     if ( m_yScaleDiv != scaleDiv )
     {
@@ -109,7 +109,7 @@ void GridItem::setYDiv( const QwtScaleDiv &scaleDiv )
     }
 }
 
-void GridItem::setPalette( const QPalette &palette )
+void GridItem::setPalette( const QPalette& palette )
 {
     if ( m_palette != palette )
     {
@@ -123,15 +123,15 @@ QPalette GridItem::palette() const
     return m_palette;
 }
 
-void GridItem::draw( QPainter *painter,
-    const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-    const QRectF &canvasRect ) const
+void GridItem::draw( QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect ) const
 {
     const bool doAlign = QwtPainter::roundingAlignment( painter );
 
     const QRectF area = QwtScaleMap::invTransform( xMap, yMap, canvasRect );
 
-    QList<double> xValues;
+    QList< double > xValues;
     if ( m_orientations & Qt::Horizontal )
     {
         xValues = m_xScaleDiv.ticks( QwtScaleDiv::MajorTick );
@@ -151,7 +151,7 @@ void GridItem::draw( QPainter *painter,
         std::sort( xValues.begin(), xValues.end() );
     }
 
-    QList<double> yValues;
+    QList< double > yValues;
     if ( m_orientations & Qt::Vertical )
     {
         yValues = m_yScaleDiv.ticks( QwtScaleDiv::MajorTick );
@@ -248,17 +248,17 @@ void GridItem::draw( QPainter *painter,
             }
 
             QwtPainter::drawRect( painter, canvasRect.left(), y1,
-                                  canvasRect.width(), y2 - y1 );
+                canvasRect.width(), y2 - y1 );
         }
     }
 }
 
-const QwtScaleDiv &GridItem::xScaleDiv() const
+const QwtScaleDiv& GridItem::xScaleDiv() const
 {
     return m_xScaleDiv;
 }
 
-const QwtScaleDiv &GridItem::yScaleDiv() const
+const QwtScaleDiv& GridItem::yScaleDiv() const
 {
     return m_yScaleDiv;
 }
@@ -273,7 +273,7 @@ void GridItem::updateScaleDiv(
     }
 }
 
-QBrush GridItem::brush( int row, int column, const QRectF & ) const
+QBrush GridItem::brush( int row, int column, const QRectF& ) const
 {
     /*
         We need some sort of origin to avoid, that the brush

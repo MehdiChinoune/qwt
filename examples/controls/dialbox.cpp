@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "dialbox.h"
 
@@ -18,28 +18,28 @@
 #include <qlabel.h>
 #include <qlayout.h>
 
-DialBox::DialBox( QWidget *parent, int type ):
-    QWidget( parent )
+DialBox::DialBox( QWidget* parent, int type )
+    : QWidget( parent )
 {
     m_dial = createDial( type );
 
     m_label = new QLabel( this );
     m_label->setAlignment( Qt::AlignCenter );
 
-    QVBoxLayout *layout = new QVBoxLayout( this );;
+    QVBoxLayout* layout = new QVBoxLayout( this );;
     layout->setSpacing( 0 );
     layout->addWidget( m_dial, 10 );
     layout->addWidget( m_label );
 
-    connect( m_dial, SIGNAL( valueChanged( double ) ),
-        this, SLOT( setNum( double ) ) );
+    connect( m_dial, SIGNAL(valueChanged(double)),
+        this, SLOT(setNum(double)) );
 
     setNum( m_dial->value() );
 }
 
-QwtDial *DialBox::createDial( int type ) const
+QwtDial* DialBox::createDial( int type ) const
 {
-    QwtDial *dial = new QwtDial();
+    QwtDial* dial = new QwtDial();
     dial->setTracking( true );
     dial->setFocusPolicy( Qt::StrongFocus );
     dial->setObjectName( QString( "Dial %1" ).arg( type + 1 ) );
@@ -68,7 +68,7 @@ QwtDial *DialBox::createDial( int type ) const
             dial->setScaleMaxMajor( 10 );
             dial->setScale( 10.0, 0.0 );
 
-            QwtRoundScaleDraw *scaleDraw = new QwtRoundScaleDraw();
+            QwtRoundScaleDraw* scaleDraw = new QwtRoundScaleDraw();
             scaleDraw->setSpacing( 8 );
             scaleDraw->enableComponent(
                 QwtAbstractScaleDraw::Backbone, false );
@@ -84,13 +84,13 @@ QwtDial *DialBox::createDial( int type ) const
             dial->setOrigin( 150.0 );
             dial->setScaleArc( 0.0, 240.0 );
 
-            QwtLinearScaleEngine *scaleEngine = new QwtLinearScaleEngine( 2 );
+            QwtLinearScaleEngine* scaleEngine = new QwtLinearScaleEngine( 2 );
             scaleEngine->setTransformation( new QwtPowerTransform( 2 ) );
             dial->setScaleEngine( scaleEngine );
 
             QList< double > ticks[ QwtScaleDiv::NTickTypes ];
             ticks[ QwtScaleDiv::MajorTick ] << 0 << 4
-                << 16 << 32 << 64 << 96 << 128;
+                                            << 16 << 32 << 64 << 96 << 128;
             ticks[ QwtScaleDiv::MediumTick ] << 24 << 48 << 80 << 112;
             ticks[ QwtScaleDiv::MinorTick ]
                 << 0.5 << 1 << 2
@@ -141,7 +141,7 @@ QwtDial *DialBox::createDial( int type ) const
         }
     }
 
-    QwtDialSimpleNeedle *needle = new QwtDialSimpleNeedle(
+    QwtDialSimpleNeedle* needle = new QwtDialSimpleNeedle(
         QwtDialSimpleNeedle::Arrow, true, needleColor,
         QColor( Qt::gray ).lighter( 130 ) );
     dial->setNeedle( needle );

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "panel.h"
 #include "settings.h"
@@ -17,8 +17,8 @@
 #include <qlabel.h>
 #include <qlineedit.h>
 
-Panel::Panel( QWidget *parent ):
-    QWidget( parent )
+Panel::Panel( QWidget* parent )
+    : QWidget( parent )
 {
     // create widgets
 
@@ -63,8 +63,8 @@ Panel::Panel( QWidget *parent ):
 
     // layout
 
-    QGroupBox *legendBox = new QGroupBox( "Legend" );
-    QGridLayout *legendBoxLayout = new QGridLayout( legendBox );
+    QGroupBox* legendBox = new QGroupBox( "Legend" );
+    QGridLayout* legendBoxLayout = new QGridLayout( legendBox );
 
     int row = 0;
     legendBoxLayout->addWidget( m_legend.checkBox, row, 0, 1, -1 );
@@ -74,8 +74,8 @@ Panel::Panel( QWidget *parent ):
     legendBoxLayout->addWidget( m_legend.positionBox, row, 1 );
 
 
-    QGroupBox *legendItemBox = new QGroupBox( "Legend Item" );
-    QGridLayout *legendItemBoxLayout = new QGridLayout( legendItemBox );
+    QGroupBox* legendItemBox = new QGroupBox( "Legend Item" );
+    QGridLayout* legendItemBoxLayout = new QGridLayout( legendItemBox );
 
     row = 0;
     legendItemBoxLayout->addWidget( m_legendItem.checkBox, row, 0, 1, -1 );
@@ -100,8 +100,8 @@ Panel::Panel( QWidget *parent ):
     legendItemBoxLayout->addWidget( new QLabel( "Size" ), row, 0 );
     legendItemBoxLayout->addWidget( m_legendItem.sizeBox, row, 1 );
 
-    QGroupBox *curveBox = new QGroupBox( "Curves" );
-    QGridLayout *curveBoxLayout = new QGridLayout( curveBox );
+    QGroupBox* curveBox = new QGroupBox( "Curves" );
+    QGridLayout* curveBoxLayout = new QGridLayout( curveBox );
 
     row = 0;
     curveBoxLayout->addWidget( new QLabel( "Number" ), row, 0 );
@@ -111,36 +111,36 @@ Panel::Panel( QWidget *parent ):
     curveBoxLayout->addWidget( new QLabel( "Title" ), row, 0 );
     curveBoxLayout->addWidget( m_curve.title, row, 1 );
 
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    QVBoxLayout* layout = new QVBoxLayout( this );
     layout->addWidget( legendBox );
     layout->addWidget( legendItemBox );
     layout->addWidget( curveBox );
     layout->addStretch( 10 );
 
     connect( m_legend.checkBox,
-        SIGNAL( stateChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(stateChanged(int)), SIGNAL(edited()) );
     connect( m_legend.positionBox,
-        SIGNAL( currentIndexChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(currentIndexChanged(int)), SIGNAL(edited()) );
 
     connect( m_legendItem.checkBox,
-        SIGNAL( stateChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(stateChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.numColumnsBox,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.hAlignmentBox,
-        SIGNAL( currentIndexChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(currentIndexChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.vAlignmentBox,
-        SIGNAL( currentIndexChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(currentIndexChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.backgroundBox,
-        SIGNAL( currentIndexChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(currentIndexChanged(int)), SIGNAL(edited()) );
     connect( m_curve.numCurves,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_legendItem.sizeBox,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_curve.title,
-        SIGNAL( textEdited( const QString & ) ), SIGNAL( edited() ) );
+        SIGNAL(textEdited(const QString&)), SIGNAL(edited()) );
 }
 
-void Panel::setSettings( const Settings &settings)
+void Panel::setSettings( const Settings& settings)
 {
     blockSignals( true );
 
@@ -213,7 +213,7 @@ Settings Panel::settings() const
     s.legendItem.alignment = align;
 
     s.legendItem.backgroundMode =
-            m_legendItem.backgroundBox->currentIndex();
+        m_legendItem.backgroundBox->currentIndex();
     s.legendItem.size = m_legendItem.sizeBox->value();
 
     s.curve.numCurves = m_curve.numCurves->value();

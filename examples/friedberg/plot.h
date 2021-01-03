@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -14,39 +14,39 @@ class QwtPlotIntervalCurve;
 class QwtIntervalSample;
 
 #if QT_VERSION < 0x060000
-template <typename T> class QVector;
+template< typename T > class QVector;
 #endif
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
+  public:
     enum Mode
     {
         Bars,
         Tube
     };
 
-    Plot( QWidget * = NULL );
+    Plot( QWidget* = NULL );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setMode( int );
     void exportPlot();
 
-private:
-    void insertCurve( const QString &title,
-        const QVector<QPointF> &, const QColor & );
+  private:
+    void insertCurve( const QString& title,
+        const QVector< QPointF >&, const QColor& );
 
-    void insertErrorBars( const QString &title,
-        const QVector<QwtIntervalSample> &,
-        const QColor &color );
+    void insertErrorBars( const QString& title,
+        const QVector< QwtIntervalSample >&,
+        const QColor& color );
 
 
     QwtScaleDiv yearScaleDiv() const;
 
-    QwtPlotIntervalCurve *m_intervalCurve;
-    QwtPlotCurve *m_curve;
+    QwtPlotIntervalCurve* m_intervalCurve;
+    QwtPlotCurve* m_curve;
 };
 
 #endif

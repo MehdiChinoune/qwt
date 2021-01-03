@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "friedberg2007.h"
@@ -21,55 +21,58 @@
 
 #include <qlocale.h>
 
-class Grid: public QwtPlotGrid
+namespace
 {
-public:
-    Grid()
+    class Grid : public QwtPlotGrid
     {
-        enableXMin( true );
-        setMajorPen( Qt::white, 0, Qt::DotLine );
-        setMinorPen( Qt::gray, 0, Qt::DotLine );
-    }
+      public:
+        Grid()
+        {
+            enableXMin( true );
+            setMajorPen( Qt::white, 0, Qt::DotLine );
+            setMinorPen( Qt::gray, 0, Qt::DotLine );
+        }
 
-    virtual void updateScaleDiv( const QwtScaleDiv &xScaleDiv,
-        const QwtScaleDiv &yScaleDiv ) QWT_OVERRIDE
+        virtual void updateScaleDiv( const QwtScaleDiv& xScaleDiv,
+            const QwtScaleDiv& yScaleDiv ) QWT_OVERRIDE
+        {
+            QwtScaleDiv scaleDiv( xScaleDiv.lowerBound(),
+                xScaleDiv.upperBound() );
+
+            scaleDiv.setTicks( QwtScaleDiv::MinorTick,
+                xScaleDiv.ticks( QwtScaleDiv::MinorTick ) );
+            scaleDiv.setTicks( QwtScaleDiv::MajorTick,
+                xScaleDiv.ticks( QwtScaleDiv::MediumTick ) );
+
+            QwtPlotGrid::updateScaleDiv( scaleDiv, yScaleDiv );
+        }
+    };
+
+    class YearScaleDraw : public QwtScaleDraw
     {
-        QwtScaleDiv scaleDiv( xScaleDiv.lowerBound(),
-            xScaleDiv.upperBound() );
+      public:
+        YearScaleDraw()
+        {
+            setTickLength( QwtScaleDiv::MajorTick, 0 );
+            setTickLength( QwtScaleDiv::MinorTick, 0 );
+            setTickLength( QwtScaleDiv::MediumTick, 6 );
 
-        scaleDiv.setTicks( QwtScaleDiv::MinorTick,
-            xScaleDiv.ticks( QwtScaleDiv::MinorTick ) );
-        scaleDiv.setTicks( QwtScaleDiv::MajorTick,
-            xScaleDiv.ticks( QwtScaleDiv::MediumTick ) );
+            setLabelRotation( -60.0 );
+            setLabelAlignment( Qt::AlignLeft | Qt::AlignVCenter );
 
-        QwtPlotGrid::updateScaleDiv( scaleDiv, yScaleDiv );
-    }
-};
+            setSpacing( 15 );
+        }
 
-class YearScaleDraw: public QwtScaleDraw
-{
-public:
-    YearScaleDraw()
-    {
-        setTickLength( QwtScaleDiv::MajorTick, 0 );
-        setTickLength( QwtScaleDiv::MinorTick, 0 );
-        setTickLength( QwtScaleDiv::MediumTick, 6 );
+        virtual QwtText label( double value ) const QWT_OVERRIDE
+        {
+            const int month = int( value / 30 ) + 1;
+            return QLocale::system().monthName( month, QLocale::LongFormat );
+        }
+    };
+}
 
-        setLabelRotation( -60.0 );
-        setLabelAlignment( Qt::AlignLeft | Qt::AlignVCenter );
-
-        setSpacing( 15 );
-    }
-
-    virtual QwtText label( double value ) const QWT_OVERRIDE
-    {
-        const int month = int( value / 30 ) + 1;
-        return QLocale::system().monthName( month, QLocale::LongFormat );
-    }
-};
-
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setObjectName( "FriedbergPlot" );
     setTitle( "Temperature of Friedberg/Germany" );
@@ -81,25 +84,25 @@ Plot::Plot( QWidget *parent ):
     setAxisTitle( QwtPlot::yLeft,
         QString( "Temperature [%1C]" ).arg( QChar( 0x00B0 ) ) );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setPalette( Qt::darkGray );
     canvas->setBorderRadius( 10 );
 
     setCanvas( canvas );
 
     // grid
-    QwtPlotGrid *grid = new Grid;
+    QwtPlotGrid* grid = new Grid;
     grid->attach( this );
 
     insertLegend( new QwtLegend(), QwtPlot::RightLegend );
 
     const int numDays = 365;
-    QVector<QPointF> averageData( numDays );
-    QVector<QwtIntervalSample> rangeData( numDays );
+    QVector< QPointF > averageData( numDays );
+    QVector< QwtIntervalSample > rangeData( numDays );
 
     for ( int i = 0; i < numDays; i++ )
     {
-        const Temperature &t = friedberg2007[i];
+        const Temperature& t = friedberg2007[i];
         averageData[i] = QPointF( double( i ), t.averageValue );
         rangeData[i] = QwtIntervalSample( double( i ),
             QwtInterval( t.minValue, t.maxValue ) );
@@ -121,7 +124,7 @@ Plot::Plot( QWidget *parent ):
     zoomer->setMousePattern( QwtEventPattern::MouseSelect3,
         Qt::RightButton );
 
-    QwtPlotPanner *panner = new QwtPlotPanner( canvas );
+    QwtPlotPanner* panner = new QwtPlotPanner( canvas );
     panner->setMouseButton( Qt::MiddleButton );
 }
 
@@ -129,16 +132,16 @@ QwtScaleDiv Plot::yearScaleDiv() const
 {
     const int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-    QList<double> mediumTicks;
+    QList< double > mediumTicks;
     mediumTicks += 0.0;
     for ( uint i = 0; i < sizeof( days ) / sizeof( days[0] ); i++ )
         mediumTicks += mediumTicks.last() + days[i];
 
-    QList<double> minorTicks;
+    QList< double > minorTicks;
     for ( int i = 1; i <= 365; i += 7 )
         minorTicks += i;
 
-    QList<double> majorTicks;
+    QList< double > majorTicks;
     for ( int i = 0; i < 12; i++ )
         majorTicks += i * 30 + 15;
 
@@ -148,14 +151,14 @@ QwtScaleDiv Plot::yearScaleDiv() const
 }
 
 void Plot::insertCurve( const QString& title,
-    const QVector<QPointF>& samples, const QColor &color )
+    const QVector< QPointF >& samples, const QColor& color )
 {
     m_curve = new QwtPlotCurve( title );
     m_curve->setRenderHint( QwtPlotItem::RenderAntialiased );
     m_curve->setStyle( QwtPlotCurve::NoCurve );
     m_curve->setLegendAttribute( QwtPlotCurve::LegendShowSymbol );
 
-    QwtSymbol *symbol = new QwtSymbol( QwtSymbol::XCross );
+    QwtSymbol* symbol = new QwtSymbol( QwtSymbol::XCross );
     symbol->setSize( 4 );
     symbol->setPen( color );
     m_curve->setSymbol( symbol );
@@ -165,9 +168,9 @@ void Plot::insertCurve( const QString& title,
 }
 
 void Plot::insertErrorBars(
-    const QString &title,
-    const QVector<QwtIntervalSample>& samples,
-    const QColor &color )
+    const QString& title,
+    const QVector< QwtIntervalSample >& samples,
+    const QColor& color )
 {
     m_intervalCurve = new QwtPlotIntervalCurve( title );
     m_intervalCurve->setRenderHint( QwtPlotItem::RenderAntialiased );
@@ -196,7 +199,7 @@ void Plot::setMode( int style )
 
         QColor c( m_intervalCurve->brush().color().rgb() ); // skip alpha
 
-        QwtIntervalSymbol *errorBar =
+        QwtIntervalSymbol* errorBar =
             new QwtIntervalSymbol( QwtIntervalSymbol::Bar );
         errorBar->setWidth( 8 ); // should be something even
         errorBar->setPen( c );

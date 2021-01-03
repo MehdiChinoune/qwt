@@ -1,13 +1,13 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "shapefactory.h"
 #include <qpainterpath.h>
 
 QPainterPath ShapeFactory::path( Shape shape,
-    const QPointF &pos, const QSizeF &size )
+    const QPointF& pos, const QSizeF& size )
 {
     QRectF rect;
     rect.setSize( size );

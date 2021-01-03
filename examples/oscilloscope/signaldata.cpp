@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "signaldata.h"
 
@@ -11,14 +11,14 @@
 
 class SignalData::PrivateData
 {
-public:
-    PrivateData():
-        boundingRect( 1.0, 1.0, -2.0, -2.0 ) // invalid
+  public:
+    PrivateData()
+        : boundingRect( 1.0, 1.0, -2.0, -2.0 ) // invalid
     {
         values.reserve( 1000 );
     }
 
-    inline void append( const QPointF &sample )
+    inline void append( const QPointF& sample )
     {
         values.append( sample );
 
@@ -42,11 +42,11 @@ public:
 
     QReadWriteLock lock;
 
-    QVector<QPointF> values;
+    QVector< QPointF > values;
     QRectF boundingRect;
 
     QMutex mutex; // protecting pendingValues
-    QVector<QPointF> pendingValues;
+    QVector< QPointF > pendingValues;
 };
 
 SignalData::SignalData()
@@ -84,7 +84,7 @@ void SignalData::unlock()
     m_data->lock.unlock();
 }
 
-void SignalData::append( const QPointF &sample )
+void SignalData::append( const QPointF& sample )
 {
     m_data->mutex.lock();
     m_data->pendingValues += sample;
@@ -93,7 +93,7 @@ void SignalData::append( const QPointF &sample )
     if ( isLocked )
     {
         const int numValues = m_data->pendingValues.size();
-        const QPointF *pendingValues = m_data->pendingValues.data();
+        const QPointF* pendingValues = m_data->pendingValues.data();
 
         for ( int i = 0; i < numValues; i++ )
             m_data->append( pendingValues[i] );
@@ -112,7 +112,7 @@ void SignalData::clearStaleValues( double limit )
 
     m_data->boundingRect = QRectF( 1.0, 1.0, -2.0, -2.0 ); // invalid
 
-    const QVector<QPointF> values = m_data->values;
+    const QVector< QPointF > values = m_data->values;
     m_data->values.clear();
     m_data->values.reserve( values.size() );
 
@@ -132,7 +132,7 @@ void SignalData::clearStaleValues( double limit )
     m_data->lock.unlock();
 }
 
-SignalData &SignalData::instance()
+SignalData& SignalData::instance()
 {
     static SignalData valueVector;
     return valueVector;

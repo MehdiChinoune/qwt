@@ -17,11 +17,11 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
-class TuningThermo: public QWidget
+class TuningThermo : public QWidget
 {
-public:
-    TuningThermo( QWidget *parent ):
-        QWidget( parent )
+  public:
+    TuningThermo( QWidget* parent )
+        : QWidget( parent )
     {
         m_thermo = new QwtThermo( this );
         m_thermo->setOrientation( Qt::Horizontal );
@@ -29,10 +29,10 @@ public:
         m_thermo->setScale( 0.0, 1.0 );
         m_thermo->setFillBrush( Qt::green );
 
-        QLabel *label = new QLabel( "Tuning", this );
+        QLabel* label = new QLabel( "Tuning", this );
         label->setAlignment( Qt::AlignCenter );
 
-        QVBoxLayout *layout = new QVBoxLayout( this );
+        QVBoxLayout* layout = new QVBoxLayout( this );
         layout->setContentsMargins( QMargins() );
         layout->addWidget( m_thermo );
         layout->addWidget( label );
@@ -45,11 +45,11 @@ public:
         m_thermo->setValue( value );
     }
 
-private:
-    QwtThermo *m_thermo;
+  private:
+    QwtThermo* m_thermo;
 };
 
-TunerFrame::TunerFrame( QWidget *parent ):
+TunerFrame::TunerFrame( QWidget* parent ):
     QFrame( parent )
 {
     const double freqMin = 87.5;
@@ -79,15 +79,15 @@ TunerFrame::TunerFrame( QWidget *parent ):
     m_wheelFrequency->setFixedHeight( 30 );
 
 
-    connect( m_wheelFrequency, SIGNAL( valueChanged( double ) ), SLOT( adjustFreq( double ) ) );
-    connect( m_sliderFrequency, SIGNAL( valueChanged( double ) ), SLOT( adjustFreq( double ) ) );
+    connect( m_wheelFrequency, SIGNAL(valueChanged(double)), SLOT(adjustFreq(double)) );
+    connect( m_sliderFrequency, SIGNAL(valueChanged(double)), SLOT(adjustFreq(double)) );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout( this );
+    QVBoxLayout* mainLayout = new QVBoxLayout( this );
     mainLayout->setContentsMargins( 10, 10, 10, 10 );
     mainLayout->setSpacing( 5 );
     mainLayout->addWidget( m_sliderFrequency );
 
-    QHBoxLayout *hLayout = new QHBoxLayout;
+    QHBoxLayout* hLayout = new QHBoxLayout;
     hLayout->setContentsMargins( QMargins() );
     hLayout->addWidget( m_thermoTune, 0 );
     hLayout->addStretch( 5 );

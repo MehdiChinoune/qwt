@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "settingseditor.h"
 
@@ -9,12 +9,12 @@
 #include <qgroupbox.h>
 #include <qlayout.h>
 
-SettingsEditor::SettingsEditor( QWidget *parent ):
-    QFrame( parent )
+SettingsEditor::SettingsEditor( QWidget* parent )
+    : QFrame( parent )
 {
     const int margin = 20;
 
-    QGroupBox *axesBox = new QGroupBox( "Axes", this );
+    QGroupBox* axesBox = new QGroupBox( "Axes", this );
     QVBoxLayout* axesBoxLayout = new QVBoxLayout( axesBox );
     axesBoxLayout->setContentsMargins( margin, margin, margin, margin );
 
@@ -26,7 +26,7 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
         axesBoxLayout->addWidget( m_checkBox[i] );
     }
 
-    QGroupBox *gridBox = new QGroupBox( "Grids", this );
+    QGroupBox* gridBox = new QGroupBox( "Grids", this );
     QVBoxLayout* gridBoxLayout = new QVBoxLayout( gridBox );
     gridBoxLayout->setContentsMargins( margin, margin, margin, margin );
 
@@ -42,7 +42,7 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     }
     gridBoxLayout->addStretch( 10 );
 
-    QGroupBox *otherBox = new QGroupBox( "Other", this );
+    QGroupBox* otherBox = new QGroupBox( "Other", this );
     QVBoxLayout* otherBoxLayout = new QVBoxLayout( otherBox );
     otherBoxLayout->setContentsMargins( margin, margin, margin, margin );
 
@@ -54,7 +54,7 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     }
     otherBoxLayout->addStretch( 10 );
 
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    QVBoxLayout* layout = new QVBoxLayout( this );
     layout->addWidget( axesBox );
     layout->addWidget( gridBox );
     layout->addWidget( otherBox );
@@ -63,11 +63,11 @@ SettingsEditor::SettingsEditor( QWidget *parent ):
     for ( int i = 0; i < PlotSettings::NumFlags; i++ )
     {
         m_checkBox[i]->setText( label( i ) );
-        connect( m_checkBox[i], SIGNAL( clicked() ), this, SLOT( edited() ) );
+        connect( m_checkBox[i], SIGNAL(clicked()), this, SLOT(edited()) );
     }
 }
 
-void SettingsEditor::showSettings( const PlotSettings &settings )
+void SettingsEditor::showSettings( const PlotSettings& settings )
 {
     blockSignals( true );
     for ( int i = 0; i < PlotSettings::NumFlags; i++ )
@@ -97,8 +97,8 @@ void SettingsEditor::updateEditor()
 {
     for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
     {
-        m_checkBox[PlotSettings::MinorGridBegin+scaleId]->setEnabled(
-            m_checkBox[PlotSettings::MajorGridBegin+scaleId]->isChecked() );
+        m_checkBox[PlotSettings::MinorGridBegin + scaleId]->setEnabled(
+            m_checkBox[PlotSettings::MajorGridBegin + scaleId]->isChecked() );
     }
 }
 

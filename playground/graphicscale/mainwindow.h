@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
@@ -11,22 +11,22 @@
 class Canvas;
 class QPainterPath;
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     MainWindow();
     virtual ~MainWindow();
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void loadSVG();
 
-private:
-    void loadSVG( const QString & );
-    void loadPath( const QPainterPath & );
+  private:
+    void loadSVG( const QString& );
+    void loadPath( const QPainterPath& );
 
-    Canvas *m_canvas[2];
+    Canvas* m_canvas[2];
 };
 
 #endif

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "scalepicker.h"
@@ -28,11 +28,11 @@
 #include <qprintdialog.h>
 #include <qpainterpath.h>
 
-class Symbol: public QwtSymbol
+class Symbol : public QwtSymbol
 {
-public:
-    Symbol():
-        QwtSymbol( QwtSymbol::Ellipse )
+  public:
+    Symbol()
+        : QwtSymbol( QwtSymbol::Ellipse )
     {
         QColor c( Qt::gray );
         c.setAlpha( 100 );
@@ -44,9 +44,9 @@ public:
 
 };
 
-class SplineFitter: public QwtCurveFitter
+class SplineFitter : public QwtCurveFitter
 {
-public:
+  public:
     enum Mode
     {
         PChipSpline,
@@ -58,9 +58,9 @@ public:
         BasisSpline
     };
 
-    SplineFitter( Mode mode ):
-        QwtCurveFitter( QwtCurveFitter::Path ),
-        m_spline(NULL)
+    SplineFitter( Mode mode )
+        : QwtCurveFitter( QwtCurveFitter::Path )
+        , m_spline(NULL)
     {
         switch( mode )
         {
@@ -118,9 +118,9 @@ public:
             on ? QwtSpline::ClosedPolygon : QwtSpline::ConditionalBoundaries );
     }
 
-    void setBoundaryCondition( const QString &condition )
+    void setBoundaryCondition( const QString& condition )
     {
-        QwtSplineC2 *splineC2 = dynamic_cast<QwtSplineC2 *>( m_spline );
+        QwtSplineC2* splineC2 = dynamic_cast< QwtSplineC2* >( m_spline );
         if ( splineC2 )
         {
             if ( condition == "Cubic Runout" )
@@ -136,7 +136,7 @@ public:
             }
         }
 
-        QwtSplineC1 *splineC1 = dynamic_cast<QwtSplineC1 *>( m_spline );
+        QwtSplineC1* splineC1 = dynamic_cast< QwtSplineC1* >( m_spline );
         if ( splineC1 )
         {
             if ( condition == "Linear Runout" )
@@ -157,7 +157,7 @@ public:
         setBoundaryConditions( QwtSplineC1::Clamped2, 0.0 );
     }
 
-    void setParametric( const QString &parameterType )
+    void setParametric( const QString& parameterType )
     {
         QwtSplineParametrization::Type type = QwtSplineParametrization::ParameterX;
 
@@ -181,17 +181,17 @@ public:
         m_spline->setParametrization( type );
     }
 
-    virtual QPolygonF fitCurve( const QPolygonF &points ) const QWT_OVERRIDE
+    virtual QPolygonF fitCurve( const QPolygonF& points ) const QWT_OVERRIDE
     {
         return m_spline->polygon( points, 0.5 );
     }
 
-    virtual QPainterPath fitCurvePath( const QPolygonF &points ) const QWT_OVERRIDE
+    virtual QPainterPath fitCurvePath( const QPolygonF& points ) const QWT_OVERRIDE
     {
         return m_spline->painterPath( points );
     }
 
-private:
+  private:
     void setBoundaryConditions( int condition, double value = 0.0 )
     {
         if ( m_spline == NULL )
@@ -206,14 +206,14 @@ private:
         m_spline->setBoundaryValue( QwtSpline::AtEnd, value );
     }
 
-    QwtSpline *m_spline;
+    QwtSpline* m_spline;
 };
 
-class Curve: public QwtPlotCurve
+class Curve : public QwtPlotCurve
 {
-public:
-    Curve( const QString &title, const QColor &color ):
-        QwtPlotCurve( title )
+  public:
+    Curve( const QString& title, const QColor& color )
+        : QwtPlotCurve( title )
     {
         setPaintAttribute( QwtPlotCurve::ClipPolygons, false );
         setCurveAttribute( QwtPlotCurve::Fitted, true );
@@ -224,9 +224,9 @@ public:
     }
 };
 
-Plot::Plot( bool parametric, QWidget *parent ):
-    QwtPlot( parent ),
-    m_boundaryCondition( QwtSplineC1::Clamped2 )
+Plot::Plot( bool parametric, QWidget* parent )
+    : QwtPlot( parent )
+    , m_boundaryCondition( QwtSplineC1::Clamped2 )
 {
     setTitle( "Points can be dragged using the mouse" );
 
@@ -235,12 +235,12 @@ Plot::Plot( bool parametric, QWidget *parent ):
     canvas()->setCursor( Qt::PointingHandCursor );
 #endif
 
-    QwtLegend *legend = new QwtLegend;
+    QwtLegend* legend = new QwtLegend;
     legend->setDefaultItemMode( QwtLegendData::Checkable );
     insertLegend( legend, QwtPlot::RightLegend );
 
-    connect( legend, SIGNAL( checked( const QVariant &, bool, int ) ),
-        SLOT( legendChecked( const QVariant &, bool ) ) );
+    connect( legend, SIGNAL(checked(const QVariant&,bool,int)),
+        SLOT(legendChecked(const QVariant&,bool)) );
 
     m_marker = new QwtPlotMarker( "Marker" );
     m_marker->setLineStyle( QwtPlotMarker::VLine );
@@ -257,7 +257,7 @@ Plot::Plot( bool parametric, QWidget *parent ):
     // Avoid jumping when label with 3 digits
     // appear/disappear when scrolling vertically
 
-    QwtScaleDraw *sd = axisScaleDraw( QwtPlot::yLeft );
+    QwtScaleDraw* sd = axisScaleDraw( QwtPlot::yLeft );
     sd->setMinimumExtent( sd->extent( axisWidget( QwtPlot::yLeft )->font() ) );
 
     // curves
@@ -309,9 +309,9 @@ Plot::Plot( bool parametric, QWidget *parent ):
         setAxisScale( QwtPlot::yLeft, -50.0, 100.0 );
 
         points << QPointF( 10, 30 ) << QPointF( 20, 90 ) << QPointF( 25, 60 )
-            << QPointF( 35, 38 ) << QPointF( 42, 40 ) << QPointF( 55, 60 )
-            << QPointF( 60, 50 ) << QPointF( 65, 80 ) << QPointF( 73, 30 )
-            << QPointF( 82, 30 ) << QPointF( 87, 40 ) << QPointF( 95, 70 );
+               << QPointF( 35, 38 ) << QPointF( 42, 40 ) << QPointF( 55, 60 )
+               << QPointF( 60, 50 ) << QPointF( 65, 80 ) << QPointF( 73, 30 )
+               << QPointF( 82, 30 ) << QPointF( 87, 40 ) << QPointF( 95, 70 );
     }
 
     m_curve->setSamples( points );
@@ -319,9 +319,9 @@ Plot::Plot( bool parametric, QWidget *parent ):
 
     //
 
-    Curve *curve;
+    Curve* curve;
 
-    QVector<Curve *> curves;
+    QVector< Curve* > curves;
 
     curve = new Curve( "Pleasing", "DarkGoldenRod" );
     curve->setCurveFitter( new SplineFitter( SplineFitter::PleasingSpline ) );
@@ -371,9 +371,9 @@ Plot::Plot( bool parametric, QWidget *parent ):
     // on the bottom axis into clicked() signals
     // ------------------------------------
 
-    ScalePicker *scalePicker = new ScalePicker( this );
-    connect( scalePicker, SIGNAL( clicked( int, double ) ),
-        this, SLOT( updateMarker( int, double ) ) );
+    ScalePicker* scalePicker = new ScalePicker( this );
+    connect( scalePicker, SIGNAL(clicked(int,double)),
+        this, SLOT(updateMarker(int,double)) );
 
     // ------------------------------------
     // The canvas picker handles all mouse and key
@@ -399,8 +399,8 @@ Plot::Plot( bool parametric, QWidget *parent ):
     plotLayout()->setAlignCanvasToScale( QwtPlot::yLeft, true );
     plotLayout()->setCanvasMargin( m_wheel->width() + 4, QwtPlot::yRight );
 
-    connect( m_wheel, SIGNAL( valueChanged( double ) ),
-        SLOT( scrollLeftAxis( double ) ) );
+    connect( m_wheel, SIGNAL(valueChanged(double)),
+        SLOT(scrollLeftAxis(double)) );
 
     // we need the resize events, to lay out the wheel
     canvas()->installEventFilter( this );
@@ -418,7 +418,7 @@ void Plot::scrollLeftAxis( double value )
     replot();
 }
 
-bool Plot::eventFilter( QObject *object, QEvent *e )
+bool Plot::eventFilter( QObject* object, QEvent* e )
 {
     if ( e->type() == QEvent::Resize )
     {
@@ -454,26 +454,26 @@ void Plot::updateMarker( int axis, double value )
 }
 
 
-void Plot::legendChecked( const QVariant &itemInfo, bool on )
+void Plot::legendChecked( const QVariant& itemInfo, bool on )
 {
-    QwtPlotItem *plotItem = infoToItem( itemInfo );
+    QwtPlotItem* plotItem = infoToItem( itemInfo );
     if ( plotItem )
         showCurve( plotItem, on );
 }
 
-void Plot::showCurve( QwtPlotItem *item, bool on )
+void Plot::showCurve( QwtPlotItem* item, bool on )
 {
     item->setVisible( on );
 
-    QwtLegend *lgd = qobject_cast<QwtLegend *>( legend() );
+    QwtLegend* lgd = qobject_cast< QwtLegend* >( legend() );
 
-    QList<QWidget *> legendWidgets =
+    QList< QWidget* > legendWidgets =
         lgd->legendWidgets( itemToInfo( item ) );
 
     if ( legendWidgets.size() == 1 )
     {
-        QwtLegendLabel *legendLabel =
-            qobject_cast<QwtLegendLabel *>( legendWidgets[0] );
+        QwtLegendLabel* legendLabel =
+            qobject_cast< QwtLegendLabel* >( legendWidgets[0] );
 
         if ( legendLabel )
             legendLabel->setChecked( on );
@@ -487,9 +487,9 @@ void Plot::setClosed( bool on )
     QwtPlotItemList curves = itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curves.size(); i++ )
     {
-        QwtPlotCurve *curve = dynamic_cast<QwtPlotCurve *>( curves[i] );
+        QwtPlotCurve* curve = dynamic_cast< QwtPlotCurve* >( curves[i] );
 
-        SplineFitter *fitter = dynamic_cast<SplineFitter*>( curve->curveFitter() );
+        SplineFitter* fitter = dynamic_cast< SplineFitter* >( curve->curveFitter() );
         if ( fitter )
             fitter->setClosing( on );
     }
@@ -497,14 +497,14 @@ void Plot::setClosed( bool on )
     replot();
 }
 
-void Plot::setBoundaryCondition( const QString &condition )
+void Plot::setBoundaryCondition( const QString& condition )
 {
     QwtPlotItemList curves = itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curves.size(); i++ )
     {
-        QwtPlotCurve *curve = dynamic_cast<QwtPlotCurve *>( curves[i] );
+        QwtPlotCurve* curve = dynamic_cast< QwtPlotCurve* >( curves[i] );
 
-        SplineFitter *fitter = dynamic_cast<SplineFitter*>( curve->curveFitter() );
+        SplineFitter* fitter = dynamic_cast< SplineFitter* >( curve->curveFitter() );
         if ( fitter )
             fitter->setBoundaryCondition( condition );
     }
@@ -512,14 +512,14 @@ void Plot::setBoundaryCondition( const QString &condition )
     replot();
 }
 
-void Plot::setParametric( const QString &parameterType )
+void Plot::setParametric( const QString& parameterType )
 {
     QwtPlotItemList curves = itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curves.size(); i++ )
     {
-        QwtPlotCurve *curve = ( QwtPlotCurve *)curves[i];
+        QwtPlotCurve* curve = ( QwtPlotCurve*)curves[i];
 
-        SplineFitter *fitter = dynamic_cast<SplineFitter*>( curve->curveFitter() );
+        SplineFitter* fitter = dynamic_cast< SplineFitter* >( curve->curveFitter() );
         if ( fitter )
             fitter->setParametric( parameterType );
     }
@@ -537,11 +537,11 @@ void Plot::setOverlaying( bool on )
 
     for ( int i = 0; i < curves.size(); i++ )
     {
-        QwtPlotCurve *curve = static_cast<QwtPlotCurve *>( curves[i] );
+        QwtPlotCurve* curve = static_cast< QwtPlotCurve* >( curves[i] );
         if ( curve == m_curve )
             continue;
 
-        QwtSymbol *symbol = NULL;
+        QwtSymbol* symbol = NULL;
 
         if ( !on )
         {

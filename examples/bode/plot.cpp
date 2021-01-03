@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "plot.h"
 #include "complexnumber.h"
@@ -20,7 +20,7 @@
 #include <qwt_text.h>
 #include <qwt_plot_canvas.h>
 
-static void logSpace( double *array, int size, double xmin, double xmax )
+static void logSpace( double* array, int size, double xmin, double xmax )
 {
     if ( ( xmin <= 0.0 ) || ( xmax <= 0.0 ) || ( size <= 0 ) )
         return;
@@ -38,28 +38,28 @@ static void logSpace( double *array, int size, double xmin, double xmax )
         array[i] = std::exp( lxmin + double( i ) * lstep );
 }
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setAutoReplot( false );
 
     setTitle( "Frequency Response of a Second-Order System" );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setBorderRadius( 10 );
 
     setCanvas( canvas );
     setCanvasBackground( QColor( "MidnightBlue" ) );
 
     // legend
-    QwtLegend *legend = new QwtLegend;
+    QwtLegend* legend = new QwtLegend;
     insertLegend( legend, QwtPlot::BottomLegend );
 
     // grid
-    QwtPlotGrid *grid = new QwtPlotGrid;
+    QwtPlotGrid* grid = new QwtPlotGrid;
     grid->enableXMin( true );
     grid->setMajorPen( Qt::white, 0, Qt::DotLine );
-    grid->setMinorPen( Qt::gray, 0 , Qt::DotLine );
+    grid->setMinorPen( Qt::gray, 0, Qt::DotLine );
     grid->attach( this );
 
     // axes
@@ -108,8 +108,8 @@ Plot::Plot( QWidget *parent ):
     setAutoReplot( true );
 }
 
-void Plot::showData( const double *frequency, const double *amplitude,
-    const double *phase, int count )
+void Plot::showData( const double* frequency, const double* amplitude,
+    const double* phase, int count )
 {
     m_curve1->setSamples( frequency, amplitude, count );
     m_curve2->setSamples( frequency, phase, count );
@@ -120,7 +120,7 @@ void Plot::showPeak( double freq, double amplitude )
     QString label( "Peak: " );
     label += QString::number( amplitude, 'g', 3 );
     label += " dB";
-        
+
     QwtText text( label );
     text.setFont( QFont( "Helvetica", 10, QFont::Bold ) );
     text.setColor( QColor( 200, 150, 0 ) );
@@ -183,7 +183,7 @@ void Plot::setDamp( double damping )
     }
 
     double f3 = frequency[i3] - ( frequency[i3] - frequency[i3 - 1] )
-        / ( amplitude[i3] - amplitude[i3 -1] ) * ( amplitude[i3] + 3 );
+        / ( amplitude[i3] - amplitude[i3 - 1] ) * ( amplitude[i3] + 3 );
 
     showPeak( fmax, amax );
     show3dB( f3 );

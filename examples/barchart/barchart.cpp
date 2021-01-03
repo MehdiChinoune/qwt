@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "barchart.h"
 
@@ -14,8 +14,8 @@
 #include <qwt_text.h>
 #include <qwt_math.h>
 
-BarChart::BarChart( QWidget *parent ):
-    QwtPlot( parent )
+BarChart::BarChart( QWidget* parent )
+    : QwtPlot( parent )
 {
     setAutoFillBackground( true );
 
@@ -44,12 +44,12 @@ BarChart::BarChart( QWidget *parent ):
 
 void BarChart::populate()
 {
-    static const char *colors[] = { "DarkOrchid", "SteelBlue", "Gold" };
+    static const char* colors[] = { "DarkOrchid", "SteelBlue", "Gold" };
 
     const int numSamples = 5;
     const int numBars = sizeof( colors ) / sizeof( colors[0] );
 
-    QList<QwtText> titles;
+    QList< QwtText > titles;
     for ( int i = 0; i < numBars; i++ )
     {
         QString title("Bar %1");
@@ -60,7 +60,7 @@ void BarChart::populate()
 
     for ( int i = 0; i < numBars; i++ )
     {
-        QwtColumnSymbol *symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
+        QwtColumnSymbol* symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
         symbol->setLineWidth( 2 );
         symbol->setFrameStyle( QwtColumnSymbol::Raised );
         symbol->setPalette( QPalette( colors[i] ) );
@@ -68,10 +68,10 @@ void BarChart::populate()
         m_barChartItem->setSymbol( i, symbol );
     }
 
-    QVector< QVector<double> > series;
+    QVector< QVector< double > > series;
     for ( int i = 0; i < numSamples; i++ )
     {
-        QVector<double> values;
+        QVector< double > values;
         for ( int j = 0; j < numBars; j++ )
             values += ( 2 + qwtRand() % 8 );
 
@@ -115,11 +115,11 @@ void BarChart::setOrientation( int orientation )
     setAxisScale( axis1, 0, m_barChartItem->dataSize() - 1, 1.0 );
     setAxisAutoScale( axis2 );
 
-    QwtScaleDraw *scaleDraw1 = axisScaleDraw( axis1 );
+    QwtScaleDraw* scaleDraw1 = axisScaleDraw( axis1 );
     scaleDraw1->enableComponent( QwtScaleDraw::Backbone, false );
     scaleDraw1->enableComponent( QwtScaleDraw::Ticks, false );
 
-    QwtScaleDraw *scaleDraw2 = axisScaleDraw( axis2 );
+    QwtScaleDraw* scaleDraw2 = axisScaleDraw( axis2 );
     scaleDraw2->enableComponent( QwtScaleDraw::Backbone, true );
     scaleDraw2->enableComponent( QwtScaleDraw::Ticks, true );
 

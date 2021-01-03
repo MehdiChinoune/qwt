@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -20,13 +20,13 @@
 #include <qsvgrenderer.h>
 #include <qfiledialog.h>
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent ),
-    m_mapItem( NULL ),
-    m_mapRect( 0.0, 0.0, 100.0, 100.0 ) // something
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
+    , m_mapItem( NULL )
+    , m_mapRect( 0.0, 0.0, 100.0, 100.0 ) // something
 {
 #if DEBUG_SCALE
-    QwtPlotGrid *grid = new QwtPlotGrid();
+    QwtPlotGrid* grid = new QwtPlotGrid();
     grid->attach( this );
 #else
     /*
@@ -40,12 +40,12 @@ Plot::Plot( QWidget *parent ):
 #endif
 
     /*
-      Navigation:
+       Navigation:
 
-      Left Mouse Button: Panning
-      Mouse Wheel:       Zooming In/Out
-      Right Mouse Button: Reset to initial
-    */
+       Left Mouse Button: Panning
+       Mouse Wheel:       Zooming In/Out
+       Right Mouse Button: Reset to initial
+     */
 
     ( void )new QwtPlotPanner( canvas() );
     ( void )new QwtPlotMagnifier( canvas() );
@@ -71,7 +71,7 @@ void Plot::loadSVG()
 
 #endif
 
-void Plot::loadSVG( const QString &fileName )
+void Plot::loadSVG( const QString& fileName )
 {
     if ( m_mapItem == NULL )
     {

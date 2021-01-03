@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "editor.h"
@@ -15,28 +15,31 @@
 #include <qpen.h>
 #include <qpainterpath.h>
 
-class Legend: public QwtLegend
+namespace
 {
-protected:
-    virtual QWidget *createWidget(
-        const QwtLegendData &legendData ) const QWT_OVERRIDE
+    class Legend : public QwtLegend
     {
-        QWidget *w = QwtLegend::createWidget( legendData );
-        if ( w )
+      protected:
+        virtual QWidget* createWidget(
+            const QwtLegendData& legendData ) const QWT_OVERRIDE
         {
-            w->setStyleSheet(
-                "border-radius: 5px;"
-                "padding: 2px;"
-                "background: LemonChiffon;"
-            );
+            QWidget* w = QwtLegend::createWidget( legendData );
+            if ( w )
+            {
+                w->setStyleSheet(
+                    "border-radius: 5px;"
+                    "padding: 2px;"
+                    "background: LemonChiffon;"
+                    );
+            }
+
+            return w;
         }
+    };
+}
 
-        return w;
-    }
-};
-
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setAutoReplot( false );
 
@@ -48,21 +51,21 @@ Plot::Plot( QWidget *parent ):
     setAutoFillBackground( true );
     setPalette( QColor( "DimGray" ).lighter( 110 ) );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
 #if 0
     // a gradient making a replot slow on X11
     canvas->setStyleSheet(
         "border: 2px solid Black;"
         "border-radius: 15px;"
         "background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
-            "stop: 0 LemonChiffon, stop: 0.5 PaleGoldenrod, stop: 1 LemonChiffon );"
-    );
+        "stop: 0 LemonChiffon, stop: 0.5 PaleGoldenrod, stop: 1 LemonChiffon );"
+        );
 #else
     canvas->setStyleSheet(
         "border: 2px inset DimGray;"
         "border-radius: 15px;"
         "background: LemonChiffon;"
-    );
+        );
 #endif
 
     setCanvas( canvas );
@@ -95,11 +98,11 @@ void Plot::populate()
 
 }
 
-void Plot::addShape( const QString &title,
-    ShapeFactory::Shape shape, const QColor &color,
-    const QPointF &pos, const QSizeF &size )
+void Plot::addShape( const QString& title,
+    ShapeFactory::Shape shape, const QColor& color,
+    const QPointF& pos, const QSizeF& size )
 {
-    QwtPlotShapeItem *item = new QwtPlotShapeItem( title );
+    QwtPlotShapeItem* item = new QwtPlotShapeItem( title );
     item->setItemAttribute( QwtPlotItem::Legend, true );
     item->setLegendMode( QwtPlotShapeItem::LegendShape );
     item->setLegendIconSize( QSize( 20, 20 ) );
@@ -125,7 +128,7 @@ void Plot::exportPlot()
 
 void Plot::setMode( int mode )
 {
-    m_editor->setMode( static_cast<Editor::Mode>( mode ) );
+    m_editor->setMode( static_cast< Editor::Mode >( mode ) );
 }
 
 #include "moc_plot.cpp"

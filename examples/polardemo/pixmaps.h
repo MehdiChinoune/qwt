@@ -1,7 +1,7 @@
 #ifndef PIXMAPS_H
 #define PIXMAPS_H
 
-static const char *print_xpm[] =
+static const char* print_xpm[] =
 {
     "32 32 12 1",
     "a c #ffffff",
@@ -51,7 +51,7 @@ static const char *print_xpm[] =
 };
 
 
-static const char *zoom_xpm[] =
+static const char* zoom_xpm[] =
 {
     "32 32 8 1",
     "# c #000000",

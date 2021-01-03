@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "panel.h"
@@ -13,8 +13,8 @@
 #include <qtoolbutton.h>
 #include <qlayout.h>
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
     m_plot = new Plot();
 
@@ -34,16 +34,16 @@ MainWindow::MainWindow( QWidget *parent ):
     m_panel = new Panel();
     m_panel->setSettings( settings );
 
-    QWidget *box = new QWidget( this );
-    QHBoxLayout *layout = new QHBoxLayout( box );
+    QWidget* box = new QWidget( this );
+    QHBoxLayout* layout = new QHBoxLayout( box );
     layout->addWidget( m_plot, 10 );
     layout->addWidget( m_panel );
 
     setCentralWidget( box );
 
-    QToolBar *toolBar = new QToolBar( this );
+    QToolBar* toolBar = new QToolBar( this );
 
-    QToolButton *btnExport = new QToolButton( toolBar );
+    QToolButton* btnExport = new QToolButton( toolBar );
     btnExport->setText( "Export" );
     toolBar->addWidget( btnExport );
 
@@ -51,8 +51,8 @@ MainWindow::MainWindow( QWidget *parent ):
 
     updatePlot();
 
-    connect( m_panel, SIGNAL( edited() ), SLOT( updatePlot() ) );
-    connect( btnExport, SIGNAL( clicked() ), SLOT( exportPlot() ) );
+    connect( m_panel, SIGNAL(edited()), SLOT(updatePlot()) );
+    connect( btnExport, SIGNAL(clicked()), SLOT(exportPlot()) );
 }
 
 void MainWindow::updatePlot()

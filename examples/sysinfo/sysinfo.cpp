@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include <qwt_thermo.h>
 #include <qwt_color_map.h>
@@ -17,12 +17,12 @@
 #include <qgroupbox.h>
 #include <qlayout.h>
 
-class ValueBar: public QWidget
+class ValueBar : public QWidget
 {
-public:
+  public:
     ValueBar( Qt::Orientation orientation,
-              const QString &text, QWidget *parent, double value = 0.0 ):
-        QWidget( parent )
+            const QString& text, QWidget* parent, double value = 0.0 )
+        : QWidget( parent )
     {
         d_label = new QLabel( text, this );
         d_label->setFont( QFont( "Helvetica", 10 ) );
@@ -38,7 +38,7 @@ public:
         d_thermo->setFillBrush( Qt::darkMagenta );
 
 #if 0
-        QwtLinearColorMap *colorMap =
+        QwtLinearColorMap* colorMap =
             new QwtLinearColorMap( Qt::blue, Qt::red );
 
         colorMap->addColorStop( 0.2, Qt::yellow );
@@ -49,7 +49,7 @@ public:
         d_thermo->setColorMap( colorMap );
 #endif
 
-        QVBoxLayout *layout = new QVBoxLayout( this );
+        QVBoxLayout* layout = new QVBoxLayout( this );
         layout->setContentsMargins( QMargins() );
         layout->setSpacing( 0 );
 
@@ -74,23 +74,23 @@ public:
         d_thermo->setValue( value );
     }
 
-private:
-    QLabel *d_label;
-    QwtThermo *d_thermo;
+  private:
+    QLabel* d_label;
+    QwtThermo* d_thermo;
 };
 
 class SysInfo : public QFrame
 {
-public:
-    SysInfo( QWidget *parent = NULL ):
-        QFrame( parent )
+  public:
+    SysInfo( QWidget* parent = NULL )
+        : QFrame( parent )
     {
         const int margin = 15;
 
-        QGroupBox *memBox = new QGroupBox( "Memory Usage", this );
+        QGroupBox* memBox = new QGroupBox( "Memory Usage", this );
         memBox->setFont( QFont( "Helvetica", 10 ) );
 
-        QVBoxLayout *memLayout = new QVBoxLayout( memBox );
+        QVBoxLayout* memLayout = new QVBoxLayout( memBox );
         memLayout->setContentsMargins( margin, margin, margin, margin );
         memLayout->setSpacing( 5 );
 
@@ -102,10 +102,10 @@ public:
         memLayout->addWidget( new ValueBar( o, "Swap Used", memBox, 57 ) );
         memLayout->addWidget( new QWidget( memBox ), 10 ); // spacer
 
-        QGroupBox *cpuBox = new QGroupBox( "Cpu Usage", this );
+        QGroupBox* cpuBox = new QGroupBox( "Cpu Usage", this );
         cpuBox->setFont( QFont( "Helvetica", 10 ) );
 
-        QHBoxLayout *cpuLayout = new QHBoxLayout( cpuBox );
+        QHBoxLayout* cpuLayout = new QHBoxLayout( cpuBox );
         cpuLayout->setContentsMargins( margin, margin, margin, margin );
         cpuLayout->setSpacing( 5 );
 
@@ -115,14 +115,14 @@ public:
         cpuLayout->addWidget( new ValueBar( o, "System", cpuBox, 16 ) );
         cpuLayout->addWidget( new ValueBar( o, "Idle", cpuBox, 27 ) );
 
-        QHBoxLayout *layout = new QHBoxLayout( this );
+        QHBoxLayout* layout = new QHBoxLayout( this );
         layout->setContentsMargins( 10, 10, 10, 10 );
         layout->addWidget( memBox, 10 );
         layout->addWidget( cpuBox, 0 );
     }
 };
 
-int main ( int argc, char **argv )
+int main ( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

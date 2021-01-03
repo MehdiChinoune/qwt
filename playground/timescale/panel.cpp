@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "panel.h"
 #include "settings.h"
@@ -11,8 +11,8 @@
 #include <qlayout.h>
 #include <qlabel.h>
 
-Panel::Panel( QWidget *parent ):
-    QWidget( parent )
+Panel::Panel( QWidget* parent )
+    : QWidget( parent )
 {
     // create widgets
 
@@ -36,7 +36,7 @@ Panel::Panel( QWidget *parent ):
 
     // layout
 
-    QGridLayout *layout = new QGridLayout( this );
+    QGridLayout* layout = new QGridLayout( this );
     layout->setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
     int row = 0;
@@ -60,18 +60,18 @@ Panel::Panel( QWidget *parent ):
     layout->addWidget( m_maxWeeks, row, 1 );
 
     connect( m_startDateTime,
-        SIGNAL( dateTimeChanged( const QDateTime & ) ), SIGNAL( edited() ) );
+        SIGNAL(dateTimeChanged(const QDateTime&)), SIGNAL(edited()) );
     connect( m_endDateTime,
-        SIGNAL( dateTimeChanged( const QDateTime & ) ), SIGNAL( edited() ) );
+        SIGNAL(dateTimeChanged(const QDateTime&)), SIGNAL(edited()) );
     connect( m_maxMajorSteps,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_maxMinorSteps,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
     connect( m_maxWeeks,
-        SIGNAL( valueChanged( int ) ), SIGNAL( edited() ) );
+        SIGNAL(valueChanged(int)), SIGNAL(edited()) );
 }
 
-void Panel::setSettings( const Settings &settings )
+void Panel::setSettings( const Settings& settings )
 {
     blockSignals( true );
 

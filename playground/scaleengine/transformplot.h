@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef TRANSFORM_PLOT_H
 #define TRANSFORM_PLOT_H
@@ -10,24 +10,24 @@
 
 class QwtTransform;
 
-class TransformPlot: public QwtPlot
+class TransformPlot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    TransformPlot( QWidget *parent = NULL );
-    void insertTransformation( const QString &,
-        const QColor &, QwtTransform * );
+  public:
+    TransformPlot( QWidget* parent = NULL );
+    void insertTransformation( const QString&,
+        const QColor&, QwtTransform* );
 
-    void setLegendChecked( QwtPlotItem * );
+    void setLegendChecked( QwtPlotItem* );
 
-Q_SIGNALS:
-    void selected( QwtTransform * );
+  Q_SIGNALS:
+    void selected( QwtTransform* );
 
-private Q_SLOTS:
-    void legendChecked( const QVariant &, bool on );
+  private Q_SLOTS:
+    void legendChecked( const QVariant&, bool on );
 
-private:
+  private:
 };
 
 #endif

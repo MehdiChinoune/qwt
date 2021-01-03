@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef SIGNAL_DATA_H
 #define SIGNAL_DATA_H
@@ -10,10 +10,10 @@
 
 class SignalData
 {
-public:
-    static SignalData &instance();
+  public:
+    static SignalData& instance();
 
-    void append( const QPointF &pos );
+    void append( const QPointF& pos );
     void clearStaleValues( double min );
 
     int size() const;
@@ -24,15 +24,15 @@ public:
     void lock();
     void unlock();
 
-private:
+  private:
     SignalData();
-    SignalData( const SignalData & );
-    SignalData &operator=( const SignalData & );
+    SignalData( const SignalData& );
+    SignalData& operator=( const SignalData& );
 
     virtual ~SignalData();
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

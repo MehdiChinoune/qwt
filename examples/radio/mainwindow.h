@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Widget Library
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Widget Library
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
@@ -15,13 +15,13 @@
 
 class MainWindow : public QWidget
 {
-public:
+  public:
     MainWindow();
 
-protected:
-    virtual void resizeEvent( QResizeEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     void updateGradient();
 };
 

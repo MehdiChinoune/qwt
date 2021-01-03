@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -13,34 +13,37 @@
 #include <qtoolbutton.h>
 #endif
 
-class MainWindow: public QMainWindow
+namespace
 {
-public:
-    MainWindow( const QString &fileName )
+    class MainWindow : public QMainWindow
     {
-        Plot *plot = new Plot( this );
-        if ( !fileName.isEmpty() )
-            plot->loadSVG( fileName );
+      public:
+        MainWindow( const QString& fileName )
+        {
+            Plot* plot = new Plot( this );
+            if ( !fileName.isEmpty() )
+                plot->loadSVG( fileName );
 
-        setCentralWidget( plot );
+            setCentralWidget( plot );
 
 #ifndef QT_NO_FILEDIALOG
-        QToolBar *toolBar = new QToolBar( this );
+            QToolBar* toolBar = new QToolBar( this );
 
-        QToolButton *btnLoad = new QToolButton( toolBar );
+            QToolButton* btnLoad = new QToolButton( toolBar );
 
-        btnLoad->setText( "Load SVG" );
-        btnLoad->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-        toolBar->addWidget( btnLoad );
+            btnLoad->setText( "Load SVG" );
+            btnLoad->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+            toolBar->addWidget( btnLoad );
 
-        addToolBar( toolBar );
+            addToolBar( toolBar );
 
-        connect( btnLoad, SIGNAL( clicked() ), plot, SLOT( loadSVG() ) );
+            connect( btnLoad, SIGNAL(clicked()), plot, SLOT(loadSVG()) );
 #endif
-    }
-};
+        }
+    };
+}
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

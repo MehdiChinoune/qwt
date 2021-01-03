@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -13,7 +13,7 @@ class QwtPolarCurve;
 
 class PlotSettings
 {
-public:
+  public:
     enum Curve
     {
         Spiral,
@@ -42,22 +42,22 @@ public:
     bool flags[NumFlags];
 };
 
-class Plot: public QwtPolarPlot
+class Plot : public QwtPolarPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget * = NULL );
+  public:
+    Plot( QWidget* = NULL );
     PlotSettings settings() const;
 
-public Q_SLOTS:
-    void applySettings( const PlotSettings & );
+  public Q_SLOTS:
+    void applySettings( const PlotSettings& );
 
-private:
-    QwtPolarCurve *createCurve( int id ) const;
+  private:
+    QwtPolarCurve* createCurve( int id ) const;
 
-    QwtPolarGrid *m_grid;
-    QwtPolarCurve *m_curve[PlotSettings::NumCurves];
+    QwtPolarGrid* m_grid;
+    QwtPolarCurve* m_curve[PlotSettings::NumCurves];
 };
 
 #endif

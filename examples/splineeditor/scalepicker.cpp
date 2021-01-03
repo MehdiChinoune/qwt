@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "scalepicker.h"
 
@@ -12,25 +12,25 @@
 #include <qevent.h>
 #include <qmath.h>
 
-ScalePicker::ScalePicker( QwtPlot *plot ):
-    QObject( plot )
+ScalePicker::ScalePicker( QwtPlot* plot )
+    : QObject( plot )
 {
     for ( uint i = 0; i < QwtPlot::axisCnt; i++ )
     {
-        QwtScaleWidget *scaleWidget = plot->axisWidget( i );
+        QwtScaleWidget* scaleWidget = plot->axisWidget( i );
         if ( scaleWidget )
             scaleWidget->installEventFilter( this );
     }
 }
 
-bool ScalePicker::eventFilter( QObject *object, QEvent *event )
+bool ScalePicker::eventFilter( QObject* object, QEvent* event )
 {
     if ( event->type() == QEvent::MouseButtonPress )
     {
-        QwtScaleWidget *scaleWidget = qobject_cast<QwtScaleWidget *>( object );
+        QwtScaleWidget* scaleWidget = qobject_cast< QwtScaleWidget* >( object );
         if ( scaleWidget )
         {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>( event );
+            QMouseEvent* mouseEvent = static_cast< QMouseEvent* >( event );
             mouseClicked( scaleWidget, mouseEvent->pos() );
 
             return true;
@@ -40,13 +40,13 @@ bool ScalePicker::eventFilter( QObject *object, QEvent *event )
     return QObject::eventFilter( object, event );
 }
 
-void ScalePicker::mouseClicked( const QwtScaleWidget *scale, const QPoint &pos )
+void ScalePicker::mouseClicked( const QwtScaleWidget* scale, const QPoint& pos )
 {
     QRect rect = scaleRect( scale );
 
     int margin = 20; // 20 pixels tolerance
     rect.setRect( rect.x() - margin, rect.y() - margin,
-        rect.width() + 2 * margin, rect.height() +  2 * margin );
+        rect.width() + 2 * margin, rect.height() + 2 * margin );
 
     if ( rect.contains( pos ) ) // No click on the title
     {
@@ -55,7 +55,7 @@ void ScalePicker::mouseClicked( const QwtScaleWidget *scale, const QPoint &pos )
         double value = 0.0;
         int axis = -1;
 
-        const QwtScaleDraw *sd = scale->scaleDraw();
+        const QwtScaleDraw* sd = scale->scaleDraw();
         switch( scale->alignment() )
         {
             case QwtScaleDraw::LeftScale:
@@ -88,7 +88,7 @@ void ScalePicker::mouseClicked( const QwtScaleWidget *scale, const QPoint &pos )
 }
 
 // The rect of a scale without the title
-QRect ScalePicker::scaleRect( const QwtScaleWidget *scale ) const
+QRect ScalePicker::scaleRect( const QwtScaleWidget* scale ) const
 {
     const int bld = scale->margin();
     const int mjt = qCeil( scale->scaleDraw()->maxTickLength() );

@@ -19,11 +19,11 @@
 #include <qevent.h>
 #include <qmath.h>
 
-class Knob: public QWidget
+class Knob : public QWidget
 {
-public:
-    Knob( const QString &title, double min, double max, QWidget *parent ):
-        QWidget( parent )
+  public:
+    Knob( const QString& title, double min, double max, QWidget* parent )
+        : QWidget( parent )
     {
         m_knob = new QwtKnob( this );
         m_knob->setScale( min, max );
@@ -71,8 +71,8 @@ public:
         return m_knob->value();
     }
 
-protected:
-    virtual void resizeEvent( QResizeEvent *event ) QWT_OVERRIDE
+  protected:
+    virtual void resizeEvent( QResizeEvent* event ) QWT_OVERRIDE
     {
         const QSize sz = event->size();
 
@@ -88,16 +88,16 @@ protected:
             sz.width(), h );
     }
 
-private:
-    QwtKnob *m_knob;
-    QLabel *m_label;
+  private:
+    QwtKnob* m_knob;
+    QLabel* m_label;
 };
 
-class Thermo: public QWidget
+class Thermo : public QWidget
 {
-public:
-    Thermo( const QString &title, QWidget *parent ):
-        QWidget( parent )
+  public:
+    Thermo( const QString& title, QWidget* parent )
+        : QWidget( parent )
     {
         m_thermo = new QwtThermo( this );
         m_thermo->setPipeWidth( 6 );
@@ -107,10 +107,10 @@ public:
         m_thermo->setAlarmLevel( 0.0 );
         m_thermo->setAlarmEnabled( true );
 
-        QLabel *label = new QLabel( title, this );
+        QLabel* label = new QLabel( title, this );
         label->setAlignment( Qt::AlignTop | Qt::AlignLeft );
 
-        QVBoxLayout *layout = new QVBoxLayout( this );
+        QVBoxLayout* layout = new QVBoxLayout( this );
         layout->setContentsMargins( QMargins() );
         layout->setSpacing( 0 );
         layout->addWidget( m_thermo, 10 );
@@ -122,12 +122,12 @@ public:
         m_thermo->setValue( value );
     }
 
-private:
-    QwtThermo *m_thermo;
+  private:
+    QwtThermo* m_thermo;
 };
 
-AmpFrame::AmpFrame( QWidget *p ):
-    QFrame( p )
+AmpFrame::AmpFrame( QWidget* p )
+    : QFrame( p )
 {
     m_knbVolume = new Knob( "Volume", 0.0, 10.0, this );
     m_knbBalance = new Knob( "Balance", -10.0, 10.0, this );
@@ -137,7 +137,7 @@ AmpFrame::AmpFrame( QWidget *p ):
     m_thmLeft = new Thermo( "Left [dB]", this );
     m_thmRight = new Thermo( "Right [dB]", this );
 
-    QHBoxLayout *layout = new QHBoxLayout( this );
+    QHBoxLayout* layout = new QHBoxLayout( this );
     layout->setSpacing( 0 );
     layout->setContentsMargins( 10, 10, 10, 10 );
     layout->addWidget( m_knbVolume );
@@ -154,7 +154,7 @@ AmpFrame::AmpFrame( QWidget *p ):
     ( void )startTimer( 50 );
 }
 
-void AmpFrame::timerEvent( QTimerEvent * )
+void AmpFrame::timerEvent( QTimerEvent* )
 {
     static double phs = 0;
 
@@ -190,7 +190,7 @@ void AmpFrame::timerEvent( QTimerEvent * )
     if ( sig_r > 0.01 )
         sig_r = 20.0 * log10( sig_r );
     else
-        sig_r = - 40.0;
+        sig_r = -40.0;
 
     m_thmLeft->setValue( sig_l );
     m_thmRight->setValue( sig_r );

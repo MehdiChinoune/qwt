@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef SETTINGS_EDITOR_H
 #define SETTINGS_EDITOR_H
@@ -11,27 +11,27 @@
 
 class QCheckBox;
 
-class SettingsEditor: public QFrame
+class SettingsEditor : public QFrame
 {
     Q_OBJECT
 
-public:
-    SettingsEditor( QWidget *parent = NULL );
+  public:
+    SettingsEditor( QWidget* parent = NULL );
 
-    void showSettings( const PlotSettings & );
+    void showSettings( const PlotSettings& );
     PlotSettings settings() const;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void edited( const PlotSettings& );
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void edited();
 
-private:
+  private:
     void updateEditor();
     QString label( int flag ) const;
 
-    QCheckBox *m_checkBox[PlotSettings::NumFlags];
+    QCheckBox* m_checkBox[PlotSettings::NumFlags];
 };
 
 #endif

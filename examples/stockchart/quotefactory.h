@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef QUOTE_FACTORY_H
 #define QUOTE_FACTORY_H
@@ -12,7 +12,7 @@ class QwtOHLCSample;
 class QString;
 
 #if QT_VERSION < 0x060000
-template <typename T> class QVector;
+template< typename T > class QVector;
 #endif
 
 namespace QuoteFactory
@@ -26,7 +26,7 @@ namespace QuoteFactory
         NumStocks
     };
 
-    QVector<QwtOHLCSample> samples2010( Stock );
+    QVector< QwtOHLCSample > samples2010( Stock );
     QString title( Stock );
 }
 

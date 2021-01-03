@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "curvedata.h"
@@ -19,11 +19,11 @@
 
 #include <qcoreevent.h>
 
-class Canvas: public QwtPlotCanvas
+class Canvas : public QwtPlotCanvas
 {
-public:
-    Canvas( QwtPlot *plot = NULL ):
-        QwtPlotCanvas( plot )
+  public:
+    Canvas( QwtPlot* plot = NULL )
+        : QwtPlotCanvas( plot )
     {
         // The backing store is important, when working with widget
         // overlays ( f.e rubberbands for zooming ).
@@ -60,7 +60,7 @@ public:
         setupPalette();
     }
 
-private:
+  private:
     void setupPalette()
     {
         QPalette pal = palette();
@@ -79,11 +79,11 @@ private:
     }
 };
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent ),
-    m_paintedPoints( 0 ),
-    m_interval( 0.0, 10.0 ),
-    m_timerId( -1 )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
+    , m_paintedPoints( 0 )
+    , m_interval( 0.0, 10.0 )
+    , m_timerId( -1 )
 {
     m_directPainter = new QwtPlotDirectPainter();
 
@@ -96,7 +96,7 @@ Plot::Plot( QWidget *parent ):
     setAxisScale( QwtPlot::xBottom, m_interval.minValue(), m_interval.maxValue() );
     setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
 
-    QwtPlotGrid *grid = new QwtPlotGrid();
+    QwtPlotGrid* grid = new QwtPlotGrid();
     grid->setPen( Qt::gray, 0.0, Qt::DotLine );
     grid->enableX( true );
     grid->enableXMin( true );
@@ -132,7 +132,7 @@ void Plot::start()
 
 void Plot::replot()
 {
-    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    CurveData* curveData = static_cast< CurveData* >( m_curve->data() );
     curveData->values().lock();
 
     QwtPlot::replot();
@@ -155,7 +155,7 @@ void Plot::setIntervalLength( double interval )
 
 void Plot::updateCurve()
 {
-    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    CurveData* curveData = static_cast< CurveData* >( m_curve->data() );
     curveData->values().lock();
 
     const int numPoints = curveData->size();
@@ -169,7 +169,7 @@ void Plot::updateCurve()
                 performance issue. F.e. for Qt Embedded this reduces the
                 part of the backing store that has to be copied out - maybe
                 to an unaccelerated frame buffer device.
-            */
+             */
 
             const QwtScaleMap xMap = canvasMap( m_curve->xAxis() );
             const QwtScaleMap yMap = canvasMap( m_curve->yAxis() );
@@ -194,7 +194,7 @@ void Plot::incrementInterval()
     m_interval = QwtInterval( m_interval.maxValue(),
         m_interval.maxValue() + m_interval.width() );
 
-    CurveData *curveData = static_cast<CurveData *>( m_curve->data() );
+    CurveData* curveData = static_cast< CurveData* >( m_curve->data() );
     curveData->values().clearStaleValues( m_interval.minValue() );
 
     // To avoid, that the grid is jumping, we disable
@@ -206,7 +206,7 @@ void Plot::incrementInterval()
 
     for ( int i = 0; i < QwtScaleDiv::NTickTypes; i++ )
     {
-        QList<double> ticks = scaleDiv.ticks( i );
+        QList< double > ticks = scaleDiv.ticks( i );
         for ( int j = 0; j < ticks.size(); j++ )
             ticks[j] += m_interval.width();
         scaleDiv.setTicks( i, ticks );
@@ -219,7 +219,7 @@ void Plot::incrementInterval()
     replot();
 }
 
-void Plot::timerEvent( QTimerEvent *event )
+void Plot::timerEvent( QTimerEvent* event )
 {
     if ( event->timerId() == m_timerId )
     {
@@ -235,18 +235,18 @@ void Plot::timerEvent( QTimerEvent *event )
     QwtPlot::timerEvent( event );
 }
 
-void Plot::resizeEvent( QResizeEvent *event )
+void Plot::resizeEvent( QResizeEvent* event )
 {
     m_directPainter->reset();
     QwtPlot::resizeEvent( event );
 }
 
-void Plot::showEvent( QShowEvent * )
+void Plot::showEvent( QShowEvent* )
 {
     replot();
 }
 
-bool Plot::eventFilter( QObject *object, QEvent *event )
+bool Plot::eventFilter( QObject* object, QEvent* event )
 {
     if ( object == canvas() &&
         event->type() == QEvent::PaletteChange )

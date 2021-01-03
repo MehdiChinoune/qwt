@@ -16,24 +16,24 @@ static inline bool fuzzyCompare( double a, double b )
 }
 
 static QwtSplinePolynomial polynomialAt( int index,
-    const QPolygonF &points, const QVector<double> &m )
+    const QPolygonF& points, const QVector< double >& m )
 {
     return QwtSplinePolynomial::fromSlopes(
-        points[index], m[index], points[index+1], m[index+1] );
+        points[index], m[index], points[index + 1], m[index + 1] );
 }
 
-class CubicSpline: public QwtSplineCubic
+class CubicSpline : public QwtSplineCubic
 {
-public:
-    CubicSpline( const QString &name ):
-        d_name( name )
+  public:
+    CubicSpline( const QString& name )
+        : d_name( name )
     {
     }
 
     void setBoundaryConditions( int condition, double valueBegin, double valueEnd )
     {
         const QwtSpline::BoundaryCondition c =
-            static_cast<QwtSpline::BoundaryCondition>( condition );
+            static_cast< QwtSpline::BoundaryCondition >( condition );
 
         setBoundaryCondition( QwtSpline::AtBeginning, c );
         setBoundaryValue( QwtSpline::AtEnd, valueBegin );
@@ -47,15 +47,15 @@ public:
         return d_name;
     }
 
-private:
+  private:
     const QString d_name;
 };
 
-class LocalSpline: public QwtSplineLocal
+class LocalSpline : public QwtSplineLocal
 {
-public:
-    LocalSpline( QwtSplineLocal::Type type, const QString &name ):
-        QwtSplineLocal( type ),
+  public:
+    LocalSpline( QwtSplineLocal::Type type, const QString& name )
+        : QwtSplineLocal( type ),
         d_name( name )
     {
     }
@@ -63,7 +63,7 @@ public:
     void setBoundaryConditions( int condition, double valueBegin, double valueEnd )
     {
         const QwtSpline::BoundaryCondition c =
-            static_cast<QwtSpline::BoundaryCondition>( condition );
+            static_cast< QwtSpline::BoundaryCondition >( condition );
 
         setBoundaryCondition( QwtSpline::AtBeginning, c );
         setBoundaryValue( QwtSpline::AtEnd, valueBegin );
@@ -77,13 +77,13 @@ public:
         return d_name;
     }
 
-private:
+  private:
     const QString d_name;
 };
 
 class SplineTester
 {
-public:
+  public:
     enum Type
     {
         Cardinal,
@@ -91,25 +91,25 @@ public:
         Cubic
     };
 
-    void testSplineC1( const LocalSpline *spline, const QPolygonF &points ) const;
-    void testSplineC2( const CubicSpline *spline, const QPolygonF &points ) const;
+    void testSplineC1( const LocalSpline* spline, const QPolygonF& points ) const;
+    void testSplineC2( const CubicSpline* spline, const QPolygonF& points ) const;
 
-private:
-    bool verifyBoundary( const QwtSpline *, QwtSpline::BoundaryPosition,
-        const QPolygonF &points, const QVector<double> &m ) const;
+  private:
+    bool verifyBoundary( const QwtSpline*, QwtSpline::BoundaryPosition,
+        const QPolygonF& points, const QVector< double >& m ) const;
 
-    int verifyNodesCV( const QPolygonF &p, const QVector<double> &cv ) const;
-    int verifyNodesM( const QPolygonF &p, const QVector<double> &m ) const;
+    int verifyNodesCV( const QPolygonF& p, const QVector< double >& cv ) const;
+    int verifyNodesM( const QPolygonF& p, const QVector< double >& m ) const;
 };
 
-void SplineTester::testSplineC1( const LocalSpline *spline, const QPolygonF &points ) const
+void SplineTester::testSplineC1( const LocalSpline* spline, const QPolygonF& points ) const
 {
-    const QVector<double> m = spline->slopes( points );
+    const QVector< double > m = spline->slopes( points );
 
     if ( m.size() != points.size() )
     {
         qDebug() << qPrintable( spline->name() ) << "("
-            << points.size() << "):" << "not implemented";
+                 << points.size() << "):" << "not implemented";
         return;
     }
 
@@ -119,7 +119,7 @@ void SplineTester::testSplineC1( const LocalSpline *spline, const QPolygonF &poi
     if ( !okStart || !okEnd )
     {
         qDebug() << qPrintable( spline->name() ) << "("
-            << points.size() << "):" << false;
+                 << points.size() << "):" << false;
 
 #if DEBUG_ERRORS > 0
         if ( !okStart )
@@ -131,15 +131,15 @@ void SplineTester::testSplineC1( const LocalSpline *spline, const QPolygonF &poi
     }
 }
 
-void SplineTester::testSplineC2( const CubicSpline *spline, const QPolygonF &points ) const
+void SplineTester::testSplineC2( const CubicSpline* spline, const QPolygonF& points ) const
 {
-    const QVector<double> m = spline->slopes( points );
-    const QVector<double> cv = spline->curvatures( points );
+    const QVector< double > m = spline->slopes( points );
+    const QVector< double > cv = spline->curvatures( points );
 
     if ( m.size() != points.size() )
     {
         qDebug() << qPrintable( spline->name() ) << "("
-            << points.size() << "):" << "not implemented";
+                 << points.size() << "):" << "not implemented";
         return;
     }
 
@@ -151,7 +151,7 @@ void SplineTester::testSplineC2( const CubicSpline *spline, const QPolygonF &poi
     if ( !okStart || numErrorsM > 0 || numErrorsCV > 0 || !okEnd )
     {
         qDebug() << qPrintable( spline->name() ) << "("
-            << points.size() << "):" << false;
+                 << points.size() << "):" << false;
 
 #if DEBUG_ERRORS > 0
         if ( !okStart )
@@ -169,10 +169,10 @@ void SplineTester::testSplineC2( const CubicSpline *spline, const QPolygonF &poi
     }
 }
 
-bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryPosition pos,
-    const QPolygonF &points, const QVector<double> &m ) const
+bool SplineTester::verifyBoundary( const QwtSpline* spline, QwtSpline::BoundaryPosition pos,
+    const QPolygonF& points, const QVector< double >& m ) const
 {
-    const bool isC2 = dynamic_cast<const QwtSplineC2 *>( spline );
+    const bool isC2 = dynamic_cast< const QwtSplineC2* >( spline );
 
     const int n = points.size();
 
@@ -185,7 +185,7 @@ bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryP
     {
         // periodic or closed
 
-        const double dx = points[n-1].x() - points[n-2].x();
+        const double dx = points[n - 1].x() - points[n - 2].x();
 
         ok = fuzzyCompare( polynomEnd.slopeAt( dx ),
             polynomBegin.slopeAt( 0.0 ) );
@@ -217,7 +217,7 @@ bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryP
             }
             else
             {
-                const double dx = points[n-1].x() - points[n-2].x();
+                const double dx = points[n - 1].x() - points[n - 2].x();
                 cv = polynomEnd.curvatureAt( dx );
             }
 
@@ -248,10 +248,10 @@ bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryP
             }
             else
             {
-                const double s = ( points[n-1].y() - points[n-2].y() ) /
-                    ( points[n-1].x() - points[n-2].x() );
+                const double s = ( points[n - 1].y() - points[n - 2].y() ) /
+                    ( points[n - 1].x() - points[n - 2].x() );
 
-                ok = fuzzyCompare( m[n-1], s - ratio * ( s - m[n-2] ) );
+                ok = fuzzyCompare( m[n - 1], s - ratio * ( s - m[n - 2] ) );
             }
             break;
         }
@@ -271,7 +271,7 @@ bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryP
             {
                 const QwtSplinePolynomial polynomEnd2 = polynomialAt( n - 3, points, m );
 
-                const double cv0 = polynomEnd.curvatureAt( points[n-1].x() - points[n-2].x() );
+                const double cv0 = polynomEnd.curvatureAt( points[n - 1].x() - points[n - 2].x() );
                 const double cv1 = polynomEnd.curvatureAt( 0.0 );
                 const double cv2 = polynomEnd2.curvatureAt( 0.0 );
 
@@ -298,7 +298,7 @@ bool SplineTester::verifyBoundary( const QwtSpline *spline, QwtSpline::BoundaryP
     return ok;
 }
 
-int SplineTester::verifyNodesCV( const QPolygonF &points, const QVector<double> &cv ) const
+int SplineTester::verifyNodesCV( const QPolygonF& points, const QVector< double >& cv ) const
 {
     const int n = points.size();
 
@@ -309,16 +309,16 @@ int SplineTester::verifyNodesCV( const QPolygonF &points, const QVector<double> 
 
     for ( int i = 1; i < n - 2; i++ )
     {
-        const double h2 = points[i+1].x() - points[i].x();
-        const double s2 = ( points[i+1].y() - points[i].y() ) / h2;
+        const double h2 = points[i + 1].x() - points[i].x();
+        const double s2 = ( points[i + 1].y() - points[i].y() ) / h2;
 
-        const double v = ( h1 + h2 ) * cv[i] + 0.5 * ( h1 * cv[i-1] + h2 * cv[i+1] );
+        const double v = ( h1 + h2 ) * cv[i] + 0.5 * ( h1 * cv[i - 1] + h2 * cv[i + 1] );
         if ( !fuzzyCompare( v, 3 * ( s2 - s1 ) ) )
         {
 #if DEBUG_ERRORS > 1
             qDebug() << "invalid node condition (cv)" << i
-                << cv[i-1] << cv[i] << cv[i+1]
-                << v - 3 * ( s2 - s1 );
+                     << cv[i - 1] << cv[i] << cv[i + 1]
+                     << v - 3 * ( s2 - s1 );
 #endif
 
             numErrors++;
@@ -331,7 +331,7 @@ int SplineTester::verifyNodesCV( const QPolygonF &points, const QVector<double> 
     return numErrors;
 }
 
-int SplineTester::verifyNodesM( const QPolygonF &points, const QVector<double> &m ) const
+int SplineTester::verifyNodesM( const QPolygonF& points, const QVector< double >& m ) const
 {
     const int n = points.size();
 
@@ -343,11 +343,11 @@ int SplineTester::verifyNodesM( const QPolygonF &points, const QVector<double> &
 
     for ( int i = 1; i < n - 1; i++ )
     {
-        const double dx2 = points[i+1].x() - points[i].x();
-        const double dy2 = points[i+1].y() - points[i].y();
+        const double dx2 = points[i + 1].x() - points[i].x();
+        const double dy2 = points[i + 1].y() - points[i].y();
 
         const QwtSplinePolynomial polynomial2 =
-            QwtSplinePolynomial::fromSlopes( dx2, dy2, m[i], m[i+1] );
+            QwtSplinePolynomial::fromSlopes( dx2, dy2, m[i], m[i + 1] );
 
         const double cv1 = polynomial1.curvatureAt( dx1 );
         const double cv2 = polynomial2.curvatureAt( 0.0 );
@@ -368,11 +368,11 @@ int SplineTester::verifyNodesM( const QPolygonF &points, const QVector<double> &
     return numErrors;
 }
 
-static void testSplines( SplineTester::Type splineType, const QPolygonF &points )
+static void testSplines( SplineTester::Type splineType, const QPolygonF& points )
 {
     struct Condition
     {
-        const char *name;
+        const char* name;
         int condition;
         double valueBegin;
         double valueEnd;
@@ -389,14 +389,14 @@ static void testSplines( SplineTester::Type splineType, const QPolygonF &points 
 
     for ( uint i = 0; i < sizeof( conditions ) / sizeof( conditions[0] ); i++ )
     {
-        const Condition &c = conditions[i];
+        const Condition& c = conditions[i];
 
         if ( conditions[i].condition == QwtSplineC2::NotAKnot && points.size() < 4 )
             continue;
 
         if ( splineType != SplineTester::Cubic )
         {
-            LocalSpline *spline;
+            LocalSpline* spline;
             if ( splineType == SplineTester::Cardinal )
             {
                 const QString name = QString( c.name ) + " Spline Cardinal";
@@ -453,7 +453,7 @@ static void testSplines( SplineTester::Type splineType, const QPolygonF &points 
     }
 }
 
-static void testSplines( const QPolygonF &points )
+static void testSplines( const QPolygonF& points )
 {
     testSplines( SplineTester::Cardinal, points );
     testSplines( SplineTester::Akima, points );
@@ -474,14 +474,14 @@ static void testSplines()
 
     points.clear();
     points << QPointF( 10, 50 ) << QPointF( 60, 30 )
-        << QPointF( 70, 5 ) << QPointF( 82, 50 );
+           << QPointF( 70, 5 ) << QPointF( 82, 50 );
 
     testSplines( points );
 
     // 5 points
     points.clear();
     points << QPointF( 10, 50 ) << QPointF( 20, 20 ) << QPointF( 60, 30 )
-        << QPointF( 70, 5 ) << QPointF( 82, 50 );
+           << QPointF( 70, 5 ) << QPointF( 82, 50 );
 
     testSplines( points );
 
@@ -489,9 +489,9 @@ static void testSplines()
 
     points.clear();
     points << QPointF( 10, 50 ) << QPointF( 20, 90 ) << QPointF( 25, 60 )
-        << QPointF( 35, 38 ) << QPointF( 42, 40 ) << QPointF( 55, 60 )
-        << QPointF( 60, 50 ) << QPointF( 65, 80 ) << QPointF( 73, 30 )
-        << QPointF( 82, 30 ) << QPointF( 87, 40 ) << QPointF( 95, 50 );
+           << QPointF( 35, 38 ) << QPointF( 42, 40 ) << QPointF( 55, 60 )
+           << QPointF( 60, 50 ) << QPointF( 65, 80 ) << QPointF( 73, 30 )
+           << QPointF( 82, 30 ) << QPointF( 87, 40 ) << QPointF( 95, 50 );
 
     testSplines( points );
 
@@ -518,7 +518,7 @@ static void testSplines()
     testSplines( points );
 }
 
-static void testPaths( const char *prompt, const QwtSpline &spline,
+static void testPaths( const char* prompt, const QwtSpline& spline,
     const QPolygonF& points1, const QPolygonF& points2 )
 {
     const QPainterPath path1 = spline.painterPath( points1 );

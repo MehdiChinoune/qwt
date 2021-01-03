@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "plotwindow.h"
@@ -14,26 +14,29 @@
 
 #include <qlayout.h>
 
-class ColorMap: public QwtLinearColorMap
+namespace
 {
-public:
-    ColorMap():
-        QwtLinearColorMap( Qt::darkBlue, Qt::yellow )
+    class ColorMap : public QwtLinearColorMap
     {
+      public:
+        ColorMap()
+            : QwtLinearColorMap( Qt::darkBlue, Qt::yellow )
+        {
 #if 1
-        addColorStop( 0.00, Qt::black );
-        addColorStop( 0.05, Qt::darkRed );
+            addColorStop( 0.00, Qt::black );
+            addColorStop( 0.05, Qt::darkRed );
 #else
-        addColorStop( 0.05, Qt::blue );
+            addColorStop( 0.05, Qt::blue );
 #endif
-        addColorStop( 0.3, Qt::cyan );
-        addColorStop( 0.6, Qt::green );
-        addColorStop( 0.98, Qt::red );
-    }
-};
+            addColorStop( 0.3, Qt::cyan );
+            addColorStop( 0.6, Qt::green );
+            addColorStop( 0.98, Qt::red );
+        }
+    };
+}
 
-PlotWindow::PlotWindow( QWidget *parent ):
-    QWidget( parent )
+PlotWindow::PlotWindow( QWidget* parent )
+    : QWidget( parent )
 {
     m_plot = new Plot( this );
 
@@ -54,7 +57,7 @@ PlotWindow::PlotWindow( QWidget *parent ):
     m_plot->spectrogram()->setColorMap( new ColorMap() );
 
     QwtLinearScaleEngine scaleEngine;
-    m_colorScale->setScaleDiv( 
+    m_colorScale->setScaleDiv(
         scaleEngine.divideScale( interval.minValue(), interval.maxValue(), 8, 5 ) );
 
     int startDist, endDist;
@@ -62,7 +65,7 @@ PlotWindow::PlotWindow( QWidget *parent ):
     m_colorScale->setBorderDist( startDist, endDist );
 
 
-    QHBoxLayout *layout = new QHBoxLayout( this );
+    QHBoxLayout* layout = new QHBoxLayout( this );
     layout->addWidget( m_plot, 10 );
     layout->addWidget( m_colorScale, 10 );
 }

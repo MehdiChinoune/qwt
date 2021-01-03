@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -14,24 +14,24 @@
 class QwtPlotGrid;
 class QwtPlotCurve;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
+  public:
     Plot( QWidget* = NULL );
 
-public Q_SLOTS:
-    void setSettings( const Settings & );
+  public Q_SLOTS:
+    void setSettings( const Settings& );
 
-protected:
-    virtual void timerEvent( QTimerEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void timerEvent( QTimerEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     void alignScales();
 
-    QwtPlotGrid *m_grid;
-    QwtPlotCurve *m_curve;
+    QwtPlotGrid* m_grid;
+    QwtPlotCurve* m_curve;
 
     QwtSystemClock m_clock;
     double m_interval;

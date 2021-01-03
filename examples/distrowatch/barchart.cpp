@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "barchart.h"
 
@@ -17,11 +17,11 @@
 #include <qapplication.h>
 #include <qpainter.h>
 
-class DistroScaleDraw: public QwtScaleDraw
+class DistroScaleDraw : public QwtScaleDraw
 {
-public:
-    DistroScaleDraw( Qt::Orientation orientation, const QStringList &labels ):
-        m_labels( labels )
+  public:
+    DistroScaleDraw( Qt::Orientation orientation, const QStringList& labels )
+        : m_labels( labels )
     {
         setTickLength( QwtScaleDiv::MinorTick, 0 );
         setTickLength( QwtScaleDiv::MediumTick, 0 );
@@ -54,15 +54,15 @@ public:
         return lbl;
     }
 
-private:
+  private:
     const QStringList m_labels;
 };
 
-class DistroChartItem: public QwtPlotBarChart
+class DistroChartItem : public QwtPlotBarChart
 {
-public:
-    DistroChartItem():
-        QwtPlotBarChart( "Page Hits" )
+  public:
+    DistroChartItem()
+        : QwtPlotBarChart( "Page Hits" )
     {
         setLegendMode( QwtPlotBarChart::LegendBarTitles );
         setLegendIconSize( QSize( 10, 14 ) );
@@ -72,19 +72,19 @@ public:
         setSpacing( 10 ); // spacing between bars
     }
 
-    void addDistro( const QString &distro, const QColor &color )
+    void addDistro( const QString& distro, const QColor& color )
     {
         m_colors += color;
         m_distros += distro;
         itemChanged();
     }
 
-    virtual QwtColumnSymbol *specialSymbol(
+    virtual QwtColumnSymbol* specialSymbol(
         int index, const QPointF& ) const QWT_OVERRIDE
     {
         // we want to have individual colors for each bar
 
-        QwtColumnSymbol *symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
+        QwtColumnSymbol* symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
         symbol->setLineWidth( 2 );
         symbol->setFrameStyle( QwtColumnSymbol::Raised );
 
@@ -106,17 +106,17 @@ public:
         return title;
     }
 
-private:
-    QList<QColor> m_colors;
-    QList<QString> m_distros;
+  private:
+    QList< QColor > m_colors;
+    QList< QString > m_distros;
 };
 
-BarChart::BarChart( QWidget *parent ):
-    QwtPlot( parent )
+BarChart::BarChart( QWidget* parent )
+    : QwtPlot( parent )
 {
     const struct
     {
-        const char *distro;
+        const char* distro;
         const int hits;
         QColor color;
 
@@ -135,7 +135,7 @@ BarChart::BarChart( QWidget *parent ):
     setAutoFillBackground( true );
     setPalette( QColor( "Linen" ) );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setLineWidth( 2 );
     canvas->setFrameStyle( QFrame::Box | QFrame::Sunken );
     canvas->setBorderRadius( 10 );
@@ -191,7 +191,7 @@ void BarChart::setOrientation( int o )
     setAxisTitle( axis2, "Hits per day ( HPD )" );
     setAxisMaxMinor( axis2, 3 );
 
-    QwtScaleDraw *scaleDraw = new QwtScaleDraw();
+    QwtScaleDraw* scaleDraw = new QwtScaleDraw();
     scaleDraw->setTickLength( QwtScaleDiv::MediumTick, 4 );
     setAxisScaleDraw( axis2, scaleDraw );
 
@@ -232,7 +232,7 @@ void BarChart::exportPNG( int width, int height )
     image.save( fileBase + ".png" );
 }
 
-void BarChart::render( QPainter* painter, const QRectF & targetRect )
+void BarChart::render( QPainter* painter, const QRectF& targetRect )
 {
     const int r = 20;
     const QRectF plotRect = targetRect.adjusted( 0.5 * r, 0.5 * r, -0.5 * r, -0.5 * r );

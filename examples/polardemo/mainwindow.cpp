@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -18,10 +18,10 @@
 #include <qprintdialog.h>
 #include <qlayout.h>
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
-    QWidget *w = new QWidget( this );
+    QWidget* w = new QWidget( this );
 
     m_plot = new Plot( w );
 
@@ -34,18 +34,18 @@ MainWindow::MainWindow( QWidget *parent ):
     m_settingsEditor = new SettingsEditor( w );
 
     m_settingsEditor->showSettings( m_plot->settings() );
-    connect( m_settingsEditor, SIGNAL( edited( const PlotSettings & ) ),
-        m_plot, SLOT( applySettings( const PlotSettings & ) ) );
+    connect( m_settingsEditor, SIGNAL(edited(const PlotSettings&)),
+        m_plot, SLOT(applySettings(const PlotSettings&)) );
 
-    QHBoxLayout *layout = new QHBoxLayout( w );
+    QHBoxLayout* layout = new QHBoxLayout( w );
     layout->addWidget( m_settingsEditor, 0 );
     layout->addWidget( m_plot, 10 );
 
     setCentralWidget( w );
 
-    QToolBar *toolBar = new QToolBar( this );
+    QToolBar* toolBar = new QToolBar( this );
 
-    QToolButton *btnZoom = new QToolButton( toolBar );
+    QToolButton* btnZoom = new QToolButton( toolBar );
 
     const QString zoomHelp =
         "Use the wheel to zoom in/out.\n"
@@ -58,22 +58,22 @@ MainWindow::MainWindow( QWidget *parent ):
     btnZoom->setToolTip( zoomHelp );
     btnZoom->setCheckable( true );
     toolBar->addWidget( btnZoom );
-    connect( btnZoom, SIGNAL( toggled( bool ) ), SLOT( enableZoomMode( bool ) ) );
+    connect( btnZoom, SIGNAL(toggled(bool)), SLOT(enableZoomMode(bool)) );
 
-    QToolButton *btnPrint = new QToolButton( toolBar );
+    QToolButton* btnPrint = new QToolButton( toolBar );
     btnPrint->setText( "Print" );
     btnPrint->setIcon( QPixmap( print_xpm ) );
     btnPrint->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnPrint );
-    connect( btnPrint, SIGNAL( clicked() ), SLOT( printDocument() ) );
+    connect( btnPrint, SIGNAL(clicked()), SLOT(printDocument()) );
 
-    QToolButton *btnExport = new QToolButton( toolBar );
+    QToolButton* btnExport = new QToolButton( toolBar );
     btnExport->setText( "Export" );
     btnExport->setIcon( QPixmap( print_xpm ) );
     btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnExport );
 
-    connect( btnExport, SIGNAL( clicked() ), SLOT( exportDocument() ) );
+    connect( btnExport, SIGNAL(clicked()), SLOT(exportDocument()) );
 
     addToolBar( toolBar );
 }

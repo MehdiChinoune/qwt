@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -12,90 +12,93 @@
 
 #include <qsplitter.h>
 
-class TransformPos: public QwtTransform
+namespace
 {
-public:
-    TransformPos( double pos, double range, double factor ):
-        m_position( pos ),
-        m_range( range ),
-        m_factor( factor ),
-        m_powRange( std::pow( m_range, m_factor ) )
+    class TransformPos : public QwtTransform
     {
-    }
-
-    virtual double transform( double value ) const QWT_OVERRIDE
-    {
-        const double v1 = m_position - m_range;
-        const double v2 = v1 + 2 * m_range;
-
-        if ( value <= v1 )
+      public:
+        TransformPos( double pos, double range, double factor )
+            : m_position( pos )
+            , m_range( range )
+            , m_factor( factor )
+            , m_powRange( std::pow( m_range, m_factor ) )
         {
-            return value;
         }
 
-        if ( value >= v2 )
+        virtual double transform( double value ) const QWT_OVERRIDE
         {
-            return v1 + 2 * m_powRange + value - v2;
+            const double v1 = m_position - m_range;
+            const double v2 = v1 + 2 * m_range;
+
+            if ( value <= v1 )
+            {
+                return value;
+            }
+
+            if ( value >= v2 )
+            {
+                return v1 + 2 * m_powRange + value - v2;
+            }
+
+            double v;
+
+            if ( value <= m_position )
+            {
+                v = v1 + std::pow( value - v1, m_factor );
+            }
+            else
+            {
+                v = v1 + 2 * m_powRange - std::pow( v2 - value, m_factor );
+            }
+
+            return v;
         }
 
-        double v;
-
-        if ( value <= m_position )
+        virtual double invTransform( double value ) const QWT_OVERRIDE
         {
-            v = v1 + std::pow( value - v1, m_factor );
-        }
-        else
-        {
-            v = v1 + 2 * m_powRange - std::pow( v2 - value, m_factor );
-        }
+            const double v1 = m_position - m_range;
+            const double v2 = v1 + 2 * m_powRange;
 
-        return v;
-    }
+            if ( value < v1 )
+            {
+                return value;
+            }
 
-    virtual double invTransform( double value ) const  QWT_OVERRIDE
-    {
-        const double v1 = m_position - m_range;
-        const double v2 = v1 + 2 * m_powRange;
+            if ( value >= v2 )
+            {
+                return value + 2 * ( m_range - m_powRange );
+            }
 
-        if ( value < v1 )
-        {
-            return value;
-        }
+            double v;
+            if ( value <= v1 + m_powRange )
+            {
+                v = v1 + std::pow( value - v1, 1.0 / m_factor );
+            }
+            else
+            {
+                v = m_position + m_range - std::pow( v2 - value, 1.0 / m_factor );
+            }
 
-        if ( value >= v2 )
-        {
-            return value + 2 * ( m_range - m_powRange );
-        }
-
-        double v;
-        if ( value <= v1 + m_powRange )
-        {
-            v = v1 + std::pow( value - v1, 1.0 / m_factor );
-        }
-        else
-        {
-            v = m_position + m_range - std::pow( v2 - value, 1.0 / m_factor );
+            return v;
         }
 
-        return v;
-    }
+        virtual QwtTransform* copy() const QWT_OVERRIDE
+        {
+            return new TransformPos( m_position, m_range, m_factor );
+        }
 
-    virtual QwtTransform *copy() const QWT_OVERRIDE
-    {
-        return new TransformPos( m_position, m_range, m_factor );
-    }
+      private:
+        const double m_position;
+        const double m_range;
+        const double m_factor;
+        const double m_powRange;
+    };
+}
 
-private:
-    const double m_position;
-    const double m_range;
-    const double m_factor;
-    const double m_powRange;
-};
-
-MainWindow::MainWindow( QWidget *parent ):
+MainWindow::MainWindow( QWidget* parent ):
     QMainWindow( parent )
 {
-    QSplitter *splitter = new QSplitter( Qt::Vertical );
+    QSplitter* splitter = new QSplitter( Qt::Vertical );
 
     m_transformPlot = new TransformPlot( splitter );
 
@@ -122,8 +125,8 @@ MainWindow::MainWindow( QWidget *parent ):
 
     setCentralWidget( splitter );
 
-    connect( m_transformPlot, SIGNAL( selected( QwtTransform * ) ),
-        m_plot, SLOT( setTransformation( QwtTransform * ) ) );
+    connect( m_transformPlot, SIGNAL(selected(QwtTransform*)),
+        m_plot, SLOT(setTransformation(QwtTransform*)) );
 }
 
 #include "moc_mainwindow.cpp"

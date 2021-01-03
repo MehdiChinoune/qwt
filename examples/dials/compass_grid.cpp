@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "compass_grid.h"
 
@@ -12,8 +12,8 @@
 #include <qlayout.h>
 #include <qmap.h>
 
-CompassGrid::CompassGrid( QWidget *parent ):
-    QFrame( parent )
+CompassGrid::CompassGrid( QWidget* parent )
+    : QFrame( parent )
 {
     QPalette p = palette();
     p.setColor( backgroundRole(), Qt::gray );
@@ -21,14 +21,14 @@ CompassGrid::CompassGrid( QWidget *parent ):
 
     setAutoFillBackground( true );
 
-    QGridLayout *layout = new QGridLayout( this );
+    QGridLayout* layout = new QGridLayout( this );
     layout->setSpacing( 5 );
     layout->setContentsMargins( QMargins() );
 
     int i;
     for ( i = 0; i < 6; i++ )
     {
-        QwtCompass *compass = createCompass( i );
+        QwtCompass* compass = createCompass( i );
         layout->addWidget( compass, i / 3, i % 3 );
     }
 
@@ -36,7 +36,7 @@ CompassGrid::CompassGrid( QWidget *parent ):
         layout->setColumnStretch( i, 1 );
 }
 
-QwtCompass *CompassGrid::createCompass( int pos )
+QwtCompass* CompassGrid::createCompass( int pos )
 {
     int c;
 
@@ -44,7 +44,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
     for ( c = 0; c < QPalette::NColorRoles; c++ )
     {
         const QPalette::ColorRole colorRole =
-            static_cast<QPalette::ColorRole>( c );
+            static_cast< QPalette::ColorRole >( c );
 
         palette0.setColor( colorRole, QColor() );
     }
@@ -54,7 +54,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
     palette0.setColor( QPalette::WindowText,
         palette0.color( QPalette::Base ) );
 
-    QwtCompass *compass = new QwtCompass( this );
+    QwtCompass* compass = new QwtCompass( this );
     compass->setLineWidth( 4 );
     compass->setFrameShadow(
         pos <= 2 ? QwtCompass::Sunken : QwtCompass::Raised );
@@ -64,12 +64,12 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 0:
         {
             /*
-              A compass with a rose and no needle. Scale and rose are
-              rotating.
+               A compass with a rose and no needle. Scale and rose are
+               rotating.
              */
             compass->setMode( QwtCompass::RotateScale );
 
-            QwtSimpleCompassRose *rose = new QwtSimpleCompassRose( 16, 2 );
+            QwtSimpleCompassRose* rose = new QwtSimpleCompassRose( 16, 2 );
             rose->setWidth( 0.15 );
 
             compass->setRose( rose );
@@ -78,9 +78,9 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 1:
         {
             /*
-              A windrose, with a scale indicating the main directions only
+               A windrose, with a scale indicating the main directions only
              */
-            QMap<double, QString> map;
+            QMap< double, QString > map;
             map.insert( 0.0, "N" );
             map.insert( 90.0, "E" );
             map.insert( 180.0, "S" );
@@ -88,7 +88,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
 
             compass->setScaleDraw( new QwtCompassScaleDraw( map ) );
 
-            QwtSimpleCompassRose *rose = new QwtSimpleCompassRose( 4, 1 );
+            QwtSimpleCompassRose* rose = new QwtSimpleCompassRose( 4, 1 );
             compass->setRose( rose );
 
             compass->setNeedle(
@@ -99,16 +99,16 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 2:
         {
             /*
-              A compass with a rotating needle in darkBlue. Shows
-              a ticks for each degree.
+               A compass with a rotating needle in darkBlue. Shows
+               a ticks for each degree.
              */
 
             palette0.setColor( QPalette::Base, Qt::darkBlue );
             palette0.setColor( QPalette::WindowText,
-                               QColor( Qt::darkBlue ).darker( 120 ) );
+                QColor( Qt::darkBlue ).darker( 120 ) );
             palette0.setColor( QPalette::Text, Qt::white );
 
-            QwtCompassScaleDraw *scaleDraw = new QwtCompassScaleDraw();
+            QwtCompassScaleDraw* scaleDraw = new QwtCompassScaleDraw();
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Ticks, true );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Labels, true );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
@@ -130,8 +130,8 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 3:
         {
             /*
-              A compass without a frame, showing numbers as tick labels.
-              The origin is at 220.0
+               A compass without a frame, showing numbers as tick labels.
+               The origin is at 220.0
              */
             palette0.setColor( QPalette::Base,
                 palette().color( backgroundRole() ) );
@@ -139,11 +139,11 @@ QwtCompass *CompassGrid::createCompass( int pos )
 
             compass->setLineWidth( 0 );
 
-            QMap<double, QString> map;
+            QMap< double, QString > map;
             for ( int d = 0; d < 360; d += 60 )
                 map.insert( d, QString::number( d ) );
 
-            QwtCompassScaleDraw *scaleDraw =
+            QwtCompassScaleDraw* scaleDraw =
                 new QwtCompassScaleDraw( map );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Ticks, true );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Labels, true );
@@ -166,9 +166,9 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 4:
         {
             /*
-             A compass showing another needle
+               A compass showing another needle
              */
-            QwtCompassScaleDraw *scaleDraw = new QwtCompassScaleDraw();
+            QwtCompassScaleDraw* scaleDraw = new QwtCompassScaleDraw();
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Ticks, true );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Labels, true );
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
@@ -186,7 +186,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
         case 5:
         {
             /*
-             A compass with a yellow on black ray
+               A compass with a yellow on black ray
              */
             palette0.setColor( QPalette::WindowText, Qt::black );
 
@@ -201,7 +201,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
     for ( c = 0; c < QPalette::NColorRoles; c++ )
     {
         const QPalette::ColorRole colorRole =
-            static_cast<QPalette::ColorRole>( c );
+            static_cast< QPalette::ColorRole >( c );
 
         if ( palette0.color( colorRole ).isValid() )
             newPalette.setColor( colorRole, palette0.color( colorRole ) );
@@ -210,7 +210,7 @@ QwtCompass *CompassGrid::createCompass( int pos )
     for ( int i = 0; i < QPalette::NColorGroups; i++ )
     {
         const QPalette::ColorGroup colorGroup =
-            static_cast<QPalette::ColorGroup>( i );
+            static_cast< QPalette::ColorGroup >( i );
 
         const QColor light =
             newPalette.color( colorGroup, QPalette::Base ).lighter( 170 );

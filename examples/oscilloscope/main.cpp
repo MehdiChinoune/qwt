@@ -1,14 +1,14 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "samplingthread.h"
 
 #include <qapplication.h>
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication app( argc, argv );
     app.setPalette( Qt::darkGray );
@@ -21,12 +21,12 @@ int main( int argc, char **argv )
     samplingThread.setAmplitude( window.amplitude() );
     samplingThread.setInterval( window.signalInterval() );
 
-    window.connect( &window, SIGNAL( frequencyChanged( double ) ),
-        &samplingThread, SLOT( setFrequency( double ) ) );
-    window.connect( &window, SIGNAL( amplitudeChanged( double ) ),
-        &samplingThread, SLOT( setAmplitude( double ) ) );
-    window.connect( &window, SIGNAL( signalIntervalChanged( double ) ),
-        &samplingThread, SLOT( setInterval( double ) ) );
+    window.connect( &window, SIGNAL(frequencyChanged(double)),
+        &samplingThread, SLOT(setFrequency(double)) );
+    window.connect( &window, SIGNAL(amplitudeChanged(double)),
+        &samplingThread, SLOT(setAmplitude(double)) );
+    window.connect( &window, SIGNAL(signalIntervalChanged(double)),
+        &samplingThread, SLOT(setInterval(double)) );
 
     window.show();
 

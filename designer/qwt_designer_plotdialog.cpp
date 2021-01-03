@@ -15,26 +15,26 @@
 
 using namespace QwtDesignerPlugin;
 
-PlotDialog::PlotDialog( const QString &properties, QWidget *parent ):
-    QDialog( parent )
+PlotDialog::PlotDialog( const QString& properties, QWidget* parent )
+    : QDialog( parent )
 {
     setWindowTitle( "Plot Properties" );
 
-    QLineEdit *lineEdit = new QLineEdit( properties );
-    connect( lineEdit, SIGNAL( textChanged( const QString & ) ),
-        SIGNAL( edited( const QString & ) ) );
+    QLineEdit* lineEdit = new QLineEdit( properties );
+    connect( lineEdit, SIGNAL(textChanged(const QString&)),
+        SIGNAL(edited(const QString&)) );
 
-    QTabWidget *tabWidget = new QTabWidget( this );
+    QTabWidget* tabWidget = new QTabWidget( this );
     tabWidget->addTab( lineEdit, "General" );
 
-    QPushButton *closeButton = new QPushButton( "Close" );
-    connect( closeButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
+    QPushButton* closeButton = new QPushButton( "Close" );
+    connect( closeButton, SIGNAL(clicked()), this, SLOT(accept()) );
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    QHBoxLayout* buttonLayout = new QHBoxLayout;
     buttonLayout->addStretch( 1 );
     buttonLayout->addWidget( closeButton );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout* mainLayout = new QVBoxLayout;
     mainLayout->addWidget( tabWidget );
     mainLayout->addLayout( buttonLayout );
     setLayout( mainLayout );

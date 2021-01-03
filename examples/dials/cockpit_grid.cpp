@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "attitude_indicator.h"
 #include "speedo_meter.h"
@@ -13,21 +13,21 @@
 #include <qlayout.h>
 #include <qtimer.h>
 
-CockpitGrid::CockpitGrid( QWidget *parent ):
-    QFrame( parent )
+CockpitGrid::CockpitGrid( QWidget* parent )
+    : QFrame( parent )
 {
     setAutoFillBackground( true );
 
     setPalette( colorTheme( QColor( Qt::darkGray ).darker( 150 ) ) );
 
-    QGridLayout *layout = new QGridLayout( this );
+    QGridLayout* layout = new QGridLayout( this );
     layout->setSpacing( 5 );
     layout->setContentsMargins( QMargins() );
 
     int i;
     for ( i = 0; i < 3; i++ )
     {
-        QwtDial *dial = createDial( i );
+        QwtDial* dial = createDial( i );
         layout->addWidget( dial, 0, i );
     }
 
@@ -35,9 +35,9 @@ CockpitGrid::CockpitGrid( QWidget *parent ):
         layout->setColumnStretch( i, 1 );
 }
 
-QwtDial *CockpitGrid::createDial( int pos )
+QwtDial* CockpitGrid::createDial( int pos )
 {
-    QwtDial *dial = NULL;
+    QwtDial* dial = NULL;
     switch( pos )
     {
         case 0:
@@ -61,16 +61,16 @@ QwtDial *CockpitGrid::createDial( int pos )
                     width = 5;
                 }
 
-                QwtDialSimpleNeedle *hand = new QwtDialSimpleNeedle(
+                QwtDialSimpleNeedle* hand = new QwtDialSimpleNeedle(
                     QwtDialSimpleNeedle::Arrow, true, handColor, knobColor );
                 hand->setWidth( width );
 
-                m_clock->setHand( static_cast<QwtAnalogClock::Hand>( i ), hand );
+                m_clock->setHand( static_cast< QwtAnalogClock::Hand >( i ), hand );
             }
 
-            QTimer *timer = new QTimer( m_clock );
-            timer->connect( timer, SIGNAL( timeout() ),
-                m_clock, SLOT( setCurrentTime() ) );
+            QTimer* timer = new QTimer( m_clock );
+            timer->connect( timer, SIGNAL(timeout()),
+                m_clock, SLOT(setCurrentTime()) );
             timer->start( 1000 );
 
             dial = m_clock;
@@ -83,9 +83,9 @@ QwtDial *CockpitGrid::createDial( int pos )
             m_speedo->setScale( 0.0, 240.0 );
             m_speedo->scaleDraw()->setPenWidthF( 2 );
 
-            QTimer *timer = new QTimer( m_speedo );
-            timer->connect( timer, SIGNAL( timeout() ),
-                this, SLOT( changeSpeed() ) );
+            QTimer* timer = new QTimer( m_speedo );
+            timer->connect( timer, SIGNAL(timeout()),
+                this, SLOT(changeSpeed()) );
             timer->start( 50 );
 
             dial = m_speedo;
@@ -96,14 +96,14 @@ QwtDial *CockpitGrid::createDial( int pos )
             m_ai = new AttitudeIndicator( this );
             m_ai->scaleDraw()->setPenWidthF( 3 );
 
-            QTimer *gradientTimer = new QTimer( m_ai );
-            gradientTimer->connect( gradientTimer, SIGNAL( timeout() ),
-                this, SLOT( changeGradient() ) );
+            QTimer* gradientTimer = new QTimer( m_ai );
+            gradientTimer->connect( gradientTimer, SIGNAL(timeout()),
+                this, SLOT(changeGradient()) );
             gradientTimer->start( 100 );
 
-            QTimer *angleTimer = new QTimer( m_ai );
-            angleTimer->connect( angleTimer, SIGNAL( timeout() ),
-                this, SLOT( changeAngle() ) );
+            QTimer* angleTimer = new QTimer( m_ai );
+            angleTimer->connect( angleTimer, SIGNAL(timeout()),
+                this, SLOT(changeAngle()) );
             angleTimer->start( 100 );
 
             dial = m_ai;
@@ -121,7 +121,7 @@ QwtDial *CockpitGrid::createDial( int pos )
     return dial;
 }
 
-QPalette CockpitGrid::colorTheme( const QColor &base ) const
+QPalette CockpitGrid::colorTheme( const QColor& base ) const
 {
     QPalette palette;
     palette.setColor( QPalette::Base, base );

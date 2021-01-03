@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "wheelbox.h"
 
@@ -12,56 +12,58 @@
 #include <qevent.h>
 #include <qapplication.h>
 
-class Wheel: public QwtWheel
+namespace
 {
-public:
-    Wheel( WheelBox *parent ):
-        QwtWheel( parent ),
-        m_ignoreWheelEvent( false )
+    class Wheel : public QwtWheel
     {
-        setFocusPolicy( Qt::WheelFocus );
-        parent->installEventFilter( this );
-    }
-
-    virtual bool eventFilter( QObject *object, QEvent *event ) QWT_OVERRIDE
-    {
-        if ( event->type() == QEvent::Wheel && !m_ignoreWheelEvent )
+      public:
+        Wheel( WheelBox* parent )
+            : QwtWheel( parent )
+            , m_ignoreWheelEvent( false )
         {
-            const QWheelEvent *we = static_cast<QWheelEvent *>( event );
-
-            const QPoint pos = wheelRect().center();
-
-#if QT_VERSION >= 0x050c00
-            QWheelEvent wheelEvent(
-                pos, mapToGlobal( pos ),
-                we->pixelDelta(), we->angleDelta(),
-                we->buttons(), we->modifiers(),
-                we->phase(), we->inverted() );
-#else
-            QWheelEvent wheelEvent(
-                pos, we->delta(),
-                we->buttons(), we->modifiers(),
-                we->orientation() );
-#endif
-
-            m_ignoreWheelEvent = true;
-            QApplication::sendEvent( this, &wheelEvent );
-            m_ignoreWheelEvent = false;
-
-            return true;
+            setFocusPolicy( Qt::WheelFocus );
+            parent->installEventFilter( this );
         }
 
-        return QwtWheel::eventFilter( object, event );
-    }
-private:
-    bool m_ignoreWheelEvent;
-};
+        virtual bool eventFilter( QObject* object, QEvent* event ) QWT_OVERRIDE
+        {
+            if ( event->type() == QEvent::Wheel && !m_ignoreWheelEvent )
+            {
+                const QWheelEvent* we = static_cast< QWheelEvent* >( event );
 
-WheelBox::WheelBox( const QString &title,
-        double min, double max, double stepSize, QWidget *parent ):
-    QWidget( parent )
+                const QPoint pos = wheelRect().center();
+
+    #if QT_VERSION >= 0x050c00
+                QWheelEvent wheelEvent(
+                    pos, mapToGlobal( pos ),
+                    we->pixelDelta(), we->angleDelta(),
+                    we->buttons(), we->modifiers(),
+                    we->phase(), we->inverted() );
+    #else
+                QWheelEvent wheelEvent(
+                    pos, we->delta(),
+                    we->buttons(), we->modifiers(),
+                    we->orientation() );
+    #endif
+
+                m_ignoreWheelEvent = true;
+                QApplication::sendEvent( this, &wheelEvent );
+                m_ignoreWheelEvent = false;
+
+                return true;
+            }
+
+            return QwtWheel::eventFilter( object, event );
+        }
+      private:
+        bool m_ignoreWheelEvent;
+    };
+}
+
+WheelBox::WheelBox( const QString& title,
+        double min, double max, double stepSize, QWidget* parent )
+    : QWidget( parent )
 {
-
     m_number = new QLCDNumber( this );
     m_number->setSegmentStyle( QLCDNumber::Filled );
     m_number->setAutoFillBackground( true );
@@ -88,23 +90,23 @@ WheelBox::WheelBox( const QString &title,
     m_label = new QLabel( title, this );
     m_label->setFont( font );
 
-    QHBoxLayout *hLayout = new QHBoxLayout;
+    QHBoxLayout* hLayout = new QHBoxLayout;
     hLayout->setContentsMargins( 0, 0, 0, 0 );
     hLayout->setSpacing( 2 );
     hLayout->addWidget( m_number, 10 );
     hLayout->addWidget( m_wheel );
 
-    QVBoxLayout *vLayout = new QVBoxLayout( this );
+    QVBoxLayout* vLayout = new QVBoxLayout( this );
     vLayout->addLayout( hLayout, 10 );
     vLayout->addWidget( m_label, 0, Qt::AlignTop | Qt::AlignHCenter );
 
-    connect( m_wheel, SIGNAL( valueChanged( double ) ),
-        m_number, SLOT( display( double ) ) );
-    connect( m_wheel, SIGNAL( valueChanged( double ) ),
-        this, SIGNAL( valueChanged( double ) ) );
+    connect( m_wheel, SIGNAL(valueChanged(double)),
+        m_number, SLOT(display(double)) );
+    connect( m_wheel, SIGNAL(valueChanged(double)),
+        this, SIGNAL(valueChanged(double)) );
 }
 
-void WheelBox::setTheme( const QColor &color )
+void WheelBox::setTheme( const QColor& color )
 {
     m_wheel->setPalette( color );
 }

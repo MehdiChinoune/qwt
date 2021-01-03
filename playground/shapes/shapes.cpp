@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include <qwt_plot.h>
 #include <qwt_legend.h>
@@ -12,18 +12,20 @@
 #include <qapplication.h>
 #include <qpainterpath.h>
 
-class Plot : public QwtPlot
+namespace
 {
-public:
-    Plot( QWidget *parent = NULL );
+    class Plot : public QwtPlot
+    {
+      public:
+        Plot( QWidget* parent = NULL );
 
-private:
-    void populate();
-};
+      private:
+        void populate();
+    };
+}
 
-
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setPalette( QColor( 60, 60, 60 ) );
     canvas()->setPalette( Qt::white );
@@ -64,7 +66,7 @@ void Plot::populate()
     QFont font;
     font.setPointSizeF( 200 );
     QPainterPath textPath;
-    textPath.addText( rect.center(), font, "Seppi" );
+    textPath.addText( rect.center(), font, "Shape" );
 
     QTransform transform;
     transform.translate( rect.center().x() - 600, rect.center().y() + 50 );
@@ -75,7 +77,7 @@ void Plot::populate()
     path.addPath( textPath );
 #endif
 
-    QwtPlotShapeItem *item = new QwtPlotShapeItem( "Shape" );
+    QwtPlotShapeItem* item = new QwtPlotShapeItem( "Shape" );
     item->setItemAttribute( QwtPlotItem::Legend, true );
     item->setRenderHint( QwtPlotItem::RenderAntialiased, true );
 #if 1
@@ -91,7 +93,7 @@ void Plot::populate()
     item->attach( this );
 }
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

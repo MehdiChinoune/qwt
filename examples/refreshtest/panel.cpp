@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "panel.h"
 
@@ -13,22 +13,22 @@
 #include <qcheckbox.h>
 #include <qlayout.h>
 
-class SpinBox: public QSpinBox
+class SpinBox : public QSpinBox
 {
-public:
-    SpinBox( int min, int max, int step, QWidget *parent ):
-        QSpinBox( parent )
+  public:
+    SpinBox( int min, int max, int step, QWidget* parent )
+        : QSpinBox( parent )
     {
         setRange( min, max );
         setSingleStep( step );
     }
 };
 
-class CheckBox: public QCheckBox
+class CheckBox : public QCheckBox
 {
-public:
-    CheckBox( const QString &title, QWidget *parent ):
-        QCheckBox( title, parent )
+  public:
+    CheckBox( const QString& title, QWidget* parent )
+        : QCheckBox( title, parent )
     {
     }
 
@@ -43,8 +43,8 @@ public:
     }
 };
 
-Panel::Panel( QWidget *parent ):
-    QTabWidget( parent )
+Panel::Panel( QWidget* parent )
+    : QTabWidget( parent )
 {
     setTabPosition( QTabWidget::West );
 
@@ -54,32 +54,32 @@ Panel::Panel( QWidget *parent ):
 
     setSettings( Settings() );
 
-    connect( m_numPoints, SIGNAL( valueChanged( int ) ), SLOT( edited() ) );
-    connect( m_updateInterval, SIGNAL( valueChanged( int ) ), SLOT( edited() ) );
-    connect( m_curveWidth, SIGNAL( valueChanged( int ) ), SLOT( edited() ) );
+    connect( m_numPoints, SIGNAL(valueChanged(int)), SLOT(edited()) );
+    connect( m_updateInterval, SIGNAL(valueChanged(int)), SLOT(edited()) );
+    connect( m_curveWidth, SIGNAL(valueChanged(int)), SLOT(edited()) );
 
-    connect( m_paintCache, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
-    connect( m_paintOnScreen, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
-    connect( m_immediatePaint, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
+    connect( m_paintCache, SIGNAL(stateChanged(int)), SLOT(edited()) );
+    connect( m_paintOnScreen, SIGNAL(stateChanged(int)), SLOT(edited()) );
+    connect( m_immediatePaint, SIGNAL(stateChanged(int)), SLOT(edited()) );
 #ifndef QWT_NO_OPENGL
-    connect( m_openGL, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
+    connect( m_openGL, SIGNAL(stateChanged(int)), SLOT(edited()) );
 #endif
 
-    connect( m_curveAntialiasing, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
-    connect( m_curveClipping, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
-    connect( m_curveWeeding, SIGNAL( currentIndexChanged( int ) ), SLOT( edited() ) );
-    connect( m_lineSplitting, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
-    connect( m_curveFilled, SIGNAL( stateChanged( int ) ), SLOT( edited() ) );
+    connect( m_curveAntialiasing, SIGNAL(stateChanged(int)), SLOT(edited()) );
+    connect( m_curveClipping, SIGNAL(stateChanged(int)), SLOT(edited()) );
+    connect( m_curveWeeding, SIGNAL(currentIndexChanged(int)), SLOT(edited()) );
+    connect( m_lineSplitting, SIGNAL(stateChanged(int)), SLOT(edited()) );
+    connect( m_curveFilled, SIGNAL(stateChanged(int)), SLOT(edited()) );
 
-    connect( m_updateType, SIGNAL( currentIndexChanged( int ) ), SLOT( edited() ) );
-    connect( m_gridStyle, SIGNAL( currentIndexChanged( int ) ), SLOT( edited() ) );
-    connect( m_curveType, SIGNAL( currentIndexChanged( int ) ), SLOT( edited() ) );
-    connect( m_curvePen, SIGNAL( currentIndexChanged( int ) ), SLOT( edited() ) );
+    connect( m_updateType, SIGNAL(currentIndexChanged(int)), SLOT(edited()) );
+    connect( m_gridStyle, SIGNAL(currentIndexChanged(int)), SLOT(edited()) );
+    connect( m_curveType, SIGNAL(currentIndexChanged(int)), SLOT(edited()) );
+    connect( m_curvePen, SIGNAL(currentIndexChanged(int)), SLOT(edited()) );
 }
 
-QWidget *Panel::createPlotTab( QWidget *parent )
+QWidget* Panel::createPlotTab( QWidget* parent )
 {
-    QWidget *page = new QWidget( parent );
+    QWidget* page = new QWidget( parent );
 
     m_updateInterval = new SpinBox( 0, 1000, 10, page );
     m_numPoints = new SpinBox( 10, 1000000, 1000, page );
@@ -90,7 +90,7 @@ QWidget *Panel::createPlotTab( QWidget *parent )
 
     int row = 0;
 
-    QGridLayout *layout = new QGridLayout( page );
+    QGridLayout* layout = new QGridLayout( page );
 
     layout->addWidget( new QLabel( "Updates", page ), row, 0 );
     layout->addWidget( m_updateInterval, row, 1 );
@@ -110,9 +110,9 @@ QWidget *Panel::createPlotTab( QWidget *parent )
     return page;
 }
 
-QWidget *Panel::createCanvasTab( QWidget *parent )
+QWidget* Panel::createCanvasTab( QWidget* parent )
 {
-    QWidget *page = new QWidget( parent );
+    QWidget* page = new QWidget( parent );
 
     m_gridStyle = new QComboBox( page );
     m_gridStyle->addItem( "None" );
@@ -128,7 +128,7 @@ QWidget *Panel::createCanvasTab( QWidget *parent )
 
     int row = 0;
 
-    QGridLayout *layout = new QGridLayout( page );
+    QGridLayout* layout = new QGridLayout( page );
     layout->addWidget( new QLabel( "Grid", page ), row, 0 );
     layout->addWidget( m_gridStyle, row++, 1 );
 
@@ -147,9 +147,9 @@ QWidget *Panel::createCanvasTab( QWidget *parent )
     return page;
 }
 
-QWidget *Panel::createCurveTab( QWidget *parent )
+QWidget* Panel::createCurveTab( QWidget* parent )
 {
-    QWidget *page = new QWidget( parent );
+    QWidget* page = new QWidget( parent );
 
     m_curveType = new QComboBox( page );
     m_curveType->addItem( "Wave" );
@@ -174,7 +174,7 @@ QWidget *Panel::createCurveTab( QWidget *parent )
 
     int row = 0;
 
-    QGridLayout *layout = new QGridLayout( page );
+    QGridLayout* layout = new QGridLayout( page );
     layout->addWidget( new QLabel( "Type", page ), row, 0 );
     layout->addWidget( m_curveType, row++, 1 );
 
@@ -230,7 +230,7 @@ Settings Panel::settings() const
     s.curve.brush.setStyle( ( m_curveFilled->isChecked() ) ?
         Qt::SolidPattern : Qt::NoBrush );
     s.curve.numPoints = m_numPoints->value();
-    s.curve.functionType = static_cast<Settings::FunctionType>(
+    s.curve.functionType = static_cast< Settings::FunctionType >(
         m_curveType->currentIndex() );
 
     if ( m_curveClipping->isChecked() )
@@ -270,12 +270,12 @@ Settings Panel::settings() const
 #endif
 
     s.updateInterval = m_updateInterval->value();
-    s.updateType = static_cast<Settings::UpdateType>( m_updateType->currentIndex() );
+    s.updateType = static_cast< Settings::UpdateType >( m_updateType->currentIndex() );
 
     return s;
 }
 
-void Panel::setSettings( const Settings &s )
+void Panel::setSettings( const Settings& s )
 {
     m_numPoints->setValue( s.curve.numPoints );
     m_updateInterval->setValue( s.updateInterval );

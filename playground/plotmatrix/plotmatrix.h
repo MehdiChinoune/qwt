@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_MATRIX_H
 #define PLOT_MATRIX_H
@@ -10,12 +10,12 @@
 
 class QwtPlot;
 
-class PlotMatrix: public QFrame
+class PlotMatrix : public QFrame
 {
     Q_OBJECT
 
-public:
-    PlotMatrix( int rows, int columns, QWidget * parent = NULL );
+  public:
+    PlotMatrix( int rows, int columns, QWidget* parent = NULL );
     virtual ~PlotMatrix();
 
     int numRows() const;
@@ -30,18 +30,18 @@ public:
     void setAxisScale( int axisId, int rowOrColumn,
         double min, double max, double step = 0 );
 
-protected:
+  protected:
     void updateLayout();
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void scaleDivChanged();
 
-private:
+  private:
     void alignAxes( int rowOrColumn, int axis );
     void alignScaleBorder( int rowOrColumn, int axis );
 
     class PrivateData;
-    PrivateData *m_data;
+    PrivateData* m_data;
 };
 
 #endif

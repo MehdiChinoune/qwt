@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "wheelbox.h"
 
@@ -18,26 +18,24 @@
 #include <qlabel.h>
 #include <qlayout.h>
 
-WheelBox::WheelBox( Qt::Orientation orientation,
-        int type, QWidget *parent ):
-    QWidget( parent )
+WheelBox::WheelBox( Qt::Orientation orientation, int type, QWidget* parent )
+    : QWidget( parent )
 {
-    QWidget *box = createBox( orientation, type );
+    QWidget* box = createBox( orientation, type );
     m_label = new QLabel( this );
     m_label->setAlignment( Qt::AlignHCenter | Qt::AlignTop );
 
-    QBoxLayout *layout = new QVBoxLayout( this );
+    QBoxLayout* layout = new QVBoxLayout( this );
     layout->addWidget( box );
     layout->addWidget( m_label );
 
     setNum( m_wheel->value() );
 
-    connect( m_wheel, SIGNAL( valueChanged( double ) ),
-        this, SLOT( setNum( double ) ) );
+    connect( m_wheel, SIGNAL(valueChanged(double)),
+        this, SLOT(setNum(double)) );
 }
 
-QWidget *WheelBox::createBox(
-    Qt::Orientation orientation, int type )
+QWidget* WheelBox::createBox( Qt::Orientation orientation, int type )
 {
     m_wheel = new QwtWheel();
     m_wheel->setValue( 80 );
@@ -62,7 +60,7 @@ QWidget *WheelBox::createBox(
     {
         case 0:
         {
-            QwtLinearColorMap *colorMap = new QwtLinearColorMap();
+            QwtLinearColorMap* colorMap = new QwtLinearColorMap();
             colorMap->setColorInterval( Qt::blue, Qt::red );
             m_thermo->setColorMap( colorMap );
 
@@ -70,7 +68,7 @@ QWidget *WheelBox::createBox(
         }
         case 1:
         {
-            QwtLinearColorMap *colorMap = new QwtLinearColorMap();
+            QwtLinearColorMap* colorMap = new QwtLinearColorMap();
             colorMap->setMode( QwtLinearColorMap::FixedColors );
 
             int idx = 4;
@@ -108,7 +106,7 @@ QWidget *WheelBox::createBox(
             m_wheel->setSingleStep( 1.0 );
             m_wheel->setPalette( QColor( "Tan" ) );
 
-            QwtLinearScaleEngine *scaleEngine = new QwtLinearScaleEngine();
+            QwtLinearScaleEngine* scaleEngine = new QwtLinearScaleEngine();
             scaleEngine->setTransformation( new QwtPowerTransform( 2 ) );
 
             m_thermo->setScaleMaxMinor( 5 );
@@ -126,7 +124,7 @@ QWidget *WheelBox::createBox(
             m_wheel->setRange( -100, 300 );
             m_wheel->setInverted( true );
 
-            QwtLinearColorMap *colorMap = new QwtLinearColorMap();
+            QwtLinearColorMap* colorMap = new QwtLinearColorMap();
             colorMap->setColorInterval( Qt::darkCyan, Qt::yellow );
             m_thermo->setColorMap( colorMap );
 
@@ -172,12 +170,12 @@ QWidget *WheelBox::createBox(
     m_thermo->setScale( min, max );
     m_thermo->setValue( m_wheel->value() );
 
-    connect( m_wheel, SIGNAL( valueChanged( double ) ),
-        m_thermo, SLOT( setValue( double ) ) );
+    connect( m_wheel, SIGNAL(valueChanged(double)),
+        m_thermo, SLOT(setValue(double)) );
 
-    QWidget *box = new QWidget();
+    QWidget* box = new QWidget();
 
-    QBoxLayout *layout;
+    QBoxLayout* layout;
 
     if ( orientation == Qt::Horizontal )
         layout = new QHBoxLayout( box );

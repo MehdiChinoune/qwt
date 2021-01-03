@@ -22,26 +22,26 @@
 #include <QExtensionFactory>
 
 #define QWT_DESIGNER_INTERFACE( name ) \
-    class name: public CustomWidgetInterface \
+    class name : public CustomWidgetInterface \
     { \
         Q_OBJECT \
         Q_INTERFACES( QDesignerCustomWidgetInterface ) \
-    public: \
-        name( QObject *parent ); \
-        virtual QWidget *createWidget( QWidget *parent ) QWT_OVERRIDE; \
+      public: \
+        name( QObject* parent ); \
+        virtual QWidget* createWidget( QWidget * parent ) QWT_OVERRIDE; \
     };
 
 
 namespace QwtDesignerPlugin
 {
-    class CustomWidgetInterface: public QObject,
+    class CustomWidgetInterface : public QObject,
         public QDesignerCustomWidgetInterface
     {
         Q_OBJECT
         Q_INTERFACES( QDesignerCustomWidgetInterface )
 
-    public:
-        CustomWidgetInterface( QObject *parent );
+      public:
+        CustomWidgetInterface( QObject* parent );
 
         virtual bool isContainer() const QWT_OVERRIDE;
         virtual bool isInitialized() const QWT_OVERRIDE;
@@ -53,9 +53,9 @@ namespace QwtDesignerPlugin
         virtual QString name() const QWT_OVERRIDE;
         virtual QString toolTip() const QWT_OVERRIDE;
         virtual QString whatsThis() const QWT_OVERRIDE;
-        virtual void initialize( QDesignerFormEditorInterface * ) QWT_OVERRIDE;
+        virtual void initialize( QDesignerFormEditorInterface* ) QWT_OVERRIDE;
 
-    protected:
+      protected:
         QString m_name;
         QString m_include;
         QString m_toolTip;
@@ -64,11 +64,11 @@ namespace QwtDesignerPlugin
         QString m_codeTemplate;
         QIcon m_icon;
 
-    private:
+      private:
         bool m_isInitialized;
     };
 
-    class CustomWidgetCollectionInterface: public QObject,
+    class CustomWidgetCollectionInterface : public QObject,
         public QDesignerCustomWidgetCollectionInterface
     {
         Q_OBJECT
@@ -78,13 +78,13 @@ namespace QwtDesignerPlugin
         Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetCollectionInterface" )
 #endif
 
-    public:
-        CustomWidgetCollectionInterface( QObject *parent = NULL );
+      public:
+        CustomWidgetCollectionInterface( QObject* parent = NULL );
 
-        virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const QWT_OVERRIDE;
+        virtual QList< QDesignerCustomWidgetInterface* > customWidgets() const QWT_OVERRIDE;
 
-    private:
-        QList<QDesignerCustomWidgetInterface*> m_plugins;
+      private:
+        QList< QDesignerCustomWidgetInterface* > m_plugins;
     };
 
     QWT_DESIGNER_INTERFACE( TextLabelInterface )
@@ -110,37 +110,37 @@ namespace QwtDesignerPlugin
     QWT_DESIGNER_INTERFACE( WheelInterface )
 #endif
 
-    class TaskMenuFactory: public QExtensionFactory
+    class TaskMenuFactory : public QExtensionFactory
     {
         Q_OBJECT
 
-    public:
-        TaskMenuFactory( QExtensionManager *parent = 0 );
+      public:
+        TaskMenuFactory( QExtensionManager* parent = 0 );
 
-    protected:
-        QObject *createExtension( QObject *object,
-            const QString &iid, QObject *parent ) const QWT_OVERRIDE;
+      protected:
+        QObject* createExtension( QObject* object,
+            const QString& iid, QObject* parent ) const QWT_OVERRIDE;
     };
 
-    class TaskMenuExtension: public QObject,
+    class TaskMenuExtension : public QObject,
         public QDesignerTaskMenuExtension
     {
         Q_OBJECT
         Q_INTERFACES( QDesignerTaskMenuExtension )
 
-    public:
-        TaskMenuExtension( QWidget *widget, QObject *parent );
+      public:
+        TaskMenuExtension( QWidget* widget, QObject* parent );
 
-        QAction *preferredEditAction() const QWT_OVERRIDE;
-        QList<QAction *> taskActions() const QWT_OVERRIDE;
+        QAction* preferredEditAction() const QWT_OVERRIDE;
+        QList< QAction* > taskActions() const QWT_OVERRIDE;
 
-    private Q_SLOTS:
+      private Q_SLOTS:
         void editProperties();
-        void applyProperties( const QString & );
+        void applyProperties( const QString& );
 
-    private:
-        QAction *m_editAction;
-        QWidget *m_widget;
+      private:
+        QAction* m_editAction;
+        QWidget* m_widget;
     };
 }
 

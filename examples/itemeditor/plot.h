@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -14,25 +14,25 @@ class QSizeF;
 class QPointF;
 class Editor;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget *parent = NULL );
+  public:
+    Plot( QWidget* parent = NULL );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void exportPlot();
     void setMode( int );
 
-private:
+  private:
     void populate();
 
-    void addShape( const QString &title,
-        ShapeFactory::Shape, const QColor &,
-        const QPointF &, const QSizeF & );
+    void addShape( const QString& title,
+        ShapeFactory::Shape, const QColor&,
+        const QPointF&, const QSizeF& );
 
-    Editor *m_editor;
+    Editor* m_editor;
 };
 
 #endif

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef BAR_CHART_H
 #define BAR_CHART_H
@@ -11,24 +11,24 @@
 
 class DistroChartItem;
 
-class BarChart: public QwtPlot
+class BarChart : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    BarChart( QWidget * = NULL );
+  public:
+    BarChart( QWidget* = NULL );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setOrientation( int );
     void exportChart();
     void doScreenShot();
 
-private:
+  private:
     void populate();
     void exportPNG( int width, int height );
-    void render( QPainter* painter, const QRectF & targetRect );
+    void render( QPainter* painter, const QRectF& targetRect );
 
-    DistroChartItem *m_barChartItem;
+    DistroChartItem* m_barChartItem;
     QStringList m_distros;
 };
 

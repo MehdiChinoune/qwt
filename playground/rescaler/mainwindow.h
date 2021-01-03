@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
@@ -12,11 +12,11 @@ class QwtPlotRescaler;
 class QLabel;
 class Plot;
 
-class MainWindow: public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     enum RescaleMode
     {
         KeepScales,
@@ -27,18 +27,18 @@ public:
 
     MainWindow();
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void setRescaleMode( int );
     void showRatio( double, double );
 
-private:
-    QWidget *createPanel( QWidget * );
-    Plot *createPlot( QWidget * );
+  private:
+    QWidget* createPanel( QWidget* );
+    Plot* createPlot( QWidget* );
 
-    QwtPlotRescaler *m_rescaler;
-    QLabel *m_rescaleInfo;
+    QwtPlotRescaler* m_rescaler;
+    QLabel* m_rescaleInfo;
 
-    Plot *m_plot;
+    Plot* m_plot;
 };
 
 #endif

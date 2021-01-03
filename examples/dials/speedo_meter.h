@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef SPEEDO_METER
 #define SPEEDO_METER
@@ -9,19 +9,19 @@
 #include <qstring.h>
 #include <qwt_dial.h>
 
-class SpeedoMeter: public QwtDial
+class SpeedoMeter : public QwtDial
 {
-public:
-    SpeedoMeter( QWidget *parent = NULL );
+  public:
+    SpeedoMeter( QWidget* parent = NULL );
 
-    void setLabel( const QString & );
+    void setLabel( const QString& );
     QString label() const;
 
-protected:
-    virtual void drawScaleContents( QPainter *painter,
-        const QPointF &center, double radius ) const QWT_OVERRIDE;
+  protected:
+    virtual void drawScaleContents( QPainter* painter,
+        const QPointF& center, double radius ) const QWT_OVERRIDE;
 
-private:
+  private:
     QString m_label;
 };
 

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "knob.h"
 
@@ -14,8 +14,8 @@
 #include <qevent.h>
 #include <qmath.h>
 
-Knob::Knob( const QString &title, double min, double max, QWidget *parent ):
-    QWidget( parent )
+Knob::Knob( const QString& title, double min, double max, QWidget* parent )
+    : QWidget( parent )
 {
     QFont font( "Helvetica", 10 );
 
@@ -25,7 +25,7 @@ Knob::Knob( const QString &title, double min, double max, QWidget *parent ):
     QwtScaleDiv scaleDiv =
         m_knob->scaleEngine()->divideScale( min, max, 5, 3 );
 
-    QList<double> ticks = scaleDiv.ticks( QwtScaleDiv::MajorTick );
+    QList< double > ticks = scaleDiv.ticks( QwtScaleDiv::MajorTick );
     if ( ticks.size() > 0 && ticks[0] > min )
     {
         if ( ticks.first() > min )
@@ -46,8 +46,8 @@ Knob::Knob( const QString &title, double min, double max, QWidget *parent ):
     setSizePolicy( QSizePolicy::MinimumExpanding,
         QSizePolicy::MinimumExpanding );
 
-    connect( m_knob, SIGNAL( valueChanged( double ) ),
-        this, SIGNAL( valueChanged( double ) ) );
+    connect( m_knob, SIGNAL(valueChanged(double)),
+        this, SIGNAL(valueChanged(double)) );
 }
 
 QSize Knob::sizeHint() const
@@ -74,7 +74,7 @@ double Knob::value() const
     return m_knob->value();
 }
 
-void Knob::setTheme( const QColor &color )
+void Knob::setTheme( const QColor& color )
 {
     m_knob->setPalette( color );
 }
@@ -84,7 +84,7 @@ QColor Knob::theme() const
     return m_knob->palette().color( QPalette::Window );
 }
 
-void Knob::resizeEvent( QResizeEvent *event )
+void Knob::resizeEvent( QResizeEvent* event )
 {
     const QSize sz = event->size();
     const QSize hint = m_label->sizeHint();

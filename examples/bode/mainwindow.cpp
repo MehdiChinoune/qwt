@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -27,37 +27,30 @@
 #include <qprintdialog.h>
 #include <qpen.h>
 
-class Zoomer: public QwtPlotZoomer
+namespace
 {
-public:
-    Zoomer( int xAxis, int yAxis, QWidget *canvas ):
-        QwtPlotZoomer( xAxis, yAxis, canvas )
+    class Zoomer : public QwtPlotZoomer
     {
-        setTrackerMode( QwtPicker::AlwaysOff );
-        setRubberBand( QwtPicker::NoRubberBand );
+      public:
+        Zoomer( int xAxis, int yAxis, QWidget* canvas )
+            : QwtPlotZoomer( xAxis, yAxis, canvas )
+        {
+            setTrackerMode( QwtPicker::AlwaysOff );
+            setRubberBand( QwtPicker::NoRubberBand );
 
-        // RightButton: zoom out by 1
-        // Ctrl+RightButton: zoom out to full size
+            // RightButton: zoom out by 1
+            // Ctrl+RightButton: zoom out to full size
 
-        setMousePattern( QwtEventPattern::MouseSelect2,
-            Qt::RightButton, Qt::ControlModifier );
-        setMousePattern( QwtEventPattern::MouseSelect3,
-            Qt::RightButton );
-    }
-};
+            setMousePattern( QwtEventPattern::MouseSelect2,
+                Qt::RightButton, Qt::ControlModifier );
+            setMousePattern( QwtEventPattern::MouseSelect3,
+                Qt::RightButton );
+        }
+    };
+}
 
-//-----------------------------------------------------------------
-//
-//      bode.cpp -- A demo program featuring QwtPlot and QwtCounter
-//
-//      This example demonstrates the mapping of different curves
-//      to different axes in a QwtPlot widget. It also shows how to
-//      display the cursor position and how to implement zooming.
-//
-//-----------------------------------------------------------------
-
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
     m_plot = new Plot( this );
 
@@ -74,7 +67,7 @@ MainWindow::MainWindow( QWidget *parent ):
     m_zoomer[0]->setTrackerPen( QColor( Qt::white ) );
 
     m_zoomer[1] = new Zoomer( QwtPlot::xTop, QwtPlot::yRight,
-         m_plot->canvas() );
+        m_plot->canvas() );
 
     m_panner = new QwtPlotPanner( m_plot->canvas() );
     m_panner->setMouseButton( Qt::MiddleButton );
@@ -89,43 +82,43 @@ MainWindow::MainWindow( QWidget *parent ):
 
     setCentralWidget( m_plot );
 
-    QToolBar *toolBar = new QToolBar( this );
+    QToolBar* toolBar = new QToolBar( this );
 
-    QToolButton *btnZoom = new QToolButton( toolBar );
+    QToolButton* btnZoom = new QToolButton( toolBar );
     btnZoom->setText( "Zoom" );
     btnZoom->setIcon( QPixmap( zoom_xpm ) );
     btnZoom->setCheckable( true );
     btnZoom->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnZoom );
-    connect( btnZoom, SIGNAL( toggled( bool ) ), SLOT( enableZoomMode( bool ) ) );
+    connect( btnZoom, SIGNAL(toggled(bool)), SLOT(enableZoomMode(bool)) );
 
 #ifndef QT_NO_PRINTER
-    QToolButton *btnPrint = new QToolButton( toolBar );
+    QToolButton* btnPrint = new QToolButton( toolBar );
     btnPrint->setText( "Print" );
     btnPrint->setIcon( QPixmap( print_xpm ) );
     btnPrint->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnPrint );
-    connect( btnPrint, SIGNAL( clicked() ), SLOT( print() ) );
+    connect( btnPrint, SIGNAL(clicked()), SLOT(print()) );
 #endif
 
-    QToolButton *btnExport = new QToolButton( toolBar );
+    QToolButton* btnExport = new QToolButton( toolBar );
     btnExport->setText( "Export" );
     btnExport->setIcon( QPixmap( print_xpm ) );
     btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnExport );
-    connect( btnExport, SIGNAL( clicked() ), SLOT( exportDocument() ) );
+    connect( btnExport, SIGNAL(clicked()), SLOT(exportDocument()) );
 
     toolBar->addSeparator();
 
-    QWidget *hBox = new QWidget( toolBar );
+    QWidget* hBox = new QWidget( toolBar );
 
-    QHBoxLayout *layout = new QHBoxLayout( hBox );
+    QHBoxLayout* layout = new QHBoxLayout( hBox );
     layout->setSpacing( 0 );
     layout->addWidget( new QWidget( hBox ), 10 ); // spacer
     layout->addWidget( new QLabel( "Damping Factor", hBox ), 0 );
     layout->addSpacing( 10 );
 
-    QwtCounter *cntDamp = new QwtCounter( hBox );
+    QwtCounter* cntDamp = new QwtCounter( hBox );
     cntDamp->setRange( 0.0, 5.0 );
     cntDamp->setSingleStep( 0.01 );
     cntDamp->setValue( 0.0 );
@@ -142,13 +135,13 @@ MainWindow::MainWindow( QWidget *parent ):
     enableZoomMode( false );
     showInfo();
 
-    connect( cntDamp, SIGNAL( valueChanged( double ) ),
-        m_plot, SLOT( setDamp( double ) ) );
+    connect( cntDamp, SIGNAL(valueChanged(double)),
+        m_plot, SLOT(setDamp(double)) );
 
-    connect( m_picker, SIGNAL( moved( const QPoint & ) ),
-        SLOT( moved( const QPoint & ) ) );
-    connect( m_picker, SIGNAL( selected( const QPolygon & ) ),
-        SLOT( selected( const QPolygon & ) ) );
+    connect( m_picker, SIGNAL(moved(const QPoint&)),
+        SLOT(moved(const QPoint&)) );
+    connect( m_picker, SIGNAL(selected(const QPolygon&)),
+        SLOT(selected(const QPolygon&)) );
 }
 
 #ifndef QT_NO_PRINTER
@@ -226,7 +219,7 @@ void MainWindow::showInfo( QString text )
 #endif
 }
 
-void MainWindow::moved( const QPoint &pos )
+void MainWindow::moved( const QPoint& pos )
 {
     QString info( "Freq=%1, Ampl=%2, Phase=%3" );
     info = info.arg( m_plot->invTransform( QwtPlot::xBottom, pos.x() ) );
@@ -236,7 +229,7 @@ void MainWindow::moved( const QPoint &pos )
     showInfo( info );
 }
 
-void MainWindow::selected( const QPolygon & )
+void MainWindow::selected( const QPolygon& )
 {
     showInfo();
 }

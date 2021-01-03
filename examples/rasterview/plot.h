@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -10,19 +10,19 @@
 
 class QwtPlotSpectrogram;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget * = NULL );
+  public:
+    Plot( QWidget* = NULL );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void exportPlot();
     void setResampleMode( int );
 
-private:
-    QwtPlotSpectrogram *m_spectrogram;
+  private:
+    QwtPlotSpectrogram* m_spectrogram;
 };
 
 #endif

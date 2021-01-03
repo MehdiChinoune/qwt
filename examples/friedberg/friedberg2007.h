@@ -1,14 +1,14 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef FRIEDBERG_2007_H
 #define FRIEDBERG_2007_H
 
 class Temperature
 {
-public:
+  public:
     Temperature():
         minValue( 0.0 ),
         maxValue( 0.0 ),

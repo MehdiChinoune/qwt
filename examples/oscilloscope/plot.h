@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -14,36 +14,36 @@ class QwtPlotCurve;
 class QwtPlotMarker;
 class QwtPlotDirectPainter;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget * = NULL );
+  public:
+    Plot( QWidget* = NULL );
     virtual ~Plot();
 
     void start();
     virtual void replot() QWT_OVERRIDE;
 
-    virtual bool eventFilter( QObject *, QEvent * ) QWT_OVERRIDE;
+    virtual bool eventFilter( QObject*, QEvent* ) QWT_OVERRIDE;
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void setIntervalLength( double );
 
-protected:
-    virtual void showEvent( QShowEvent * ) QWT_OVERRIDE;
-    virtual void resizeEvent( QResizeEvent * ) QWT_OVERRIDE;
-    virtual void timerEvent( QTimerEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void showEvent( QShowEvent* ) QWT_OVERRIDE;
+    virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
+    virtual void timerEvent( QTimerEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     void updateCurve();
     void incrementInterval();
 
-    QwtPlotMarker *m_origin;
-    QwtPlotCurve *m_curve;
+    QwtPlotMarker* m_origin;
+    QwtPlotCurve* m_curve;
     int m_paintedPoints;
 
-    QwtPlotDirectPainter *m_directPainter;
+    QwtPlotDirectPainter* m_directPainter;
 
     QwtInterval m_interval;
     int m_timerId;

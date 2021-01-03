@@ -1,15 +1,15 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "canvas.h"
 #include <qwt_graphic.h>
 #include <qsvgrenderer.h>
 
-Canvas::Canvas( Mode mode, QWidget *parent ):
-    QWidget( parent ),
-    m_mode( mode )
+Canvas::Canvas( Mode mode, QWidget* parent )
+    : QWidget( parent )
+    , m_mode( mode )
 {
     const int m = 10;
     setContentsMargins( m, m, m, m );
@@ -26,7 +26,7 @@ Canvas::~Canvas()
         delete m_graphic;
 }
 
-void Canvas::setSvg( const QByteArray &svgData )
+void Canvas::setSvg( const QByteArray& svgData )
 {
     if ( m_mode == VectorGraphic )
     {
@@ -47,7 +47,7 @@ void Canvas::setSvg( const QByteArray &svgData )
     update();
 }
 
-void Canvas::paintEvent( QPaintEvent * )
+void Canvas::paintEvent( QPaintEvent* )
 {
     QPainter painter( this );
 
@@ -64,7 +64,7 @@ void Canvas::paintEvent( QPaintEvent * )
     render( &painter, contentsRect() );
 }
 
-void Canvas::render( QPainter *painter, const QRect &rect ) const
+void Canvas::render( QPainter* painter, const QRect& rect ) const
 {
     if ( m_mode == Svg )
     {

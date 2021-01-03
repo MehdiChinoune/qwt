@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -18,13 +18,13 @@
 
 MainWindow::MainWindow()
 {
-    QFrame *w = new QFrame( this );
+    QFrame* w = new QFrame( this );
 
-    QWidget *panel = createPanel( w );
+    QWidget* panel = createPanel( w );
     panel->setFixedWidth( 2 * panel->sizeHint().width() );
     m_plot = createPlot( w );
 
-    QHBoxLayout *layout = new QHBoxLayout( w );
+    QHBoxLayout* layout = new QHBoxLayout( w );
     layout->setContentsMargins( QMargins() );
     layout->addWidget( panel, 0 );
     layout->addWidget( m_plot, 10 );
@@ -36,25 +36,25 @@ MainWindow::MainWindow()
     ( void )statusBar();
 }
 
-QWidget *MainWindow::createPanel( QWidget *parent )
+QWidget* MainWindow::createPanel( QWidget* parent )
 {
-    QGroupBox *panel = new QGroupBox( "Navigation Panel", parent );
+    QGroupBox* panel = new QGroupBox( "Navigation Panel", parent );
 
-    QComboBox *rescaleBox = new QComboBox( panel );
+    QComboBox* rescaleBox = new QComboBox( panel );
     rescaleBox->setEditable( false );
     rescaleBox->insertItem( KeepScales, "None" );
     rescaleBox->insertItem( Fixed, "Fixed" );
     rescaleBox->insertItem( Expanding, "Expanding" );
     rescaleBox->insertItem( Fitting, "Fitting" );
 
-    connect( rescaleBox, SIGNAL( activated( int ) ), SLOT( setRescaleMode( int ) ) );
+    connect( rescaleBox, SIGNAL(activated(int)), SLOT(setRescaleMode(int)) );
 
     m_rescaleInfo = new QLabel( panel );
     m_rescaleInfo->setSizePolicy(
         QSizePolicy::Expanding, QSizePolicy::Expanding );
     m_rescaleInfo->setWordWrap( true );
 
-    QVBoxLayout *layout = new QVBoxLayout( panel );
+    QVBoxLayout* layout = new QVBoxLayout( panel );
     layout->addWidget( rescaleBox );
     layout->addWidget( m_rescaleInfo );
     layout->addStretch( 10 );
@@ -62,9 +62,9 @@ QWidget *MainWindow::createPanel( QWidget *parent )
     return panel;
 }
 
-Plot *MainWindow::createPlot( QWidget *parent )
+Plot* MainWindow::createPlot( QWidget* parent )
 {
-    Plot *plot = new Plot( parent, QwtInterval( 0.0, 1000.0 ) );
+    Plot* plot = new Plot( parent, QwtInterval( 0.0, 1000.0 ) );
     plot->replot();
 
     m_rescaler = new QwtPlotRescaler( plot->canvas() );
@@ -76,8 +76,8 @@ Plot *MainWindow::createPlot( QWidget *parent )
     for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
         m_rescaler->setIntervalHint( axis, QwtInterval( 0.0, 1000.0 ) );
 
-    connect( plot, SIGNAL( resized( double, double ) ),
-        SLOT( showRatio( double, double ) ) );
+    connect( plot, SIGNAL(resized(double,double)),
+        SLOT(showRatio(double,double)) );
     return plot;
 }
 

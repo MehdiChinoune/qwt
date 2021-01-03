@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PANEL_H
 #define PANEL_H
@@ -13,47 +13,47 @@ class QComboBox;
 class SpinBox;
 class CheckBox;
 
-class Panel: public QTabWidget
+class Panel : public QTabWidget
 {
     Q_OBJECT
 
-public:
-    Panel( QWidget * = NULL );
+  public:
+    Panel( QWidget* = NULL );
 
     Settings settings() const;
-    void setSettings( const Settings & );
+    void setSettings( const Settings& );
 
-Q_SIGNALS:
-    void settingsChanged( const Settings & );
+  Q_SIGNALS:
+    void settingsChanged( const Settings& );
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void edited();
 
-private:
-    QWidget *createPlotTab( QWidget * );
-    QWidget *createCanvasTab( QWidget * );
-    QWidget *createCurveTab( QWidget * );
+  private:
+    QWidget* createPlotTab( QWidget* );
+    QWidget* createCanvasTab( QWidget* );
+    QWidget* createCurveTab( QWidget* );
 
-    SpinBox *m_numPoints;
-    SpinBox *m_updateInterval;
-    QComboBox *m_updateType;
+    SpinBox* m_numPoints;
+    SpinBox* m_updateInterval;
+    QComboBox* m_updateType;
 
-    QComboBox *m_gridStyle;
-    CheckBox *m_paintCache;
-    CheckBox *m_paintOnScreen;
-    CheckBox *m_immediatePaint;
+    QComboBox* m_gridStyle;
+    CheckBox* m_paintCache;
+    CheckBox* m_paintOnScreen;
+    CheckBox* m_immediatePaint;
 #ifndef QWT_NO_OPENGL
-    CheckBox *m_openGL;
+    CheckBox* m_openGL;
 #endif
 
-    QComboBox *m_curveType;
-    CheckBox *m_curveAntialiasing;
-    CheckBox *m_curveClipping;
-    QComboBox *m_curveWeeding;
-    CheckBox *m_lineSplitting;
-    SpinBox  *m_curveWidth;
-    QComboBox *m_curvePen;
-    CheckBox *m_curveFilled;
+    QComboBox* m_curveType;
+    CheckBox* m_curveAntialiasing;
+    CheckBox* m_curveClipping;
+    QComboBox* m_curveWeeding;
+    CheckBox* m_lineSplitting;
+    SpinBox* m_curveWidth;
+    QComboBox* m_curvePen;
+    CheckBox* m_curveFilled;
 };
 
 #endif

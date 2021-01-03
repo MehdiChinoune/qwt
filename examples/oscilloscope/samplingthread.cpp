@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "samplingthread.h"
 #include "signaldata.h"
@@ -9,10 +9,10 @@
 #include <qwt_math.h>
 #include <qmath.h>
 
-SamplingThread::SamplingThread( QObject *parent ):
-    QwtSamplingThread( parent ),
-    m_frequency( 5.0 ),
-    m_amplitude( 20.0 )
+SamplingThread::SamplingThread( QObject* parent )
+    : QwtSamplingThread( parent )
+    , m_frequency( 5.0 )
+    , m_amplitude( 20.0 )
 {
 }
 

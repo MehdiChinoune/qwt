@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -14,10 +14,10 @@
 #include <qwt_plot_curve.h>
 #include <qwt_plot_layout.h>
 
-class Curve: public QwtPlotCurve
+class Curve : public QwtPlotCurve
 {
-public:
-    void setTransformation( const QTransform &transform )
+  public:
+    void setTransformation( const QTransform& transform )
     {
         m_transform = transform;
     }
@@ -27,16 +27,16 @@ public:
         setSamples( m_transform.map( points( phase ) ) );
     }
 
-private:
+  private:
     virtual QPolygonF points( double phase ) const = 0;
 
-private:
+  private:
     QTransform m_transform;
 };
 
-class Curve1: public Curve
+class Curve1 : public Curve
 {
-public:
+  public:
     Curve1()
     {
         setPen( QColor( 150, 150, 200 ), 2 );
@@ -44,7 +44,7 @@ public:
 
         setCurveAttribute( QwtPlotCurve::Fitted, true );
 
-        QwtSymbol *symbol = new QwtSymbol( QwtSymbol::XCross );
+        QwtSymbol* symbol = new QwtSymbol( QwtSymbol::XCross );
         symbol->setPen( Qt::yellow );
         symbol->setSize( 7 );
 
@@ -73,9 +73,9 @@ public:
     }
 };
 
-class Curve2: public Curve
+class Curve2 : public Curve
 {
-public:
+  public:
     Curve2()
     {
         setStyle( QwtPlotCurve::Sticks );
@@ -85,7 +85,7 @@ public:
             QColor( Qt::gray ), QColor( Qt::yellow ), QSize( 5, 5 ) ) );
     }
 
-private:
+  private:
     virtual QPolygonF points( double phase ) const QWT_OVERRIDE
     {
         QPolygonF points;
@@ -101,9 +101,9 @@ private:
     }
 };
 
-class Curve3: public Curve
+class Curve3 : public Curve
 {
-public:
+  public:
     Curve3()
     {
         setStyle( QwtPlotCurve::Lines );
@@ -119,7 +119,7 @@ public:
         setTransformation( transform );
     }
 
-private:
+  private:
     virtual QPolygonF points( double phase ) const QWT_OVERRIDE
     {
         QPolygonF points;
@@ -135,9 +135,9 @@ private:
     }
 };
 
-class Curve4: public Curve
+class Curve4 : public Curve
 {
-public:
+  public:
     Curve4()
     {
         setStyle( QwtPlotCurve::Lines );
@@ -153,7 +153,7 @@ public:
         setTransformation( transform );
     }
 
-private:
+  private:
     virtual QPolygonF points( double phase ) const QWT_OVERRIDE
     {
         const double speed = 0.05;
@@ -191,12 +191,12 @@ private:
         }
     }
 
-private:
+  private:
     mutable QPolygonF m_points;
 };
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent)
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent)
 {
     setAutoReplot( false );
 
@@ -222,7 +222,7 @@ Plot::Plot( QWidget *parent ):
     ( void )startTimer( 40 );
 }
 
-void Plot::timerEvent( QTimerEvent * )
+void Plot::timerEvent( QTimerEvent* )
 {
     updateCurves();
     replot();

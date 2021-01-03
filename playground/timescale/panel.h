@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PANEL_H
 #define PANEL_H
@@ -12,26 +12,26 @@
 class QDateTimeEdit;
 class QSpinBox;
 
-class Panel: public QWidget
+class Panel : public QWidget
 {
     Q_OBJECT
 
-public:
-    Panel( QWidget *parent = NULL );
+  public:
+    Panel( QWidget* parent = NULL );
 
-    void setSettings( const Settings &);
+    void setSettings( const Settings&);
     Settings settings() const;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void edited();
 
-private:
+  private:
     QDateTimeEdit* m_startDateTime;
     QDateTimeEdit* m_endDateTime;
 
-    QSpinBox *m_maxMajorSteps;
-    QSpinBox *m_maxMinorSteps;
-    QSpinBox *m_maxWeeks;
+    QSpinBox* m_maxMajorSteps;
+    QSpinBox* m_maxMinorSteps;
+    QSpinBox* m_maxWeeks;
 };
 
 #endif

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "sliderbox.h"
 
@@ -17,12 +17,12 @@
 #include <qlabel.h>
 #include <qlayout.h>
 
-SliderBox::SliderBox( int sliderType, QWidget *parent ):
-    QWidget( parent )
+SliderBox::SliderBox( int sliderType, QWidget* parent )
+    : QWidget( parent )
 {
     m_slider = createSlider( sliderType );
 
-    QFlags<Qt::AlignmentFlag> alignment;
+    QFlags< Qt::AlignmentFlag > alignment;
 
     if ( m_slider->orientation() == Qt::Horizontal )
     {
@@ -50,9 +50,9 @@ SliderBox::SliderBox( int sliderType, QWidget *parent ):
         m_label->fontMetrics(), "10000.9" );
     m_label->setFixedWidth( labelWidth );
 
-    connect( m_slider, SIGNAL( valueChanged( double ) ), SLOT( setNum( double ) ) );
+    connect( m_slider, SIGNAL(valueChanged(double)), SLOT(setNum(double)) );
 
-    QBoxLayout *layout;
+    QBoxLayout* layout;
     if ( m_slider->orientation() == Qt::Horizontal )
         layout = new QHBoxLayout( this );
     else
@@ -64,9 +64,9 @@ SliderBox::SliderBox( int sliderType, QWidget *parent ):
     setNum( m_slider->value() );
 }
 
-QwtSlider *SliderBox::createSlider( int sliderType ) const
+QwtSlider* SliderBox::createSlider( int sliderType ) const
 {
-    QwtSlider *slider = new QwtSlider();
+    QwtSlider* slider = new QwtSlider();
 
     switch( sliderType )
     {
@@ -117,7 +117,7 @@ QwtSlider *SliderBox::createSlider( int sliderType ) const
             slider->setTrough( true );
             slider->setGroove( true );
 
-            QwtLinearScaleEngine *scaleEngine = new QwtLinearScaleEngine( 2 );
+            QwtLinearScaleEngine* scaleEngine = new QwtLinearScaleEngine( 2 );
             scaleEngine->setTransformation( new QwtPowerTransform( 2 ) );
             slider->setScaleEngine( scaleEngine );
             slider->setScale( 0.0, 128.0 );

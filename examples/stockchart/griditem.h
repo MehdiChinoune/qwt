@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef GRID_ITEM_H
 #define GRID_ITEM_H
@@ -10,16 +10,16 @@
 #include <qwt_scale_div.h>
 #include <qpalette.h>
 
-class GridItem: public QwtPlotItem
+class GridItem : public QwtPlotItem
 {
-public:
+  public:
     enum GridAttribute
     {
         AutoUpdate = 0x01,
         FillCanvas       = 0x02
     };
 
-    typedef QFlags<GridAttribute> GridAttributes;
+    typedef QFlags< GridAttribute > GridAttributes;
 
     explicit GridItem();
     virtual ~GridItem();
@@ -38,26 +38,26 @@ public:
     void enableYMin( bool );
     bool isYMinEnabled() const;
 
-    void setXDiv( const QwtScaleDiv &sx );
-    const QwtScaleDiv &xScaleDiv() const;
+    void setXDiv( const QwtScaleDiv& sx );
+    const QwtScaleDiv& xScaleDiv() const;
 
-    void setYDiv( const QwtScaleDiv &sy );
-    const QwtScaleDiv &yScaleDiv() const;
+    void setYDiv( const QwtScaleDiv& sy );
+    const QwtScaleDiv& yScaleDiv() const;
 
-    void setPalette( const QPalette & );
+    void setPalette( const QPalette& );
     QPalette palette() const;
 
-    virtual void draw( QPainter *p,
-        const QwtScaleMap &xMap, const QwtScaleMap &yMap,
-        const QRectF &rect ) const QWT_OVERRIDE;
+    virtual void draw( QPainter* p,
+        const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+        const QRectF& rect ) const QWT_OVERRIDE;
 
     virtual void updateScaleDiv(
-        const QwtScaleDiv &xMap, const QwtScaleDiv &yMap ) QWT_OVERRIDE;
+        const QwtScaleDiv& xMap, const QwtScaleDiv& yMap ) QWT_OVERRIDE;
 
-protected:
-    virtual QBrush brush( int row, int column, const QRectF & ) const;
+  protected:
+    virtual QBrush brush( int row, int column, const QRectF& ) const;
 
-private:
+  private:
     Qt::Orientations m_orientations;
     GridAttributes m_gridAttributes;
 

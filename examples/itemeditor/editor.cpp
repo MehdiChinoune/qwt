@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "editor.h"
 
@@ -15,62 +15,65 @@
 #include <qpainter.h>
 #include <qpainterpath.h>
 
-class Overlay: public QwtWidgetOverlay
+namespace
 {
-public:
-    Overlay( QWidget *parent, Editor *editor ):
-        QwtWidgetOverlay( parent ),
-        m_editor( editor )
+    class Overlay : public QwtWidgetOverlay
     {
-        switch( editor->mode() )
+      public:
+        Overlay( QWidget* parent, Editor* editor )
+            : QwtWidgetOverlay( parent )
+            , m_editor( editor )
         {
-            case Editor::NoMask:
+            switch( editor->mode() )
             {
-                setMaskMode( QwtWidgetOverlay::NoMask );
-                setRenderMode( QwtWidgetOverlay::AutoRenderMode );
-                break;
-            }
-            case Editor::Mask:
-            {
-                setMaskMode( QwtWidgetOverlay::MaskHint );
-                setRenderMode( QwtWidgetOverlay::AutoRenderMode );
-                break;
-            }
-            case Editor::AlphaMask:
-            {
-                setMaskMode( QwtWidgetOverlay::AlphaMask );
-                setRenderMode( QwtWidgetOverlay::AutoRenderMode );
-                break;
-            }
-            case Editor::AlphaMaskRedraw:
-            {
-                setMaskMode( QwtWidgetOverlay::AlphaMask );
-                setRenderMode( QwtWidgetOverlay::DrawOverlay );
-                break;
-            }
-            case Editor::AlphaMaskCopyMask:
-            {
-                setMaskMode( QwtWidgetOverlay::AlphaMask );
-                setRenderMode( QwtWidgetOverlay::CopyAlphaMask );
-                break;
+                case Editor::NoMask:
+                {
+                    setMaskMode( QwtWidgetOverlay::NoMask );
+                    setRenderMode( QwtWidgetOverlay::AutoRenderMode );
+                    break;
+                }
+                case Editor::Mask:
+                {
+                    setMaskMode( QwtWidgetOverlay::MaskHint );
+                    setRenderMode( QwtWidgetOverlay::AutoRenderMode );
+                    break;
+                }
+                case Editor::AlphaMask:
+                {
+                    setMaskMode( QwtWidgetOverlay::AlphaMask );
+                    setRenderMode( QwtWidgetOverlay::AutoRenderMode );
+                    break;
+                }
+                case Editor::AlphaMaskRedraw:
+                {
+                    setMaskMode( QwtWidgetOverlay::AlphaMask );
+                    setRenderMode( QwtWidgetOverlay::DrawOverlay );
+                    break;
+                }
+                case Editor::AlphaMaskCopyMask:
+                {
+                    setMaskMode( QwtWidgetOverlay::AlphaMask );
+                    setRenderMode( QwtWidgetOverlay::CopyAlphaMask );
+                    break;
+                }
             }
         }
-    }
 
-protected:
-    virtual void drawOverlay( QPainter *painter ) const QWT_OVERRIDE
-    {
-        m_editor->drawOverlay( painter );
-    }
+      protected:
+        virtual void drawOverlay( QPainter* painter ) const QWT_OVERRIDE
+        {
+            m_editor->drawOverlay( painter );
+        }
 
-    virtual QRegion maskHint() const QWT_OVERRIDE
-    {
-        return m_editor->maskHint();
-    }
+        virtual QRegion maskHint() const QWT_OVERRIDE
+        {
+            return m_editor->maskHint();
+        }
 
-private:
-    Editor *m_editor;
-};
+      private:
+        Editor* m_editor;
+    };
+}
 
 Editor::Editor( QwtPlot* plot ):
     QObject( plot ),
@@ -87,14 +90,14 @@ Editor::~Editor()
     delete m_overlay;
 }
 
-QwtPlot *Editor::plot()
+QwtPlot* Editor::plot()
 {
-    return qobject_cast<QwtPlot *>( parent() );
+    return qobject_cast< QwtPlot* >( parent() );
 }
 
-const QwtPlot *Editor::plot() const
+const QwtPlot* Editor::plot() const
 {
-    return qobject_cast<const QwtPlot *>( parent() );
+    return qobject_cast< const QwtPlot* >( parent() );
 }
 
 void Editor::setMode( Mode mode )
@@ -112,7 +115,7 @@ void Editor::setEnabled( bool on )
     if ( on == m_isEnabled )
         return;
 
-    QwtPlot *plot = qobject_cast<QwtPlot *>( parent() );
+    QwtPlot* plot = qobject_cast< QwtPlot* >( parent() );
     if ( plot )
     {
         m_isEnabled = on;
@@ -138,7 +141,7 @@ bool Editor::isEnabled() const
 
 bool Editor::eventFilter( QObject* object, QEvent* event )
 {
-    QwtPlot *plot = qobject_cast<QwtPlot *>( parent() );
+    QwtPlot* plot = qobject_cast< QwtPlot* >( parent() );
     if ( plot && object == plot->canvas() )
     {
         switch( event->type() )
@@ -146,7 +149,7 @@ bool Editor::eventFilter( QObject* object, QEvent* event )
             case QEvent::MouseButtonPress:
             {
                 const QMouseEvent* mouseEvent =
-                    dynamic_cast<QMouseEvent* >( event );
+                    dynamic_cast< QMouseEvent* >( event );
 
                 if ( m_overlay == NULL &&
                     mouseEvent->button() == Qt::LeftButton  )
@@ -180,7 +183,7 @@ bool Editor::eventFilter( QObject* object, QEvent* event )
             case QEvent::MouseButtonRelease:
             {
                 const QMouseEvent* mouseEvent =
-                    static_cast<QMouseEvent* >( event );
+                    static_cast< QMouseEvent* >( event );
 
                 if ( m_overlay && mouseEvent->button() == Qt::LeftButton )
                 {
@@ -248,7 +251,7 @@ void Editor::released( const QPoint& pos )
 
 QwtPlotShapeItem* Editor::itemAt( const QPoint& pos ) const
 {
-    const QwtPlot *plot = this->plot();
+    const QwtPlot* plot = this->plot();
     if ( plot == NULL )
         return NULL;
 
@@ -266,11 +269,11 @@ QwtPlotShapeItem* Editor::itemAt( const QPoint& pos ) const
     QwtPlotItemList items = plot->itemList();
     for ( int i = items.size() - 1; i >= 0; i-- )
     {
-        QwtPlotItem *item = items[ i ];
+        QwtPlotItem* item = items[ i ];
         if ( item->isVisible() &&
             item->rtti() == QwtPlotItem::Rtti_PlotShape )
         {
-            QwtPlotShapeItem *shapeItem = static_cast<QwtPlotShapeItem *>( item );
+            QwtPlotShapeItem* shapeItem = static_cast< QwtPlotShapeItem* >( item );
             const QPointF p( coords[ item->xAxis() ], coords[ item->yAxis() ] );
 
             if ( shapeItem->boundingRect().contains( p )
@@ -289,9 +292,9 @@ QRegion Editor::maskHint() const
     return maskHint( m_editedItem );
 }
 
-QRegion Editor::maskHint( QwtPlotShapeItem *shapeItem ) const
+QRegion Editor::maskHint( QwtPlotShapeItem* shapeItem ) const
 {
-    const QwtPlot *plot = this->plot();
+    const QwtPlot* plot = this->plot();
     if ( plot == NULL || shapeItem == NULL )
         return QRegion();
 
@@ -307,7 +310,7 @@ QRegion Editor::maskHint( QwtPlotShapeItem *shapeItem ) const
 
 void Editor::drawOverlay( QPainter* painter ) const
 {
-    const QwtPlot *plot = this->plot();
+    const QwtPlot* plot = this->plot();
     if ( plot == NULL || m_editedItem == NULL )
         return;
 
@@ -320,16 +323,16 @@ void Editor::drawOverlay( QPainter* painter ) const
         plot->canvas()->contentsRect() );
 }
 
-void Editor::raiseItem( QwtPlotShapeItem *shapeItem )
+void Editor::raiseItem( QwtPlotShapeItem* shapeItem )
 {
-    const QwtPlot *plot = this->plot();
+    const QwtPlot* plot = this->plot();
     if ( plot == NULL || shapeItem == NULL )
         return;
 
     const QwtPlotItemList items = plot->itemList();
     for ( int i = items.size() - 1; i >= 0; i-- )
     {
-        QwtPlotItem *item = items[ i ];
+        QwtPlotItem* item = items[ i ];
         if ( shapeItem == item )
             return;
 
@@ -342,7 +345,7 @@ void Editor::raiseItem( QwtPlotShapeItem *shapeItem )
     }
 }
 
-void Editor::setItemVisible( QwtPlotShapeItem *item, bool on )
+void Editor::setItemVisible( QwtPlotShapeItem* item, bool on )
 {
     if ( plot() == NULL || item == NULL || item->isVisible() == on )
         return;
@@ -355,14 +358,14 @@ void Editor::setItemVisible( QwtPlotShapeItem *item, bool on )
     plot()->setAutoReplot( doAutoReplot );
 
     /*
-      Avoid replot with a full repaint of the canvas.
-      For special combinations - f.e. using the
-      raster paint engine on a remote display -
-      this makes a difference.
+       Avoid replot with a full repaint of the canvas.
+       For special combinations - f.e. using the
+       raster paint engine on a remote display -
+       this makes a difference.
      */
 
-    QwtPlotCanvas *canvas =
-        qobject_cast<QwtPlotCanvas *>( plot()->canvas() );
+    QwtPlotCanvas* canvas =
+        qobject_cast< QwtPlotCanvas* >( plot()->canvas() );
     if ( canvas )
         canvas->invalidateBackingStore();
 

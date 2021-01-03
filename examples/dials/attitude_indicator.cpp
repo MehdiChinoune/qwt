@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "attitude_indicator.h"
 
@@ -12,14 +12,14 @@
 #include <qpainter.h>
 #include <qpainterpath.h>
 
-AttitudeIndicatorNeedle::AttitudeIndicatorNeedle( const QColor &color )
+AttitudeIndicatorNeedle::AttitudeIndicatorNeedle( const QColor& color )
 {
     QPalette palette;
     palette.setColor( QPalette::Text, color );
     setPalette( palette );
 }
 
-void AttitudeIndicatorNeedle::drawNeedle( QPainter *painter,
+void AttitudeIndicatorNeedle::drawNeedle( QPainter* painter,
     double length, QPalette::ColorGroup colorGroup ) const
 {
     double triangleSize = length * 0.1;
@@ -39,12 +39,11 @@ void AttitudeIndicatorNeedle::drawNeedle( QPainter *painter,
     painter->drawLine( QPointF( 0.0, -l ), QPointF( 0.0, l ) );
 }
 
-AttitudeIndicator::AttitudeIndicator(
-    QWidget *parent ):
-    QwtDial( parent ),
-    m_gradient( 0.0 )
+AttitudeIndicator::AttitudeIndicator( QWidget* parent )
+    : QwtDial( parent )
+    , m_gradient( 0.0 )
 {
-    QwtRoundScaleDraw *scaleDraw = new QwtRoundScaleDraw();
+    QwtRoundScaleDraw* scaleDraw = new QwtRoundScaleDraw();
     scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
     scaleDraw->enableComponent( QwtAbstractScaleDraw::Labels, false );
     setScaleDraw( scaleDraw );
@@ -76,8 +75,8 @@ void AttitudeIndicator::setGradient( double gradient )
     }
 }
 
-void AttitudeIndicator::drawScale( QPainter *painter,
-    const QPointF &center, double radius ) const
+void AttitudeIndicator::drawScale( QPainter* painter,
+    const QPointF& center, double radius ) const
 {
     const double offset = 4.0;
 
@@ -100,7 +99,7 @@ void AttitudeIndicator::drawScale( QPainter *painter,
 }
 
 void AttitudeIndicator::drawScaleContents(
-    QPainter *painter, const QPointF &, double ) const
+    QPainter* painter, const QPointF&, double ) const
 {
     int dir = 360 - qRound( origin() - value() ); // counter clockwise
     int arc = 90 + qRound( gradient() * 90 );
@@ -114,7 +113,7 @@ void AttitudeIndicator::drawScaleContents(
     painter->restore();
 }
 
-void AttitudeIndicator::keyPressEvent( QKeyEvent *event )
+void AttitudeIndicator::keyPressEvent( QKeyEvent* event )
 {
     switch( event->key() )
     {

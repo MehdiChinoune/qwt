@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -12,25 +12,25 @@ class Settings;
 class LegendItem;
 class QwtLegend;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget *parent = NULL );
+  public:
+    Plot( QWidget* parent = NULL );
     virtual ~Plot();
 
-public Q_SLOTS:
-    void applySettings( const Settings & );
+  public Q_SLOTS:
+    void applySettings( const Settings& );
 
-public:
+  public:
     virtual void replot() QWT_OVERRIDE;
 
-private:
+  private:
     void insertCurve();
 
-    QwtLegend *m_externalLegend;
-    LegendItem *m_legendItem;
+    QwtLegend* m_externalLegend;
+    LegendItem* m_legendItem;
     bool m_isDirty;
 };
 

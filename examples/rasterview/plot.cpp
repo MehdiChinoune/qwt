@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -17,56 +17,59 @@
 #include <qwt_plot_canvas.h>
 #include <qwt_interval.h>
 
-class RasterData: public QwtMatrixRasterData
+namespace
 {
-public:
-    RasterData()
+    class RasterData : public QwtMatrixRasterData
     {
-        const double matrix[] =
+      public:
+        RasterData()
         {
-            1, 2, 4, 1,
-            6, 3, 5, 2,
-            4, 2, 1, 5,
-            5, 4, 2, 3
-        };
+            const double matrix[] =
+            {
+                1, 2, 4, 1,
+                6, 3, 5, 2,
+                4, 2, 1, 5,
+                5, 4, 2, 3
+            };
 
-        QVector<double> values;
-        for ( uint i = 0; i < sizeof( matrix ) / sizeof( double ); i++ )
-            values += matrix[i];
+            QVector< double > values;
+            for ( uint i = 0; i < sizeof( matrix ) / sizeof( double ); i++ )
+                values += matrix[i];
 
-        const int numColumns = 4;
-        setValueMatrix( values, numColumns );
+            const int numColumns = 4;
+            setValueMatrix( values, numColumns );
 
-        setInterval( Qt::XAxis,
-            QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
-        setInterval( Qt::YAxis,
-            QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
-        setInterval( Qt::ZAxis, QwtInterval( 1.0, 6.0 ) );
-    }
-};
+            setInterval( Qt::XAxis,
+                QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
+            setInterval( Qt::YAxis,
+                QwtInterval( -0.5, 3.5, QwtInterval::ExcludeMaximum ) );
+            setInterval( Qt::ZAxis, QwtInterval( 1.0, 6.0 ) );
+        }
+    };
 
-class ColorMap: public QwtLinearColorMap
-{
-public:
-    ColorMap():
-        QwtLinearColorMap( Qt::darkBlue, Qt::darkRed )
+    class ColorMap : public QwtLinearColorMap
     {
-        addColorStop( 0.2, Qt::blue );
-        addColorStop( 0.4, Qt::cyan );
-        addColorStop( 0.6, Qt::yellow );
-        addColorStop( 0.8, Qt::red );
-    }
-};
+      public:
+        ColorMap()
+            : QwtLinearColorMap( Qt::darkBlue, Qt::darkRed )
+        {
+            addColorStop( 0.2, Qt::blue );
+            addColorStop( 0.4, Qt::cyan );
+            addColorStop( 0.6, Qt::yellow );
+            addColorStop( 0.8, Qt::red );
+        }
+    };
+}
 
-Plot::Plot( QWidget *parent ):
+Plot::Plot( QWidget* parent ):
     QwtPlot( parent )
 {
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setBorderRadius( 10 );
     setCanvas( canvas );
 
 #if 0
-    QwtPlotGrid *grid = new QwtPlotGrid();
+    QwtPlotGrid* grid = new QwtPlotGrid();
     grid->setPen( Qt::DotLine );
     grid->attach( this );
 #endif
@@ -81,7 +84,7 @@ Plot::Plot( QWidget *parent ):
 
     const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
     // A color bar on the right axis
-    QwtScaleWidget *rightAxis = axisWidget( QwtPlot::yRight );
+    QwtScaleWidget* rightAxis = axisWidget( QwtPlot::yRight );
     rightAxis->setColorBarEnabled( true );
     rightAxis->setColorBarWidth( 40 );
     rightAxis->setColorMap( zInterval, new ColorMap() );
@@ -96,10 +99,10 @@ Plot::Plot( QWidget *parent ):
     setAxisScale( QwtPlot::yLeft, 0.0, 3.0 );
     setAxisMaxMinor( QwtPlot::yLeft, 0 );
 
-    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( canvas );
+    QwtPlotMagnifier* magnifier = new QwtPlotMagnifier( canvas );
     magnifier->setAxisEnabled( QwtPlot::yRight, false );
 
-    QwtPlotPanner *panner = new QwtPlotPanner( canvas );
+    QwtPlotPanner* panner = new QwtPlotPanner( canvas );
     panner->setAxisEnabled( QwtPlot::yRight, false );
 }
 
@@ -111,9 +114,9 @@ void Plot::exportPlot()
 
 void Plot::setResampleMode( int mode )
 {
-    RasterData *rasterData = static_cast<RasterData *>( m_spectrogram->data() );
+    RasterData* rasterData = static_cast< RasterData* >( m_spectrogram->data() );
     rasterData->setResampleMode(
-        static_cast<QwtMatrixRasterData::ResampleMode>( mode ) );
+        static_cast< QwtMatrixRasterData::ResampleMode >( mode ) );
 
     replot();
 }

@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include <qapplication.h>
@@ -16,7 +16,7 @@
 #include <qgl.h>
 #endif
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
 #if USE_OPENGL
     // on my box QPaintEngine::OpenGL2 has serious problems, f.e:

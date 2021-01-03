@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef CPU_PLOT_H
 #define CPU_PLOT_H
@@ -16,7 +16,7 @@ class QwtPlotCurve;
 class CpuPlot : public QwtPlot
 {
     Q_OBJECT
-public:
+  public:
     enum CpuData
     {
         User,
@@ -27,24 +27,24 @@ public:
         NCpuData
     };
 
-    CpuPlot( QWidget * = 0 );
-    const QwtPlotCurve *cpuCurve( int id ) const
+    CpuPlot( QWidget* = 0 );
+    const QwtPlotCurve* cpuCurve( int id ) const
     {
         return data[id].curve;
     }
 
-protected:
-    void timerEvent( QTimerEvent * ) QWT_OVERRIDE;
+  protected:
+    void timerEvent( QTimerEvent* ) QWT_OVERRIDE;
 
-private Q_SLOTS:
-    void legendChecked( const QVariant &, bool on );
+  private Q_SLOTS:
+    void legendChecked( const QVariant&, bool on );
 
-private:
-    void showCurve( QwtPlotItem *, bool on );
+  private:
+    void showCurve( QwtPlotItem*, bool on );
 
     struct
     {
-        QwtPlotCurve *curve;
+        QwtPlotCurve* curve;
         double data[HISTORY];
     } data[NCpuData];
 

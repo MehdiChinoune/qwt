@@ -13,23 +13,22 @@
 
 #include <qlayout.h>
 
-MainWindow::MainWindow():
-    QWidget()
+MainWindow::MainWindow()
 {
-    TunerFrame *frmTuner = new TunerFrame( this );
+    TunerFrame* frmTuner = new TunerFrame( this );
     frmTuner->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
-    AmpFrame *frmAmp = new AmpFrame( this );
+    AmpFrame* frmAmp = new AmpFrame( this );
     frmAmp->setFrameStyle( QFrame::Panel | QFrame::Raised );
 
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    QVBoxLayout* layout = new QVBoxLayout( this );
     layout->setContentsMargins( QMargins() );
     layout->setSpacing( 0 );
     layout->addWidget( frmTuner );
     layout->addWidget( frmAmp );
 
-    connect( frmTuner, SIGNAL( fieldChanged( double ) ),
-        frmAmp, SLOT( setMaster( double ) ) );
+    connect( frmTuner, SIGNAL(fieldChanged(double)),
+        frmAmp, SLOT(setMaster(double)) );
 
     frmTuner->setFreq( 90.0 );
 
@@ -37,7 +36,7 @@ MainWindow::MainWindow():
     updateGradient();
 }
 
-void MainWindow::resizeEvent( QResizeEvent * )
+void MainWindow::resizeEvent( QResizeEvent* )
 {
     // Qt 4.7.1: QGradient::StretchToDeviceMode is buggy on X11
     updateGradient();

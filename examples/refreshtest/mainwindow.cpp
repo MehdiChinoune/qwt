@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "mainwindow.h"
 #include "plot.h"
@@ -13,16 +13,16 @@
 #include <qcoreevent.h>
 #include <qelapsedtimer.h>
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
-    QWidget *w = new QWidget( this );
+    QWidget* w = new QWidget( this );
 
     m_panel = new Panel( w );
 
     m_plot = new Plot( w );
 
-    QHBoxLayout *hLayout = new QHBoxLayout( w );
+    QHBoxLayout* hLayout = new QHBoxLayout( w );
     hLayout->addWidget( m_panel );
     hLayout->addWidget( m_plot, 10 );
 
@@ -33,11 +33,11 @@ MainWindow::MainWindow( QWidget *parent ):
 
     applySettings( m_panel->settings() );
 
-    connect( m_panel, SIGNAL( settingsChanged( const Settings & ) ),
-        this, SLOT( applySettings( const Settings & ) ) );
+    connect( m_panel, SIGNAL(settingsChanged(const Settings&)),
+        this, SLOT(applySettings(const Settings&)) );
 }
 
-bool MainWindow::eventFilter( QObject *object, QEvent *event )
+bool MainWindow::eventFilter( QObject* object, QEvent* event )
 {
     if ( object == m_plot->canvas() && event->type() == QEvent::Paint )
     {
@@ -71,7 +71,7 @@ bool MainWindow::eventFilter( QObject *object, QEvent *event )
     return QMainWindow::eventFilter( object, event );
 }
 
-void MainWindow::applySettings( const Settings &settings )
+void MainWindow::applySettings( const Settings& settings )
 {
     m_plot->setSettings( settings );
 

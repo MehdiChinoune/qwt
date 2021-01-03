@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include <qwt_scale_map.h>
 #include <qwt_plot_curve.h>
@@ -40,15 +40,15 @@ QwtScaleMap yMap;
 
 class MainWin : public QFrame
 {
-public:
+  public:
     MainWin();
 
-protected:
-    virtual void paintEvent( QPaintEvent * ) QWT_OVERRIDE;
-    void drawContents( QPainter *p );
+  protected:
+    virtual void paintEvent( QPaintEvent* ) QWT_OVERRIDE;
+    void drawContents( QPainter* p );
 
-private:
-    void shiftDown( QRect &rect, int offset ) const;
+  private:
+    void shiftDown( QRect& rect, int offset ) const;
 
     QwtPlotCurve d_curves[CurvCnt];
 };
@@ -120,12 +120,12 @@ MainWin::MainWin()
         d_curves[i].setRawSamples( xval, yval, Size );
 }
 
-void MainWin::shiftDown( QRect &rect, int offset ) const
+void MainWin::shiftDown( QRect& rect, int offset ) const
 {
     rect.translate( 0, offset );
 }
 
-void MainWin::paintEvent( QPaintEvent *event )
+void MainWin::paintEvent( QPaintEvent* event )
 {
     QFrame::paintEvent( event );
 
@@ -138,7 +138,7 @@ void MainWin::paintEvent( QPaintEvent *event )
 //
 //  REDRAW CONTENTS
 //
-void MainWin::drawContents( QPainter *painter )
+void MainWin::drawContents( QPainter* painter )
 {
     int deltay, i;
 
@@ -181,11 +181,11 @@ void MainWin::drawContents( QPainter *painter )
         alignment, "Style: Sticks, Symbol: Ellipse" );
     shiftDown( r, deltay );
 
-    painter->drawText( 0 , r.top(), r.width(), painter->fontMetrics().height(),
+    painter->drawText( 0, r.top(), r.width(), painter->fontMetrics().height(),
         alignment, "Style: Lines, Symbol: None" );
     shiftDown( r, deltay );
 
-    painter->drawText( 0 , r.top(), r.width(), painter->fontMetrics().height(),
+    painter->drawText( 0, r.top(), r.width(), painter->fontMetrics().height(),
         alignment, "Style: Lines, Symbol: None, Antialiased" );
     shiftDown( r, deltay );
 
@@ -197,7 +197,7 @@ void MainWin::drawContents( QPainter *painter )
         alignment, "Style: NoCurve, Symbol: XCross" );
 }
 
-int main ( int argc, char **argv )
+int main ( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

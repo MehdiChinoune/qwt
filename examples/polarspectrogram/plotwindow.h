@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_WINDOW_H
 #define PLOT_WINDOW_H
@@ -11,16 +11,16 @@
 class Plot;
 class QwtScaleWidget;
 
-class PlotWindow: public QWidget
+class PlotWindow : public QWidget
 {
-public:
-    PlotWindow( QWidget * = NULL );
+  public:
+    PlotWindow( QWidget* = NULL );
 
-    Plot *plot() { return m_plot; }
+    Plot* plot() { return m_plot; }
 
-private:
-    Plot *m_plot;
-    QwtScaleWidget *m_colorScale;
+  private:
+    Plot* m_plot;
+    QwtScaleWidget* m_colorScale;
 };
 
 #endif

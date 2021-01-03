@@ -1,29 +1,28 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "scrollbar.h"
 
 #include <qstyle.h>
 #include <qstyleoption.h>
 
-ScrollBar::ScrollBar( QWidget * parent ):
-    QScrollBar( parent )
+ScrollBar::ScrollBar( QWidget* parent )
+    : QScrollBar( parent )
 {
     init();
 }
 
-ScrollBar::ScrollBar( Qt::Orientation o,
-        QWidget *parent ):
-    QScrollBar( o, parent )
+ScrollBar::ScrollBar( Qt::Orientation o, QWidget* parent )
+    : QScrollBar( o, parent )
 {
     init();
 }
 
 ScrollBar::ScrollBar( double minBase, double maxBase,
-        Qt::Orientation o, QWidget *parent ):
-    QScrollBar( o, parent )
+        Qt::Orientation o, QWidget* parent )
+    : QScrollBar( o, parent )
 {
     init();
     setBase( minBase, maxBase );
@@ -38,8 +37,8 @@ void ScrollBar::init()
     m_maxBase = 1.0;
     moveSlider( m_minBase, m_maxBase );
 
-    connect( this, SIGNAL( sliderMoved( int ) ), SLOT( catchSliderMoved( int ) ) );
-    connect( this, SIGNAL( valueChanged( int ) ), SLOT( catchValueChanged( int ) ) );
+    connect( this, SIGNAL(sliderMoved(int)), SLOT(catchSliderMoved(int)) );
+    connect( this, SIGNAL(valueChanged(int)), SLOT(catchValueChanged(int)) );
 }
 
 void ScrollBar::setInverted( bool inverted )
@@ -104,7 +103,7 @@ double ScrollBar::maxBaseValue() const
     return m_maxBase;
 }
 
-void ScrollBar::sliderRange( int value, double &min, double &max ) const
+void ScrollBar::sliderRange( int value, double& min, double& max ) const
 {
     if ( isInverted() )
         value = m_baseTicks - value;
@@ -134,7 +133,7 @@ double ScrollBar::maxSliderValue() const
 int ScrollBar::mapToTick( double v ) const
 {
     const double pos = ( v - m_minBase ) / ( m_maxBase - m_minBase ) * m_baseTicks;
-    return static_cast<int>( pos );
+    return static_cast< int >( pos );
 }
 
 double ScrollBar::mapFromTick( int tick ) const

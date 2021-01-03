@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
@@ -20,10 +20,10 @@
 #include <qsvggenerator.h>
 #endif
 
-class MySymbol: public QwtSymbol
+class MySymbol : public QwtSymbol
 {
-public:
-    MySymbol( QwtSymbol::Style style, const QBrush &brush )
+  public:
+    MySymbol( QwtSymbol::Style style, const QBrush& brush )
     {
         QPen pen( Qt::black, 0 );
         pen.setJoinStyle( Qt::MiterJoin );
@@ -128,8 +128,8 @@ public:
 
     }
 
-private:
-    QPainterPath createArrow( const QSizeF &size ) const
+  private:
+    QPainterPath createArrow( const QSizeF& size ) const
     {
         const double w = size.width();
         const double h = size.height();
@@ -153,7 +153,7 @@ private:
     }
 };
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 
@@ -163,12 +163,12 @@ int main( int argc, char **argv )
 
     plot.setAxisScale( QwtPlot::xBottom, -1.0, 6.0 );
 
-    QwtLegend *legend = new QwtLegend();
+    QwtLegend* legend = new QwtLegend();
     plot.insertLegend( legend );
 
     for ( int i = 0; i < 4; i++ )
     {
-        QwtPlotCurve *curve = new QwtPlotCurve();
+        QwtPlotCurve* curve = new QwtPlotCurve();
         curve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
         curve->setPen( Qt::blue );
 
@@ -200,7 +200,7 @@ int main( int argc, char **argv )
             title = "Pixmap";
         }
 
-        MySymbol *symbol = new MySymbol( style, brush );
+        MySymbol* symbol = new MySymbol( style, brush );
 
         curve->setSymbol( symbol );
         curve->setTitle( title );
@@ -209,8 +209,8 @@ int main( int argc, char **argv )
 
         QPolygonF points;
         points << QPointF( 0.0, 4.4 ) << QPointF( 1.0, 3.0 )
-            << QPointF( 2.0, 4.5 ) << QPointF( 3.0, 6.8 )
-            << QPointF( 4.0, 7.9 ) << QPointF( 5.0, 7.1 );
+               << QPointF( 2.0, 4.5 ) << QPointF( 3.0, 6.8 )
+               << QPointF( 4.0, 7.9 ) << QPointF( 5.0, 7.1 );
 
         points.translate( 0.0, i * 2.0 );
 

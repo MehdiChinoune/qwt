@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef RANDOM_PLOT_H
 #define RANDOM_PLOT_H
@@ -11,31 +11,31 @@
 
 class QTimer;
 
-class RandomPlot: public IncrementalPlot
+class RandomPlot : public IncrementalPlot
 {
     Q_OBJECT
 
-public:
-    RandomPlot( QWidget *parent );
+  public:
+    RandomPlot( QWidget* parent );
 
     virtual QSize sizeHint() const QWT_OVERRIDE;
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void running( bool );
     void elapsed( int ms );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void clear();
     void stop();
     void append( int timeout, int count );
 
-private Q_SLOTS:
+  private Q_SLOTS:
     void appendPoint();
 
-private:
+  private:
     void initCurve();
 
-    QTimer *m_timer;
+    QTimer* m_timer;
     int m_timerCount;
 
     QElapsedTimer m_timeStamp;

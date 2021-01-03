@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include <qwt_plot.h>
 #include <qwt_plot_marker.h>
@@ -25,11 +25,11 @@
 //      on the fly.
 //-----------------------------------------------------------------
 
-class FunctionData: public QwtSyntheticPointData
+class FunctionData : public QwtSyntheticPointData
 {
-public:
-    FunctionData( double( *fy )( double ) ):
-        QwtSyntheticPointData( 100 ),
+  public:
+    FunctionData( double( *fy )( double ) )
+        : QwtSyntheticPointData( 100 ),
         d_y( fy )
     {
     }
@@ -39,13 +39,13 @@ public:
         return d_y( x );
     }
 
-private:
-    double( *d_y )( double );
+  private:
+    double ( * d_y )( double );
 };
 
-class ArrowSymbol: public QwtSymbol
+class ArrowSymbol : public QwtSymbol
 {
-public:
+  public:
     ArrowSymbol()
     {
         QPen pen( Qt::black, 0 );
@@ -75,20 +75,20 @@ public:
 
 class Plot : public QwtPlot
 {
-public:
-    Plot( QWidget *parent = NULL );
+  public:
+    Plot( QWidget* parent = NULL );
 
-protected:
-    virtual void resizeEvent( QResizeEvent * ) QWT_OVERRIDE;
+  protected:
+    virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
-private:
+  private:
     void populate();
     void updateGradient();
 };
 
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setAutoFillBackground( true );
     setPalette( QPalette( QColor( 165, 193, 228 ) ) );
@@ -105,7 +105,7 @@ Plot::Plot( QWidget *parent ):
     setAxisScale( yLeft, -1.0, 1.0 );
 
     // canvas
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setLineWidth( 1 );
     canvas->setFrameStyle( QFrame::Box | QFrame::Plain );
     canvas->setBorderRadius( 15 );
@@ -128,13 +128,13 @@ Plot::Plot( QWidget *parent ):
 void Plot::populate()
 {
     // Insert new curves
-    QwtPlotCurve *cSin = new QwtPlotCurve( "y = sin(x)" );
+    QwtPlotCurve* cSin = new QwtPlotCurve( "y = sin(x)" );
     cSin->setRenderHint( QwtPlotItem::RenderAntialiased );
     cSin->setLegendAttribute( QwtPlotCurve::LegendShowLine, true );
     cSin->setPen( Qt::red );
     cSin->attach( this );
 
-    QwtPlotCurve *cCos = new QwtPlotCurve( "y = cos(x)" );
+    QwtPlotCurve* cCos = new QwtPlotCurve( "y = cos(x)" );
     cCos->setRenderHint( QwtPlotItem::RenderAntialiased );
     cCos->setLegendAttribute( QwtPlotCurve::LegendShowLine, true );
     cCos->setPen( Qt::blue );
@@ -147,7 +147,7 @@ void Plot::populate()
     // Insert markers
 
     //  ...a horizontal line at y = 0...
-    QwtPlotMarker *mY = new QwtPlotMarker();
+    QwtPlotMarker* mY = new QwtPlotMarker();
     mY->setLabel( QString::fromLatin1( "y = 0" ) );
     mY->setLabelAlignment( Qt::AlignRight | Qt::AlignTop );
     mY->setLineStyle( QwtPlotMarker::HLine );
@@ -155,7 +155,7 @@ void Plot::populate()
     mY->attach( this );
 
     //  ...a vertical line at x = 2 * pi
-    QwtPlotMarker *mX = new QwtPlotMarker();
+    QwtPlotMarker* mX = new QwtPlotMarker();
     mX->setLabel( QString::fromLatin1( "x = 2 pi" ) );
     mX->setLabelAlignment( Qt::AlignLeft | Qt::AlignBottom );
     mX->setLabelOrientation( Qt::Vertical );
@@ -167,7 +167,7 @@ void Plot::populate()
     const double x = 7.7;
 
     // an arrow at a specific position
-    QwtPlotMarker *mPos = new QwtPlotMarker( "Marker" );
+    QwtPlotMarker* mPos = new QwtPlotMarker( "Marker" );
     mPos->setRenderHint( QwtPlotItem::RenderAntialiased, true );
     mPos->setItemAttribute( QwtPlotItem::Legend, true );
     mPos->setSymbol( new ArrowSymbol() );
@@ -192,7 +192,7 @@ void Plot::updateGradient()
     setPalette( pal );
 }
 
-void Plot::resizeEvent( QResizeEvent *event )
+void Plot::resizeEvent( QResizeEvent* event )
 {
     QwtPlot::resizeEvent( event );
 
@@ -200,18 +200,18 @@ void Plot::resizeEvent( QResizeEvent *event )
     updateGradient();
 }
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 
-    Plot *plot = new Plot();
+    Plot* plot = new Plot();
 
     // We put a dummy widget around to have
     // so that Qt paints a widget background
     // when resizing
 
     QWidget window;
-    QHBoxLayout *layout = new QHBoxLayout( &window );
+    QHBoxLayout* layout = new QHBoxLayout( &window );
     layout->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( plot );
 

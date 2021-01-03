@@ -1,16 +1,16 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "circularbuffer.h"
 #include <qwt_math.h>
 
-CircularBuffer::CircularBuffer( double interval, size_t numPoints ):
-    m_y( NULL ),
-    m_referenceTime( 0.0 ),
-    m_startIndex( 0 ),
-    m_offset( 0.0 )
+CircularBuffer::CircularBuffer( double interval, size_t numPoints )
+    : m_y( NULL )
+    , m_referenceTime( 0.0 )
+    , m_startIndex( 0 )
+    , m_offset( 0.0 )
 {
     fill( interval, numPoints );
 }
@@ -33,7 +33,7 @@ void CircularBuffer::fill( double interval, size_t numPoints )
     m_interval = interval;
 }
 
-void CircularBuffer::setFunction( double( *y )( double ) )
+void CircularBuffer::setFunction( double ( * y )( double ) )
 {
     m_y = y;
 }

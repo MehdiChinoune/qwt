@@ -1,17 +1,17 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "curvedata.h"
 #include "signaldata.h"
 
-const SignalData &CurveData::values() const
+const SignalData& CurveData::values() const
 {
     return SignalData::instance();
 }
 
-SignalData &CurveData::values()
+SignalData& CurveData::values()
 {
     return SignalData::instance();
 }

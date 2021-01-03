@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "tvplot.h"
 
@@ -19,33 +19,33 @@
 
 #include <cstdlib>
 
-class Histogram: public QwtPlotHistogram
+class Histogram : public QwtPlotHistogram
 {
-public:
-    Histogram( const QString &, const QColor & );
+  public:
+    Histogram( const QString&, const QColor& );
 
-    void setColor( const QColor & );
-    void setValues( uint numValues, const double * );
+    void setColor( const QColor& );
+    void setValues( uint numValues, const double* );
 };
 
-Histogram::Histogram( const QString &title, const QColor &symbolColor ):
-    QwtPlotHistogram( title )
+Histogram::Histogram( const QString& title, const QColor& symbolColor )
+    : QwtPlotHistogram( title )
 {
     setStyle( QwtPlotHistogram::Columns );
 
     setColor( symbolColor );
 }
 
-void Histogram::setColor( const QColor &color )
+void Histogram::setColor( const QColor& color )
 {
     QColor c = color;
     c.setAlpha( 180 );
     setBrush( QBrush( c ) );
 }
 
-void Histogram::setValues( uint numValues, const double *values )
+void Histogram::setValues( uint numValues, const double* values )
 {
-    QVector<QwtIntervalSample> samples( numValues );
+    QVector< QwtIntervalSample > samples( numValues );
     for ( uint i = 0; i < numValues; i++ )
     {
         QwtInterval interval( double( i ), i + 1.0 );
@@ -57,12 +57,12 @@ void Histogram::setValues( uint numValues, const double *values )
     setData( new QwtIntervalSeriesData( samples ) );
 }
 
-TVPlot::TVPlot( QWidget *parent ):
-    QwtPlot( parent )
+TVPlot::TVPlot( QWidget* parent )
+    : QwtPlot( parent )
 {
     setTitle( "Watching TV during a weekend" );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setPalette( Qt::gray );
     canvas->setBorderRadius( 10 );
     setCanvas( canvas );
@@ -72,14 +72,14 @@ TVPlot::TVPlot( QWidget *parent ):
     setAxisTitle( QwtPlot::yLeft, "Number of People" );
     setAxisTitle( QwtPlot::xBottom, "Number of Hours" );
 
-    QwtLegend *legend = new QwtLegend;
+    QwtLegend* legend = new QwtLegend;
     legend->setDefaultItemMode( QwtLegendData::Checkable );
     insertLegend( legend, QwtPlot::RightLegend );
 
     populate();
 
-    connect( legend, SIGNAL( checked( const QVariant &, bool, int ) ),
-        SLOT( showItem( const QVariant &, bool ) ) );
+    connect( legend, SIGNAL(checked(const QVariant&,bool,int)),
+        SLOT(showItem(const QVariant&,bool)) );
 
     replot(); // creating the legend items
 
@@ -90,8 +90,8 @@ TVPlot::TVPlot( QWidget *parent ):
         {
             const QVariant itemInfo = itemToInfo( items[i] );
 
-            QwtLegendLabel *legendLabel =
-                qobject_cast<QwtLegendLabel *>( legend->legendWidget( itemInfo ) );
+            QwtLegendLabel* legendLabel =
+                qobject_cast< QwtLegendLabel* >( legend->legendWidget( itemInfo ) );
             if ( legendLabel )
                 legendLabel->setChecked( true );
 
@@ -108,7 +108,7 @@ TVPlot::TVPlot( QWidget *parent ):
 
 void TVPlot::populate()
 {
-    QwtPlotGrid *grid = new QwtPlotGrid;
+    QwtPlotGrid* grid = new QwtPlotGrid;
     grid->enableX( false );
     grid->enableY( true );
     grid->enableXMin( false );
@@ -119,12 +119,12 @@ void TVPlot::populate()
     const double juneValues[] = { 7, 19, 24, 32, 10, 5, 3 };
     const double novemberValues[] = { 4, 15, 22, 34, 13, 8, 4 };
 
-    Histogram *histogramJune = new Histogram( "Summer", Qt::red );
+    Histogram* histogramJune = new Histogram( "Summer", Qt::red );
     histogramJune->setValues(
         sizeof( juneValues ) / sizeof( double ), juneValues );
     histogramJune->attach( this );
 
-    Histogram *histogramNovember = new Histogram( "Winter", Qt::blue );
+    Histogram* histogramNovember = new Histogram( "Winter", Qt::blue );
     histogramNovember->setValues(
         sizeof( novemberValues ) / sizeof( double ), novemberValues );
     histogramNovember->attach( this );
@@ -142,10 +142,10 @@ void TVPlot::setMode( int mode )
 
     for ( int i = 0; i < items.size(); i++ )
     {
-        QwtPlotHistogram *histogram = static_cast<QwtPlotHistogram *>( items[i] );
+        QwtPlotHistogram* histogram = static_cast< QwtPlotHistogram* >( items[i] );
         if ( mode < 3 )
         {
-            histogram->setStyle( static_cast<QwtPlotHistogram::HistogramStyle>( mode ) );
+            histogram->setStyle( static_cast< QwtPlotHistogram::HistogramStyle >( mode ) );
             histogram->setSymbol( NULL );
 
             QPen pen( Qt::black, 0 );
@@ -158,7 +158,7 @@ void TVPlot::setMode( int mode )
         {
             histogram->setStyle( QwtPlotHistogram::Columns );
 
-            QwtColumnSymbol *symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
+            QwtColumnSymbol* symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
             symbol->setFrameStyle( QwtColumnSymbol::Raised );
             symbol->setLineWidth( 2 );
             symbol->setPalette( QPalette( histogram->brush().color() ) );
@@ -168,9 +168,9 @@ void TVPlot::setMode( int mode )
     }
 }
 
-void TVPlot::showItem( const QVariant &itemInfo, bool on )
+void TVPlot::showItem( const QVariant& itemInfo, bool on )
 {
-    QwtPlotItem *plotItem = infoToItem( itemInfo );
+    QwtPlotItem* plotItem = infoToItem( itemInfo );
     if ( plotItem )
         plotItem->setVisible( on );
 }

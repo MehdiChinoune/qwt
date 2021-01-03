@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H_
 #define PLOT_H_
@@ -10,19 +10,19 @@
 
 class Settings;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
-    Plot( QWidget *parent = NULL );
+  public:
+    Plot( QWidget* parent = NULL );
 
-public Q_SLOTS:
-    void applySettings( const Settings & );
+  public Q_SLOTS:
+    void applySettings( const Settings& );
 
-private:
+  private:
     void initAxis( int axis, const QString& title, Qt::TimeSpec );
-    void applyAxisSettings( int axis, const Settings & );
+    void applyAxisSettings( int axis, const Settings& );
 };
 
 #endif

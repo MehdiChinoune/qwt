@@ -7,7 +7,7 @@
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
 
-#if defined(_MSC_VER) /* MSVC Compiler */
+#if defined( _MSC_VER ) /* MSVC Compiler */
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -45,9 +45,9 @@
 
 using namespace QwtDesignerPlugin;
 
-CustomWidgetInterface::CustomWidgetInterface( QObject *parent ):
-    QObject( parent ),
-    m_isInitialized( false )
+CustomWidgetInterface::CustomWidgetInterface( QObject* parent )
+    : QObject( parent )
+    , m_isInitialized( false )
 {
 }
 
@@ -102,12 +102,12 @@ QString CustomWidgetInterface::whatsThis() const
 }
 
 void CustomWidgetInterface::initialize(
-    QDesignerFormEditorInterface *formEditor )
+    QDesignerFormEditorInterface* formEditor )
 {
     if ( m_isInitialized )
         return;
 
-    QExtensionManager *manager = formEditor->extensionManager();
+    QExtensionManager* manager = formEditor->extensionManager();
     if ( manager )
     {
         manager->registerExtensions( new TaskMenuFactory( manager ),
@@ -119,8 +119,8 @@ void CustomWidgetInterface::initialize(
 
 #ifndef NO_QWT_PLOT
 
-PlotInterface::PlotInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+PlotInterface::PlotInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtPlot";
     m_include = "qwt_plot.h";
@@ -138,14 +138,14 @@ PlotInterface::PlotInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *PlotInterface::createWidget( QWidget *parent )
+QWidget* PlotInterface::createWidget( QWidget* parent )
 {
     return new QwtPlot( parent );
 }
 
 
-PlotCanvasInterface::PlotCanvasInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+PlotCanvasInterface::PlotCanvasInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtPlotCanvas";
     m_include = "qwt_plot_canvas.h";
@@ -163,17 +163,17 @@ PlotCanvasInterface::PlotCanvasInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *PlotCanvasInterface::createWidget( QWidget *parent )
+QWidget* PlotCanvasInterface::createWidget( QWidget* parent )
 {
-    return new QwtPlotCanvas( qobject_cast<QwtPlot *>( parent ) );
+    return new QwtPlotCanvas( qobject_cast< QwtPlot* >( parent ) );
 }
 
 #endif
 
 #ifndef NO_QWT_POLAR
 
-PolarPlotInterface::PolarPlotInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+PolarPlotInterface::PolarPlotInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtPolarPlot";
     m_include = "qwt_polar_plot.h";
@@ -195,8 +195,8 @@ PolarPlotInterface::PolarPlotInterface( QObject *parent ):
 
 #ifndef NO_QWT_WIDGETS
 
-AnalogClockInterface::AnalogClockInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+AnalogClockInterface::AnalogClockInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtAnalogClock";
     m_include = "qwt_analog_clock.h";
@@ -217,7 +217,7 @@ AnalogClockInterface::AnalogClockInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *AnalogClockInterface::createWidget( QWidget *parent )
+QWidget* AnalogClockInterface::createWidget( QWidget* parent )
 {
     return new QwtAnalogClock( parent );
 }
@@ -226,8 +226,8 @@ QWidget *AnalogClockInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-CompassInterface::CompassInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+CompassInterface::CompassInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtCompass";
     m_include = "qwt_compass.h";
@@ -248,9 +248,9 @@ CompassInterface::CompassInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *CompassInterface::createWidget( QWidget *parent )
+QWidget* CompassInterface::createWidget( QWidget* parent )
 {
-    QwtCompass *compass = new QwtCompass( parent );
+    QwtCompass* compass = new QwtCompass( parent );
     compass->setNeedle( new QwtCompassMagnetNeedle(
         QwtCompassMagnetNeedle::TriangleStyle,
         compass->palette().color( QPalette::Mid ),
@@ -263,8 +263,8 @@ QWidget *CompassInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-CounterInterface::CounterInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+CounterInterface::CounterInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtCounter";
     m_include = "qwt_counter.h";
@@ -274,7 +274,7 @@ CounterInterface::CounterInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *CounterInterface::createWidget( QWidget *parent )
+QWidget* CounterInterface::createWidget( QWidget* parent )
 {
     return new QwtCounter( parent );
 }
@@ -283,8 +283,8 @@ QWidget *CounterInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-DialInterface::DialInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+DialInterface::DialInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtDial";
     m_include = "qwt_dial.h";
@@ -305,9 +305,9 @@ DialInterface::DialInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *DialInterface::createWidget( QWidget *parent )
+QWidget* DialInterface::createWidget( QWidget* parent )
 {
-    QwtDial *dial = new QwtDial( parent );
+    QwtDial* dial = new QwtDial( parent );
     dial->setNeedle( new QwtDialSimpleNeedle(
         QwtDialSimpleNeedle::Arrow, true,
         dial->palette().color( QPalette::Dark ),
@@ -320,8 +320,8 @@ QWidget *DialInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-KnobInterface::KnobInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+KnobInterface::KnobInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtKnob";
     m_include = "qwt_knob.h";
@@ -339,7 +339,7 @@ KnobInterface::KnobInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *KnobInterface::createWidget( QWidget *parent )
+QWidget* KnobInterface::createWidget( QWidget* parent )
 {
     return new QwtKnob( parent );
 }
@@ -348,8 +348,8 @@ QWidget *KnobInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_PLOT
 
-ScaleWidgetInterface::ScaleWidgetInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+ScaleWidgetInterface::ScaleWidgetInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtScaleWidget";
     m_include = "qwt_scale_widget.h";
@@ -367,7 +367,7 @@ ScaleWidgetInterface::ScaleWidgetInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *ScaleWidgetInterface::createWidget( QWidget *parent )
+QWidget* ScaleWidgetInterface::createWidget( QWidget* parent )
 {
     return new QwtScaleWidget( QwtScaleDraw::LeftScale, parent );
 }
@@ -376,8 +376,8 @@ QWidget *ScaleWidgetInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-SliderInterface::SliderInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+SliderInterface::SliderInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtSlider";
     m_include = "qwt_slider.h";
@@ -395,15 +395,15 @@ SliderInterface::SliderInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *SliderInterface::createWidget( QWidget *parent )
+QWidget* SliderInterface::createWidget( QWidget* parent )
 {
     return new QwtSlider( parent );
 }
 
 #endif
 
-TextLabelInterface::TextLabelInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+TextLabelInterface::TextLabelInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtTextLabel";
     m_include = "qwt_text_label.h";
@@ -422,15 +422,15 @@ TextLabelInterface::TextLabelInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *TextLabelInterface::createWidget( QWidget *parent )
+QWidget* TextLabelInterface::createWidget( QWidget* parent )
 {
     return new QwtTextLabel( QwtText( "Label" ), parent );
 }
 
 #ifndef NO_QWT_WIDGETS
 
-ThermoInterface::ThermoInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+ThermoInterface::ThermoInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtThermo";
     m_include = "qwt_thermo.h";
@@ -448,7 +448,7 @@ ThermoInterface::ThermoInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *ThermoInterface::createWidget( QWidget *parent )
+QWidget* ThermoInterface::createWidget( QWidget* parent )
 {
     return new QwtThermo( parent );
 }
@@ -457,8 +457,8 @@ QWidget *ThermoInterface::createWidget( QWidget *parent )
 
 #ifndef NO_QWT_WIDGETS
 
-WheelInterface::WheelInterface( QObject *parent ):
-    CustomWidgetInterface( parent )
+WheelInterface::WheelInterface( QObject* parent )
+    : CustomWidgetInterface( parent )
 {
     m_name = "QwtWheel";
     m_include = "qwt_wheel.h";
@@ -468,16 +468,15 @@ WheelInterface::WheelInterface( QObject *parent ):
         "</widget>\n";
 }
 
-QWidget *WheelInterface::createWidget( QWidget *parent )
+QWidget* WheelInterface::createWidget( QWidget* parent )
 {
     return new QwtWheel( parent );
 }
 
 #endif
 
-CustomWidgetCollectionInterface::CustomWidgetCollectionInterface(
-        QObject *parent ):
-    QObject( parent )
+CustomWidgetCollectionInterface::CustomWidgetCollectionInterface( QObject* parent )
+    : QObject( parent )
 {
 #ifndef NO_QWT_PLOT
     m_plugins.append( new PlotInterface( this ) );
@@ -504,28 +503,28 @@ CustomWidgetCollectionInterface::CustomWidgetCollectionInterface(
     m_plugins.append( new TextLabelInterface( this ) );
 }
 
-QList<QDesignerCustomWidgetInterface*>
+QList< QDesignerCustomWidgetInterface* >
 CustomWidgetCollectionInterface::customWidgets( void ) const
 {
     return m_plugins;
 }
 
-TaskMenuFactory::TaskMenuFactory( QExtensionManager *parent ):
-    QExtensionFactory( parent )
+TaskMenuFactory::TaskMenuFactory( QExtensionManager* parent )
+    : QExtensionFactory( parent )
 {
 }
 
-QObject *TaskMenuFactory::createExtension(
-    QObject *object, const QString &iid, QObject *parent ) const
+QObject* TaskMenuFactory::createExtension(
+    QObject* object, const QString& iid, QObject* parent ) const
 {
     if ( iid == Q_TYPEID( QDesignerTaskMenuExtension ) )
     {
 #ifndef NO_QWT_PLOT
-        if ( QwtPlot *plot = qobject_cast<QwtPlot*>( object ) )
+        if ( QwtPlot* plot = qobject_cast< QwtPlot* >( object ) )
             return new TaskMenuExtension( plot, parent );
 #endif
 #ifndef NO_QWT_WIDGETS
-        if ( QwtDial *dial = qobject_cast<QwtDial*>( object ) )
+        if ( QwtDial* dial = qobject_cast< QwtDial* >( object ) )
             return new TaskMenuExtension( dial, parent );
 #endif
     }
@@ -534,23 +533,23 @@ QObject *TaskMenuFactory::createExtension(
 }
 
 
-TaskMenuExtension::TaskMenuExtension( QWidget *widget, QObject *parent ):
-    QObject( parent ),
-    m_widget( widget )
+TaskMenuExtension::TaskMenuExtension( QWidget* widget, QObject* parent )
+    : QObject( parent )
+    , m_widget( widget )
 {
     m_editAction = new QAction( tr( "Edit Qwt Attributes ..." ), this );
-    connect( m_editAction, SIGNAL( triggered() ),
-        this, SLOT( editProperties() ) );
+    connect( m_editAction, SIGNAL(triggered()),
+        this, SLOT(editProperties()) );
 }
 
-QList<QAction *> TaskMenuExtension::taskActions() const
+QList< QAction* > TaskMenuExtension::taskActions() const
 {
-    QList<QAction *> list;
+    QList< QAction* > list;
     list.append( m_editAction );
     return list;
 }
 
-QAction *TaskMenuExtension::preferredEditAction() const
+QAction* TaskMenuExtension::preferredEditAction() const
 {
     return m_editAction;
 }
@@ -564,25 +563,25 @@ void TaskMenuExtension::editProperties()
 #ifndef NO_QWT_PLOT
     const QString properties = v.value< QString >();
 
-    if ( qobject_cast<QwtPlot*>( m_widget ) )
+    if ( qobject_cast< QwtPlot* >( m_widget ) )
     {
         PlotDialog dialog( properties );
-        connect( &dialog, SIGNAL( edited( const QString& ) ),
-            SLOT( applyProperties( const QString & ) ) );
+        connect( &dialog, SIGNAL(edited(const QString&)),
+            SLOT(applyProperties(const QString&)) );
         ( void )dialog.exec();
         return;
     }
 #endif
 
-    static QErrorMessage *errorMessage = NULL;
+    static QErrorMessage* errorMessage = NULL;
     if ( errorMessage == NULL )
         errorMessage = new QErrorMessage();
     errorMessage->showMessage( "Not implemented yet." );
 }
 
-void TaskMenuExtension::applyProperties( const QString &properties )
+void TaskMenuExtension::applyProperties( const QString& properties )
 {
-    QDesignerFormWindowInterface *formWindow =
+    QDesignerFormWindowInterface* formWindow =
         QDesignerFormWindowInterface::findFormWindow( m_widget );
     if ( formWindow && formWindow->cursor() )
         formWindow->cursor()->setProperty( "propertiesDocument", properties );

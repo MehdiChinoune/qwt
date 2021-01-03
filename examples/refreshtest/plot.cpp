@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 #include "circularbuffer.h"
@@ -44,18 +44,18 @@ static double wave( double x )
 
 static double noise( double )
 {
-    return 2.0 * ( qwtRand() / ( static_cast<double>( RAND_MAX ) + 1 ) ) - 1.0;
+    return 2.0 * ( qwtRand() / ( static_cast< double >( RAND_MAX ) + 1 ) ) - 1.0;
 }
 
-Plot::Plot( QWidget *parent ):
-    QwtPlot( parent ),
-    m_interval( 10.0 ), // seconds
-    m_timerId( -1 )
+Plot::Plot( QWidget* parent )
+    : QwtPlot( parent )
+    , m_interval( 10.0 ) // seconds
+    , m_timerId( -1 )
 {
     // Assign a title
     setTitle( "Testing Refresh Rates" );
 
-    QwtPlotCanvas *canvas = new QwtPlotCanvas();
+    QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setFrameStyle( QFrame::Box | QFrame::Plain );
     canvas->setLineWidth( 1 );
     canvas->setPalette( Qt::white );
@@ -97,11 +97,11 @@ void Plot::alignScales()
 
     for ( int i = 0; i < QwtPlot::axisCnt; i++ )
     {
-        QwtScaleWidget *scaleWidget = axisWidget( i );
+        QwtScaleWidget* scaleWidget = axisWidget( i );
         if ( scaleWidget )
             scaleWidget->setMargin( 0 );
 
-        QwtScaleDraw *scaleDraw = axisScaleDraw( i );
+        QwtScaleDraw* scaleDraw = axisScaleDraw( i );
         if ( scaleDraw )
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
     }
@@ -109,7 +109,7 @@ void Plot::alignScales()
     plotLayout()->setAlignCanvasToScales( true );
 }
 
-void Plot::setSettings( const Settings &s )
+void Plot::setSettings( const Settings& s )
 {
     if ( m_timerId >= 0 )
         killTimer( m_timerId );
@@ -119,9 +119,9 @@ void Plot::setSettings( const Settings &s )
     m_grid->setPen( s.grid.pen );
     m_grid->setVisible( s.grid.pen.style() != Qt::NoPen );
 
-    CircularBuffer *buffer = static_cast<CircularBuffer *>( m_curve->data() );
+    CircularBuffer* buffer = static_cast< CircularBuffer* >( m_curve->data() );
     if ( s.curve.numPoints != buffer->size() ||
-            s.curve.functionType != m_settings.curve.functionType )
+        s.curve.functionType != m_settings.curve.functionType )
     {
         switch( s.curve.functionType )
         {
@@ -155,7 +155,7 @@ void Plot::setSettings( const Settings &s )
     if ( s.canvas.openGL )
     {
 #if USE_OPENGL_WIDGET
-        QwtPlotOpenGLCanvas *plotCanvas = qobject_cast<QwtPlotOpenGLCanvas *>( canvas() );
+        QwtPlotOpenGLCanvas* plotCanvas = qobject_cast< QwtPlotOpenGLCanvas* >( canvas() );
         if ( plotCanvas == NULL )
         {
             plotCanvas = new QwtPlotOpenGLCanvas();
@@ -167,7 +167,7 @@ void Plot::setSettings( const Settings &s )
             setCanvas( plotCanvas );
         }
 #else
-        QwtPlotGLCanvas *plotCanvas = qobject_cast<QwtPlotGLCanvas *>( canvas() );
+        QwtPlotGLCanvas* plotCanvas = qobject_cast< QwtPlotGLCanvas* >( canvas() );
         if ( plotCanvas == NULL )
         {
             plotCanvas = new QwtPlotGLCanvas();
@@ -182,7 +182,7 @@ void Plot::setSettings( const Settings &s )
     else
 #endif
     {
-        QwtPlotCanvas *plotCanvas = qobject_cast<QwtPlotCanvas *>( canvas() );
+        QwtPlotCanvas* plotCanvas = qobject_cast< QwtPlotCanvas* >( canvas() );
         if ( plotCanvas == NULL )
         {
             plotCanvas = new QwtPlotCanvas();
@@ -206,9 +206,9 @@ void Plot::setSettings( const Settings &s )
     m_settings = s;
 }
 
-void Plot::timerEvent( QTimerEvent * )
+void Plot::timerEvent( QTimerEvent* )
 {
-    CircularBuffer *buffer = static_cast<CircularBuffer *>( m_curve->data() );
+    CircularBuffer* buffer = static_cast< CircularBuffer* >( m_curve->data() );
     buffer->setReferenceTime( m_clock.elapsed() / 1000.0 );
 
     if ( m_settings.updateType == Settings::RepaintCanvas )

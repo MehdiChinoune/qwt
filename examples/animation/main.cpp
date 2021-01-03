@@ -1,11 +1,11 @@
 /*****************************************************************************
- * Qwt Examples
- * Copyright (C) 1997   Josef Wilgen
- * Copyright (C) 2002   Uwe Rathmann
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the Qwt License, Version 1.0
- *****************************************************************************/
+* Qwt Examples
+* Copyright (C) 1997   Josef Wilgen
+* Copyright (C) 2002   Uwe Rathmann
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the Qwt License, Version 1.0
+*****************************************************************************/
 
 #include "plot.h"
 #include <qapplication.h>
@@ -17,17 +17,17 @@
 
     #if QT_VERSION >= 0x060000
         #include <qwt_plot_opengl_canvas.h>
-        typedef QwtPlotOpenGLCanvas Canvas;
+typedef QwtPlotOpenGLCanvas Canvas;
     #else
         #include <qwt_plot_glcanvas.h>
-        typedef QwtPlotGLCanvas Canvas;
+typedef QwtPlotGLCanvas Canvas;
     #endif
 #else
-    typedef QwtPlotCanvas Canvas;
+typedef QwtPlotCanvas Canvas;
     #include <qwt_plot_canvas.h>
 #endif
 
-int main ( int argc, char **argv )
+int main ( int argc, char** argv )
 {
 #ifndef QWT_NO_OPENGL
 #if QT_VERSION < 0x050000
@@ -42,7 +42,7 @@ int main ( int argc, char **argv )
 
     Plot plot;
 
-    Canvas *canvas = new Canvas();
+    Canvas* canvas = new Canvas();
     canvas->setPaintAttribute( Canvas::BackingStore, false );
     canvas->setFrameStyle( QFrame::NoFrame );
 

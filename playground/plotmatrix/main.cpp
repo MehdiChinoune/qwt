@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plotmatrix.h"
 
@@ -12,14 +12,14 @@
 
 #include <qapplication.h>
 
-class MainWindow: public PlotMatrix
+class MainWindow : public PlotMatrix
 {
-public:
+  public:
     MainWindow();
 };
 
-MainWindow::MainWindow():
-    PlotMatrix( 3, 4 )
+MainWindow::MainWindow()
+    : PlotMatrix( 3, 4 )
 {
     enableAxis( QwtPlot::yLeft );
     enableAxis( QwtPlot::yRight );
@@ -45,13 +45,13 @@ MainWindow::MainWindow():
     {
         for ( int col = 0; col < numColumns(); col++ )
         {
-            QwtPlot *plot = plotAt( row, col );
+            QwtPlot* plot = plotAt( row, col );
             plot->setCanvasBackground( QColor( Qt::darkGray ) );
 
-            QwtPlotGrid *grid = new QwtPlotGrid();
+            QwtPlotGrid* grid = new QwtPlotGrid();
             grid->enableXMin( true );
             grid->setMajorPen( Qt::white, 0, Qt::DotLine );
-            grid->setMinorPen( Qt::gray, 0 , Qt::DotLine );
+            grid->setMinorPen( Qt::gray, 0, Qt::DotLine );
             grid->attach( plot );
         }
     }
@@ -62,7 +62,7 @@ MainWindow::MainWindow():
     updateLayout();
 }
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

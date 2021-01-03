@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include <qwt_plot.h>
 #include <qwt_samples.h>
@@ -14,11 +14,11 @@
 #include <qapplication.h>
 #include <qpen.h>
 
-class VectorField: public QwtPlotVectorField
+class VectorField : public QwtPlotVectorField
 {
-public:
-    VectorField():
-        QwtPlotVectorField( "Vector Field" )
+  public:
+    VectorField()
+        : QwtPlotVectorField( "Vector Field" )
     {
         setRenderHint( QwtPlotItem::RenderAntialiased, true );
         setLegendIconSize( QSize( 20, 10 ) );
@@ -35,7 +35,7 @@ public:
 
 #if 1
         // test color map
-        QwtLinearColorMap *cm = new QwtLinearColorMap();
+        QwtLinearColorMap* cm = new QwtLinearColorMap();
         cm->setColorInterval( Qt::yellow, Qt::blue );
         cm->addColorStop( 0.5, Qt::red );
         setColorMap( cm );
@@ -54,12 +54,12 @@ public:
         setSamples( samples() );
     }
 
-private:
-    QVector<QwtVectorFieldSample> samples() const
+  private:
+    QVector< QwtVectorFieldSample > samples() const
     {
         const int dim = 10;
 
-        QVector<QwtVectorFieldSample> samples;
+        QVector< QwtVectorFieldSample > samples;
 
         for ( int x = -dim; x < dim; x++ )
         {
@@ -73,7 +73,7 @@ private:
     }
 };
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 
@@ -83,10 +83,10 @@ int main( int argc, char **argv )
 
     plot.insertLegend( new QwtLegend() );
 
-    QwtPlotGrid *grid = new QwtPlotGrid();
+    QwtPlotGrid* grid = new QwtPlotGrid();
     grid->attach( &plot );
 
-    VectorField *fieldItem = new VectorField();
+    VectorField* fieldItem = new VectorField();
     fieldItem->attach( &plot );
 
     const QRectF r = fieldItem->boundingRect();

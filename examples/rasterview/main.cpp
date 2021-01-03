@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #include "plot.h"
 
@@ -12,28 +12,31 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 
-class MainWindow: public QMainWindow
+namespace
 {
-public:
-    MainWindow( QWidget * = NULL );
-};
+    class MainWindow : public QMainWindow
+    {
+      public:
+        MainWindow( QWidget* = NULL );
+    };
+}
 
-MainWindow::MainWindow( QWidget *parent ):
-    QMainWindow( parent )
+MainWindow::MainWindow( QWidget* parent )
+    : QMainWindow( parent )
 {
-    Plot *plot = new Plot( this );
+    Plot* plot = new Plot( this );
     setCentralWidget( plot );
 
-    QToolBar *toolBar = new QToolBar( this );
+    QToolBar* toolBar = new QToolBar( this );
 
-    QComboBox *rasterBox = new QComboBox( toolBar );
+    QComboBox* rasterBox = new QComboBox( toolBar );
     rasterBox->addItem( "Wikipedia" );
 
     toolBar->addWidget( new QLabel( "Data ", toolBar ) );
     toolBar->addWidget( rasterBox );
     toolBar->addSeparator();
 
-    QComboBox *modeBox = new QComboBox( toolBar );
+    QComboBox* modeBox = new QComboBox( toolBar );
     modeBox->addItem( "Nearest Neighbour" );
     modeBox->addItem( "Bilinear Interpolation" );
     modeBox->addItem( "Bicubic Interpolation" );
@@ -43,18 +46,18 @@ MainWindow::MainWindow( QWidget *parent ):
 
     toolBar->addSeparator();
 
-    QToolButton *btnExport = new QToolButton( toolBar );
+    QToolButton* btnExport = new QToolButton( toolBar );
     btnExport->setText( "Export" );
     btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnExport );
 
     addToolBar( toolBar );
 
-    connect( modeBox, SIGNAL( activated( int ) ), plot, SLOT( setResampleMode( int ) ) );
-    connect( btnExport, SIGNAL( clicked() ), plot, SLOT( exportPlot() ) );
+    connect( modeBox, SIGNAL(activated(int)), plot, SLOT(setResampleMode(int)) );
+    connect( btnExport, SIGNAL(clicked()), plot, SLOT(exportPlot()) );
 }
 
-int main( int argc, char **argv )
+int main( int argc, char** argv )
 {
     QApplication a( argc, argv );
 

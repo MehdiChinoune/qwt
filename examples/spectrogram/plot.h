@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
- * This file may be used under the terms of the 3-clause BSD License
- *****************************************************************************/
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
 #ifndef PLOT_H
 #define PLOT_H
@@ -10,11 +10,11 @@
 
 class QwtPlotSpectrogram;
 
-class Plot: public QwtPlot
+class Plot : public QwtPlot
 {
     Q_OBJECT
 
-public:
+  public:
     enum ColorMap
     {
         RGBMap,
@@ -25,12 +25,12 @@ public:
         AlphaMap
     };
 
-    Plot( QWidget * = NULL );
+    Plot( QWidget* = NULL );
 
-Q_SIGNALS:
+  Q_SIGNALS:
     void rendered( const QString& status );
 
-public Q_SLOTS:
+  public Q_SLOTS:
     void showContour( bool on );
     void showSpectrogram( bool on );
 
@@ -42,11 +42,11 @@ public Q_SLOTS:
     void printPlot();
 #endif
 
-private:
-    virtual void drawItems( QPainter *, const QRectF &,
+  private:
+    virtual void drawItems( QPainter*, const QRectF&,
         const QwtScaleMap maps[axisCnt] ) const QWT_OVERRIDE;
 
-    QwtPlotSpectrogram *m_spectrogram;
+    QwtPlotSpectrogram* m_spectrogram;
 
     int m_mapType;
     int m_alpha;
