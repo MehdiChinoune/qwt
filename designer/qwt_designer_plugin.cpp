@@ -41,6 +41,10 @@
 #include "qwt_compass.h"
 #endif
 
+#ifndef NO_QWT_POLAR
+#include "qwt_polar_plot.h"
+#endif
+
 #include "qwt_text_label.h"
 
 using namespace QwtDesignerPlugin;
@@ -165,7 +169,7 @@ PlotCanvasInterface::PlotCanvasInterface( QObject* parent )
 
 QWidget* PlotCanvasInterface::createWidget( QWidget* parent )
 {
-    return new QwtPlotCanvas( parent );
+    return new QwtPlotCanvas( qobject_cast< QwtPlot* >( parent ) );
 }
 
 #endif
@@ -191,7 +195,7 @@ PolarPlotInterface::PolarPlotInterface( QObject* parent )
         "</widget>\n";
 }
 
-QWidget* PlotCanvasInterface::createWidget( QWidget* parent )
+QWidget* PolarPlotInterface::createWidget( QWidget* parent )
 {
     return new QwtPolarPlot( parent );
 }
