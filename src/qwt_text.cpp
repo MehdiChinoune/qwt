@@ -19,6 +19,26 @@
 #include <qbrush.h>
 #include <qpainter.h>
 
+#if QT_VERSION >= 0x050200
+
+static QwtText qwtStringToText( const QString& text )
+{
+    return QwtText( text );
+}
+
+#endif
+
+static void qwtRegisterQwtText()
+{
+    qRegisterMetaType< QwtText >();
+
+#if QT_VERSION >= 0x050200
+    QMetaType::registerConverter< QString, QwtText >( qwtStringToText );
+#endif
+}
+
+Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtText )
+
 namespace
 {
     class QwtTextEngineDict

@@ -9,6 +9,26 @@
 
 #include "qwt_point_3d.h"
 
+#if QT_VERSION >= 0x050200
+
+static QwtPoint3D qwtPointToPoint3D( const QPointF& point )
+{
+    return QwtPoint3D( point );
+}
+
+#endif
+
+static void qwtRegisterQwtPoint3D()
+{
+    qRegisterMetaType< QwtPoint3D >();
+
+#if QT_VERSION >= 0x050200
+    QMetaType::registerConverter< QPointF, QwtPoint3D >( qwtPointToPoint3D );
+#endif
+}
+
+Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtPoint3D )
+
 #ifndef QT_NO_DEBUG_STREAM
 
 #include <qdebug.h>

@@ -9,6 +9,13 @@
 
 #include "qwt_interval.h"
 
+static void qwtRegisterQwtInterval()
+{
+    qRegisterMetaType< QwtInterval >();
+}
+
+Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtInterval )
+
 /*!
    \brief Normalize the limits of the interval
 

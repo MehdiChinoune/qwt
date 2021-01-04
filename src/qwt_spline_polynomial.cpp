@@ -9,6 +9,13 @@
 
 #include "qwt_spline_polynomial.h"
 
+static void qwtRegisterQwtSplinePolynomial()
+{
+    qRegisterMetaType< QwtSplinePolynomial >();
+}
+
+Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtSplinePolynomial )
+
 #ifndef QT_NO_DEBUG_STREAM
 
 #include <qdebug.h>

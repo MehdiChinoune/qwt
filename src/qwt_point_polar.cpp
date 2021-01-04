@@ -9,6 +9,27 @@
 #include "qwt_point_polar.h"
 #include "qwt_math.h"
 
+#if QT_VERSION >= 0x050200
+
+static QwtPointPolar qwtPointToPolar( const QPointF& point )
+{
+    return QwtPointPolar( point );
+}
+
+#endif 
+
+static void qwtRegisterQwtPointPolar()
+{
+    qRegisterMetaType< QwtPointPolar >();
+
+#if QT_VERSION >= 0x050200
+    QMetaType::registerConverter< QPointF, QwtPointPolar >( qwtPointToPolar );
+    QMetaType::registerConverter< QwtPointPolar, QPointF >( &QwtPointPolar::toPoint );
+#endif 
+}
+
+Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtPointPolar )
+
 /*!
    Convert and assign values from a point in Cartesian coordinates
 
