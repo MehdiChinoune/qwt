@@ -23,8 +23,10 @@ int main( int argc, char** argv )
 
     window.connect( &window, SIGNAL(frequencyChanged(double)),
         &samplingThread, SLOT(setFrequency(double)) );
+
     window.connect( &window, SIGNAL(amplitudeChanged(double)),
         &samplingThread, SLOT(setAmplitude(double)) );
+
     window.connect( &window, SIGNAL(signalIntervalChanged(double)),
         &samplingThread, SLOT(setInterval(double)) );
 

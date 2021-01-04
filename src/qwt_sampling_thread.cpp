@@ -8,25 +8,21 @@
  *****************************************************************************/
 
 #include "qwt_sampling_thread.h"
-#include "qwt_system_clock.h"
+#include <qelapsedtimer.h>
 
 class QwtSamplingThread::PrivateData
 {
   public:
-    QwtSystemClock clock;
-
-    double interval;
-    bool isStopped;
+    QElapsedTimer timer;
+    double msecsInterval;
 };
-
 
 //! Constructor
 QwtSamplingThread::QwtSamplingThread( QObject* parent )
     : QThread( parent )
 {
     m_data = new PrivateData;
-    m_data->interval = 1000; // 1 second
-    m_data->isStopped = true;
+    m_data->msecsInterval = 1e3; // 1 second
 }
 
 //! Destructor
@@ -39,15 +35,15 @@ QwtSamplingThread::~QwtSamplingThread()
    Change the interval (in ms), when sample() is called.
    The default interval is 1000.0 ( = 1s )
 
-   \param interval Interval
+   \param msecs Interval
    \sa interval()
  */
-void QwtSamplingThread::setInterval( double interval )
+void QwtSamplingThread::setInterval( double msecs )
 {
-    if ( interval < 0.0 )
-        interval = 0.0;
+    if ( msecs < 0.0 )
+        msecs = 0.0;
 
-    m_data->interval = interval;
+    m_data->msecsInterval = msecs;
 }
 
 /*!
@@ -56,7 +52,7 @@ void QwtSamplingThread::setInterval( double interval )
  */
 double QwtSamplingThread::interval() const
 {
-    return m_data->interval;
+    return m_data->msecsInterval;
 }
 
 /*!
@@ -65,10 +61,10 @@ double QwtSamplingThread::interval() const
  */
 double QwtSamplingThread::elapsed() const
 {
-    if ( m_data->isStopped )
-        return 0.0;
+    if ( m_data->timer.isValid() )
+        return m_data->timer.nsecsElapsed() / 1e6;
 
-    return m_data->clock.elapsed();
+    return 0.0;
 }
 
 /*!
@@ -77,7 +73,7 @@ double QwtSamplingThread::elapsed() const
  */
 void QwtSamplingThread::stop()
 {
-    m_data->isStopped = true;
+    m_data->timer.invalidate();
 }
 
 /*!
@@ -86,21 +82,27 @@ void QwtSamplingThread::stop()
  */
 void QwtSamplingThread::run()
 {
-    m_data->clock.start();
-    m_data->isStopped = false;
+    m_data->timer.start();
 
-    while ( !m_data->isStopped )
+    /*
+        We should have all values in nsecs/qint64, but
+        this would break existing code. TODO ...
+        Anyway - for QThread::usleep we even need microseconds( usecs )
+     */
+    while ( m_data->timer.isValid() )
     {
-        const double elapsed = m_data->clock.elapsed();
-        sample( elapsed / 1000.0 );
+        const qint64 timestamp = m_data->timer.nsecsElapsed();
+        sample( timestamp / 1e9 ); // seconds
 
-        if ( m_data->interval > 0.0 )
+        if ( m_data->msecsInterval > 0.0 )
         {
-            const double msecs =
-                m_data->interval - ( m_data->clock.elapsed() - elapsed );
+            const double interval = m_data->msecsInterval * 1e3;
+            const double elapsed = ( m_data->timer.nsecsElapsed() - timestamp ) / 1e3;
 
-            if ( msecs > 0.0 )
-                usleep( qRound( 1000.0 * msecs ) );
+            const double usecs = interval - elapsed;
+
+            if ( usecs > 0.0 )
+                QThread::usleep( qRound( usecs ) );
         }
     }
 }

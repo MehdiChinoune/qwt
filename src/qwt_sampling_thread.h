@@ -47,7 +47,10 @@ class QWT_EXPORT QwtSamplingThread : public QThread
     /*!
        Collect a sample
 
-       \param elapsed Time since the thread was started in milliseconds
+       \param elapsed Time since the thread was started in seconds
+       \note Due to a bug in previous version elapsed was passed as
+             seconds instead of miliseconds. To avoid breaking existing
+             code we stay with seconds for now.
      */
     virtual void sample( double elapsed ) = 0;
 
