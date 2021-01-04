@@ -25,42 +25,45 @@ static inline bool isClose( double value1, double value2 )
     return qAbs( value1 - value2 ) < DBL_EPSILON;
 }
 
-class QwtPolarGrid::AxisData
+namespace
 {
-  public:
-    AxisData()
-        : isVisible( false )
-        , scaleDraw( NULL )
+    class AxisData
     {
-    }
+      public:
+        AxisData()
+            : isVisible( false )
+            , scaleDraw( NULL )
+        {
+        }
 
-    ~AxisData()
+        ~AxisData()
+        {
+            delete scaleDraw;
+        }
+
+        bool isVisible;
+        mutable QwtAbstractScaleDraw* scaleDraw;
+        QPen pen;
+        QFont font;
+    };
+
+    class GridData
     {
-        delete scaleDraw;
-    }
+      public:
+        GridData()
+            : isVisible( true )
+            , isMinorVisible( false )
+        {
+        }
 
-    bool isVisible;
-    mutable QwtAbstractScaleDraw* scaleDraw;
-    QPen pen;
-    QFont font;
-};
+        bool isVisible;
+        bool isMinorVisible;
+        QwtScaleDiv scaleDiv;
 
-class QwtPolarGrid::GridData
-{
-  public:
-    GridData()
-        : isVisible( true )
-        , isMinorVisible( false )
-    {
-    }
-
-    bool isVisible;
-    bool isMinorVisible;
-    QwtScaleDiv scaleDiv;
-
-    QPen majorPen;
-    QPen minorPen;
-};
+        QPen majorPen;
+        QPen minorPen;
+    };
+}
 
 class QwtPolarGrid::PrivateData
 {

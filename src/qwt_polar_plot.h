@@ -211,7 +211,6 @@ class QWT_EXPORT QwtPolarPlot : public QFrame, public QwtPolarItemDict
 
     void initPlot( const QwtText& );
 
-    class ScaleData;
     class PrivateData;
     PrivateData* m_data;
 };

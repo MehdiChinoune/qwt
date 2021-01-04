@@ -175,8 +175,6 @@ class QWT_EXPORT QwtPolarGrid : public QwtPolarItem
         const QPointF& pole, const double radius ) const;
 
   private:
-    class GridData;
-    class AxisData;
     class PrivateData;
     PrivateData* m_data;
 };

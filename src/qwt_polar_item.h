@@ -162,9 +162,7 @@ class QWT_EXPORT QwtPolarItem
     virtual QwtGraphic legendIcon( int index, const QSizeF& ) const;
 
   private:
-    // Disabled copy constructor and operator=
-    QwtPolarItem( const QwtPolarItem& );
-    QwtPolarItem& operator=( const QwtPolarItem& );
+    Q_DISABLE_COPY( QwtPolarItem )
 
     class PrivateData;
     PrivateData* m_data;

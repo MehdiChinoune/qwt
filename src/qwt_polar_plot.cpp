@@ -30,34 +30,37 @@ static inline double qwtDistance(
     return qSqrt( dx * dx + dy * dy );
 }
 
-class QwtPolarPlot::ScaleData
+namespace
 {
-  public:
-    ScaleData()
-        : isValid( false )
-        , scaleEngine( NULL )
+    class ScaleData
     {
-    }
+      public:
+        ScaleData()
+            : isValid( false )
+            , scaleEngine( NULL )
+        {
+        }
 
-    ~ScaleData()
-    {
-        delete scaleEngine;
-    }
+        ~ScaleData()
+        {
+            delete scaleEngine;
+        }
 
-    bool doAutoScale;
+        bool doAutoScale;
 
-    double minValue;
-    double maxValue;
-    double stepSize;
+        double minValue;
+        double maxValue;
+        double stepSize;
 
-    int maxMajor;
-    int maxMinor;
+        int maxMajor;
+        int maxMinor;
 
-    bool isValid;
+        bool isValid;
 
-    QwtScaleDiv scaleDiv;
-    QwtScaleEngine* scaleEngine;
-};
+        QwtScaleDiv scaleDiv;
+        QwtScaleEngine* scaleEngine;
+    };
+}
 
 class QwtPolarPlot::PrivateData
 {
