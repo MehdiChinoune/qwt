@@ -74,6 +74,7 @@ class QWT_EXPORT QwtPlotGLCanvas : public QGLWidget, public QwtPlotAbstractGLCan
     virtual void resizeGL( int width, int height ) QWT_OVERRIDE;
 
   private:
+    void init();
     virtual void clearBackingStore() QWT_OVERRIDE;
 
     class PrivateData;

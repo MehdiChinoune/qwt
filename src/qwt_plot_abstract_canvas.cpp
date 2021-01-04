@@ -535,12 +535,7 @@ QwtPlotAbstractCanvas::QwtPlotAbstractCanvas( QWidget* canvasWidget )
 #ifndef QT_NO_CURSOR
     canvasWidget->setCursor( Qt::CrossCursor );
 #endif
-
     canvasWidget->setAutoFillBackground( true );
-
-    canvasWidget->setProperty( "lineWidth", 2 );
-    canvasWidget->setProperty( "frameShadow", QFrame::Sunken );
-    canvasWidget->setProperty( "frameShape", QFrame::Panel );
 }
 
 QwtPlotAbstractCanvas::~QwtPlotAbstractCanvas()
@@ -879,10 +874,6 @@ class QwtPlotAbstractGLCanvas::PrivateData
         frameStyle( QFrame::Panel | QFrame::Sunken),
         lineWidth( 2 ),
         midLineWidth( 0 )
-    {
-    }
-
-    ~PrivateData()
     {
     }
 

@@ -74,6 +74,10 @@ void QwtPlotOpenGLCanvas::init( const QSurfaceFormat& format )
 #if 1
     setAttribute( Qt::WA_OpaquePaintEvent, true );
 #endif
+
+    setLineWidth( 2 );
+    setFrameShadow( QFrame::Sunken );
+    setFrameShape( QFrame::Panel );
 }
 
 //! Destructor

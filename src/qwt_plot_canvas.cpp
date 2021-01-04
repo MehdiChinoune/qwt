@@ -47,6 +47,10 @@ QwtPlotCanvas::QwtPlotCanvas( QwtPlot* plot )
     setPaintAttribute( QwtPlotCanvas::BackingStore, true );
     setPaintAttribute( QwtPlotCanvas::Opaque, true );
     setPaintAttribute( QwtPlotCanvas::HackStyledBackground, true );
+
+    setLineWidth( 2 );
+    setFrameShadow( QFrame::Sunken );
+    setFrameShape( QFrame::Panel );
 }
 
 //! Destructor

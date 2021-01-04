@@ -57,26 +57,38 @@ QwtPlotGLCanvas::QwtPlotGLCanvas( QwtPlot* plot )
     : QGLWidget( QwtPlotGLCanvasFormat(), plot )
     , QwtPlotAbstractGLCanvas( this )
 {
-    m_data = new PrivateData;
-#if 1
-    setAttribute( Qt::WA_OpaquePaintEvent, true );
-#endif
+    init();
 }
+/*!
+   \brief Constructor
 
+   \param format OpenGL rendering options
+   \param plot Parent plot widget
+   \sa QwtPlot::setCanvas()
+ */
 QwtPlotGLCanvas::QwtPlotGLCanvas( const QGLFormat& format, QwtPlot* plot )
     : QGLWidget( format, plot )
     , QwtPlotAbstractGLCanvas( this )
 {
-    m_data = new PrivateData;
-#if 1
-    setAttribute( Qt::WA_OpaquePaintEvent, true );
-#endif
+    init();
 }
 
 //! Destructor
 QwtPlotGLCanvas::~QwtPlotGLCanvas()
 {
     delete m_data;
+}
+
+void QwtPlotGLCanvas::init()
+{
+    m_data = new PrivateData;
+
+#if 1
+    setAttribute( Qt::WA_OpaquePaintEvent, true );
+#endif
+    setLineWidth( 2 );
+    setFrameShadow( QFrame::Sunken );
+    setFrameShape( QFrame::Panel );
 }
 
 /*!
