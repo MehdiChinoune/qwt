@@ -165,7 +165,6 @@ contains(QWT_CONFIG, QwtPlot) {
         qwt_legend_label.cpp \
         qwt_plot.cpp \
         qwt_plot_renderer.cpp \
-        qwt_plot_xml.cpp \
         qwt_plot_axis.cpp \
         qwt_plot_curve.cpp \
         qwt_plot_dict.cpp \
