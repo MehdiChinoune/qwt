@@ -35,6 +35,7 @@ CLASSHEADERS = \
     QwtLogScaleEngine \
     QwtLogTransform \
     QwtMagnifier \
+    QwtMath \
     QwtNullPaintDevice \
     QwtNullTransform \
     QwtPainter \
