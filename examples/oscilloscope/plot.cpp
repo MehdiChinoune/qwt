@@ -126,7 +126,7 @@ Plot::~Plot()
 
 void Plot::start()
 {
-    m_clock.start();
+    m_elapsedTimer.start();
     m_timerId = startTimer( 10 );
 }
 
@@ -225,7 +225,7 @@ void Plot::timerEvent( QTimerEvent* event )
     {
         updateCurve();
 
-        const double elapsed = m_clock.elapsed() / 1000.0;
+        const double elapsed = m_elapsedTimer.elapsed() / 1e3;
         if ( elapsed > m_interval.maxValue() )
             incrementInterval();
 

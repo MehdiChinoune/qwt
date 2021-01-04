@@ -81,7 +81,7 @@ Plot::Plot( QWidget* parent )
     setAxisTitle( QwtPlot::yLeft, "Values" );
     setAxisScale( QwtPlot::yLeft, -1.0, 1.0 );
 
-    m_clock.start();
+    m_elapsedTimer.start();
 
     setSettings( m_settings );
 }
@@ -209,7 +209,7 @@ void Plot::setSettings( const Settings& s )
 void Plot::timerEvent( QTimerEvent* )
 {
     CircularBuffer* buffer = static_cast< CircularBuffer* >( m_curve->data() );
-    buffer->setReferenceTime( m_clock.elapsed() / 1000.0 );
+    buffer->setReferenceTime( m_elapsedTimer.elapsed() / 1000.0 );
 
     if ( m_settings.updateType == Settings::RepaintCanvas )
     {

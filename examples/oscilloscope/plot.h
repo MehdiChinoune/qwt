@@ -8,7 +8,7 @@
 
 #include <qwt_plot.h>
 #include <qwt_interval.h>
-#include <qwt_system_clock.h>
+#include <qelapsedtimer.h>
 
 class QwtPlotCurve;
 class QwtPlotMarker;
@@ -48,7 +48,7 @@ class Plot : public QwtPlot
     QwtInterval m_interval;
     int m_timerId;
 
-    QwtSystemClock m_clock;
+    QElapsedTimer m_elapsedTimer;
 };
 
 #endif

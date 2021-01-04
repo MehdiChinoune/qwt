@@ -9,7 +9,7 @@
 #include "settings.h"
 
 #include <qwt_plot.h>
-#include <qwt_system_clock.h>
+#include <qelapsedtimer.h>
 
 class QwtPlotGrid;
 class QwtPlotCurve;
@@ -33,7 +33,7 @@ class Plot : public QwtPlot
     QwtPlotGrid* m_grid;
     QwtPlotCurve* m_curve;
 
-    QwtSystemClock m_clock;
+    QElapsedTimer m_elapsedTimer;
     double m_interval;
 
     int m_timerId;
