@@ -15,6 +15,7 @@
 #include "qwt_math.h"
 
 #include <qpoint.h>
+#include <qmetatype.h>
 #include <qmath.h>
 
 /*!
@@ -55,6 +56,13 @@ class QWT_EXPORT QwtPointPolar
     double m_azimuth;
     double m_radius;
 };
+
+Q_DECLARE_TYPEINFO( QwtPointPolar, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( QwtPointPolar );
+
+#ifndef QT_NO_DEBUG_STREAM
+QWT_EXPORT QDebug operator<<( QDebug, const QwtPointPolar& );
+#endif
 
 /*!
     Constructs a null point, with a radius and azimuth set to 0.0.
@@ -125,10 +133,6 @@ inline void QwtPointPolar::setAzimuth( double azimuth )
 {
     m_azimuth = azimuth;
 }
-
-#ifndef QT_NO_DEBUG_STREAM
-QWT_EXPORT QDebug operator<<( QDebug, const QwtPointPolar& );
-#endif
 
 inline QPoint qwtPolar2Pos( const QPoint& pole,
     double radius, double angle )

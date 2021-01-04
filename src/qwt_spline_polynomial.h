@@ -64,6 +64,9 @@ class QWT_EXPORT QwtSplinePolynomial
     double c1;
 };
 
+Q_DECLARE_TYPEINFO( QwtSplinePolynomial, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( QwtSplinePolynomial )
+
 /*!
    \brief Constructor
 
@@ -206,18 +209,11 @@ inline QwtSplinePolynomial QwtSplinePolynomial::fromCurvatures(
     return QwtSplinePolynomial( c3, c2, c1 );
 }
 
-Q_DECLARE_METATYPE( QwtSplinePolynomial )
-
 #ifndef QT_NO_DEBUG_STREAM
 
-#include <qdebug.h>
+class QDebug;
+QWT_EXPORT QDebug operator<<( QDebug, const QwtSplinePolynomial& );
 
-inline QDebug operator<<( QDebug debug, const QwtSplinePolynomial& polynomial )
-{
-    debug.nospace() << "Polynom(" << polynomial.c3 << ", "
-                    << polynomial.c2 << ", " << polynomial.c1 << ")";
-    return debug.space();
-}
 #endif
 
 #endif

@@ -99,7 +99,9 @@ class QWT_EXPORT QwtInterval
     BorderFlags m_borderFlags;
 };
 
-Q_DECLARE_TYPEINFO(QwtInterval, Q_MOVABLE_TYPE);
+Q_DECLARE_OPERATORS_FOR_FLAGS( QwtInterval::BorderFlags )
+Q_DECLARE_METATYPE( QwtInterval )
+Q_DECLARE_TYPEINFO( QwtInterval, Q_MOVABLE_TYPE );
 
 /*!
    \brief Default Constructor
@@ -325,9 +327,6 @@ inline void QwtInterval::invalidate()
     m_minValue = 0.0;
     m_maxValue = -1.0;
 }
-
-Q_DECLARE_OPERATORS_FOR_FLAGS( QwtInterval::BorderFlags )
-Q_DECLARE_METATYPE( QwtInterval )
 
 #ifndef QT_NO_DEBUG_STREAM
 QWT_EXPORT QDebug operator<<( QDebug, const QwtInterval& );

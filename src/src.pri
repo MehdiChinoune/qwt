@@ -91,6 +91,7 @@ SOURCES += \
     qwt_spline_local.cpp \
     qwt_spline_cubic.cpp \
     qwt_spline_pleasing.cpp \
+    qwt_spline_polynomial.cpp \
     qwt_symbol.cpp \
     qwt_system_clock.cpp \
     qwt_text_engine.cpp \

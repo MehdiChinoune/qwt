@@ -13,6 +13,7 @@
 
 #include "qwt_global.h"
 #include <qpoint.h>
+#include <qmetatype.h>
 
 /*!
    \brief QwtPoint3D class defines a 3D point in double coordinates
@@ -50,7 +51,8 @@ class QWT_EXPORT QwtPoint3D
     double m_z;
 };
 
-Q_DECLARE_TYPEINFO(QwtPoint3D, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO( QwtPoint3D, Q_MOVABLE_TYPE );
+Q_DECLARE_METATYPE( QwtPoint3D );
 
 #ifndef QT_NO_DEBUG_STREAM
 QWT_EXPORT QDebug operator<<( QDebug, const QwtPoint3D& );
