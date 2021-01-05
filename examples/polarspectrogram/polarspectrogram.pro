@@ -7,12 +7,11 @@ include( $${PWD}/../examples.pri )
 
 TARGET       = polarspectrogram
 
-SOURCES = \
-	plot.cpp \
-	plotwindow.cpp \
-	main.cpp
-
 HEADERS = \
-	plot.h \
-	plotwindow.h
+	Plot.h \
+	PlotWindow.h
 
+SOURCES = \
+	Plot.cpp \
+	PlotWindow.cpp \
+	main.cpp

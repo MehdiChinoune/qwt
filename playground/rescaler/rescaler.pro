@@ -8,11 +8,11 @@ include( $${PWD}/../playground.pri )
 TARGET       = rescaler
 
 HEADERS = \
-    mainwindow.h \
-    plot.h 
+    MainWindow.h \
+    Plot.h 
 
 SOURCES = \
-    mainwindow.cpp \
-    plot.cpp \
+    MainWindow.cpp \
+    Plot.cpp \
     main.cpp
 

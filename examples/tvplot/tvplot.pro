@@ -8,8 +8,8 @@ include( $${PWD}/../examples.pri )
 TARGET   = tvplot
 
 SOURCES = \
-    tvplot.cpp \
+    TVPlot.cpp \
     main.cpp
 
 HEADERS = \
-    tvplot.h
+    TVPlot.h

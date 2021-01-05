@@ -7,7 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include <QApplication>
 
 int main ( int argc, char** argv )

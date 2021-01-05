@@ -13,7 +13,7 @@ contains(QWT_CONFIG, QwtPlot) {
         animation \
         barchart \
         cpuplot \
-        curvdemo1   \
+        curvedemo \
         distrowatch \
         friedberg \
         itemeditor \

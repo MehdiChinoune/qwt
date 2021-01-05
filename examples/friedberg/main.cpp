@@ -3,7 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "plot.h"
+#include "Plot.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -11,41 +11,42 @@
 #include <QToolBar>
 #include <QToolButton>
 
-class MainWindow : public QMainWindow
+namespace
 {
-  public:
-    MainWindow( QWidget* = NULL );
+    class MainWindow : public QMainWindow
+    {
+      public:
+        MainWindow( QWidget* parent = NULL )
+            : QMainWindow( parent )
+        {
+            d_plot = new Plot( this );
+            setCentralWidget( d_plot );
 
-  private:
-    Plot* d_plot;
-};
+            QToolBar* toolBar = new QToolBar( this );
 
-MainWindow::MainWindow( QWidget* parent )
-    : QMainWindow( parent )
-{
-    d_plot = new Plot( this );
-    setCentralWidget( d_plot );
+            QComboBox* typeBox = new QComboBox( toolBar );
+            typeBox->addItem( "Bars" );
+            typeBox->addItem( "Tube" );
+            typeBox->setCurrentIndex( 1 );
+            typeBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
 
-    QToolBar* toolBar = new QToolBar( this );
+            QToolButton* btnExport = new QToolButton( toolBar );
+            btnExport->setText( "Export" );
+            btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+            connect( btnExport, SIGNAL(clicked()), d_plot, SLOT(exportPlot()) );
 
-    QComboBox* typeBox = new QComboBox( toolBar );
-    typeBox->addItem( "Bars" );
-    typeBox->addItem( "Tube" );
-    typeBox->setCurrentIndex( 1 );
-    typeBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+            toolBar->addWidget( typeBox );
+            toolBar->addWidget( btnExport );
+            addToolBar( toolBar );
 
-    QToolButton* btnExport = new QToolButton( toolBar );
-    btnExport->setText( "Export" );
-    btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-    connect( btnExport, SIGNAL(clicked()), d_plot, SLOT(exportPlot()) );
+            d_plot->setMode( typeBox->currentIndex() );
+            connect( typeBox, SIGNAL(currentIndexChanged(int)),
+                d_plot, SLOT(setMode(int)) );
+        }
 
-    toolBar->addWidget( typeBox );
-    toolBar->addWidget( btnExport );
-    addToolBar( toolBar );
-
-    d_plot->setMode( typeBox->currentIndex() );
-    connect( typeBox, SIGNAL(currentIndexChanged(int)),
-        d_plot, SLOT(setMode(int)) );
+      private:
+        Plot* d_plot;
+    };
 }
 
 int main( int argc, char** argv )

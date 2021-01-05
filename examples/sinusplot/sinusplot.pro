@@ -8,5 +8,5 @@ include( $${PWD}/../examples.pri )
 TARGET       = sinusplot
 
 SOURCES = \
-    sinusplot.cpp
+    main.cpp
 

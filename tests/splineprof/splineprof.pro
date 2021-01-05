@@ -14,5 +14,5 @@ CONFIG -= gui
 TARGET = splineprof
 
 SOURCES = \
-    splineprof.cpp
+    main.cpp
 

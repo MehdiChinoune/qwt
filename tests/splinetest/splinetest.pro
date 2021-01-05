@@ -14,5 +14,5 @@ CONFIG -= gui
 TARGET = splinetest
 
 SOURCES = \
-    splinetest.cpp
+    main.cpp
 

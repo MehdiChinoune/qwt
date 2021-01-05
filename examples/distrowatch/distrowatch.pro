@@ -8,8 +8,8 @@ include( $${PWD}/../examples.pri )
 TARGET       = distrowatch
 
 HEADERS = \
-    barchart.h 
+    BarChart.h 
 
 SOURCES = \
-    barchart.cpp \
+    BarChart.cpp \
     main.cpp

@@ -15,11 +15,11 @@ TARGET   = graphicscale
 QT      += svg
 
 HEADERS = \
-    canvas.h \
-    mainwindow.h
+    Canvas.h \
+    MainWindow.h
 
 SOURCES = \
-    canvas.cpp \
-    mainwindow.cpp \
+    Canvas.cpp \
+    MainWindow.cpp \
     main.cpp
 

@@ -8,8 +8,8 @@ include( $${PWD}/../examples.pri )
 TARGET   = barchart
 
 SOURCES = \
-    barchart.cpp \
+    BarChart.cpp \
     main.cpp
 
 HEADERS = \
-    barchart.h
+    BarChart.h

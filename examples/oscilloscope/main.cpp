@@ -3,8 +3,8 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "mainwindow.h"
-#include "samplingthread.h"
+#include "MainWindow.h"
+#include "SamplingThread.h"
 
 #include <QApplication>
 

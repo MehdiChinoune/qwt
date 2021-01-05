@@ -7,7 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#include "plot.h"
+#include "Plot.h"
 #include <QApplication>
 
 #ifndef QWT_NO_OPENGL

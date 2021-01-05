@@ -8,12 +8,12 @@ include( $${PWD}/../examples.pri )
 TARGET       = splineeditor
 
 HEADERS = \
-    scalepicker.h \
-    canvaspicker.h \
-    plot.h 
+    ScalePicker.h \
+    CanvasPicker.h \
+    Plot.h 
 
 SOURCES = \
-    scalepicker.cpp \
-    canvaspicker.cpp \
-    plot.cpp \
+    ScalePicker.cpp \
+    CanvasPicker.cpp \
+    Plot.cpp \
     main.cpp 

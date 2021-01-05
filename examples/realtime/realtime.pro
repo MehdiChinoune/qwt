@@ -8,17 +8,17 @@ include( $${PWD}/../examples.pri )
 TARGET       = realtime
 
 HEADERS = \
-    mainwindow.h \
-    scrollzoomer.h \
-    scrollbar.h \
-    incrementalplot.h \
-    randomplot.h
+    ScrollZoomer.h \
+    ScrollBar.h \
+    IncrementalPlot.h \
+    RandomPlot.h \
+    MainWindow.h
 
 SOURCES = \
-    main.cpp \
-    mainwindow.cpp \
-    scrollzoomer.cpp \
-    scrollbar.cpp \
-    incrementalplot.cpp \
-    randomplot.cpp
+    ScrollZoomer.cpp \
+    ScrollBar.cpp \
+    IncrementalPlot.cpp \
+    RandomPlot.cpp \
+    MainWindow.cpp \
+    main.cpp
 

@@ -7,15 +7,14 @@ include( $${PWD}/../examples.pri )
 
 TARGET       = polardemo
 
-SOURCES = \
-	mainwindow.cpp \
-	plot.cpp \
-	settingseditor.cpp \
-	main.cpp
-
 HEADERS = \
-	pixmaps.h \
-	mainwindow.h \
-	plot.h \
-	settingseditor.h
+	Pixmaps.h \
+	MainWindow.h \
+	Plot.h \
+	SettingsEditor.h
 
+SOURCES = \
+	MainWindow.cpp \
+	Plot.cpp \
+	SettingsEditor.cpp \
+	main.cpp

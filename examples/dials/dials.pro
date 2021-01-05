@@ -8,15 +8,15 @@ include( $${PWD}/../examples.pri )
 TARGET       = dials
 
 HEADERS = \
-    attitude_indicator.h \
-    speedo_meter.h \
-    cockpit_grid.h \
-    compass_grid.h
+    AttitudeIndicator.h \
+    SpeedoMeter.h \
+    CockpitGrid.h \
+    CompassGrid.h
 
 SOURCES = \
-    attitude_indicator.cpp \
-    speedo_meter.cpp \
-    cockpit_grid.cpp \
-    compass_grid.cpp \
-    dials.cpp
+    AttitudeIndicator.cpp \
+    SpeedoMeter.cpp \
+    CockpitGrid.cpp \
+    CompassGrid.cpp \
+    main.cpp
 

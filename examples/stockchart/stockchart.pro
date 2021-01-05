@@ -8,14 +8,14 @@ include( $${PWD}/../examples.pri )
 TARGET       = stockchart
 
 HEADERS = \
-    legend.h \
-    griditem.h \
-    plot.h \
-    quotefactory.h
+    Legend.h \
+    GridItem.h \
+    Plot.h \
+    QuoteFactory.h
 
 SOURCES = \
-    legend.cpp \
-    griditem.cpp \
-    quotefactory.cpp \
-    plot.cpp \
+    Legend.cpp \
+    GridItem.cpp \
+    Plot.cpp \
+    QuoteFactory.cpp \
     main.cpp

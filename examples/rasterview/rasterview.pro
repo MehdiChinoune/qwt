@@ -8,8 +8,8 @@ include( $${PWD}/../examples.pri )
 TARGET   = rasterview
 
 HEADERS = \
-     plot.h 
+     Plot.h 
 
 SOURCES = \
-    plot.cpp \
+    Plot.cpp \
     main.cpp

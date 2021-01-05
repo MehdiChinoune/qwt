@@ -3,7 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "plot.h"
+#include "Plot.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -45,7 +45,7 @@ namespace
 
 int main( int argc, char** argv )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
     QString fileName;
     if ( argc > 1 )
@@ -58,10 +58,9 @@ int main( int argc, char** argv )
         fileName = ":/svg/Schlosspark_Nymphenburg.svg";
     }
 
-    MainWindow w( fileName );
-    w.resize( 600, 600 );
-    w.show();
+    MainWindow window( fileName );
+    window.resize( 600, 600 );
+    window.show();
 
-    int rv = a.exec();
-    return rv;
+    return app.exec();
 }

@@ -8,13 +8,13 @@ include( $${PWD}/../examples.pri )
 TARGET       = legends
 
 HEADERS = \
-    mainwindow.h \
-    panel.h \
-    settings.h \
-    plot.h
+    MainWindow.h \
+    Panel.h \
+    Settings.h \
+    Plot.h
 
 SOURCES = \
-    mainwindow.cpp \
-    panel.cpp \
-    plot.cpp \
+    MainWindow.cpp \
+    Panel.cpp \
+    Plot.cpp \
     main.cpp

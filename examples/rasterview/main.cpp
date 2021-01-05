@@ -3,7 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "plot.h"
+#include "Plot.h"
 
 #include <QApplication>
 #include <QMainWindow>

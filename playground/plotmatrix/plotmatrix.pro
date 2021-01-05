@@ -8,8 +8,8 @@ include( $${PWD}/../playground.pri )
 TARGET   = plotmatrix
 
 HEADERS = \
-     plotmatrix.h 
+     PlotMatrix.h 
 
 SOURCES = \
-    plotmatrix.cpp \
+    PlotMatrix.cpp \
     main.cpp

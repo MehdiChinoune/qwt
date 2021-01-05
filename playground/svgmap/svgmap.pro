@@ -18,8 +18,8 @@ RESOURCES += \
     svgmap.qrc
 
 HEADERS = \
-    plot.h
+    Plot.h
 
 SOURCES = \
-    plot.cpp \
+    Plot.cpp \
     main.cpp

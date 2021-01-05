@@ -8,10 +8,10 @@ include( $${PWD}/../examples.pri )
 TARGET       = friedberg
 
 HEADERS = \
-    plot.h \
-    friedberg2007.h
+    Plot.h \
+    Friedberg2007.h
 
 SOURCES = \
-    friedberg2007.cpp \
-    plot.cpp \
+    Friedberg2007.cpp \
+    Plot.cpp \
     main.cpp

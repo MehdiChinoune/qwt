@@ -8,13 +8,13 @@ include( $${PWD}/../examples.pri )
 TARGET       = itemeditor
 
 HEADERS = \
-    editor.h \
-    shapefactory.h \
-    plot.h
+    Editor.h \
+    ShapeFactory.h \
+    Plot.h
 
 SOURCES = \
-    editor.cpp \
-    shapefactory.cpp \
-    plot.cpp \
+    Editor.cpp \
+    ShapeFactory.cpp \
+    Plot.cpp \
     main.cpp
 

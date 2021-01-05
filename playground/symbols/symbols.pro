@@ -8,5 +8,5 @@ include( $${PWD}/../playground.pri )
 TARGET       = symbols
 
 SOURCES = \
-    symbols.cpp
+    main.cpp
 

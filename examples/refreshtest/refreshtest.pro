@@ -8,16 +8,16 @@ include( $${PWD}/../examples.pri )
 TARGET       = refreshtest
 
 HEADERS = \
-    settings.h \
-    circularbuffer.h \
-    panel.h \
-    plot.h \
-    mainwindow.h
+    Settings.h \
+    CircularBuffer.h \
+    Panel.h \
+    Plot.h \
+    MainWindow.h
 
 SOURCES = \
-    circularbuffer.cpp \
-    panel.cpp \
-    plot.cpp \
-    mainwindow.cpp \
+    CircularBuffer.cpp \
+    Panel.cpp \
+    Plot.cpp \
+    MainWindow.cpp \
     main.cpp
 

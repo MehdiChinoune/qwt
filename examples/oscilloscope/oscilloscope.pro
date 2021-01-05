@@ -8,20 +8,20 @@ include( $${PWD}/../examples.pri )
 TARGET   = oscilloscope
 
 HEADERS = \
-    signaldata.h \
-    plot.h \
-    knob.h \
-    wheelbox.h \
-    samplingthread.h \
-    curvedata.h \
-    mainwindow.h 
+    SignalData.h \
+    Plot.h \
+    Knob.h \
+    WheelBox.h \
+    SamplingThread.h \
+    CurveData.h \
+    MainWindow.h 
 
 SOURCES = \
-    signaldata.cpp \
-    plot.cpp \
-    knob.cpp \
-    wheelbox.cpp \
-    samplingthread.cpp \
-    curvedata.cpp \
-    mainwindow.cpp \
+    SignalData.cpp \
+    Plot.cpp \
+    Knob.cpp \
+    WheelBox.cpp \
+    SamplingThread.cpp \
+    CurveData.cpp \
+    MainWindow.cpp \
     main.cpp

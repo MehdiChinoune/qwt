@@ -12,8 +12,8 @@ include( $${PWD}/../examples.pri )
 TARGET  = animation
 
 HEADERS = \
-    plot.h
+    Plot.h
 
 SOURCES = \
-    plot.cpp \
+    Plot.cpp \
     main.cpp

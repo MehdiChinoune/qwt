@@ -8,11 +8,11 @@ include( $${PWD}/../examples.pri )
 TARGET       = scatterplot
 
 HEADERS = \
-    mainwindow.h \
-    plot.h
+    MainWindow.h \
+    Plot.h
 
 SOURCES = \
-    main.cpp \
-    mainwindow.cpp \
-    plot.cpp
+    Plot.cpp \
+    MainWindow.cpp \
+    main.cpp
 

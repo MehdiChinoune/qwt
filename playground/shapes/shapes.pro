@@ -8,5 +8,5 @@ include( $${PWD}/../playground.pri )
 TARGET       = shapes
 
 SOURCES = \
-    shapes.cpp
+    main.cpp
 

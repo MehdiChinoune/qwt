@@ -8,5 +8,5 @@ include( $${PWD}/../examples.pri )
 TARGET       = simpleplot
 
 SOURCES = \
-    simpleplot.cpp
+    main.cpp
 

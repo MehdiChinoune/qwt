@@ -12,12 +12,12 @@ include( $${PWD}/../examples.pri )
 TARGET       = bode
 
 HEADERS = \
-    mainwindow.h \
-    plot.h \
-    complexnumber.h \ 
-    pixmaps.h
+    MainWindow.h \
+    Plot.h \
+    ComplexNumber.h \ 
+    Pixmaps.h
 
 SOURCES = \
-    plot.cpp \
-    mainwindow.cpp \
+    Plot.cpp \
+    MainWindow.cpp \
     main.cpp

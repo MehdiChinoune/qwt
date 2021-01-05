@@ -3,16 +3,16 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include <QApplication>
 
 int main( int argc, char** argv )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
-    MainWindow w;
-    w.resize( 600, 400 );
-    w.show();
+    MainWindow window;
+    window.resize( 600, 400 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }

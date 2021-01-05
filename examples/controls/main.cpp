@@ -7,10 +7,10 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#include "slidertab.h"
-#include "wheeltab.h"
-#include "knobtab.h"
-#include "dialtab.h"
+#include "SliderTab.h"
+#include "WheelTab.h"
+#include "KnobTab.h"
+#include "DialTab.h"
 
 #include <QApplication>
 #include <QTabWidget>

@@ -3,7 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include "tvplot.h"
+#include "TVPlot.h"
 
 #include <QApplication>
 #include <QMainWindow>
@@ -11,14 +11,17 @@
 #include <QToolButton>
 #include <QComboBox>
 
-class MainWindow : public QMainWindow
+namespace
 {
-  public:
-    MainWindow( QWidget* = NULL );
+    class MainWindow : public QMainWindow
+    {
+      public:
+        MainWindow( QWidget* = NULL );
 
-  private:
-    TVPlot* d_plot;
-};
+      private:
+        TVPlot* d_plot;
+    };
+}
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )

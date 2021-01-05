@@ -8,11 +8,11 @@ include( $${PWD}/../playground.pri )
 TARGET       = curvetracker
 
 HEADERS = \
-    curvetracker.h \
-    plot.h
+    CurveTracker.h \
+    Plot.h
 
 SOURCES = \
-    curvetracker.cpp \
-    plot.cpp \
+    CurveTracker.cpp \
+    Plot.cpp \
     main.cpp
 
