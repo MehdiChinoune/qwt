@@ -9,12 +9,12 @@
 
 #include "knobbox.h"
 
-#include <qwt_knob.h>
-#include <qwt_scale_engine.h>
-#include <qwt_transform.h>
+#include <QwtKnob>
+#include <QwtScaleEngine>
+#include <QwtTransform>
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 
 KnobBox::KnobBox( QWidget* parent, int knobType )
     : QWidget( parent )

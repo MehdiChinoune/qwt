@@ -9,13 +9,13 @@
 
 #include "sliderbox.h"
 
-#include <qwt_slider.h>
-#include <qwt_scale_engine.h>
-#include <qwt_transform.h>
-#include <qwt_painter.h>
+#include <QwtSlider>
+#include <QwtScaleEngine>
+#include <QwtTransform>
+#include <QwtPainter>
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 
 SliderBox::SliderBox( int sliderType, QWidget* parent )
     : QWidget( parent )

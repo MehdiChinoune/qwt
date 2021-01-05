@@ -10,7 +10,7 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QwtPlotCurve;
 class QwtPlotMarker;

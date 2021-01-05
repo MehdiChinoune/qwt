@@ -5,12 +5,12 @@
 
 #include "attitude_indicator.h"
 
-#include <qwt_point_polar.h>
-#include <qwt_round_scale_draw.h>
+#include <QwtPointPolar>
+#include <QwtRoundScaleDraw>
 
-#include <qevent.h>
-#include <qpainter.h>
-#include <qpainterpath.h>
+#include <QKeyEvent>
+#include <QPainter>
+#include <QPainterPath>
 
 AttitudeIndicatorNeedle::AttitudeIndicatorNeedle( const QColor& color )
 {

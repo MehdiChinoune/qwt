@@ -6,8 +6,8 @@
 #ifndef COCKPIT_GRID
 #define COCKPIT_GRID
 
-#include <qframe.h>
-#include <qpalette.h>
+#include <QFrame>
+#include <QPalette>
 
 class QwtDial;
 class QwtAnalogClock;

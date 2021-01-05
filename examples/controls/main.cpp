@@ -12,8 +12,8 @@
 #include "knobtab.h"
 #include "dialtab.h"
 
-#include <qapplication.h>
-#include <qtabwidget.h>
+#include <QApplication>
+#include <QTabWidget>
 
 int main ( int argc, char** argv )
 {

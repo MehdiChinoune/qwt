@@ -6,8 +6,8 @@
 #include "compass_grid.h"
 #include "cockpit_grid.h"
 
-#include <qapplication.h>
-#include <qtabwidget.h>
+#include <QApplication>
+#include <QTabWidget>
 
 int main( int argc, char** argv )
 {

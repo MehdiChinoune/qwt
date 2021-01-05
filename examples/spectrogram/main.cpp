@@ -5,15 +5,15 @@
 
 #include "plot.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qtoolbar.h>
-#include <qstatusbar.h>
-#include <qtoolbutton.h>
-#include <qcombobox.h>
-#include <qslider.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QToolBar>
+#include <QStatusBar>
+#include <QToolButton>
+#include <QComboBox>
+#include <QSlider>
+#include <QLabel>
+#include <QCheckBox>
 
 class MainWindow : public QMainWindow
 {

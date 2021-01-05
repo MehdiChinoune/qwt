@@ -5,10 +5,10 @@
 
 #include "quotefactory.h"
 
-#include <qwt_samples.h>
-#include <qwt_date.h>
+#include <QwtOHLCSample>
+#include <QwtDate>
 
-#include <qvector.h>
+#include <QVector>
 
 typedef struct
 {

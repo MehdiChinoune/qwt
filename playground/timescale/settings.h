@@ -6,7 +6,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <qdatetime.h>
+#include <QDateTime>
 
 class Settings
 {

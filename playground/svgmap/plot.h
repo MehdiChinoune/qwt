@@ -6,8 +6,8 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
-#include <qrect.h>
+#include <QwtPlot>
+#include <QRect>
 
 class QwtPlotGraphicItem;
 

@@ -4,8 +4,8 @@
 *****************************************************************************/
 
 #include "canvas.h"
-#include <qwt_graphic.h>
-#include <qsvgrenderer.h>
+#include <QwtGraphic>
+#include <QSvgRenderer>
 
 Canvas::Canvas( Mode mode, QWidget* parent )
     : QWidget( parent )

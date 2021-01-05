@@ -6,8 +6,8 @@
 #ifndef ATTITUDE_INDICATOR_H
 #define ATTITUDE_INDICATOR_H
 
-#include <qwt_dial.h>
-#include <qwt_dial_needle.h>
+#include <QwtDial>
+#include <QwtDialNeedle>
 
 class AttitudeIndicatorNeedle : public QwtDialNeedle
 {

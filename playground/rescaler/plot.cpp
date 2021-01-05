@@ -5,15 +5,15 @@
 
 #include "plot.h"
 
-#include <qwt_plot_grid.h>
-#include <qwt_plot_item.h>
-#include <qwt_scale_map.h>
-#include <qwt_plot_layout.h>
-#include <qwt_interval.h>
-#include <qwt_painter.h>
-#include <qwt_math.h>
+#include <QwtPlotGrid>
+#include <QwtPlotItem>
+#include <QwtScaleMap>
+#include <QwtPlotLayout>
+#include <QwtInterval>
+#include <QwtPainter>
+#include <QwtMath>
 
-#include <qpainter.h>
+#include <QPainter>
 
 class TextItem : public QwtPlotItem
 {

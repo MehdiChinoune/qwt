@@ -3,16 +3,16 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include <qwt_plot.h>
-#include <qwt_samples.h>
-#include <qwt_plot_vectorfield.h>
-#include <qwt_vectorfield_symbol.h>
-#include <qwt_plot_grid.h>
-#include <qwt_legend.h>
-#include <qwt_color_map.h>
+#include <QwtPlot>
+#include <QwtVectorFieldSample>
+#include <QwtPlotVectorField>
+#include <QwtVectorFieldArrow>
+#include <QwtPlotGrid>
+#include <QwtLegend>
+#include <QwtColorMap>
 
-#include <qapplication.h>
-#include <qpen.h>
+#include <QApplication>
+#include <QPen>
 
 class VectorField : public QwtPlotVectorField
 {

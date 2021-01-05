@@ -5,12 +5,12 @@
 
 #include "wheelbox.h"
 
-#include <qwt_wheel.h>
+#include <QwtWheel>
 #include <qlcdnumber.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qevent.h>
-#include <qapplication.h>
+#include <QLabel>
+#include <QLayout>
+#include <QWheelEvent>
+#include <QApplication>
 
 namespace
 {
@@ -33,18 +33,18 @@ namespace
 
                 const QPoint pos = wheelRect().center();
 
-    #if QT_VERSION >= 0x050c00
+#if QT_VERSION >= 0x050c00
                 QWheelEvent wheelEvent(
                     pos, mapToGlobal( pos ),
                     we->pixelDelta(), we->angleDelta(),
                     we->buttons(), we->modifiers(),
                     we->phase(), we->inverted() );
-    #else
+#else
                 QWheelEvent wheelEvent(
                     pos, we->delta(),
                     we->buttons(), we->modifiers(),
                     we->orientation() );
-    #endif
+#endif
 
                 m_ignoreWheelEvent = true;
                 QApplication::sendEvent( this, &wheelEvent );

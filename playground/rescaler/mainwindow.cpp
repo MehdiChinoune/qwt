@@ -6,15 +6,15 @@
 #include "mainwindow.h"
 #include "plot.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_rescaler.h>
-#include <qwt_interval.h>
+#include <QwtPlot>
+#include <QwtPlotRescaler>
+#include <QwtInterval>
 
-#include <qgroupbox.h>
-#include <qcombobox.h>
-#include <qlayout.h>
-#include <qstatusbar.h>
-#include <qlabel.h>
+#include <QGroupBox>
+#include <QComboBox>
+#include <QLayout>
+#include <QStatusBar>
+#include <QLabel>
 
 MainWindow::MainWindow()
 {

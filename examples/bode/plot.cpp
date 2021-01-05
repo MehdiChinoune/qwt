@@ -10,15 +10,15 @@
 #include "plot.h"
 #include "complexnumber.h"
 
-#include <qwt_math.h>
-#include <qwt_scale_engine.h>
-#include <qwt_symbol.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_marker.h>
-#include <qwt_plot_curve.h>
-#include <qwt_legend.h>
-#include <qwt_text.h>
-#include <qwt_plot_canvas.h>
+#include <QwtMath>
+#include <QwtScaleEngine>
+#include <QwtSymbol>
+#include <QwtPlotGrid>
+#include <QwtPlotMarker>
+#include <QwtPlotCurve>
+#include <QwtLegend>
+#include <QwtText>
+#include <QwtPlotCanvas>
 
 static void logSpace( double* array, int size, double xmin, double xmax )
 {

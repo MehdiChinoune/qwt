@@ -7,14 +7,14 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#include <qwt_scale_map.h>
-#include <qwt_plot_curve.h>
-#include <qwt_symbol.h>
-#include <qwt_math.h>
+#include <QwtScaleMap>
+#include <QwtPlotCurve>
+#include <QwtSymbol>
+#include <QwtMath>
 
-#include <qpainter.h>
-#include <qapplication.h>
-#include <qframe.h>
+#include <QPainter>
+#include <QApplication>
+#include <QFrame>
 
 //------------------------------------------------------------
 //      curvdemo1

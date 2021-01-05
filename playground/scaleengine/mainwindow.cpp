@@ -7,10 +7,10 @@
 #include "plot.h"
 #include "transformplot.h"
 
-#include <qwt_transform.h>
-#include <qwt_math.h>
+#include <QwtTransform>
+#include <QwtMath>
 
-#include <qsplitter.h>
+#include <QSplitter>
 
 namespace
 {

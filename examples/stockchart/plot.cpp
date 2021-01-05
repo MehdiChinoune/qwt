@@ -8,18 +8,18 @@
 #include "griditem.h"
 #include "quotefactory.h"
 
-#include <qwt_plot_tradingcurve.h>
-#include <qwt_plot_marker.h>
-#include <qwt_plot_zoneitem.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_plot_zoomer.h>
-#include <qwt_plot_panner.h>
-#include <qwt_date.h>
-#include <qwt_date_scale_engine.h>
-#include <qwt_date_scale_draw.h>
-#include <qwt_text.h>
+#include <QwtPlotTradingCurve>
+#include <QwtPlotMarker>
+#include <QwtPlotZoneItem>
+#include <QwtPlotRenderer>
+#include <QwtPlotZoomer>
+#include <QwtPlotPanner>
+#include <QwtDate>
+#include <QwtDateScaleEngine>
+#include <QwtDateScaleDraw>
+#include <QwtText>
 
-#include <qpen.h>
+#include <QPen>
 
 class Zoomer : public QwtPlotZoomer
 {

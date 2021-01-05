@@ -5,10 +5,10 @@
 
 #include "griditem.h"
 
-#include <qwt_scale_map.h>
-#include <qwt_painter.h>
+#include <QwtScaleMap>
+#include <QwtPainter>
 
-#include <qpainter.h>
+#include <QPainter>
 #include <algorithm>
 
 GridItem::GridItem()

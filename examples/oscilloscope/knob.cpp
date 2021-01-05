@@ -5,14 +5,14 @@
 
 #include "knob.h"
 
-#include <qwt_math.h>
-#include <qwt_knob.h>
-#include <qwt_round_scale_draw.h>
-#include <qwt_scale_engine.h>
+#include <QwtMath>
+#include <QwtKnob>
+#include <QwtRoundScaleDraw>
+#include <QwtScaleEngine>
 
-#include <qlabel.h>
-#include <qevent.h>
-#include <qmath.h>
+#include <QLabel>
+#include <QResizeEvent>
+#include <QtMath>
 
 Knob::Knob( const QString& title, double min, double max, QWidget* parent )
     : QWidget( parent )

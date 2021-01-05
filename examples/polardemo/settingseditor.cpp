@@ -5,9 +5,9 @@
 
 #include "settingseditor.h"
 
-#include <qcheckbox.h>
-#include <qgroupbox.h>
-#include <qlayout.h>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLayout>
 
 SettingsEditor::SettingsEditor( QWidget* parent )
     : QFrame( parent )

@@ -10,7 +10,7 @@
 #include "wheeltab.h"
 #include "wheelbox.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 WheelTab::WheelTab( QWidget* parent )
     : QWidget( parent )

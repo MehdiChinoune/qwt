@@ -10,7 +10,7 @@
 #ifndef SLIDER_BOX_H
 #define SLIDER_BOX_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QLabel;
 class QwtSlider;

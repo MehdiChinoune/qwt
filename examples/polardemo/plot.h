@@ -6,7 +6,7 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_polar_plot.h>
+#include <QwtPolarPlot>
 
 class QwtPolarGrid;
 class QwtPolarCurve;

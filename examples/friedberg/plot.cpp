@@ -6,20 +6,20 @@
 #include "plot.h"
 #include "friedberg2007.h"
 
-#include <qwt_plot_zoomer.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_intervalcurve.h>
-#include <qwt_legend.h>
-#include <qwt_interval_symbol.h>
-#include <qwt_symbol.h>
-#include <qwt_text.h>
-#include <qwt_scale_draw.h>
-#include <qwt_plot_renderer.h>
+#include <QwtPlotZoomer>
+#include <QwtPlotPanner>
+#include <QwtPlotGrid>
+#include <QwtPlotCurve>
+#include <QwtPlotCanvas>
+#include <QwtPlotIntervalCurve>
+#include <QwtLegend>
+#include <QwtIntervalSymbol>
+#include <QwtSymbol>
+#include <QwtText>
+#include <QwtScaleDraw>
+#include <QwtPlotRenderer>
 
-#include <qlocale.h>
+#include <QLocale>
 
 namespace
 {

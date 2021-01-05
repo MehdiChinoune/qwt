@@ -6,8 +6,8 @@
 #ifndef SETTINGS_EDITOR_H
 #define SETTINGS_EDITOR_H
 
-#include <qframe.h>
 #include "plot.h"
+#include <QFrame>
 
 class QCheckBox;
 

@@ -7,7 +7,7 @@
 #define PLOT_H
 
 #include "shapefactory.h"
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QColor;
 class QSizeF;

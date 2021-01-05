@@ -6,15 +6,15 @@
 #include "plot.h"
 #include "curvetracker.h"
 
-#include <qwt_picker_machine.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_textlabel.h>
-#include <qwt_plot_zoneitem.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_layout.h>
-#include <qwt_scale_widget.h>
-#include <qwt_symbol.h>
+#include <QwtPickerMachine>
+#include <QwtPlotCanvas>
+#include <QwtPlotGrid>
+#include <QwtPlotTextLabel>
+#include <QwtPlotZoneItem>
+#include <QwtPlotCurve>
+#include <QwtPlotLayout>
+#include <QwtScaleWidget>
+#include <QwtSymbol>
 
 Plot::Plot( QWidget* parent )
     : QwtPlot( parent)

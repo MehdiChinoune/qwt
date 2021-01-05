@@ -6,13 +6,13 @@
 #include "plot.h"
 #include "settings.h"
 
-#include <qwt_date.h>
-#include <qwt_date_scale_draw.h>
-#include <qwt_date_scale_engine.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_layout.h>
+#include <QwtDate>
+#include <QwtDateScaleDraw>
+#include <QwtDateScaleEngine>
+#include <QwtPlotPanner>
+#include <QwtPlotMagnifier>
+#include <QwtPlotGrid>
+#include <QwtPlotLayout>
 
 Plot::Plot( QWidget* parent )
     : QwtPlot( parent )

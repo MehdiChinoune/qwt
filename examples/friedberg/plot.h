@@ -6,8 +6,8 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
-#include <qwt_scale_div.h>
+#include <QwtPlot>
+#include <QwtScaleDiv>
 
 class QwtPlotCurve;
 class QwtPlotIntervalCurve;

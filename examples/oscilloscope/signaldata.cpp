@@ -5,9 +5,9 @@
 
 #include "signaldata.h"
 
-#include <qvector.h>
-#include <qmutex.h>
-#include <qreadwritelock.h>
+#include <QVector>
+#include <QMutex>
+#include <QReadWriteLock>
 
 class SignalData::PrivateData
 {

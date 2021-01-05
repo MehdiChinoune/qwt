@@ -5,17 +5,17 @@
 
 #include "legend.h"
 
-#include <qwt_legend_data.h>
-#include <qwt_text.h>
-#include <qwt_plot_item.h>
+#include <QwtLegendData>
+#include <QwtText>
+#include <QwtPlotItem>
 
-#include <qtreeview.h>
-#include <qlayout.h>
-#include <qstyle.h>
-#include <qstandarditemmodel.h>
-#include <qitemdelegate.h>
-#include <qpainter.h>
-#include <qmargins.h>
+#include <QTreeView>
+#include <QLayout>
+#include <QStyle>
+#include <QStandardItemModel>
+#include <QItemDelegate>
+#include <QPainter>
+#include <QMargins>
 
 static void qwtRenderBackground( QPainter* painter,
     const QRectF& rect, const QWidget* widget )

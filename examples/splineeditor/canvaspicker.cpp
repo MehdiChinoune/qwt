@@ -5,10 +5,10 @@
 
 #include "canvaspicker.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
+#include <QwtPlot>
+#include <QwtPlotCurve>
 
-#include <qevent.h>
+#include <QMouseEvent>
 
 CanvasPicker::CanvasPicker( bool sortedX, QwtPlot* plot )
     : QObject( plot )

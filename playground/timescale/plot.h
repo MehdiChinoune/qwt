@@ -6,7 +6,7 @@
 #ifndef PLOT_H_
 #define PLOT_H_
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class Settings;
 

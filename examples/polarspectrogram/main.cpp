@@ -6,10 +6,10 @@
 #include "plotwindow.h"
 #include "plot.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QToolBar>
+#include <QToolButton>
 
 namespace
 {

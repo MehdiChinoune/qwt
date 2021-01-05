@@ -6,11 +6,11 @@
 #include "scrollzoomer.h"
 #include "scrollbar.h"
 
-#include <qwt_plot_layout.h>
-#include <qwt_scale_widget.h>
+#include <QwtPlotLayout>
+#include <QwtScaleWidget>
 
-#include <qevent.h>
-#include <qmargins.h>
+#include <QResizeEvent>
+#include <QMargins>
 
 class ScrollData
 {

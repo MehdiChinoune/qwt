@@ -9,14 +9,14 @@
 
 #include "wheelbox.h"
 
-#include <qwt_wheel.h>
-#include <qwt_thermo.h>
-#include <qwt_scale_engine.h>
-#include <qwt_transform.h>
-#include <qwt_color_map.h>
+#include <QwtWheel>
+#include <QwtThermo>
+#include <QwtScaleEngine>
+#include <QwtTransform>
+#include <QwtColorMap>
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 
 WheelBox::WheelBox( Qt::Orientation orientation, int type, QWidget* parent )
     : QWidget( parent )

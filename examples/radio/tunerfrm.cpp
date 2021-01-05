@@ -9,13 +9,13 @@
 
 #include "tunerfrm.h"
 
-#include <qwt_wheel.h>
-#include <qwt_slider.h>
-#include <qwt_thermo.h>
-#include <qwt_math.h>
+#include <QwtWheel>
+#include <QwtSlider>
+#include <QwtThermo>
+#include <QwtMath>
 
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 
 class TuningThermo : public QWidget
 {

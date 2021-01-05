@@ -6,7 +6,7 @@
 #ifndef BAR_CHART_H
 #define BAR_CHART_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QwtPlotMultiBarChart;
 

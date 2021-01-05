@@ -8,7 +8,7 @@
 *****************************************************************************/
 
 #include "plot.h"
-#include <qapplication.h>
+#include <QApplication>
 
 #ifndef QWT_NO_OPENGL
     #if QT_VERSION < 0x050000
@@ -16,15 +16,15 @@
     #endif
 
     #if QT_VERSION >= 0x060000
-        #include <qwt_plot_opengl_canvas.h>
+        #include <QwtPlotOpenGLCanvas>
 typedef QwtPlotOpenGLCanvas Canvas;
     #else
-        #include <qwt_plot_glcanvas.h>
+        #include <QwtPlotGLCanvas>
 typedef QwtPlotGLCanvas Canvas;
     #endif
 #else
 typedef QwtPlotCanvas Canvas;
-    #include <qwt_plot_canvas.h>
+    #include <QwtPlotCanvas>
 #endif
 
 int main ( int argc, char** argv )

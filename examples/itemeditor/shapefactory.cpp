@@ -4,7 +4,7 @@
 *****************************************************************************/
 
 #include "shapefactory.h"
-#include <qpainterpath.h>
+#include <QPainterPath>
 
 QPainterPath ShapeFactory::path( Shape shape,
     const QPointF& pos, const QSizeF& size )

@@ -10,7 +10,7 @@
 #include "slidertab.h"
 #include "sliderbox.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 SliderTab::SliderTab( QWidget* parent )
     : QWidget( parent )

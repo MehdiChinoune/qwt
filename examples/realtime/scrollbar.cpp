@@ -5,8 +5,8 @@
 
 #include "scrollbar.h"
 
-#include <qstyle.h>
-#include <qstyleoption.h>
+#include <QStyle>
+#include <QStyleOption>
 
 ScrollBar::ScrollBar( QWidget* parent )
     : QScrollBar( parent )

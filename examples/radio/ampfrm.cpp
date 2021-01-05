@@ -9,15 +9,15 @@
 
 #include "ampfrm.h"
 
-#include <qwt_knob.h>
-#include <qwt_thermo.h>
-#include <qwt_round_scale_draw.h>
-#include <qwt_math.h>
+#include <QwtKnob>
+#include <QwtThermo>
+#include <QwtRoundScaleDraw>
+#include <QwtMath>
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qevent.h>
-#include <qmath.h>
+#include <QLayout>
+#include <QLabel>
+#include <QResizeEvent>
+#include <QtMath>
 
 class Knob : public QWidget
 {

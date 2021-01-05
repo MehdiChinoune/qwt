@@ -10,7 +10,7 @@
 #ifndef WHEEL_TAB_H
 #define WHEEL_TAB_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class WheelTab : public QWidget
 {

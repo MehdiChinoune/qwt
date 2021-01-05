@@ -1,13 +1,18 @@
-#include <qwt_spline_pleasing.h>
-#include <qwt_spline_local.h>
-#include <qwt_spline_cubic.h>
-#include <qwt_spline_parametrization.h>
+/*****************************************************************************
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
-#include <qelapsedtimer.h>
+#include <QwtSplinePleasing>
+#include <QwtSplineLocal>
+#include <QwtSplineCubic>
+#include <QwtSplineParametrization>
 
-#include <qpolygon.h>
-#include <qline.h>
-#include <qdebug.h>
+#include <QElapsedTimer>
+
+#include <QPolygon>
+#include <QLine>
+#include <QDebug>
 
 static void testSpline( const char* name, QwtSplineInterpolating* spline,
     int type, const QPolygonF& points )

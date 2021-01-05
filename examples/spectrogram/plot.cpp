@@ -5,21 +5,21 @@
 
 #include "plot.h"
 
-#include <qwt_color_map.h>
-#include <qwt_plot_spectrogram.h>
-#include <qwt_scale_widget.h>
-#include <qwt_scale_draw.h>
-#include <qwt_plot_zoomer.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_layout.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_interval.h>
-#include <qwt_painter.h>
+#include <QwtColorMap>
+#include <QwtPlotSpectrogram>
+#include <QwtScaleWidget>
+#include <QwtScaleDraw>
+#include <QwtPlotZoomer>
+#include <QwtPlotPanner>
+#include <QwtPlotLayout>
+#include <QwtPlotRenderer>
+#include <QwtInterval>
+#include <QwtPainter>
 
-#include <qprinter.h>
-#include <qpen.h>
-#include <qprintdialog.h>
-#include <qelapsedtimer.h>
+#include <QPrinter>
+#include <QPen>
+#include <QPrintDialog>
+#include <QElapsedTimer>
 
 class MyZoomer : public QwtPlotZoomer
 {

@@ -6,16 +6,16 @@
 #include "panel.h"
 #include "settings.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_legenditem.h>
+#include <QwtPlot>
+#include <QwtPlotLegendItem>
 
-#include <qcheckbox.h>
-#include <qspinbox.h>
-#include <qcombobox.h>
-#include <qgroupbox.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qlineedit.h>
+#include <QCheckBox>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLayout>
+#include <QLabel>
+#include <QLineEdit>
 
 Panel::Panel( QWidget* parent )
     : QWidget( parent )

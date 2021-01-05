@@ -5,14 +5,14 @@
 
 #include "barchart.h"
 
-#include <qwt_plot_renderer.h>
-#include <qwt_plot_multi_barchart.h>
-#include <qwt_column_symbol.h>
-#include <qwt_plot_layout.h>
-#include <qwt_legend.h>
-#include <qwt_scale_draw.h>
-#include <qwt_text.h>
-#include <qwt_math.h>
+#include <QwtPlotRenderer>
+#include <QwtPlotMultiBarChart>
+#include <QwtColumnSymbol>
+#include <QwtPlotLayout>
+#include <QwtLegend>
+#include <QwtScaleDraw>
+#include <QwtText>
+#include <QwtMath>
 
 BarChart::BarChart( QWidget* parent )
     : QwtPlot( parent )

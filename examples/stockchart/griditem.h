@@ -6,9 +6,9 @@
 #ifndef GRID_ITEM_H
 #define GRID_ITEM_H
 
-#include <qwt_plot_item.h>
-#include <qwt_scale_div.h>
-#include <qpalette.h>
+#include <QwtPlotItem>
+#include <QwtScaleDiv>
+#include <QPalette>
 
 class GridItem : public QwtPlotItem
 {

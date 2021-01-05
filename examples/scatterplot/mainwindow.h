@@ -6,7 +6,7 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H 1
 
-#include <qmainwindow.h>
+#include <QMainWindow>
 
 class Plot;
 

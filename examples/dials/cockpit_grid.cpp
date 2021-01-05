@@ -7,11 +7,11 @@
 #include "speedo_meter.h"
 #include "cockpit_grid.h"
 
-#include <qwt_analog_clock.h>
-#include <qwt_round_scale_draw.h>
+#include <QwtAnalogClock>
+#include <QwtRoundScaleDraw>
 
-#include <qlayout.h>
-#include <qtimer.h>
+#include <QLayout>
+#include <QTimer>
 
 CockpitGrid::CockpitGrid( QWidget* parent )
     : QFrame( parent )

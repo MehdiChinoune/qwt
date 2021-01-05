@@ -5,9 +5,9 @@
 
 #include "cpustat.h"
 
-#include <qstringlist.h>
-#include <qfile.h>
-#include <qtextstream.h>
+#include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 CpuStat::CpuStat()
 {

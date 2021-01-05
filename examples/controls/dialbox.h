@@ -10,7 +10,7 @@
 #ifndef DIAL_BOX_H
 #define DIAL_BOX_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QLabel;
 class QwtDial;

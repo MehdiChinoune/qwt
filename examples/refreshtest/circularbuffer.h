@@ -6,8 +6,8 @@
 #ifndef CIRCULAR_BUFFER_H
 #define CIRCULAR_BUFFER_H
 
-#include <qwt_series_data.h>
-#include <qvector.h>
+#include <QwtSeriesData>
+#include <QVector>
 
 class CircularBuffer : public QwtSeriesData< QPointF >
 {

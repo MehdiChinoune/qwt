@@ -5,12 +5,12 @@
 
 #include "incrementalplot.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
-#include <qwt_symbol.h>
-#include <qwt_scale_map.h>
-#include <qwt_plot_directpainter.h>
-#include <qwt_painter.h>
+#include <QwtPlot>
+#include <QwtPlotCurve>
+#include <QwtSymbol>
+#include <QwtScaleMap>
+#include <QwtPlotDirectPainter>
+#include <QwtPainter>
 
 namespace
 {

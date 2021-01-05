@@ -10,8 +10,8 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include <qwt_global.h>
-#include <qwidget.h>
+#include <QwtGlobal>
+#include <QWidget>
 
 class MainWindow : public QWidget
 {

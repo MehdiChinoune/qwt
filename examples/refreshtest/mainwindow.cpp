@@ -7,11 +7,11 @@
 #include "plot.h"
 #include "panel.h"
 
-#include <qstatusbar.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qcoreevent.h>
-#include <qelapsedtimer.h>
+#include <QStatusBar>
+#include <QLabel>
+#include <QLayout>
+#include <QEvent>
+#include <QElapsedTimer>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )

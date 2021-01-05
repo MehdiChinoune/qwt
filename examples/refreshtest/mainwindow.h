@@ -6,8 +6,8 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include <qwt_global.h>
-#include <qmainwindow.h>
+#include <QwtGlobal>
+#include <QMainWindow>
 
 class Plot;
 class Panel;

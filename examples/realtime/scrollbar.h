@@ -6,7 +6,7 @@
 #ifndef SCROLLBAR_H
 #define SCROLLBAR_H
 
-#include <qscrollbar.h>
+#include <QScrollBar>
 
 class ScrollBar : public QScrollBar
 {

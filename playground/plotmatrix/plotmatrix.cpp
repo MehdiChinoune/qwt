@@ -5,12 +5,12 @@
 
 #include "plotmatrix.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_scale_widget.h>
-#include <qwt_scale_draw.h>
+#include <QwtPlot>
+#include <QwtPlotCanvas>
+#include <QwtScaleWidget>
+#include <QwtScaleDraw>
 
-#include <qlayout.h>
+#include <QLayout>
 
 static void enablePlotAxis( QwtPlot* plot, int axis, bool on )
 {

@@ -10,7 +10,7 @@
 #ifndef SLIDER_TAB_H
 #define SLIDER_TAB_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QBoxLayout;
 

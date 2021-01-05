@@ -10,7 +10,7 @@
 #ifndef WHEEL_BOX_H
 #define WHEEL_BOX_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QLabel;
 class QwtThermo;

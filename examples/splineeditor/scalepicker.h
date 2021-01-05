@@ -6,10 +6,10 @@
 #ifndef SCALE_PICKER_H
 #define SCALE_PICKER_H
 
-#include <qwt_global.h>
+#include <QwtGlobal>
 
-#include <qobject.h>
-#include <qrect.h>
+#include <QObject>
+#include <QRect>
 
 class QwtPlot;
 class QwtScaleWidget;

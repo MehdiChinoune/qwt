@@ -8,15 +8,15 @@
 #include "start.xpm"
 #include "clear.xpm"
 
-#include <qaction.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qstatusbar.h>
-#include <qtoolbar.h>
-#include <qspinbox.h>
-#include <qcheckbox.h>
-#include <qwhatsthis.h>
-#include <qpixmap.h>
+#include <QAction>
+#include <QLabel>
+#include <QLayout>
+#include <QStatusBar>
+#include <QToolBar>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QWhatsThis>
+#include <QPixmap>
 
 class MyToolBar : public QToolBar
 {

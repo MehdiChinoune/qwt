@@ -6,7 +6,7 @@
 #ifndef PLOT_MATRIX_H
 #define PLOT_MATRIX_H
 
-#include <qframe.h>
+#include <QFrame>
 
 class QwtPlot;
 

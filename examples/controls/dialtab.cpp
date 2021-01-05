@@ -10,7 +10,7 @@
 #include "dialtab.h"
 #include "dialbox.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 DialTab::DialTab( QWidget* parent )
     : QWidget( parent )

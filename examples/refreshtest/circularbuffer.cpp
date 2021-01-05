@@ -4,7 +4,7 @@
 *****************************************************************************/
 
 #include "circularbuffer.h"
-#include <qwt_math.h>
+#include <QwtMath>
 
 CircularBuffer::CircularBuffer( double interval, size_t numPoints )
     : m_y( NULL )

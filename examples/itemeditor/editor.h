@@ -6,11 +6,11 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include <qwt_global.h>
+#include <QwtGlobal>
 
-#include <qobject.h>
-#include <qpointer.h>
-#include <qpoint.h>
+#include <QObject>
+#include <QPointer>
+#include <QPoint>
 
 class QwtPlot;
 class QwtPlotShapeItem;

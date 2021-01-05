@@ -7,10 +7,10 @@
 #include "plot.h"
 #include "panel.h"
 
-#include <qwt_date.h>
-#include <qwt_scale_widget.h>
+#include <QwtDate>
+#include <QwtScaleWidget>
 
-#include <qlayout.h>
+#include <QLayout>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )

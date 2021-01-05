@@ -11,7 +11,7 @@
 #include "tunerfrm.h"
 #include "ampfrm.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 MainWindow::MainWindow()
 {

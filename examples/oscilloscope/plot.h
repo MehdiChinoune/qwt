@@ -6,9 +6,9 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
-#include <qwt_interval.h>
-#include <qelapsedtimer.h>
+#include <QwtPlot>
+#include <QwtInterval>
+#include <QElapsedTimer>
 
 class QwtPlotCurve;
 class QwtPlotMarker;

@@ -5,12 +5,12 @@
 
 #include "plot.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qcombobox.h>
-#include <qtabwidget.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QToolBar>
+#include <QToolButton>
+#include <QComboBox>
+#include <QTabWidget>
 
 class ToolButton : public QToolButton
 {

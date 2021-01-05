@@ -6,7 +6,7 @@
 #ifndef PLOT_WINDOW_H
 #define PLOT_WINDOW_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class Plot;
 class QwtScaleWidget;

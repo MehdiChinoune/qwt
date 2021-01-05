@@ -6,7 +6,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <qstring.h>
+#include <QString>
 
 class Settings
 {

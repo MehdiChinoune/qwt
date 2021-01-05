@@ -7,11 +7,11 @@
 #include "panel.h"
 #include "mainwindow.h"
 
-#include <qwt_plot_renderer.h>
+#include <QwtPlotRenderer>
 
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qlayout.h>
+#include <QToolBar>
+#include <QToolButton>
+#include <QLayout>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )

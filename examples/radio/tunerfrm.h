@@ -10,7 +10,7 @@
 #ifndef TUNER_FRAME_H
 #define TUNER_FRAME_H
 
-#include <qframe.h>
+#include <QFrame>
 
 class QwtWheel;
 class QwtSlider;

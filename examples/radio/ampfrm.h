@@ -10,8 +10,8 @@
 #ifndef AMP_FRAME_H
 #define AMP_FRAME_H
 
-#include <qwt_global.h>
-#include <qframe.h>
+#include <QwtGlobal>
+#include <QFrame>
 
 class Knob;
 class Thermo;

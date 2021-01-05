@@ -6,7 +6,7 @@
 #ifndef CPU_PIE_MARKER_H
 #define CPU_PIE_MARKER_H
 
-#include <qwt_plot_item.h>
+#include <QwtPlotItem>
 
 class CpuPieMarker : public QwtPlotItem
 {

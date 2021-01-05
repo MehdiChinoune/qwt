@@ -8,7 +8,7 @@
 #include "knob.h"
 #include "wheelbox.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 MainWindow::MainWindow( QWidget* parent )
     : QWidget( parent )

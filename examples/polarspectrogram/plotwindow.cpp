@@ -6,13 +6,13 @@
 #include "plot.h"
 #include "plotwindow.h"
 
-#include <qwt_scale_engine.h>
-#include <qwt_raster_data.h>
-#include <qwt_polar_spectrogram.h>
-#include <qwt_scale_widget.h>
-#include <qwt_color_map.h>
+#include <QwtScaleEngine>
+#include <QwtRasterData>
+#include <QwtPolarSpectrogram>
+#include <QwtScaleWidget>
+#include <QwtColorMap>
 
-#include <qlayout.h>
+#include <QLayout>
 
 namespace
 {

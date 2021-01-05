@@ -5,17 +5,17 @@
 
 #include "barchart.h"
 
-#include <qwt_plot_renderer.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_barchart.h>
-#include <qwt_column_symbol.h>
-#include <qwt_plot_layout.h>
-#include <qwt_legend.h>
-#include <qwt_scale_draw.h>
-#include <qwt_text.h>
+#include <QwtPlotRenderer>
+#include <QwtPlotCanvas>
+#include <QwtPlotBarChart>
+#include <QwtColumnSymbol>
+#include <QwtPlotLayout>
+#include <QwtLegend>
+#include <QwtScaleDraw>
+#include <QwtText>
 
-#include <qapplication.h>
-#include <qpainter.h>
+#include <QApplication>
+#include <QPainter>
 
 class DistroScaleDraw : public QwtScaleDraw
 {

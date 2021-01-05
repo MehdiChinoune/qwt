@@ -1,12 +1,17 @@
-#include <qwt_spline_cubic.h>
-#include <qwt_spline_local.h>
-#include <qwt_spline_parametrization.h>
-#include <qwt_spline_polynomial.h>
-#include <qwt_math.h>
+/*****************************************************************************
+* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+* This file may be used under the terms of the 3-clause BSD License
+*****************************************************************************/
 
-#include <qpolygon.h>
-#include <qpainterpath.h>
-#include <qdebug.h>
+#include <QwtSplineCubic>
+#include <QwtSplineLocal>
+#include <QwtSplineParametrization>
+#include <QwtSplinePolynomial>
+#include <QwtMath>
+
+#include <QPolygon>
+#include <QPainterPath>
+#include <QDebug>
 
 #define DEBUG_ERRORS 1
 

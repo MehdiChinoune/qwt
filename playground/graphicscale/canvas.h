@@ -6,8 +6,8 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <qwt_global.h>
-#include <qwidget.h>
+#include <QwtGlobal>
+#include <QWidget>
 
 class QSvgRenderer;
 class QwtGraphic;

@@ -10,7 +10,7 @@
 #ifndef KNOB_BOX_H_
 #define KNOB_BOX_H_
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QLabel;
 class QwtKnob;

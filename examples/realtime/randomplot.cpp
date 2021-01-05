@@ -6,15 +6,15 @@
 #include "randomplot.h"
 #include "scrollzoomer.h"
 
-#include <qwt_plot_grid.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_layout.h>
-#include <qwt_scale_widget.h>
-#include <qwt_scale_draw.h>
-#include <qwt_math.h>
+#include <QwtPlotGrid>
+#include <QwtPlotCanvas>
+#include <QwtPlotLayout>
+#include <QwtScaleWidget>
+#include <QwtScaleDraw>
+#include <QwtMath>
 
-#include <qpen.h>
-#include <qtimer.h>
+#include <QPen>
+#include <QTimer>
 
 namespace
 {

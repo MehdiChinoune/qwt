@@ -10,7 +10,7 @@
 #include "knobtab.h"
 #include "knobbox.h"
 
-#include <qlayout.h>
+#include <QLayout>
 
 KnobTab::KnobTab( QWidget* parent )
     : QWidget( parent )

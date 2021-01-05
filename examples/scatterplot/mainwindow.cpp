@@ -6,7 +6,7 @@
 #include "mainwindow.h"
 #include "plot.h"
 
-#include <qwt_math.h>
+#include <QwtMath>
 
 static double randomValue()
 {

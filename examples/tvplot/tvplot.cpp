@@ -5,17 +5,17 @@
 
 #include "tvplot.h"
 
-#include <qwt_plot_layout.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_legend.h>
-#include <qwt_legend_label.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_histogram.h>
-#include <qwt_column_symbol.h>
-#include <qwt_series_data.h>
+#include <QwtPlotLayout>
+#include <QwtPlotCanvas>
+#include <QwtPlotRenderer>
+#include <QwtLegend>
+#include <QwtLegendLabel>
+#include <QwtPlotGrid>
+#include <QwtPlotHistogram>
+#include <QwtColumnSymbol>
+#include <QwtSeriesData>
 
-#include <qpen.h>
+#include <QPen>
 
 #include <cstdlib>
 

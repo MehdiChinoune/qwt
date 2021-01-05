@@ -3,13 +3,13 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_grid.h>
-#include <qwt_symbol.h>
-#include <qwt_legend.h>
+#include <QwtPlot>
+#include <QwtPlotCurve>
+#include <QwtPlotGrid>
+#include <QwtSymbol>
+#include <QwtLegend>
 
-#include <qapplication.h>
+#include <QApplication>
 
 int main( int argc, char** argv )
 {

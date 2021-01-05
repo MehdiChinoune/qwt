@@ -10,7 +10,7 @@
 #ifndef DIAL_TAB_H
 #define DIAL_TAB_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class DialTab : public QWidget
 {

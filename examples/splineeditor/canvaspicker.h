@@ -6,8 +6,8 @@
 #ifndef CANVAS_PICKER_H
 #define CANVAS_PICKER_H
 
-#include <qwt_global.h>
-#include <qobject.h>
+#include <QwtGlobal>
+#include <QObject>
 
 class QPoint;
 class QwtPlot;

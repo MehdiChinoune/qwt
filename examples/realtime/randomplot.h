@@ -7,7 +7,7 @@
 #define RANDOM_PLOT_H
 
 #include "incrementalplot.h"
-#include <qelapsedtimer.h>
+#include <QElapsedTimer>
 
 class QTimer;
 

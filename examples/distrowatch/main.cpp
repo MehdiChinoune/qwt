@@ -5,11 +5,11 @@
 
 #include "barchart.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qcombobox.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QToolBar>
+#include <QToolButton>
+#include <QComboBox>
 
 class MainWindow : public QMainWindow
 {

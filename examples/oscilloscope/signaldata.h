@@ -6,7 +6,7 @@
 #ifndef SIGNAL_DATA_H
 #define SIGNAL_DATA_H
 
-#include <qrect.h>
+#include <QRect>
 
 class SignalData
 {

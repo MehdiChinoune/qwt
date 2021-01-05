@@ -6,7 +6,7 @@
 #ifndef WHEELBOX_H
 #define WHEELBOX_H
 
-#include <qwidget.h>
+#include <QWidget>
 
 class QwtWheel;
 class QLabel;

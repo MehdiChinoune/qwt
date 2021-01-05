@@ -10,7 +10,7 @@
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 
-#include <qmainwindow.h>
+#include <QMainWindow>
 
 class QwtPlotZoomer;
 class QwtPlotPicker;

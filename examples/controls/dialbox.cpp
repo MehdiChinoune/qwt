@@ -9,14 +9,14 @@
 
 #include "dialbox.h"
 
-#include <qwt_dial.h>
-#include <qwt_dial_needle.h>
-#include <qwt_scale_engine.h>
-#include <qwt_transform.h>
-#include <qwt_round_scale_draw.h>
+#include <QwtDial>
+#include <QwtDialNeedle>
+#include <QwtScaleEngine>
+#include <QwtTransform>
+#include <QwtRoundScaleDraw>
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QLabel>
+#include <QLayout>
 
 DialBox::DialBox( QWidget* parent, int type )
     : QWidget( parent )

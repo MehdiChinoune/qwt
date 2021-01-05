@@ -5,12 +5,12 @@
 
 #include "plotmatrix.h"
 
-#include <qwt_plot_grid.h>
-#include <qwt_plot.h>
-#include <qwt_scale_widget.h>
-#include <qwt_math.h>
+#include <QwtPlotGrid>
+#include <QwtPlot>
+#include <QwtScaleWidget>
+#include <QwtMath>
 
-#include <qapplication.h>
+#include <QApplication>
 
 class MainWindow : public PlotMatrix
 {

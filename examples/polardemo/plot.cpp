@@ -5,15 +5,15 @@
 
 #include "plot.h"
 
-#include <qwt_series_data.h>
-#include <qwt_symbol.h>
-#include <qwt_legend.h>
-#include <qwt_polar_grid.h>
-#include <qwt_polar_curve.h>
-#include <qwt_polar_marker.h>
-#include <qwt_scale_engine.h>
+#include <QwtSeriesData>
+#include <QwtSymbol>
+#include <QwtLegend>
+#include <QwtPolarGrid>
+#include <QwtPolarCurve>
+#include <QwtPolarMarker>
+#include <QwtScaleEngine>
 
-#include <qpen.h>
+#include <QPen>
 
 static const QwtInterval s_radialInterval( 0.0, 10.0 );
 static const QwtInterval s_azimuthInterval( 0.0, 360.0 );

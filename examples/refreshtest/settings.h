@@ -6,8 +6,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <qpen.h>
-#include <qbrush.h>
+#include <QPen>
+#include <QBrush>
 
 class Settings
 {

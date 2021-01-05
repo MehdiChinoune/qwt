@@ -6,7 +6,7 @@
 #ifndef COMPASS_GRID
 #define COMPASS_GRID
 
-#include <qframe.h>
+#include <QFrame>
 
 class QwtCompass;
 

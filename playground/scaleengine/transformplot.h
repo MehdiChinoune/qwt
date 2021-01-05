@@ -6,7 +6,7 @@
 #ifndef TRANSFORM_PLOT_H
 #define TRANSFORM_PLOT_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QwtTransform;
 

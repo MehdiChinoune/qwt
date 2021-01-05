@@ -7,7 +7,7 @@
 #define PANEL_H
 
 #include "settings.h"
-#include <qwidget.h>
+#include <QWidget>
 
 class QCheckBox;
 class QComboBox;

@@ -8,15 +8,15 @@
 #include "settingseditor.h"
 #include "pixmaps.h"
 
-#include <qwt_polar_panner.h>
-#include <qwt_polar_magnifier.h>
-#include <qwt_polar_renderer.h>
+#include <QwtPolarPanner>
+#include <QwtPolarMagnifier>
+#include <QwtPolarRenderer>
 
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qprinter.h>
-#include <qprintdialog.h>
-#include <qlayout.h>
+#include <QToolBar>
+#include <QToolButton>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QLayout>
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )

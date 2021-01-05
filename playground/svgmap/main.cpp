@@ -5,12 +5,12 @@
 
 #include "plot.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
+#include <QApplication>
+#include <QMainWindow>
 
 #ifndef QT_NO_FILEDIALOG
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
+#include <QToolBar>
+#include <QToolButton>
 #endif
 
 namespace

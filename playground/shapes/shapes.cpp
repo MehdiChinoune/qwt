@@ -3,14 +3,14 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include <qwt_plot.h>
-#include <qwt_legend.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_plot_shapeitem.h>
+#include <QwtPlot>
+#include <QwtLegend>
+#include <QwtPlotPanner>
+#include <QwtPlotMagnifier>
+#include <QwtPlotShapeItem>
 
-#include <qapplication.h>
-#include <qpainterpath.h>
+#include <QApplication>
+#include <QPainterPath>
 
 namespace
 {

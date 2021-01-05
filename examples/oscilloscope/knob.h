@@ -6,8 +6,8 @@
 #ifndef KNOB_H
 #define KNOB_H
 
-#include <qwt_global.h>
-#include <qwidget.h>
+#include <QwtGlobal>
+#include <QWidget>
 
 class QwtKnob;
 class QLabel;

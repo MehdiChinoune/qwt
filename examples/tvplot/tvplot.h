@@ -6,7 +6,7 @@
 #ifndef TV_PLOT_H
 #define TV_PLOT_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class TVPlot : public QwtPlot
 {

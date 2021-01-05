@@ -5,20 +5,20 @@
 
 #include "plot.h"
 
-#include <qwt_plot_graphicitem.h>
-#include <qwt_plot_layout.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_graphic.h>
+#include <QwtPlotGraphicItem>
+#include <QwtPlotLayout>
+#include <QwtPlotPanner>
+#include <QwtPlotMagnifier>
+#include <QwtGraphic>
 
 #define DEBUG_SCALE 0
 
 #if DEBUG_SCALE
-#include <qwt_plot_grid.h>
+#include <QwtPlotGrid>
 #endif
 
-#include <qsvgrenderer.h>
-#include <qfiledialog.h>
+#include <QSvgRenderer>
+#include <QFileDialog>
 
 Plot::Plot( QWidget* parent )
     : QwtPlot( parent )

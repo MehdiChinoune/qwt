@@ -6,7 +6,7 @@
 #ifndef QUOTE_FACTORY_H
 #define QUOTE_FACTORY_H
 
-#include <qglobal.h>
+#include <QtGlobal>
 
 class QwtOHLCSample;
 class QString;

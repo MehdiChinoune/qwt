@@ -6,7 +6,7 @@
 #ifndef LEGEND_H
 #define LEGEND_H
 
-#include <qwt_abstract_legend.h>
+#include <QwtAbstractLegend>
 
 class LegendTreeView;
 class QStandardItem;

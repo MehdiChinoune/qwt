@@ -6,10 +6,10 @@
 #include "panel.h"
 #include "settings.h"
 
-#include <qdatetimeedit.h>
-#include <qspinbox.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QDateTimeEdit>
+#include <QSpinBox>
+#include <QLayout>
+#include <QLabel>
 
 Panel::Panel( QWidget* parent )
     : QWidget( parent )

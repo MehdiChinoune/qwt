@@ -11,21 +11,21 @@
 #include "plot.h"
 #include "pixmaps.h"
 
-#include <qwt_counter.h>
-#include <qwt_picker_machine.h>
-#include <qwt_plot_zoomer.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_text.h>
+#include <QwtCounter>
+#include <QwtPickerMachine>
+#include <QwtPlotZoomer>
+#include <QwtPlotPanner>
+#include <QwtPlotRenderer>
+#include <QwtText>
 
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qstatusbar.h>
-#include <qprinter.h>
-#include <qprintdialog.h>
-#include <qpen.h>
+#include <QToolBar>
+#include <QToolButton>
+#include <QLabel>
+#include <QLayout>
+#include <QStatusBar>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPen>
 
 namespace
 {

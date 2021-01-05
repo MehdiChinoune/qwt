@@ -5,12 +5,12 @@
 
 #include "compass_grid.h"
 
-#include <qwt_compass.h>
-#include <qwt_compass_rose.h>
-#include <qwt_dial_needle.h>
+#include <QwtCompass>
+#include <QwtCompassRose>
+#include <QwtDialNeedle>
 
-#include <qlayout.h>
-#include <qmap.h>
+#include <QLayout>
+#include <QMap>
 
 CompassGrid::CompassGrid( QWidget* parent )
     : QFrame( parent )

@@ -5,17 +5,17 @@
 
 #include "plot.h"
 
-#include <qwt_color_map.h>
-#include <qwt_plot_spectrogram.h>
-#include <qwt_plot_layout.h>
-#include <qwt_matrix_raster_data.h>
-#include <qwt_scale_widget.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_interval.h>
+#include <QwtColorMap>
+#include <QwtPlotSpectrogram>
+#include <QwtPlotLayout>
+#include <QwtMatrixRasterData>
+#include <QwtScaleWidget>
+#include <QwtPlotMagnifier>
+#include <QwtPlotPanner>
+#include <QwtPlotRenderer>
+#include <QwtPlotGrid>
+#include <QwtPlotCanvas>
+#include <QwtInterval>
 
 namespace
 {

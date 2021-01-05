@@ -7,7 +7,7 @@
 #define PANEL_H
 
 #include "settings.h"
-#include <qtabwidget.h>
+#include <QTabWidget>
 
 class QComboBox;
 class SpinBox;

@@ -3,21 +3,21 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include <qwt_plot.h>
-#include <qwt_plot_marker.h>
-#include <qwt_plot_curve.h>
-#include <qwt_legend.h>
-#include <qwt_point_data.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_symbol.h>
-#include <qwt_text.h>
-#include <qwt_math.h>
+#include <QwtPlot>
+#include <QwtPlotMarker>
+#include <QwtPlotCurve>
+#include <QwtLegend>
+#include <QwtSyntheticPointData>
+#include <QwtPlotCanvas>
+#include <QwtPlotPanner>
+#include <QwtPlotMagnifier>
+#include <QwtSymbol>
+#include <QwtText>
+#include <QwtMath>
 
-#include <qapplication.h>
-#include <qpainterpath.h>
-#include <qlayout.h>
+#include <QApplication>
+#include <QPainterPath>
+#include <QLayout>
 
 //-----------------------------------------------------------------
 //      A simple example which shows how to use QwtPlot connected

@@ -10,8 +10,8 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
-#include <qelapsedtimer.h>
+#include <QwtPlot>
+#include <QElapsedTimer>
 
 class Curve;
 

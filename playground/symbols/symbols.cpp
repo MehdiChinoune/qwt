@@ -3,21 +3,21 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#include <qwt_plot.h>
-#include <qwt_plot_curve.h>
-#include <qwt_symbol.h>
-#include <qwt_graphic.h>
-#include <qwt_legend.h>
-#include <qwt_math.h>
+#include <QwtPlot>
+#include <QwtPlotCurve>
+#include <QwtSymbol>
+#include <QwtGraphic>
+#include <QwtLegend>
+#include <QwtMath>
 
-#include <qapplication.h>
-#include <qpainter.h>
-#include <qpainterpath.h>
-#include <qbuffer.h>
-#include <qmath.h>
+#include <QApplication>
+#include <QPainter>
+#include <QPainterPath>
+#include <QBuffer>
+#include <QtMath>
 
 #ifdef QT_SVG_LIB
-#include <qsvggenerator.h>
+#include <QSvgGenerator>
 #endif
 
 class MySymbol : public QwtSymbol

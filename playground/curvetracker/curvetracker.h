@@ -6,7 +6,7 @@
 #ifndef CURVE_TRACKER_H
 #define CURVE_TRACKER_H
 
-#include <qwt_plot_picker.h>
+#include <QwtPlotPicker>
 
 class QwtPlotCurve;
 class QLineF;

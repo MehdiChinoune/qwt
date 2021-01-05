@@ -7,17 +7,17 @@
 #include "curvedata.h"
 #include "signaldata.h"
 
-#include <qwt_plot_grid.h>
-#include <qwt_plot_layout.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_marker.h>
-#include <qwt_plot_curve.h>
-#include <qwt_scale_div.h>
-#include <qwt_scale_map.h>
-#include <qwt_plot_directpainter.h>
-#include <qwt_painter.h>
+#include <QwtPlotGrid>
+#include <QwtPlotLayout>
+#include <QwtPlotCanvas>
+#include <QwtPlotMarker>
+#include <QwtPlotCurve>
+#include <QwtScaleDiv>
+#include <QwtScaleMap>
+#include <QwtPlotDirectPainter>
+#include <QwtPainter>
 
-#include <qcoreevent.h>
+#include <QEvent>
 
 class Canvas : public QwtPlotCanvas
 {

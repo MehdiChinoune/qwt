@@ -4,7 +4,7 @@
 *****************************************************************************/
 
 #include "mainwindow.h"
-#include <qapplication.h>
+#include <QApplication>
 
 #ifndef QWT_NO_OPENGL
 #if QT_VERSION < 0x050000

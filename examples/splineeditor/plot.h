@@ -6,7 +6,7 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QwtWheel;
 class QwtPlotMarker;

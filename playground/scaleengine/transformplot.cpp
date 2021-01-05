@@ -5,11 +5,11 @@
 
 #include "transformplot.h"
 
-#include <qwt_plot_curve.h>
-#include <qwt_point_data.h>
-#include <qwt_transform.h>
-#include <qwt_legend.h>
-#include <qwt_legend_label.h>
+#include <QwtPlotCurve>
+#include <QwtSyntheticPointData>
+#include <QwtTransform>
+#include <QwtLegend>
+#include <QwtLegendLabel>
 
 namespace
 {

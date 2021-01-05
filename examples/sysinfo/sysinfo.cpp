@@ -7,15 +7,15 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#include <qwt_thermo.h>
-#include <qwt_color_map.h>
+#include <QwtThermo>
+#include <QwtColorMap>
 
-#include <qapplication.h>
-#include <qwidget.h>
-#include <qfont.h>
-#include <qlabel.h>
-#include <qgroupbox.h>
-#include <qlayout.h>
+#include <QApplication>
+#include <QWidget>
+#include <QFont>
+#include <QLabel>
+#include <QGroupBox>
+#include <QLayout>
 
 class ValueBar : public QWidget
 {

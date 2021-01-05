@@ -6,7 +6,7 @@
 #ifndef CPU_STAT_H
 #define CPU_STAT_H
 
-#include <qdatetime.h>
+#include <QTime>
 
 class CpuStat
 {

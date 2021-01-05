@@ -8,8 +8,8 @@
 
 #include "settings.h"
 
-#include <qwt_plot.h>
-#include <qelapsedtimer.h>
+#include <QwtPlot>
+#include <QElapsedTimer>
 
 class QwtPlotGrid;
 class QwtPlotCurve;

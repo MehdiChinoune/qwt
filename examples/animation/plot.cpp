@@ -9,10 +9,10 @@
 
 #include "plot.h"
 
-#include <qwt_math.h>
-#include <qwt_symbol.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_layout.h>
+#include <QwtMath>
+#include <QwtSymbol>
+#include <QwtPlotCurve>
+#include <QwtPlotLayout>
 
 class Curve : public QwtPlotCurve
 {

@@ -5,20 +5,20 @@
 
 #include "plot.h"
 
-#include <qwt_raster_data.h>
-#include <qwt_polar_panner.h>
-#include <qwt_polar_magnifier.h>
-#include <qwt_polar_grid.h>
-#include <qwt_polar_spectrogram.h>
-#include <qwt_polar_renderer.h>
-#include <qwt_polar_picker.h>
-#include <qwt_picker_machine.h>
-#include <qwt_scale_div.h>
-#include <qwt_round_scale_draw.h>
+#include <QwtRasterData>
+#include <QwtPolarPanner>
+#include <QwtPolarMagnifier>
+#include <QwtPolarGrid>
+#include <QwtPolarSpectrogram>
+#include <QwtPolarRenderer>
+#include <QwtPolarPicker>
+#include <QwtPickerMachine>
+#include <QwtScaleDiv>
+#include <QwtRoundScaleDraw>
 
-#include <qfiledialog.h>
-#include <qpen.h>
-#include <qlocale.h>
+#include <QFileDialog>
+#include <QPen>
+#include <QLocale>
 
 namespace
 {

@@ -6,7 +6,7 @@
 #ifndef INCREMENTAL_PLOT_H
 #define INCREMENTAL_PLOT_H
 
-#include <qwt_plot.h>
+#include <QwtPlot>
 
 class QwtPlotCurve;
 class QwtPlotDirectPainter;

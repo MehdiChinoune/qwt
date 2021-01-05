@@ -5,15 +5,15 @@
 
 #include "editor.h"
 
-#include <qwt_plot.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_scale_map.h>
-#include <qwt_plot_shapeitem.h>
-#include <qwt_widget_overlay.h>
+#include <QwtPlot>
+#include <QwtPlotCanvas>
+#include <QwtScaleMap>
+#include <QwtPlotShapeItem>
+#include <QwtWidgetOverlay>
 
-#include <qevent.h>
-#include <qpainter.h>
-#include <qpainterpath.h>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPainterPath>
 
 namespace
 {

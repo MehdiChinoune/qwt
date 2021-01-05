@@ -6,15 +6,15 @@
 #include "mainwindow.h"
 #include "canvas.h"
 
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qfiledialog.h>
-#include <qbuffer.h>
-#include <qpainter.h>
-#include <qsvggenerator.h>
-#include <qstatusbar.h>
+#include <QToolBar>
+#include <QToolButton>
+#include <QLayout>
+#include <QLabel>
+#include <QFileDialog>
+#include <QBuffer>
+#include <QPainter>
+#include <QSvgGenerator>
+#include <QStatusBar>
 
 MainWindow::MainWindow()
 {

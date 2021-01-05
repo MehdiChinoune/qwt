@@ -6,8 +6,8 @@
 #ifndef SPEEDO_METER
 #define SPEEDO_METER
 
-#include <qstring.h>
-#include <qwt_dial.h>
+#include <QString>
+#include <QwtDial>
 
 class SpeedoMeter : public QwtDial
 {

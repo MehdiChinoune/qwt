@@ -7,26 +7,26 @@
 #include "scalepicker.h"
 #include "canvaspicker.h"
 
-#include <qwt_plot_layout.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_marker.h>
-#include <qwt_plot_renderer.h>
-#include <qwt_symbol.h>
-#include <qwt_scale_widget.h>
-#include <qwt_wheel.h>
-#include <qwt_spline_local.h>
-#include <qwt_spline_cubic.h>
-#include <qwt_spline_pleasing.h>
-#include <qwt_spline_basis.h>
-#include <qwt_spline_parametrization.h>
-#include <qwt_curve_fitter.h>
-#include <qwt_legend.h>
-#include <qwt_legend_label.h>
+#include <QwtPlotLayout>
+#include <QwtPlotCurve>
+#include <QwtPlotMarker>
+#include <QwtPlotRenderer>
+#include <QwtSymbol>
+#include <QwtScaleWidget>
+#include <QwtWheel>
+#include <QwtSplineLocal>
+#include <QwtSplineCubic>
+#include <QwtSplinePleasing>
+#include <QwtSplineBasis>
+#include <QwtSplineParametrization>
+#include <QwtCurveFitter>
+#include <QwtLegend>
+#include <QwtLegendLabel>
 
-#include <qcoreevent.h>
-#include <qprinter.h>
-#include <qprintdialog.h>
-#include <qpainterpath.h>
+#include <QEvent>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainterPath>
 
 class Symbol : public QwtSymbol
 {

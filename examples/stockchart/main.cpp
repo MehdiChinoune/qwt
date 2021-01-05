@@ -5,11 +5,11 @@
 
 #include "plot.h"
 
-#include <qapplication.h>
-#include <qmainwindow.h>
-#include <qcombobox.h>
-#include <qtoolbar.h>
-#include <qtoolbutton.h>
+#include <QApplication>
+#include <QMainWindow>
+#include <QComboBox>
+#include <QToolBar>
+#include <QToolButton>
 
 namespace
 {
