@@ -17,7 +17,7 @@ namespace
     class Wheel : public QwtWheel
     {
       public:
-        Wheel( WheelBox* parent )
+        Wheel( QWidget* parent )
             : QwtWheel( parent )
             , m_ignoreWheelEvent( false )
         {
@@ -64,7 +64,7 @@ WheelBox::WheelBox( const QString& title,
         double min, double max, double stepSize, QWidget* parent )
     : QWidget( parent )
 {
-    m_number = new QLCDNumber( this );
+    m_number = new QLCDNumber();
     m_number->setSegmentStyle( QLCDNumber::Filled );
     m_number->setAutoFillBackground( true );
     m_number->setFixedHeight( m_number->sizeHint().height() * 2 );
@@ -87,7 +87,7 @@ WheelBox::WheelBox( const QString& title,
     QFont font( "Helvetica", 10 );
     font.setBold( true );
 
-    m_label = new QLabel( title, this );
+    m_label = new QLabel( title );
     m_label->setFont( font );
 
     QHBoxLayout* hLayout = new QHBoxLayout;
@@ -102,6 +102,7 @@ WheelBox::WheelBox( const QString& title,
 
     connect( m_wheel, SIGNAL(valueChanged(double)),
         m_number, SLOT(display(double)) );
+
     connect( m_wheel, SIGNAL(valueChanged(double)),
         this, SIGNAL(valueChanged(double)) );
 }

@@ -43,7 +43,6 @@ namespace
             setPen( Qt::black );
             setSize( 8 );
         }
-
     };
 
     class SplineFitter : public QwtCurveFitter
@@ -225,6 +224,25 @@ namespace
             setZ( 100 ); // on top of the marker
         }
     };
+
+    class LineMarker : public QwtPlotMarker
+    {
+      public:
+        LineMarker( const QString& title, const QColor& color )
+            : QwtPlotMarker( title )
+        {
+            setLineStyle( QwtPlotMarker::VLine );
+            setLinePen( QPen( color, 0, Qt::DotLine ) );
+
+            QwtText text( "click on the axes" );
+            text.setBackgroundBrush( Qt::white );
+            text.setColor( Qt::darkRed );
+
+            setLabel( text );
+            setLabelOrientation( Qt::Vertical );
+            setXValue( 5 );
+        }
+    };
 }
 
 Plot::Plot( bool parametric, QWidget* parent )
@@ -245,23 +263,15 @@ Plot::Plot( bool parametric, QWidget* parent )
     connect( legend, SIGNAL(checked(const QVariant&,bool,int)),
         SLOT(legendChecked(const QVariant&,bool)) );
 
-    m_marker = new QwtPlotMarker( "Marker" );
-    m_marker->setLineStyle( QwtPlotMarker::VLine );
-    m_marker->setLinePen( QPen( Qt::darkRed, 0, Qt::DotLine ) );
-
-    QwtText text( "click on the axes" );
-    text.setBackgroundBrush( Qt::white );
-    text.setColor( Qt::darkRed );
-
-    m_marker->setLabel( text );
-    m_marker->setLabelOrientation( Qt::Vertical );
-    m_marker->setXValue( 5 );
-    m_marker->attach( this );
     // Avoid jumping when label with 3 digits
     // appear/disappear when scrolling vertically
 
     QwtScaleDraw* sd = axisScaleDraw( QwtPlot::yLeft );
     sd->setMinimumExtent( sd->extent( axisWidget( QwtPlot::yLeft )->font() ) );
+
+    // pointless marker
+    m_marker = new LineMarker( "Marker", Qt::darkRed );
+    m_marker->attach( this );
 
     // curves
     m_curve = new Curve( "Lines", QColor() );

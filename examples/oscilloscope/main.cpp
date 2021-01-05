@@ -35,7 +35,7 @@ int main( int argc, char* argv[] )
     samplingThread.start();
     window.start();
 
-    bool ok = app.exec();
+    const bool ok = app.exec();
 
     samplingThread.stop();
     samplingThread.wait( 1000 );

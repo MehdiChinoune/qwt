@@ -8,7 +8,7 @@
 #include <QwtPlot>
 #include <QStringList>
 
-class DistroChartItem;
+class QwtPlotBarChart;
 
 class BarChart : public QwtPlot
 {
@@ -27,6 +27,6 @@ class BarChart : public QwtPlot
     void exportPNG( int width, int height );
     void render( QPainter* painter, const QRectF& targetRect );
 
-    DistroChartItem* m_barChartItem;
+    QwtPlotBarChart* m_chartItem;
     QStringList m_distros;
 };

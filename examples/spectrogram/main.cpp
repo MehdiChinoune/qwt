@@ -27,26 +27,19 @@ namespace
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
 {
-    Plot* plot = new Plot( this );
+    Plot* plot = new Plot();
     plot->setContentsMargins( 0, 5, 0, 10 );
 
     setCentralWidget( plot );
 
-    QToolBar* toolBar = new QToolBar( this );
-
 #ifndef QT_NO_PRINTER
-    QToolButton* btnPrint = new QToolButton( toolBar );
+    QToolButton* btnPrint = new QToolButton();
     btnPrint->setText( "Print" );
     btnPrint->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-    toolBar->addWidget( btnPrint );
     connect( btnPrint, SIGNAL(clicked()), plot, SLOT(printPlot()) );
-
-    toolBar->addSeparator();
 #endif
 
-    toolBar->addWidget( new QLabel("Color Map " ) );
-
-    QComboBox* mapBox = new QComboBox( toolBar );
+    QComboBox* mapBox = new QComboBox();
     mapBox->addItem( "RGB" );
     mapBox->addItem( "Hue" );
     mapBox->addItem( "Saturation" );
@@ -54,46 +47,53 @@ MainWindow::MainWindow( QWidget* parent )
     mapBox->addItem( "Sat.+Value" );
     mapBox->addItem( "Alpha" );
     mapBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
-    toolBar->addWidget( mapBox );
-
     connect( mapBox, SIGNAL(currentIndexChanged(int)),
         plot, SLOT(setColorMap(int)) );
 
-    toolBar->addWidget( new QLabel("Table " ) );
 
-    QComboBox* colorTableBox = new QComboBox( toolBar );
+    QComboBox* colorTableBox = new QComboBox();
     colorTableBox->addItem( "None" );
     colorTableBox->addItem( "256" );
     colorTableBox->addItem( "1024" );
     colorTableBox->addItem( "16384" );
-    toolBar->addWidget( colorTableBox );
-
     connect( colorTableBox, SIGNAL(currentIndexChanged(int)),
         plot, SLOT(setColorTableSize(int)) );
 
-    toolBar->addWidget( new QLabel( " Opacity " ) );
     QSlider* slider = new QSlider( Qt::Horizontal );
     slider->setRange( 0, 255 );
     slider->setValue( 255 );
     connect( slider, SIGNAL(valueChanged(int)), plot, SLOT(setAlpha(int)) );
 
-    toolBar->addWidget( slider );
-    toolBar->addWidget( new QLabel("   " ) );
-
-    QCheckBox* btnSpectrogram = new QCheckBox( "Spectrogram", toolBar );
-    toolBar->addWidget( btnSpectrogram );
+    QCheckBox* btnSpectrogram = new QCheckBox( "Spectrogram" );
+    btnSpectrogram->setChecked( true );
     connect( btnSpectrogram, SIGNAL(toggled(bool)),
         plot, SLOT(showSpectrogram(bool)) );
 
-    QCheckBox* btnContour = new QCheckBox( "Contour", toolBar );
-    toolBar->addWidget( btnContour );
+    QCheckBox* btnContour = new QCheckBox( "Contour" );
+    btnContour->setChecked( false );
     connect( btnContour, SIGNAL(toggled(bool)),
         plot, SLOT(showContour(bool)) );
 
-    addToolBar( toolBar );
+    QToolBar* toolBar = new QToolBar();
 
-    btnSpectrogram->setChecked( true );
-    btnContour->setChecked( false );
+#ifndef QT_NO_PRINTER
+    toolBar->addWidget( btnPrint );
+    toolBar->addSeparator();
+#endif
+    toolBar->addWidget( new QLabel("Color Map " ) );
+    toolBar->addWidget( mapBox );
+
+    toolBar->addWidget( new QLabel("Table " ) );
+    toolBar->addWidget( colorTableBox );
+
+    toolBar->addWidget( new QLabel( " Opacity " ) );
+    toolBar->addWidget( slider );
+
+    toolBar->addWidget( new QLabel("   " ) );
+    toolBar->addWidget( btnSpectrogram );
+    toolBar->addWidget( btnContour );
+
+    addToolBar( toolBar );
 
     connect( plot, SIGNAL(rendered(const QString&)),
         statusBar(), SLOT(showMessage(const QString&)),

@@ -9,12 +9,12 @@ TARGET       = polardemo
 
 HEADERS = \
 	Pixmaps.h \
-	MainWindow.h \
+	PlotBox.h \
 	Plot.h \
 	SettingsEditor.h
 
 SOURCES = \
-	MainWindow.cpp \
+	PlotBox.cpp \
 	Plot.cpp \
 	SettingsEditor.cpp \
 	main.cpp

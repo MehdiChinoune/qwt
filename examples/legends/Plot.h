@@ -8,7 +8,7 @@
 #include <QwtPlot>
 
 class Settings;
-class LegendItem;
+class QwtPlotLegendItem;
 class QwtLegend;
 
 class Plot : public QwtPlot
@@ -29,6 +29,6 @@ class Plot : public QwtPlot
     void insertCurve();
 
     QwtLegend* m_externalLegend;
-    LegendItem* m_legendItem;
+    QwtPlotLegendItem* m_legendItem;
     bool m_isDirty;
 };

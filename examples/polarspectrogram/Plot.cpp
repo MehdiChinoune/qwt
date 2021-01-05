@@ -22,10 +22,10 @@
 
 namespace
 {
-    class MyPicker : public QwtPolarPicker
+    class Picker : public QwtPolarPicker
     {
       public:
-        MyPicker( QwtPolarCanvas* canvas )
+        Picker( QwtPolarCanvas* canvas )
             : QwtPolarPicker( canvas )
         {
             setStateMachine( new QwtPickerDragPointMachine() );
@@ -101,6 +101,34 @@ namespace
             return QwtRoundScaleDraw::label( value );
         }
     };
+
+    class Grid : public QwtPolarGrid
+    {
+      public:
+        Grid()
+        {
+            setPen( QPen( Qt::white ) );
+
+            for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
+            {
+                showGrid( scaleId );
+                showMinorGrid( scaleId );
+
+                QPen minorPen( Qt::gray );
+                setMinorGridPen( scaleId, minorPen );
+            }
+
+            setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
+            setAzimuthScaleDraw( new AzimuthScaleDraw() );
+            showAxis( QwtPolar::AxisAzimuth, true );
+            showAxis( QwtPolar::AxisLeft, false );
+            showAxis( QwtPolar::AxisRight, true );
+            showAxis( QwtPolar::AxisTop, false );
+            showAxis( QwtPolar::AxisBottom, false );
+            showGrid( QwtPolar::Azimuth, true );
+            showGrid( QwtPolar::Radius, true );
+        }
+    };
 }
 
 Plot::Plot( QWidget* parent )
@@ -117,25 +145,7 @@ Plot::Plot( QWidget* parent )
     setScaleMaxMinor( QwtPolar::Radius, 2 );
 
     // grids
-    m_grid = new QwtPolarGrid();
-    m_grid->setPen( QPen( Qt::white ) );
-    for ( int scaleId = 0; scaleId < QwtPolar::ScaleCount; scaleId++ )
-    {
-        m_grid->showGrid( scaleId );
-        m_grid->showMinorGrid( scaleId );
-
-        QPen minorPen( Qt::gray );
-        m_grid->setMinorGridPen( scaleId, minorPen );
-    }
-    m_grid->setAxisPen( QwtPolar::AxisAzimuth, QPen( Qt::black ) );
-    m_grid->setAzimuthScaleDraw( new AzimuthScaleDraw() );
-    m_grid->showAxis( QwtPolar::AxisAzimuth, true );
-    m_grid->showAxis( QwtPolar::AxisLeft, false );
-    m_grid->showAxis( QwtPolar::AxisRight, true );
-    m_grid->showAxis( QwtPolar::AxisTop, false );
-    m_grid->showAxis( QwtPolar::AxisBottom, false );
-    m_grid->showGrid( QwtPolar::Azimuth, true );
-    m_grid->showGrid( QwtPolar::Radius, true );
+    m_grid = new Grid();
     m_grid->attach( this );
 
     // spectrogram
@@ -150,7 +160,7 @@ Plot::Plot( QWidget* parent )
     m_spectrogram->setZ( 1.0 );
     m_grid->setZ( 2.0 );
 
-    QwtPolarPicker* picker = new MyPicker( canvas() );
+    Picker* picker = new Picker( canvas() );
     picker->setMousePattern( QwtEventPattern::MouseSelect1, Qt::RightButton );
 
     QwtPolarMagnifier* magnifier = new QwtPolarMagnifier( canvas() );

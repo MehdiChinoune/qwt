@@ -20,7 +20,7 @@ class TunerBox : public QFrame
     Q_OBJECT
 
   public:
-    TunerBox( QWidget* p );
+    TunerBox( QWidget* = NULL );
 
   Q_SIGNALS:
     void fieldChanged( double f );

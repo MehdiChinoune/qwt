@@ -32,17 +32,17 @@ namespace
       public:
         FunctionData( double( *fy )( double ) )
             : QwtSyntheticPointData( 100 ),
-            d_y( fy )
+            m_y( fy )
         {
         }
 
         virtual double y( double x ) const QWT_OVERRIDE
         {
-            return d_y( x );
+            return m_y( x );
         }
 
       private:
-        double ( * d_y )( double );
+        double ( * m_y )( double );
     };
 
     class ArrowSymbol : public QwtSymbol

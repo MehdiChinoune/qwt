@@ -17,8 +17,7 @@ namespace
     class ToolButton : public QToolButton
     {
       public:
-        ToolButton( const char* text, QToolBar* toolBar )
-            : QToolButton( toolBar )
+        ToolButton( const char* text )
         {
             setText( text );
             setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
@@ -34,16 +33,16 @@ namespace
             Plot* plot = new Plot( parametric, this );
             setCentralWidget( plot );
 
-            QToolBar* toolBar = new QToolBar( this );
+            QToolBar* toolBar = new QToolBar();
 
 #ifndef QT_NO_PRINTER
-            ToolButton* btnPrint = new ToolButton( "Print", toolBar );
+            ToolButton* btnPrint = new ToolButton( "Print" );
             toolBar->addWidget( btnPrint );
             QObject::connect( btnPrint, SIGNAL(clicked()),
                 plot, SLOT(printPlot()) );
 #endif
 
-            ToolButton* btnOverlay = new ToolButton( "Overlay", toolBar );
+            ToolButton* btnOverlay = new ToolButton( "Overlay" );
             btnOverlay->setCheckable( true );
             toolBar->addWidget( btnOverlay );
             QObject::connect( btnOverlay, SIGNAL(toggled(bool)),
@@ -51,7 +50,7 @@ namespace
 
             if ( parametric )
             {
-                QComboBox* parameterBox = new QComboBox( toolBar );
+                QComboBox* parameterBox = new QComboBox();
 
                 parameterBox->addItem( "Uniform" );
                 parameterBox->addItem( "Centripetral" );
@@ -69,14 +68,14 @@ namespace
                 parameterBox->setCurrentIndex( 2 ); // chordal
                 plot->setParametric( parameterBox->currentText() );
 
-                ToolButton* btnClosed = new ToolButton( "Closed", toolBar );
+                ToolButton* btnClosed = new ToolButton( "Closed" );
                 btnClosed->setCheckable( true );
                 toolBar->addWidget( btnClosed );
                 QObject::connect( btnClosed, SIGNAL(toggled(bool)),
                     plot, SLOT(setClosed(bool)) );
             }
 
-            QComboBox* boundaryBox = new QComboBox( toolBar );
+            QComboBox* boundaryBox = new QComboBox();
 
             boundaryBox->addItem( "Natural" );
             boundaryBox->addItem( "Linear Runout" );

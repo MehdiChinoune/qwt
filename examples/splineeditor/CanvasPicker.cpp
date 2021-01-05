@@ -149,7 +149,7 @@ void CanvasPicker::move( const QPoint& pos )
     }
     m_selectedCurve->setSamples( xData, yData );
 
-    QwtPlotItemList curves = plot()->itemList( QwtPlotItem::Rtti_PlotCurve );
+    const QwtPlotItemList curves = plot()->itemList( QwtPlotItem::Rtti_PlotCurve );
     for ( int i = 0; i < curves.size(); i++ )
     {
         QwtPlotCurve* curve = static_cast< QwtPlotCurve* >( curves[i] );
@@ -178,5 +178,3 @@ void CanvasPicker::move( const QPoint& pos )
 
     plot()->replot();
 }
-
-#include "moc_CanvasPicker.cpp"

@@ -9,7 +9,6 @@
 #include <QMainWindow>
 
 class Plot;
-class Panel;
 class QLabel;
 class Settings;
 
@@ -26,6 +25,5 @@ class MainWindow : public QMainWindow
 
   private:
     Plot* m_plot;
-    Panel* m_panel;
     QLabel* m_frameCount;
 };

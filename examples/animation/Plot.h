@@ -12,8 +12,6 @@
 #include <QwtPlot>
 #include <QElapsedTimer>
 
-class Curve;
-
 class Plot : public QwtPlot
 {
   public:
@@ -24,9 +22,6 @@ class Plot : public QwtPlot
 
   private:
     void updateCurves();
-
-    enum { CurveCount = 4 };
-    Curve* m_curves[CurveCount];
 
     QElapsedTimer m_timer;
 };

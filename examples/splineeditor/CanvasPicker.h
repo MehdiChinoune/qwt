@@ -14,7 +14,6 @@ class QwtPlotCurve;
 
 class CanvasPicker : public QObject
 {
-    Q_OBJECT
   public:
     CanvasPicker( bool sortedX, QwtPlot* plot );
     virtual bool eventFilter( QObject*, QEvent* ) QWT_OVERRIDE;

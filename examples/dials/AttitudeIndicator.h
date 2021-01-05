@@ -6,17 +6,6 @@
 #pragma once
 
 #include <QwtDial>
-#include <QwtDialNeedle>
-
-class AttitudeIndicatorNeedle : public QwtDialNeedle
-{
-  public:
-    AttitudeIndicatorNeedle( const QColor& );
-
-  protected:
-    virtual void drawNeedle( QPainter*,
-        double length, QPalette::ColorGroup ) const QWT_OVERRIDE;
-};
 
 class AttitudeIndicator : public QwtDial
 {

@@ -319,6 +319,7 @@ void Editor::drawOverlay( QPainter* painter ) const
 
     painter->setRenderHint( QPainter::Antialiasing,
         m_editedItem->testRenderHint( QwtPlotItem::RenderAntialiased ) );
+
     m_editedItem->draw( painter, xMap, yMap,
         plot->canvas()->contentsRect() );
 }

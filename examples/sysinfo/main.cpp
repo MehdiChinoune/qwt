@@ -17,118 +17,152 @@
 #include <QGroupBox>
 #include <QLayout>
 
-class ValueBar : public QWidget
+namespace
 {
-  public:
-    ValueBar( Qt::Orientation orientation,
-            const QString& text, QWidget* parent, double value = 0.0 )
-        : QWidget( parent )
+    class Gauge : public QwtThermo
     {
-        d_label = new QLabel( text, this );
-        d_label->setFont( QFont( "Helvetica", 10 ) );
-
-        d_thermo = new QwtThermo( this );
-        d_thermo->setOrientation( orientation );
-        d_thermo->setScale( 0.0, 100.0 );
-        d_thermo->setValue( value );
-        d_thermo->setFont( QFont( "Helvetica", 8 ) );
-        d_thermo->setPipeWidth( 6 );
-        d_thermo->setScaleMaxMajor( 6 );
-        d_thermo->setScaleMaxMinor( 5 );
-        d_thermo->setFillBrush( Qt::darkMagenta );
+      public:
+        Gauge()
+        {
+            setScale( 0.0, 100.0 );
+            setFont( QFont( "Helvetica", 8 ) );
+            setPipeWidth( 6 );
+            setScaleMaxMajor( 6 );
+            setScaleMaxMinor( 5 );
+            setFillBrush( Qt::darkMagenta );
 
 #if 0
-        QwtLinearColorMap* colorMap =
-            new QwtLinearColorMap( Qt::blue, Qt::red );
+            QwtLinearColorMap* colorMap =
+                new QwtLinearColorMap( Qt::blue, Qt::red );
 
-        colorMap->addColorStop( 0.2, Qt::yellow );
-        colorMap->addColorStop( 0.3, Qt::cyan );
-        colorMap->addColorStop( 0.4, Qt::green );
-        colorMap->addColorStop( 0.5, Qt::magenta );
-        colorMap->setMode( QwtLinearColorMap::FixedColors );
-        d_thermo->setColorMap( colorMap );
+            colorMap->addColorStop( 0.2, Qt::yellow );
+            colorMap->addColorStop( 0.3, Qt::cyan );
+            colorMap->addColorStop( 0.4, Qt::green );
+            colorMap->addColorStop( 0.5, Qt::magenta );
+            colorMap->setMode( QwtLinearColorMap::FixedColors );
+
+            setColorMap( colorMap );
 #endif
-
-        QVBoxLayout* layout = new QVBoxLayout( this );
-        layout->setContentsMargins( QMargins() );
-        layout->setSpacing( 0 );
-
-        if ( orientation == Qt::Horizontal )
-        {
-            d_label->setAlignment( Qt::AlignCenter );
-            d_thermo->setScalePosition( QwtThermo::LeadingScale );
-            layout->addWidget( d_label );
-            layout->addWidget( d_thermo );
         }
-        else
+    };
+
+    class ValueBar : public QWidget
+    {
+      public:
+        ValueBar( Qt::Orientation orientation,
+                const QString& text, double value )
         {
-            d_label->setAlignment( Qt::AlignRight );
-            d_thermo->setScalePosition( QwtThermo::TrailingScale );
-            layout->addWidget( d_thermo, 10, Qt::AlignHCenter );
-            layout->addWidget( d_label, 0 );
+            QLabel* label = new QLabel( text );
+            label->setFont( QFont( "Helvetica", 10 ) );
+
+            m_gauge = new Gauge();
+            m_gauge->setValue( value );
+            m_gauge->setOrientation( orientation );
+
+            QVBoxLayout* layout = new QVBoxLayout( this );
+            layout->setContentsMargins( QMargins() );
+            layout->setSpacing( 0 );
+
+            if ( orientation == Qt::Horizontal )
+            {
+                label->setAlignment( Qt::AlignCenter );
+                m_gauge->setScalePosition( QwtThermo::LeadingScale );
+
+                layout->addWidget( label );
+                layout->addWidget( m_gauge );
+            }
+            else
+            {
+                label->setAlignment( Qt::AlignRight );
+                m_gauge->setScalePosition( QwtThermo::TrailingScale );
+
+                layout->addWidget( m_gauge, 10, Qt::AlignHCenter );
+                layout->addWidget( label, 0 );
+            }
         }
-    }
 
-    void setValue( double value )
+      private:
+        QwtThermo* m_gauge;
+    };
+
+    class InfoBox : public QGroupBox
     {
-        d_thermo->setValue( value );
-    }
+      public:
+        InfoBox( Qt::Orientation orientation, const QString& title )
+            : QGroupBox( title )
+        {
+            const int margin = 15;
+            const int spacing = 5;
 
-  private:
-    QLabel* d_label;
-    QwtThermo* d_thermo;
-};
+            const QBoxLayout::Direction dir = ( orientation == Qt::Vertical )
+                ? QBoxLayout::TopToBottom : QBoxLayout::LeftToRight; 
 
-class SysInfo : public QFrame
-{
-  public:
-    SysInfo( QWidget* parent = NULL )
-        : QFrame( parent )
+            QBoxLayout* layout = new QBoxLayout( dir, this );
+            layout->setContentsMargins( margin, margin, margin, margin );
+            layout->setSpacing( spacing );
+
+            setFont( QFont( "Helvetica", 10 ) );
+        }
+    };
+
+    class MemoryBox : public InfoBox
     {
-        const int margin = 15;
+      public:
+        MemoryBox()
+            : InfoBox( Qt::Vertical, "Memory Usage" )
+        {
+            const Qt::Orientation o = Qt::Horizontal;
 
-        QGroupBox* memBox = new QGroupBox( "Memory Usage", this );
-        memBox->setFont( QFont( "Helvetica", 10 ) );
+            auto layout = qobject_cast< QBoxLayout* >( this->layout() );
 
-        QVBoxLayout* memLayout = new QVBoxLayout( memBox );
-        memLayout->setContentsMargins( margin, margin, margin, margin );
-        memLayout->setSpacing( 5 );
+            layout->addWidget( new ValueBar( o, "Used", 57 ) );
+            layout->addWidget( new ValueBar( o, "Shared", 17 ) );
+            layout->addWidget( new ValueBar( o, "Cache", 30 ) );
+            layout->addWidget( new ValueBar( o, "Buffers", 22 ) );
+            layout->addWidget( new ValueBar( o, "Swap Used", 57 ) );
+            layout->addWidget( new QWidget(), 10 ); // spacer
+        }
+    };
 
-        Qt::Orientation o = Qt::Horizontal;
-        memLayout->addWidget( new ValueBar( o, "Used", memBox, 57 ) );
-        memLayout->addWidget( new ValueBar( o, "Shared", memBox, 17 ) );
-        memLayout->addWidget( new ValueBar( o, "Cache", memBox, 30 ) );
-        memLayout->addWidget( new ValueBar( o, "Buffers", memBox, 22 ) );
-        memLayout->addWidget( new ValueBar( o, "Swap Used", memBox, 57 ) );
-        memLayout->addWidget( new QWidget( memBox ), 10 ); // spacer
+    class CpuBox : public InfoBox
+    {
+      public:
+        CpuBox()
+            : InfoBox( Qt::Horizontal, "Cpu Usage" )
+        {
+            const Qt::Orientation o = Qt::Vertical;
 
-        QGroupBox* cpuBox = new QGroupBox( "Cpu Usage", this );
-        cpuBox->setFont( QFont( "Helvetica", 10 ) );
+            auto layout = qobject_cast< QBoxLayout* >( this->layout() );
 
-        QHBoxLayout* cpuLayout = new QHBoxLayout( cpuBox );
-        cpuLayout->setContentsMargins( margin, margin, margin, margin );
-        cpuLayout->setSpacing( 5 );
+            layout->addWidget( new ValueBar( o, "User", 57 ) );
+            layout->addWidget( new ValueBar( o, "Total", 73 ) );
+            layout->addWidget( new ValueBar( o, "System", 16 ) );
+            layout->addWidget( new ValueBar( o, "Idle", 27 ) );
+        }
+    };
 
-        o = Qt::Vertical;
-        cpuLayout->addWidget( new ValueBar( o, "User", cpuBox, 57 ) );
-        cpuLayout->addWidget( new ValueBar( o, "Total", cpuBox, 73 ) );
-        cpuLayout->addWidget( new ValueBar( o, "System", cpuBox, 16 ) );
-        cpuLayout->addWidget( new ValueBar( o, "Idle", cpuBox, 27 ) );
+    class SystemBox : public QFrame
+    {
+      public:
+        SystemBox( QWidget* parent = NULL )
+            : QFrame( parent )
+        {
+            QHBoxLayout* layout = new QHBoxLayout( this );
 
-        QHBoxLayout* layout = new QHBoxLayout( this );
-        layout->setContentsMargins( 10, 10, 10, 10 );
-        layout->addWidget( memBox, 10 );
-        layout->addWidget( cpuBox, 0 );
-    }
-};
+            layout->setContentsMargins( 10, 10, 10, 10 );
+            layout->addWidget( new MemoryBox(), 10 );
+            layout->addWidget( new CpuBox(), 0 );
+        }
+    };
+}
 
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 
-    SysInfo info;
-    info.resize( info.sizeHint().expandedTo( QSize( 600, 400 ) ) );
-    info.show();
+    SystemBox box;
+    box.resize( box.sizeHint().expandedTo( QSize( 600, 400 ) ) );
+    box.show();
 
     return app.exec();
 }

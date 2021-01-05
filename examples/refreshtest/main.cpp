@@ -6,16 +6,6 @@
 #include "MainWindow.h"
 #include <QApplication>
 
-#ifndef QWT_NO_OPENGL
-#if QT_VERSION < 0x050000
-#define USE_OPENGL 1
-#endif
-#endif
-
-#if USE_OPENGL
-#include <qgl.h>
-#endif
-
 int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );

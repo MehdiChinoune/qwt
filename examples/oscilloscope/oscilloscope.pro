@@ -13,7 +13,6 @@ HEADERS = \
     Knob.h \
     WheelBox.h \
     SamplingThread.h \
-    CurveData.h \
     MainWindow.h 
 
 SOURCES = \
@@ -22,6 +21,5 @@ SOURCES = \
     Knob.cpp \
     WheelBox.cpp \
     SamplingThread.cpp \
-    CurveData.cpp \
     MainWindow.cpp \
     main.cpp

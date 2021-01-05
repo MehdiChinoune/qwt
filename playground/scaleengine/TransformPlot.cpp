@@ -18,18 +18,18 @@ namespace
       public:
         TransformData( QwtTransform* transform )
             : QwtSyntheticPointData( 200 )
-            , d_transform( transform )
+            , m_transform( transform )
         {
         }
 
         virtual ~TransformData()
         {
-            delete d_transform;
+            delete m_transform;
         }
 
         const QwtTransform* transform() const
         {
-            return d_transform;
+            return m_transform;
         }
 
         virtual double y( double x ) const QWT_OVERRIDE
@@ -39,15 +39,15 @@ namespace
 
             const double value = min + x * ( max - min );
 
-            const double s1 = d_transform->transform( min );
-            const double s2 = d_transform->transform( max );
-            const double s = d_transform->transform( value );
+            const double s1 = m_transform->transform( min );
+            const double s2 = m_transform->transform( max );
+            const double s = m_transform->transform( value );
 
             return ( s - s1 ) / ( s2 - s1 );
         }
 
       private:
-        QwtTransform* d_transform;
+        const QwtTransform* m_transform;
     };
 }
 

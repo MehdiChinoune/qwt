@@ -15,19 +15,19 @@ MainWindow::MainWindow( QWidget* parent )
 {
     const double intervalLength = 10.0; // seconds
 
-    m_plot = new Plot( this );
+    m_plot = new Plot();
     m_plot->setIntervalLength( intervalLength );
 
-    m_amplitudeKnob = new Knob( "Amplitude", 0.0, 200.0, this );
+    m_amplitudeKnob = new Knob( "Amplitude", 0.0, 200.0 );
     m_amplitudeKnob->setValue( 160.0 );
 
-    m_frequencyKnob = new Knob( "Frequency [Hz]", 0.1, 20.0, this );
+    m_frequencyKnob = new Knob( "Frequency [Hz]", 0.1, 20.0 );
     m_frequencyKnob->setValue( 17.8 );
 
-    m_intervalWheel = new WheelBox( "Displayed [s]", 1.0, 100.0, 1.0, this );
+    m_intervalWheel = new WheelBox( "Displayed [s]", 1.0, 100.0, 1.0 );
     m_intervalWheel->setValue( intervalLength );
 
-    m_timerWheel = new WheelBox( "Sample Interval [ms]", 0.0, 20.0, 0.1, this );
+    m_timerWheel = new WheelBox( "Sample Interval [ms]", 0.0, 20.0, 0.1 );
     m_timerWheel->setValue( 10.0 );
 
     QVBoxLayout* vLayout1 = new QVBoxLayout();

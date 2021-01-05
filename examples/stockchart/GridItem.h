@@ -15,7 +15,7 @@ class GridItem : public QwtPlotItem
     enum GridAttribute
     {
         AutoUpdate = 0x01,
-        FillCanvas       = 0x02
+        FillCanvas = 0x02
     };
 
     typedef QFlags< GridAttribute > GridAttributes;

@@ -239,11 +239,17 @@ bool ScrollZoomer::eventFilter( QObject* object, QEvent* event )
                     static_cast< QChildEvent* >( event )->child();
 
                 if ( child == m_cornerWidget )
+                {
                     m_cornerWidget = NULL;
+                }
                 else if ( child == m_hScrollData->scrollBar )
+                {
                     m_hScrollData->scrollBar = NULL;
+                }
                 else if ( child == m_vScrollData->scrollBar )
+                {
                     m_vScrollData->scrollBar = NULL;
+                }
                 break;
             }
             default:
@@ -281,9 +287,11 @@ bool ScrollZoomer::needScrollBar( Qt::Orientation orientation ) const
         case Qt::ScrollBarAlwaysOn:
             needed = true;
             break;
+
         case Qt::ScrollBarAlwaysOff:
             needed = false;
             break;
+
         default:
         {
             if ( baseMin < zoomMin || baseMax > zoomMax )

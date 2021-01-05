@@ -26,11 +26,7 @@ namespace
         Zoomer( QWidget* canvas )
             : ScrollZoomer( canvas )
         {
-    #if 0
-            setRubberBandPen( QPen( Qt::red, 2, Qt::DotLine ) );
-    #else
             setRubberBandPen( QPen( Qt::red ) );
-    #endif
         }
 
         virtual QwtText trackerTextF( const QPointF& pos ) const QWT_OVERRIDE

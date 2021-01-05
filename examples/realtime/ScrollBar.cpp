@@ -169,8 +169,10 @@ int ScrollBar::extent() const
     opt.singleStep = singleStep();
     opt.pageStep = pageStep();
     opt.upsideDown = invertedAppearance();
+
     if ( orientation() == Qt::Horizontal )
         opt.state |= QStyle::State_Horizontal;
+
     return style()->pixelMetric( QStyle::PM_ScrollBarExtent, &opt, this );
 }
 

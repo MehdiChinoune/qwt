@@ -7,36 +7,47 @@
 
 #include <QwtPointPolar>
 #include <QwtRoundScaleDraw>
+#include <QwtDialNeedle>
 
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPainterPath>
 
-AttitudeIndicatorNeedle::AttitudeIndicatorNeedle( const QColor& color )
+namespace
 {
-    QPalette palette;
-    palette.setColor( QPalette::Text, color );
-    setPalette( palette );
-}
+    class Needle : public QwtDialNeedle
+    {
+      public:
 
-void AttitudeIndicatorNeedle::drawNeedle( QPainter* painter,
-    double length, QPalette::ColorGroup colorGroup ) const
-{
-    double triangleSize = length * 0.1;
-    double pos = length - 2.0;
+        Needle( const QColor& color )
+        {
+            QPalette palette;
+            palette.setColor( QPalette::Text, color );
+            setPalette( palette );
+        }
 
-    QPainterPath path;
-    path.moveTo( pos, 0 );
-    path.lineTo( pos - 2 * triangleSize, triangleSize );
-    path.lineTo( pos - 2 * triangleSize, -triangleSize );
-    path.closeSubpath();
+      protected:
 
-    painter->setBrush( palette().brush( colorGroup, QPalette::Text ) );
-    painter->drawPath( path );
+        virtual void drawNeedle( QPainter* painter,
+            double length, QPalette::ColorGroup colorGroup ) const QWT_OVERRIDE
+        {
+            double triangleSize = length * 0.1;
+            double pos = length - 2.0;
 
-    double l = length - 2;
-    painter->setPen( QPen( palette().color( colorGroup, QPalette::Text ), 3 ) );
-    painter->drawLine( QPointF( 0.0, -l ), QPointF( 0.0, l ) );
+            QPainterPath path;
+            path.moveTo( pos, 0 );
+            path.lineTo( pos - 2 * triangleSize, triangleSize );
+            path.lineTo( pos - 2 * triangleSize, -triangleSize );
+            path.closeSubpath();
+
+            painter->setBrush( palette().brush( colorGroup, QPalette::Text ) );
+            painter->drawPath( path );
+
+            double l = length - 2;
+            painter->setPen( QPen( palette().color( colorGroup, QPalette::Text ), 3 ) );
+            painter->drawLine( QPointF( 0.0, -l ), QPointF( 0.0, l ) );
+        }
+    };
 }
 
 AttitudeIndicator::AttitudeIndicator( QWidget* parent )
@@ -58,7 +69,7 @@ AttitudeIndicator::AttitudeIndicator( QWidget* parent )
     setScale( 0.0, 360.0 );
 
     const QColor color = palette().color( QPalette::Text );
-    setNeedle( new AttitudeIndicatorNeedle( color ) );
+    setNeedle( new Needle( color ) );
 }
 
 void AttitudeIndicator::setGradient( double gradient )

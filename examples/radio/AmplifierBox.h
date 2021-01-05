@@ -20,7 +20,7 @@ class AmplifierBox : public QFrame
     Q_OBJECT
 
   public:
-    AmplifierBox( QWidget* );
+    AmplifierBox( QWidget* = NULL );
 
   public Q_SLOTS:
     void setMaster( double v );
@@ -29,11 +29,13 @@ class AmplifierBox : public QFrame
     virtual void timerEvent( QTimerEvent* ) QWT_OVERRIDE;
 
   private:
-    Knob* m_knbVolume;
-    Knob* m_knbBalance;
-    Knob* m_knbTreble;
-    Knob* m_knbBass;
-    Thermo* m_thmLeft;
-    Thermo* m_thmRight;
+    Knob* m_knobVolume;
+    Knob* m_knobBalance;
+    Knob* m_knobTreble;
+    Knob* m_knobBass;
+
+    Thermo* m_gaugeLeft;
+    Thermo* m_gaugeRight;
+
     double m_master;
 };

@@ -22,19 +22,18 @@ namespace
             Plot* plot = new Plot( this );
             setCentralWidget( plot );
 
-            QToolBar* toolBar = new QToolBar( this );
-
-            QComboBox* typeBox = new QComboBox( toolBar );
+            QComboBox* typeBox = new QComboBox();
             typeBox->addItem( "Bars" );
             typeBox->addItem( "CandleSticks" );
             typeBox->setCurrentIndex( 1 );
             typeBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
 
-            QToolButton* btnExport = new QToolButton( toolBar );
+            QToolButton* btnExport = new QToolButton();
             btnExport->setText( "Export" );
             btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
             connect( btnExport, SIGNAL(clicked()), plot, SLOT(exportPlot()) );
 
+            QToolBar* toolBar = new QToolBar();
             toolBar->addWidget( typeBox );
             toolBar->addWidget( btnExport );
             addToolBar( toolBar );

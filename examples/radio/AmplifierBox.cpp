@@ -22,7 +22,7 @@
 class Knob : public QWidget
 {
   public:
-    Knob( const QString& title, double min, double max, QWidget* parent )
+    Knob( const QString& title, double min, double max, QWidget* parent = NULL )
         : QWidget( parent )
     {
         m_knob = new QwtKnob( this );
@@ -96,7 +96,7 @@ class Knob : public QWidget
 class Thermo : public QWidget
 {
   public:
-    Thermo( const QString& title, QWidget* parent )
+    Thermo( const QString& title, QWidget* parent = NULL )
         : QWidget( parent )
     {
         m_thermo = new QwtThermo( this );
@@ -129,54 +129,52 @@ class Thermo : public QWidget
 AmplifierBox::AmplifierBox( QWidget* p )
     : QFrame( p )
 {
-    m_knbVolume = new Knob( "Volume", 0.0, 10.0, this );
-    m_knbBalance = new Knob( "Balance", -10.0, 10.0, this );
-    m_knbTreble = new Knob( "Treble", -10.0, 10.0, this );
-    m_knbBass = new Knob( "Bass", -10.0, 10.0, this );
+    m_knobVolume = new Knob( "Volume", 0, 10 );
+    m_knobBalance = new Knob( "Balance", -10, 10 );
+    m_knobTreble = new Knob( "Treble", -10, 10 );
+    m_knobBass = new Knob( "Bass", -10, 10 );
 
-    m_thmLeft = new Thermo( "Left [dB]", this );
-    m_thmRight = new Thermo( "Right [dB]", this );
+    m_gaugeLeft = new Thermo( "Left [dB]" );
+    m_gaugeRight = new Thermo( "Right [dB]" );
 
     QHBoxLayout* layout = new QHBoxLayout( this );
     layout->setSpacing( 0 );
     layout->setContentsMargins( 10, 10, 10, 10 );
-    layout->addWidget( m_knbVolume );
-    layout->addWidget( m_knbBalance);
-    layout->addWidget( m_knbTreble);
-    layout->addWidget( m_knbBass );
+    layout->addWidget( m_knobVolume );
+    layout->addWidget( m_knobBalance);
+    layout->addWidget( m_knobTreble);
+    layout->addWidget( m_knobBass );
     layout->addSpacing( 20 );
     layout->addStretch( 10 );
-    layout->addWidget( m_thmLeft );
+    layout->addWidget( m_gaugeLeft );
     layout->addSpacing( 10 );
-    layout->addWidget( m_thmRight );
+    layout->addWidget( m_gaugeRight );
 
-    m_knbVolume->setValue( 7.0 );
+    m_knobVolume->setValue( 7.0 );
     ( void )startTimer( 50 );
 }
 
 void AmplifierBox::timerEvent( QTimerEvent* )
 {
-    static double phs = 0;
+    static double phase = 0;
 
-    //
-    //  This amplifier generates its own input signal...
-    //
+    // This amplifier generates its own input signal...
 
-    const double sig_bass = ( 1.0 + 0.1 * m_knbBass->value() )
-        * std::sin( 13.0 * phs );
-    const double sig_mim_l = std::sin( 17.0 * phs );
-    const double sig_mim_r = std::cos( 17.5 * phs );
-    const double sig_trbl_l = 0.5 * ( 1.0 + 0.1 * m_knbTreble->value() )
-        * std::sin( 35.0 * phs );
-    const double sig_trbl_r = 0.5 * ( 1.0 + 0.1 * m_knbTreble->value() )
-        * std::sin( 34.0 * phs );
+    const double sig_bass = ( 1.0 + 0.1 * m_knobBass->value() )
+        * std::sin( 13.0 * phase );
+    const double sig_mim_l = std::sin( 17.0 * phase );
+    const double sig_mim_r = std::cos( 17.5 * phase );
+    const double sig_trbl_l = 0.5 * ( 1.0 + 0.1 * m_knobTreble->value() )
+        * std::sin( 35.0 * phase );
+    const double sig_trbl_r = 0.5 * ( 1.0 + 0.1 * m_knobTreble->value() )
+        * std::sin( 34.0 * phase );
 
-    double sig_l = 0.05 * m_master * m_knbVolume->value()
+    double sig_l = 0.05 * m_master * m_knobVolume->value()
         * qwtSqr( sig_bass + sig_mim_l + sig_trbl_l );
-    double sig_r = 0.05 * m_master * m_knbVolume->value()
+    double sig_r = 0.05 * m_master * m_knobVolume->value()
         * qwtSqr( sig_bass + sig_mim_r + sig_trbl_r );
 
-    double balance = 0.1 * m_knbBalance->value();
+    double balance = 0.1 * m_knobBalance->value();
     if ( balance > 0 )
         sig_l *= ( 1.0 - balance );
     else
@@ -192,12 +190,12 @@ void AmplifierBox::timerEvent( QTimerEvent* )
     else
         sig_r = -40.0;
 
-    m_thmLeft->setValue( sig_l );
-    m_thmRight->setValue( sig_r );
+    m_gaugeLeft->setValue( sig_l );
+    m_gaugeRight->setValue( sig_r );
 
-    phs += M_PI / 100;
-    if ( phs > M_PI )
-        phs = 0;
+    phase += M_PI / 100;
+    if ( phase > M_PI )
+        phase = 0;
 }
 
 void AmplifierBox::setMaster( double v )

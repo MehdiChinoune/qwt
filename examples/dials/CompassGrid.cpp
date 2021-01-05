@@ -25,23 +25,20 @@ CompassGrid::CompassGrid( QWidget* parent )
     layout->setSpacing( 5 );
     layout->setContentsMargins( QMargins() );
 
-    int i;
-    for ( i = 0; i < 6; i++ )
+    for ( int i = 0; i < 6; i++ )
     {
         QwtCompass* compass = createCompass( i );
         layout->addWidget( compass, i / 3, i % 3 );
     }
 
-    for ( i = 0; i < layout->columnCount(); i++ )
+    for ( int i = 0; i < layout->columnCount(); i++ )
         layout->setColumnStretch( i, 1 );
 }
 
 QwtCompass* CompassGrid::createCompass( int pos )
 {
-    int c;
-
     QPalette palette0;
-    for ( c = 0; c < QPalette::NColorRoles; c++ )
+    for ( int c = 0; c < QPalette::NColorRoles; c++ )
     {
         const QPalette::ColorRole colorRole =
             static_cast< QPalette::ColorRole >( c );
@@ -51,6 +48,7 @@ QwtCompass* CompassGrid::createCompass( int pos )
 
     palette0.setColor( QPalette::Base,
         palette().color( backgroundRole() ).lighter( 120 ) );
+
     palette0.setColor( QPalette::WindowText,
         palette0.color( QPalette::Base ) );
 
@@ -198,7 +196,7 @@ QwtCompass* CompassGrid::createCompass( int pos )
     }
 
     QPalette newPalette = compass->palette();
-    for ( c = 0; c < QPalette::NColorRoles; c++ )
+    for ( int c = 0; c < QPalette::NColorRoles; c++ )
     {
         const QPalette::ColorRole colorRole =
             static_cast< QPalette::ColorRole >( c );

@@ -60,7 +60,7 @@ void Plot::setTransformation( QwtTransform* transform )
 
     setAxisScaleEngine( QwtPlot::xBottom, scaleEngine );
 
-    // we have to reassign the axis settinge, because they are
+    // we have to reassign the axis settings, because they are
     // invalidated, when the scale engine has changed
 
     QwtScaleDiv scaleDiv =

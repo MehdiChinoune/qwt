@@ -208,15 +208,19 @@ Plot::Plot( QWidget* parent )
 
     plotLayout()->setCanvasMargin( 10 );
 
-    m_curves[0] = new Curve1();
-    m_curves[1] = new Curve2();
-    m_curves[2] = new Curve3();
-    m_curves[3] = new Curve4();
+    Curve* curve1 = new Curve1();
+    curve1->attach( this );
+
+    Curve* curve2 = new Curve2();
+    curve2->attach( this );
+
+    Curve* curve3 = new Curve3();
+    curve3->attach( this );
+
+    Curve* curve4 = new Curve4();
+    curve4->attach( this );
 
     updateCurves();
-
-    for ( int i = 0; i < CurveCount; i++ )
-        m_curves[i]->attach( this );
 
     m_timer.start();
     ( void )startTimer( 40 );
@@ -231,8 +235,18 @@ void Plot::timerEvent( QTimerEvent* )
 void Plot::updateCurves()
 {
     const double speed = 2 * M_PI / 25000.0; // a cycle every 25 seconds
-
     const double phase = m_timer.elapsed() * speed;
-    for ( int i = 0; i < CurveCount; i++ )
-        m_curves[i]->updateSamples( phase );
+
+    const QwtPlotItemList& items = itemList();
+    for ( QwtPlotItemIterator it = items.constBegin();
+        it != items.constEnd(); ++it )
+    {
+        QwtPlotItem* item = *it;
+
+        if ( item->rtti() == QwtPlotItem::Rtti_PlotCurve )
+        {
+            Curve* curve = dynamic_cast< Curve* >( item );
+            curve->updateSamples( phase );
+        }
+    }
 }

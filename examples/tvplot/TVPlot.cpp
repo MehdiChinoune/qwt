@@ -16,7 +16,6 @@
 #include <QwtSeriesData>
 
 #include <QPen>
-
 #include <cstdlib>
 
 namespace
@@ -24,40 +23,34 @@ namespace
     class Histogram : public QwtPlotHistogram
     {
       public:
-        Histogram( const QString&, const QColor& );
+        Histogram( const QString& title, const QColor& symbolColor )
+            : QwtPlotHistogram( title )
+        {
+            setStyle( QwtPlotHistogram::Columns );
+            setColor( symbolColor );
+        }
 
-        void setColor( const QColor& );
-        void setValues( uint numValues, const double* );
+        void setColor( const QColor& color )
+        {
+            QColor c = color;
+            c.setAlpha( 180 );
+            setBrush( QBrush( c ) );
+        }
+
+        void setValues( uint numValues, const double* values )
+        {
+            QVector< QwtIntervalSample > samples( numValues );
+            for ( uint i = 0; i < numValues; i++ )
+            {
+                QwtInterval interval( double( i ), i + 1.0 );
+                interval.setBorderFlags( QwtInterval::ExcludeMaximum );
+
+                samples[i] = QwtIntervalSample( values[i], interval );
+            }
+
+            setData( new QwtIntervalSeriesData( samples ) );
+        }
     };
-}
-
-Histogram::Histogram( const QString& title, const QColor& symbolColor )
-    : QwtPlotHistogram( title )
-{
-    setStyle( QwtPlotHistogram::Columns );
-
-    setColor( symbolColor );
-}
-
-void Histogram::setColor( const QColor& color )
-{
-    QColor c = color;
-    c.setAlpha( 180 );
-    setBrush( QBrush( c ) );
-}
-
-void Histogram::setValues( uint numValues, const double* values )
-{
-    QVector< QwtIntervalSample > samples( numValues );
-    for ( uint i = 0; i < numValues; i++ )
-    {
-        QwtInterval interval( double( i ), i + 1.0 );
-        interval.setBorderFlags( QwtInterval::ExcludeMaximum );
-
-        samples[i] = QwtIntervalSample( values[i], interval );
-    }
-
-    setData( new QwtIntervalSeriesData( samples ) );
 }
 
 TVPlot::TVPlot( QWidget* parent )
@@ -173,8 +166,7 @@ void TVPlot::setMode( int mode )
 
 void TVPlot::showItem( const QVariant& itemInfo, bool on )
 {
-    QwtPlotItem* plotItem = infoToItem( itemInfo );
-    if ( plotItem )
+    if ( QwtPlotItem* plotItem = infoToItem( itemInfo ) )
         plotItem->setVisible( on );
 }
 

@@ -19,33 +19,30 @@ namespace
         MainWindow( QWidget* parent = NULL )
             : QMainWindow( parent )
         {
-            d_plot = new Plot( this );
-            setCentralWidget( d_plot );
+            Plot* plot = new Plot();
+            setCentralWidget( plot );
 
-            QToolBar* toolBar = new QToolBar( this );
-
-            QComboBox* typeBox = new QComboBox( toolBar );
+            QComboBox* typeBox = new QComboBox();
             typeBox->addItem( "Bars" );
             typeBox->addItem( "Tube" );
             typeBox->setCurrentIndex( 1 );
             typeBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
 
-            QToolButton* btnExport = new QToolButton( toolBar );
+            QToolButton* btnExport = new QToolButton();
             btnExport->setText( "Export" );
             btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-            connect( btnExport, SIGNAL(clicked()), d_plot, SLOT(exportPlot()) );
+            connect( btnExport, SIGNAL(clicked()), plot, SLOT(exportPlot()) );
 
+            QToolBar* toolBar = new QToolBar();
             toolBar->addWidget( typeBox );
             toolBar->addWidget( btnExport );
             addToolBar( toolBar );
 
-            d_plot->setMode( typeBox->currentIndex() );
-            connect( typeBox, SIGNAL(currentIndexChanged(int)),
-                d_plot, SLOT(setMode(int)) );
-        }
+            plot->setMode( typeBox->currentIndex() );
 
-      private:
-        Plot* d_plot;
+            connect( typeBox, SIGNAL(currentIndexChanged(int)),
+                plot, SLOT(setMode(int)) );
+        }
     };
 }
 

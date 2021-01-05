@@ -17,99 +17,103 @@
 #include <QApplication>
 #include <QPainter>
 
-class DistroScaleDraw : public QwtScaleDraw
+namespace
 {
-  public:
-    DistroScaleDraw( Qt::Orientation orientation, const QStringList& labels )
-        : m_labels( labels )
+    class ScaleDraw : public QwtScaleDraw
     {
-        setTickLength( QwtScaleDiv::MinorTick, 0 );
-        setTickLength( QwtScaleDiv::MediumTick, 0 );
-        setTickLength( QwtScaleDiv::MajorTick, 2 );
-
-        enableComponent( QwtScaleDraw::Backbone, false );
-
-        if ( orientation == Qt::Vertical )
+      public:
+        ScaleDraw( Qt::Orientation orientation, const QStringList& labels )
+            : m_labels( labels )
         {
-            setLabelRotation( -60.0 );
-        }
-        else
-        {
-            setLabelRotation( -20.0 );
-        }
+            setTickLength( QwtScaleDiv::MinorTick, 0 );
+            setTickLength( QwtScaleDiv::MediumTick, 0 );
+            setTickLength( QwtScaleDiv::MajorTick, 2 );
 
-        setLabelAlignment( Qt::AlignLeft | Qt::AlignVCenter );
-    }
+            enableComponent( QwtScaleDraw::Backbone, false );
 
-    virtual QwtText label( double value ) const QWT_OVERRIDE
-    {
-        QwtText lbl;
+            if ( orientation == Qt::Vertical )
+            {
+                setLabelRotation( -60.0 );
+            }
+            else
+            {
+                setLabelRotation( -20.0 );
+            }
 
-        const int index = qRound( value );
-        if ( index >= 0 && index < m_labels.size() )
-        {
-            lbl = m_labels[ index ];
+            setLabelAlignment( Qt::AlignLeft | Qt::AlignVCenter );
         }
 
-        return lbl;
-    }
+        virtual QwtText label( double value ) const QWT_OVERRIDE
+        {
+            QwtText lbl;
 
-  private:
-    const QStringList m_labels;
-};
+            const int index = qRound( value );
+            if ( index >= 0 && index < m_labels.size() )
+            {
+                lbl = m_labels[ index ];
+            }
 
-class DistroChartItem : public QwtPlotBarChart
-{
-  public:
-    DistroChartItem()
-        : QwtPlotBarChart( "Page Hits" )
+            return lbl;
+        }
+
+      private:
+        const QStringList m_labels;
+    };
+
+    class ChartItem : public QwtPlotBarChart
     {
-        setLegendMode( QwtPlotBarChart::LegendBarTitles );
-        setLegendIconSize( QSize( 10, 14 ) );
-        setLayoutPolicy( AutoAdjustSamples );
-        setLayoutHint( 4.0 ); // minimum width for a single bar
+      public:
+        ChartItem()
+            : QwtPlotBarChart( "Page Hits" )
+        {
+            setLegendMode( QwtPlotBarChart::LegendBarTitles );
+            setLegendIconSize( QSize( 10, 14 ) );
+            setLayoutPolicy( AutoAdjustSamples );
+            setLayoutHint( 4.0 ); // minimum width for a single bar
 
-        setSpacing( 10 ); // spacing between bars
-    }
+            setSpacing( 10 ); // spacing between bars
+        }
 
-    void addDistro( const QString& distro, const QColor& color )
-    {
-        m_colors += color;
-        m_distros += distro;
-        itemChanged();
-    }
+        void addDistro( const QString& distro, const QColor& color )
+        {
+            m_colors += color;
+            m_distros += distro;
+            itemChanged();
+        }
 
-    virtual QwtColumnSymbol* specialSymbol(
-        int index, const QPointF& ) const QWT_OVERRIDE
-    {
-        // we want to have individual colors for each bar
+        virtual QwtColumnSymbol* specialSymbol(
+            int index, const QPointF& ) const QWT_OVERRIDE
+        {
+            // we want to have individual colors for each bar
 
-        QwtColumnSymbol* symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
-        symbol->setLineWidth( 2 );
-        symbol->setFrameStyle( QwtColumnSymbol::Raised );
+            QwtColumnSymbol* symbol = new QwtColumnSymbol( QwtColumnSymbol::Box );
+            symbol->setLineWidth( 2 );
+            symbol->setFrameStyle( QwtColumnSymbol::Raised );
 
-        QColor c( Qt::white );
-        if ( index >= 0 && index < m_colors.size() )
-            c = m_colors[ index ];
+            QColor c( Qt::white );
+            if ( index >= 0 && index < m_colors.size() )
+                c = m_colors[ index ];
 
-        symbol->setPalette( c );
+            symbol->setPalette( c );
 
-        return symbol;
-    }
+            return symbol;
+        }
 
-    virtual QwtText barTitle( int sampleIndex ) const QWT_OVERRIDE
-    {
-        QwtText title;
-        if ( sampleIndex >= 0 && sampleIndex < m_distros.size() )
-            title = m_distros[ sampleIndex ];
+        virtual QwtText barTitle( int sampleIndex ) const QWT_OVERRIDE
+        {
+            QwtText title;
+            if ( sampleIndex >= 0 && sampleIndex < m_distros.size() )
+                title = m_distros[ sampleIndex ];
 
-        return title;
-    }
+            return title;
+        }
 
-  private:
-    QList< QColor > m_colors;
-    QList< QString > m_distros;
-};
+      private:
+        QList< QColor > m_colors;
+        QList< QString > m_distros;
+    };
+
+}
 
 BarChart::BarChart( QWidget* parent )
     : QwtPlot( parent )
@@ -148,7 +152,7 @@ BarChart::BarChart( QWidget* parent )
 
     setTitle( "DistroWatch Page Hit Ranking, April 2012" );
 
-    m_barChartItem = new DistroChartItem();
+    ChartItem* chartItem = new ChartItem();
 
     QVector< double > samples;
 
@@ -157,13 +161,13 @@ BarChart::BarChart( QWidget* parent )
         m_distros += pageHits[ i ].distro;
         samples += pageHits[ i ].hits;
 
-        m_barChartItem->addDistro(
-            pageHits[ i ].distro, pageHits[ i ].color );
+        chartItem->addDistro( pageHits[ i ].distro, pageHits[ i ].color );
     }
 
-    m_barChartItem->setSamples( samples );
+    chartItem->setSamples( samples );
+    chartItem->attach( this );
 
-    m_barChartItem->attach( this );
+    m_chartItem = chartItem;
 
     insertLegend( new QwtLegend() );
 
@@ -182,11 +186,11 @@ void BarChart::setOrientation( int o )
     if ( orientation == Qt::Horizontal )
         qSwap( axis1, axis2 );
 
-    m_barChartItem->setOrientation( orientation );
+    m_chartItem->setOrientation( orientation );
 
     setAxisTitle( axis1, "Distros" );
     setAxisMaxMinor( axis1, 3 );
-    setAxisScaleDraw( axis1, new DistroScaleDraw( orientation, m_distros ) );
+    setAxisScaleDraw( axis1, new ScaleDraw( orientation, m_distros ) );
 
     setAxisTitle( axis2, "Hits per day ( HPD )" );
     setAxisMaxMinor( axis2, 3 );

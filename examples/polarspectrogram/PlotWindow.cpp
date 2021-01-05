@@ -38,9 +38,9 @@ namespace
 PlotWindow::PlotWindow( QWidget* parent )
     : QWidget( parent )
 {
-    m_plot = new Plot( this );
+    m_plot = new Plot();
 
-    m_colorScale = new QwtScaleWidget( this );
+    m_colorScale = new QwtScaleWidget();
     m_colorScale->setAlignment( QwtScaleDraw::RightScale );
     m_colorScale->setColorBarEnabled( true );
 
@@ -63,7 +63,6 @@ PlotWindow::PlotWindow( QWidget* parent )
     int startDist, endDist;
     m_colorScale->getBorderDistHint( startDist, endDist );
     m_colorScale->setBorderDist( startDist, endDist );
-
 
     QHBoxLayout* layout = new QHBoxLayout( this );
     layout->addWidget( m_plot, 10 );

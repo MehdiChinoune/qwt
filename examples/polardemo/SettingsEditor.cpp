@@ -18,7 +18,6 @@ SettingsEditor::SettingsEditor( QWidget* parent )
     QVBoxLayout* axesBoxLayout = new QVBoxLayout( axesBox );
     axesBoxLayout->setContentsMargins( margin, margin, margin, margin );
 
-
     for ( int i = PlotSettings::AxisBegin;
         i <= PlotSettings::Logarithmic; i++ )
     {
@@ -88,9 +87,7 @@ PlotSettings SettingsEditor::settings() const
 void SettingsEditor::edited()
 {
     updateEditor();
-
-    const PlotSettings s = settings();
-    Q_EMIT edited( s );
+    Q_EMIT edited( settings() );
 }
 
 void SettingsEditor::updateEditor()

@@ -13,56 +13,53 @@
 
 namespace
 {
+    class ToolButton : public QToolButton
+    {
+      public:
+        ToolButton( const QString& text, QWidget* parent = NULL )
+            : QToolButton( parent )
+        {
+            setText( text );
+            setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+        };
+    };
+
     class MainWindow : public QMainWindow
     {
       public:
         MainWindow( QWidget* = NULL );
-
-      private:
-        PlotWindow* d_plotWindow;
     };
 }
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
 {
-    d_plotWindow = new PlotWindow( this );
-    setCentralWidget( d_plotWindow );
+    PlotWindow* plotWindow = new PlotWindow();
+    setCentralWidget( plotWindow );
 
-    QToolBar* toolBar = new QToolBar( this );
-
-    QToolButton* btnExport = new QToolButton( toolBar );
-    btnExport->setText( "Export" );
-    btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-    toolBar->addWidget( btnExport );
-
-    QToolButton* btnGrid = new QToolButton( toolBar );
-    btnGrid->setText( "Grid" );
-    btnGrid->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+    ToolButton* btnGrid = new ToolButton( "Grid" );
     btnGrid->setCheckable( true );
     btnGrid->setChecked( true );
+
+    ToolButton* btnExport = new ToolButton( "Export" );
+    ToolButton* btnRotate = new ToolButton( "Rotate" );
+    ToolButton* btnMirror = new ToolButton( "Mirror" );
+
+    QToolBar* toolBar = new QToolBar();
+
+    toolBar->addWidget( btnExport );
     toolBar->addWidget( btnGrid );
-
-    QToolButton* btnRotate = new QToolButton( toolBar );
-    btnRotate->setText( "Rotate" );
-    btnRotate->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnRotate );
-    addToolBar( toolBar );
-
-    QToolButton* btnMirror = new QToolButton( toolBar );
-    btnMirror->setText( "Mirror" );
-    btnMirror->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnMirror );
+
     addToolBar( toolBar );
 
-    connect( btnExport, SIGNAL(clicked()),
-        d_plotWindow->plot(), SLOT(exportDocument()) );
-    connect( btnGrid, SIGNAL(toggled(bool)),
-        d_plotWindow->plot(), SLOT(showGrid(bool)) );
-    connect( btnRotate, SIGNAL(clicked()),
-        d_plotWindow->plot(), SLOT(rotate()) );
-    connect( btnMirror, SIGNAL(clicked()),
-        d_plotWindow->plot(), SLOT(mirror()) );
+    Plot* plot = plotWindow->plot();
+
+    connect( btnExport, SIGNAL(clicked()), plot, SLOT(exportDocument()) );
+    connect( btnGrid, SIGNAL(toggled(bool)), plot, SLOT(showGrid(bool)) );
+    connect( btnRotate, SIGNAL(clicked()), plot, SLOT(rotate()) );
+    connect( btnMirror, SIGNAL(clicked()), plot, SLOT(mirror()) );
 }
 
 int main( int argc, char* argv[] )

@@ -25,10 +25,9 @@ class SignalData
 
   private:
     SignalData();
-    SignalData( const SignalData& );
-    SignalData& operator=( const SignalData& );
+    ~SignalData();
 
-    virtual ~SignalData();
+    Q_DISABLE_COPY( SignalData )
 
     class PrivateData;
     PrivateData* m_data;

@@ -41,6 +41,7 @@ namespace
 
             scaleDiv.setTicks( QwtScaleDiv::MinorTick,
                 xScaleDiv.ticks( QwtScaleDiv::MinorTick ) );
+
             scaleDiv.setTicks( QwtScaleDiv::MajorTick,
                 xScaleDiv.ticks( QwtScaleDiv::MediumTick ) );
 
@@ -111,10 +112,12 @@ Plot::Plot( QWidget* parent )
     insertCurve( "Average", averageData, Qt::black );
     insertErrorBars( "Range", rangeData, Qt::blue );
 
-    // LeftButton for the zooming
-    // MidButton for the panning
-    // RightButton: zoom out by 1
-    // Ctrl+RighButton: zoom out to full size
+    /*
+        LeftButton for the zooming
+        MidButton for the panning
+        RightButton: zoom out by 1
+        Ctrl+RighButton: zoom out to full size
+     */
 
     QwtPlotZoomer* zoomer = new QwtPlotZoomer( canvas );
     zoomer->setRubberBandPen( QColor( Qt::black ) );

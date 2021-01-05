@@ -58,7 +58,7 @@ class Editor : public QObject
     void raiseItem( QwtPlotShapeItem* );
 
     QRegion maskHint( QwtPlotShapeItem* ) const;
-    void setItemVisible( QwtPlotShapeItem* item, bool on );
+    void setItemVisible( QwtPlotShapeItem*, bool on );
 
     bool m_isEnabled;
     QPointer< QwtWidgetOverlay > m_overlay;

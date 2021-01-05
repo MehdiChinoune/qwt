@@ -14,6 +14,7 @@ class QwtPlotCurve;
 class Plot : public QwtPlot
 {
     Q_OBJECT
+
   public:
     Plot( bool parametric, QWidget* parent = NULL );
 

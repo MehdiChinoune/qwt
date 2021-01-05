@@ -27,14 +27,13 @@ namespace
             setCentralWidget( plot );
 
 #ifndef QT_NO_FILEDIALOG
-            QToolBar* toolBar = new QToolBar( this );
 
-            QToolButton* btnLoad = new QToolButton( toolBar );
-
+            QToolButton* btnLoad = new QToolButton();
             btnLoad->setText( "Load SVG" );
             btnLoad->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-            toolBar->addWidget( btnLoad );
 
+            QToolBar* toolBar = new QToolBar();
+            toolBar->addWidget( btnLoad );
             addToolBar( toolBar );
 
             connect( btnLoad, SIGNAL(clicked()), plot, SLOT(loadSVG()) );

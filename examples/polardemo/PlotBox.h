@@ -8,25 +8,23 @@
 #include <QMainWindow>
 
 class Plot;
-class SettingsEditor;
 class QwtPolarPanner;
 class QwtPolarMagnifier;
 
-class MainWindow : public QMainWindow
+class PlotBox : public QWidget
 {
     Q_OBJECT
 
   public:
-    MainWindow( QWidget* parent = NULL );
-
+    PlotBox( QWidget* parent = nullptr );
+    
   private Q_SLOTS:
     void enableZoomMode( bool on );
     void printDocument();
     void exportDocument();
-
+    
   private:
     Plot* m_plot;
     QwtPolarPanner* m_panner;
     QwtPolarMagnifier* m_zoomer;
-    SettingsEditor* m_settingsEditor;
-};
+}; 

@@ -16,66 +16,67 @@
 
 #include <QPen>
 
-class LegendItem : public QwtPlotLegendItem
+namespace
 {
-  public:
-    LegendItem()
+    class LegendItem : public QwtPlotLegendItem
     {
-        setRenderHint( QwtPlotItem::RenderAntialiased );
-
-        QColor color( Qt::white );
-
-        setTextPen( color );
-#if 1
-        setBorderPen( color );
-
-        QColor c( Qt::gray );
-        c.setAlpha( 200 );
-
-        setBackgroundBrush( c );
-#endif
-    }
-};
-
-class Curve : public QwtPlotCurve
-{
-  public:
-    Curve( int index ):
-        m_index( index )
-    {
-        setRenderHint( QwtPlotItem::RenderAntialiased );
-        initData();
-    }
-
-    void setCurveTitle( const QString& title )
-    {
-        QString txt("%1 %2");
-        setTitle( QString( "%1 %2" ).arg( title ).arg( m_index ) );
-    }
-
-    void initData()
-    {
-        QVector< QPointF > points;
-
-        double y = qwtRand() % 1000;
-
-        for ( double x = 0.0; x <= 1000.0; x += 100.0 )
+      public:
+        LegendItem()
         {
-            double off = qwtRand() % 200 - 100;
-            if ( y + off > 980.0 || y + off < 20.0 )
-                off = -off;
+            setRenderHint( QwtPlotItem::RenderAntialiased );
 
-            y += off;
+            const QColor c1( Qt::white );
 
-            points += QPointF( x, y );
+            setTextPen( c1 );
+            setBorderPen( c1 );
+
+            QColor c2( Qt::gray );
+            c2.setAlpha( 200 );
+
+            setBackgroundBrush( c2 );
+        }
+    };
+
+    class Curve : public QwtPlotCurve
+    {
+      public:
+        Curve( int index ):
+            m_index( index )
+        {
+            setRenderHint( QwtPlotItem::RenderAntialiased );
+            initData();
         }
 
-        setSamples( points );
-    }
+        void setCurveTitle( const QString& title )
+        {
+            QString txt("%1 %2");
+            setTitle( QString( "%1 %2" ).arg( title ).arg( m_index ) );
+        }
 
-  private:
-    const int m_index;
-};
+        void initData()
+        {
+            QVector< QPointF > points;
+
+            double y = qwtRand() % 1000;
+
+            for ( double x = 0.0; x <= 1000.0; x += 100.0 )
+            {
+                double off = qwtRand() % 200 - 100;
+                if ( y + off > 980.0 || y + off < 20.0 )
+                    off = -off;
+
+                y += off;
+
+                points += QPointF( x, y );
+            }
+
+            setSamples( points );
+        }
+
+      private:
+        const int m_index;
+    };
+}
 
 Plot::Plot( QWidget* parent )
     : QwtPlot( parent )

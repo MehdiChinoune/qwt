@@ -16,14 +16,13 @@
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
 {
+    Panel* panel = new Panel();
+    m_plot = new Plot();
+
     QWidget* w = new QWidget( this );
 
-    m_panel = new Panel( w );
-
-    m_plot = new Plot( w );
-
     QHBoxLayout* hLayout = new QHBoxLayout( w );
-    hLayout->addWidget( m_panel );
+    hLayout->addWidget( panel );
     hLayout->addWidget( m_plot, 10 );
 
     setCentralWidget( w );
@@ -31,9 +30,9 @@ MainWindow::MainWindow( QWidget* parent )
     m_frameCount = new QLabel( this );
     statusBar()->addWidget( m_frameCount, 10 );
 
-    applySettings( m_panel->settings() );
+    applySettings( panel->settings() );
 
-    connect( m_panel, SIGNAL(settingsChanged(const Settings&)),
+    connect( panel, SIGNAL(settingsChanged(const Settings&)),
         this, SLOT(applySettings(const Settings&)) );
 }
 

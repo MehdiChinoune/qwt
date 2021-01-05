@@ -18,40 +18,46 @@
 #include <QWhatsThis>
 #include <QPixmap>
 
-class MyToolBar : public QToolBar
+namespace
 {
-  public:
-    MyToolBar( MainWindow* parent )
-        : QToolBar( parent )
+    class ToolBar : public QToolBar
     {
-    }
-    void addSpacing( int spacing )
-    {
-        QLabel* label = new QLabel( this );
-        addWidget( label );
-        label->setFixedWidth( spacing );
-    }
-};
+      public:
+        ToolBar( QMainWindow* parent )
+            : QToolBar( parent )
+        {
+        }
+
+        void addSpacing( int spacing )
+        {
+            QLabel* label = new QLabel();
+            label->setFixedWidth( spacing );
+
+            addWidget( label );
+        }
+    };
+}
 
 class Counter : public QWidget
 {
   public:
-    Counter( QWidget* parent, const QString& prefix, const QString& suffix,
-            int min, int max, int step )
+    Counter( const QString& prefix, const QString& suffix,
+            int min, int max, int step, QWidget* parent = NULL )
         : QWidget( parent )
     {
         QHBoxLayout* layout = new QHBoxLayout( this );
 
         if ( !prefix.isEmpty() )
-            layout->addWidget( new QLabel( prefix + " ", this ) );
+            layout->addWidget( new QLabel( prefix + " " ) );
 
-        m_counter = new QSpinBox( this );
+        m_counter = new QSpinBox();
         m_counter->setRange( min, max );
         m_counter->setSingleStep( step );
+
         layout->addWidget( m_counter );
 
         if ( !suffix.isEmpty() )
-            layout->addWidget( new QLabel( QString( " " ) + suffix, this ) );
+            layout->addWidget( new QLabel( QString( " " ) + suffix ) );
     }
 
     void setValue( int value ) { m_counter->setValue( value ); }
@@ -68,7 +74,8 @@ MainWindow::MainWindow()
     ( void )statusBar();
 #endif
 
-    m_plot = new RandomPlot( this );
+    m_plot = new RandomPlot();
+
     const int margin = 4;
     m_plot->setContentsMargins( margin, margin, margin, margin );
 
@@ -87,32 +94,25 @@ MainWindow::MainWindow()
 
 QToolBar* MainWindow::toolBar()
 {
-    MyToolBar* toolBar = new MyToolBar( this );
-
-    toolBar->setAllowedAreas( Qt::TopToolBarArea | Qt::BottomToolBarArea );
     setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-
-    m_startAction = new QAction( QPixmap( start_xpm ), "Start", toolBar );
-    m_startAction->setCheckable( true );
-    m_clearAction = new QAction( QPixmap( clear_xpm ), "Clear", toolBar );
-    QAction* whatsThisAction = QWhatsThis::createAction( toolBar );
-    whatsThisAction->setText( "Help" );
-
-    toolBar->addAction( m_startAction );
-    toolBar->addAction( m_clearAction );
-    toolBar->addAction( whatsThisAction );
-
     setIconSize( QSize( 22, 22 ) );
 
-    QWidget* hBox = new QWidget( toolBar );
+    m_startAction = new QAction( QPixmap( start_xpm ), "Start" );
+    m_startAction->setCheckable( true );
+    m_clearAction = new QAction( QPixmap( clear_xpm ), "Clear" );
+
+    QAction* whatsThisAction = QWhatsThis::createAction();
+    whatsThisAction->setText( "Help" );
+
+    QWidget* hBox = new QWidget();
 
     m_symbolType = new QCheckBox( "Symbols", hBox );
     m_symbolType->setChecked( true );
 
-    m_randomCount = new Counter( hBox, "Points", QString(), 1, 100000, 100 );
+    m_randomCount = new Counter( "Points", QString(), 1, 100000, 100 );
     m_randomCount->setValue( 1000 );
 
-    m_timerCount = new Counter( hBox, "Delay", "ms", 0, 100000, 100 );
+    m_timerCount = new Counter( "Delay", "ms", 0, 100000, 100 );
     m_timerCount->setValue( 0 );
 
     QHBoxLayout* layout = new QHBoxLayout( hBox );
@@ -128,6 +128,11 @@ QToolBar* MainWindow::toolBar()
 
     showRunning( false );
 
+    ToolBar* toolBar = new ToolBar( this );
+    toolBar->setAllowedAreas( Qt::TopToolBarArea | Qt::BottomToolBarArea );
+    toolBar->addAction( m_startAction );
+    toolBar->addAction( m_clearAction );
+    toolBar->addAction( whatsThisAction );
     toolBar->addWidget( hBox );
 
     return toolBar;
@@ -136,10 +141,14 @@ QToolBar* MainWindow::toolBar()
 void MainWindow::appendPoints( bool on )
 {
     if ( on )
+    {
         m_plot->append( m_timerCount->value(),
             m_randomCount->value() );
+    }
     else
+    {
         m_plot->stop();
+    }
 }
 
 void MainWindow::showRunning( bool running )

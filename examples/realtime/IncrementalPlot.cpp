@@ -73,7 +73,7 @@ void IncrementalPlot::appendPoint( const QPointF& point )
     curveData->append( point );
 
     const bool doClip = !canvas()->testAttribute( Qt::WA_PaintOnScreen );
-    if ( doClip )
+    if ( doClip && m_curve->symbol() )
     {
         /*
            Depending on the platform setting a clip might be an important
@@ -84,17 +84,13 @@ void IncrementalPlot::appendPoint( const QPointF& point )
         const QwtScaleMap xMap = canvasMap( m_curve->xAxis() );
         const QwtScaleMap yMap = canvasMap( m_curve->yAxis() );
 
-        QRegion clipRegion;
-
         const QSize symbolSize = m_curve->symbol()->size();
         QRect r( 0, 0, symbolSize.width() + 2, symbolSize.height() + 2 );
 
-        const QPointF center =
-            QwtScaleMap::transform( xMap, yMap, point );
+        const QPointF center = QwtScaleMap::transform( xMap, yMap, point );
         r.moveCenter( center.toPoint() );
-        clipRegion += r;
 
-        m_directPainter->setClipRegion( clipRegion );
+        m_directPainter->setClipRegion( r );
     }
 
     m_directPainter->drawSeries( m_curve,
