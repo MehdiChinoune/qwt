@@ -26,6 +26,7 @@ CLASSHEADERS = \
     QwtDateScaleDraw \
     QwtDateScaleEngine \
     QwtDynGridLayout \
+    QwtGlobal \
     QwtGraphic \
     QwtHueColorMap \
     QwtInterval \
@@ -132,6 +133,7 @@ contains(QWT_CONFIG, QwtPlot) {
         QwtPlotZoomer \
         QwtScaleWidget \
         QwtRasterData \
+        QwtSeriesData \
         QwtSetSample \
         QwtSamplingThread \
         QwtSplineCurveFitter \
