@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CANVAS_PICKER_H
-#define CANVAS_PICKER_H
+#pragma once
 
 #include <QwtGlobal>
 #include <QObject>
@@ -33,5 +32,3 @@ class CanvasPicker : public QObject
     int m_selectedPoint;
     const bool m_sortedX;
 };
-
-#endif

@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef BAR_CHART_H
-#define BAR_CHART_H
+#pragma once
 
 #include <QwtPlot>
 
@@ -27,5 +26,3 @@ class BarChart : public QwtPlot
 
     QwtPlotMultiBarChart* m_barChartItem;
 };
-
-#endif

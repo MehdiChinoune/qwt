@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CANVAS_H
-#define CANVAS_H
+#pragma once
 
 #include <QwtGlobal>
 #include <QWidget>
@@ -39,5 +38,3 @@ class Canvas : public QWidget
         QwtGraphic* m_graphic;
     };
 };
-
-#endif

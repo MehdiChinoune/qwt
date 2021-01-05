@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPlot>
 #include <QElapsedTimer>
@@ -31,5 +30,3 @@ class Plot : public QwtPlot
 
     QElapsedTimer m_timer;
 };
-
-#endif

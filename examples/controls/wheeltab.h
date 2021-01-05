@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef WHEEL_TAB_H
-#define WHEEL_TAB_H
+#pragma once
 
 #include <QWidget>
 
@@ -17,5 +16,3 @@ class WheelTab : public QWidget
   public:
     WheelTab( QWidget* parent = NULL );
 };
-
-#endif

@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef WHEEL_BOX_H
-#define WHEEL_BOX_H
+#pragma once
 
 #include <QWidget>
 
@@ -34,5 +33,3 @@ class WheelBox : public QWidget
     QwtThermo* m_thermo;
     QLabel* m_label;
 };
-
-#endif

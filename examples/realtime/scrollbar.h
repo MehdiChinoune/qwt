@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SCROLLBAR_H
-#define SCROLLBAR_H
+#pragma once
 
 #include <QScrollBar>
 
@@ -54,5 +53,3 @@ class ScrollBar : public QScrollBar
     double m_maxBase;
     int m_baseTicks;
 };
-
-#endif

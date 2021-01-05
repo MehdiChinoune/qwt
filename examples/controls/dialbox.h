@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef DIAL_BOX_H
-#define DIAL_BOX_H
+#pragma once
 
 #include <QWidget>
 
@@ -30,5 +29,3 @@ class DialBox : public QWidget
     QwtDial* m_dial;
     QLabel* m_label;
 };
-
-#endif

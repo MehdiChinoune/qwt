@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPlot>
 #include <QRect>
@@ -32,5 +31,3 @@ class Plot : public QwtPlot
     QwtPlotGraphicItem* m_mapItem;
     const QRectF m_mapRect;
 };
-
-#endif

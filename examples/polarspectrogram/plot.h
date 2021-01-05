@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPolarPlot>
 
@@ -29,5 +28,3 @@ class Plot : public QwtPolarPlot
     QwtPolarGrid* m_grid;
     QwtPolarSpectrogram* m_spectrogram;
 };
-
-#endif

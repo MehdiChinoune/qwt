@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#pragma once
 
 #include <QwtGlobal>
 #include <QWidget>
@@ -24,5 +23,3 @@ class MainWindow : public QWidget
   private:
     void updateGradient();
 };
-
-#endif

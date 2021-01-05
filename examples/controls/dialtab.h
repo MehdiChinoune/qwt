@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef DIAL_TAB_H
-#define DIAL_TAB_H
+#pragma once
 
 #include <QWidget>
 
@@ -17,5 +16,3 @@ class DialTab : public QWidget
   public:
     DialTab( QWidget* parent = NULL );
 };
-
-#endif

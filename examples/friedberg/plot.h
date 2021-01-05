@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPlot>
 #include <QwtScaleDiv>
@@ -48,5 +47,3 @@ class Plot : public QwtPlot
     QwtPlotIntervalCurve* m_intervalCurve;
     QwtPlotCurve* m_curve;
 };
-
-#endif

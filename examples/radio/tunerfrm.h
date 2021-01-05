@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef TUNER_FRAME_H
-#define TUNER_FRAME_H
+#pragma once
 
 #include <QFrame>
 
@@ -36,5 +35,3 @@ class TunerFrame : public QFrame
     TuningThermo* m_thermoTune;
     QwtSlider* m_sliderFrequency;
 };
-
-#endif

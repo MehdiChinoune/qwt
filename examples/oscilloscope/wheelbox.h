@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef WHEELBOX_H
-#define WHEELBOX_H
+#pragma once
 
 #include <QWidget>
 
@@ -41,5 +40,3 @@ class WheelBox : public QWidget
 
     QString m_unit;
 };
-
-#endif

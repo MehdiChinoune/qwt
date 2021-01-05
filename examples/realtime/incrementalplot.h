@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef INCREMENTAL_PLOT_H
-#define INCREMENTAL_PLOT_H
+#pragma once
 
 #include <QwtPlot>
 
@@ -29,5 +28,3 @@ class IncrementalPlot : public QwtPlot
     QwtPlotCurve* m_curve;
     QwtPlotDirectPainter* m_directPainter;
 };
-
-#endif

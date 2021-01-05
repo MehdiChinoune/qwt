@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef RANDOM_PLOT_H
-#define RANDOM_PLOT_H
+#pragma once
 
 #include "incrementalplot.h"
 #include <QElapsedTimer>
@@ -40,5 +39,3 @@ class RandomPlot : public IncrementalPlot
 
     QElapsedTimer m_timeStamp;
 };
-
-#endif

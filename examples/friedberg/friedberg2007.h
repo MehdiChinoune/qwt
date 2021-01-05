@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef FRIEDBERG_2007_H
-#define FRIEDBERG_2007_H
+#pragma once
 
 class Temperature
 {
@@ -29,5 +28,3 @@ class Temperature
 };
 
 extern Temperature friedberg2007[];
-
-#endif

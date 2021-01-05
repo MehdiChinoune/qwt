@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H_
-#define PLOT_H_
+#pragma once
 
 #include <QwtPlot>
 
@@ -24,5 +23,3 @@ class Plot : public QwtPlot
     void initAxis( int axis, const QString& title, Qt::TimeSpec );
     void applyAxisSettings( int axis, const Settings& );
 };
-
-#endif

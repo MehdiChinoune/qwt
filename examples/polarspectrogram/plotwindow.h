@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_WINDOW_H
-#define PLOT_WINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -22,5 +21,3 @@ class PlotWindow : public QWidget
     Plot* m_plot;
     QwtScaleWidget* m_colorScale;
 };
-
-#endif

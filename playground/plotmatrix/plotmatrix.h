@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_MATRIX_H
-#define PLOT_MATRIX_H
+#pragma once
 
 #include <QFrame>
 
@@ -43,5 +42,3 @@ class PlotMatrix : public QFrame
     class PrivateData;
     PrivateData* m_data;
 };
-
-#endif

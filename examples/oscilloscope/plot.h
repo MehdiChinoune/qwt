@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPlot>
 #include <QwtInterval>
@@ -50,5 +49,3 @@ class Plot : public QwtPlot
 
     QElapsedTimer m_elapsedTimer;
 };
-
-#endif

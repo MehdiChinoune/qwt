@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include "shapefactory.h"
 #include <QwtPlot>
@@ -34,5 +33,3 @@ class Plot : public QwtPlot
 
     Editor* m_editor;
 };
-
-#endif

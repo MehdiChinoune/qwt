@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef ATTITUDE_INDICATOR_H
-#define ATTITUDE_INDICATOR_H
+#pragma once
 
 #include <QwtDial>
 #include <QwtDialNeedle>
@@ -45,5 +44,3 @@ class AttitudeIndicator : public QwtDial
   private:
     double m_gradient;
 };
-
-#endif

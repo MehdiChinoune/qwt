@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef SLIDER_BOX_H
-#define SLIDER_BOX_H
+#pragma once
 
 #include <QWidget>
 
@@ -30,5 +29,3 @@ class SliderBox : public QWidget
     QwtSlider* m_slider;
     QLabel* m_label;
 };
-
-#endif

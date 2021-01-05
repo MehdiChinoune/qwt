@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include "settings.h"
 
@@ -40,5 +39,3 @@ class Plot : public QwtPlot
 
     Settings m_settings;
 };
-
-#endif

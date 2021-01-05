@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef COMPLEX_NUMBER_H
-#define COMPLEX_NUMBER_H
+#pragma once
 
 class ComplexNumber
 {
@@ -86,5 +85,3 @@ inline ComplexNumber operator/(
         ( x1.m_imag * x2.m_real - x2.m_imag * x1.m_real ) / denom
         );
 }
-
-#endif

@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CPU_STAT_H
-#define CPU_STAT_H
+#pragma once
 
 #include <QTime>
 
@@ -29,5 +28,3 @@ class CpuStat
     void lookUp( double[NValues] ) const;
     double procValues[NValues];
 };
-
-#endif

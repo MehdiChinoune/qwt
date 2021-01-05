@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SAMPLING_THREAD
-#define SAMPLING_THREAD
+#pragma once
 
 #include <QwtSamplingThread>
 
@@ -31,5 +30,3 @@ class SamplingThread : public QwtSamplingThread
     double m_frequency;
     double m_amplitude;
 };
-
-#endif

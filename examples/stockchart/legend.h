@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef LEGEND_H
-#define LEGEND_H
+#pragma once
 
 #include <QwtAbstractLegend>
 
@@ -43,5 +42,3 @@ class Legend : public QwtAbstractLegend
 
     LegendTreeView* m_treeView;
 };
-
-#endif

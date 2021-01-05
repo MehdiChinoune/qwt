@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SIGNAL_DATA_H
-#define SIGNAL_DATA_H
+#pragma once
 
 #include <QRect>
 
@@ -34,5 +33,3 @@ class SignalData
     class PrivateData;
     PrivateData* m_data;
 };
-
-#endif

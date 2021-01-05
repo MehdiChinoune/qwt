@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CURVE_TRACKER_H
-#define CURVE_TRACKER_H
+#pragma once
 
 #include <QwtPlotPicker>
 
@@ -24,5 +23,3 @@ class CurveTracker : public QwtPlotPicker
     QString curveInfoAt( const QwtPlotCurve*, const QPointF& ) const;
     QLineF curveLineAt( const QwtPlotCurve*, double x ) const;
 };
-
-#endif

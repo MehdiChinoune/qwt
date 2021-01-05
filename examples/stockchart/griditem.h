@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef GRID_ITEM_H
-#define GRID_ITEM_H
+#pragma once
 
 #include <QwtPlotItem>
 #include <QwtScaleDiv>
@@ -71,5 +70,3 @@ class GridItem : public QwtPlotItem
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( GridItem::GridAttributes )
-
-#endif

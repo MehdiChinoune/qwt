@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -38,5 +37,3 @@ class MainWindow : public QWidget
 
     Plot* m_plot;
 };
-
-#endif

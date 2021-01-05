@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SCROLLZOOMER_H
-#define SCROLLZOOMER_H
+#pragma once
 
 #include <QwtPlotZoomer>
 #include <QwtPlot>
@@ -67,5 +66,3 @@ class ScrollZoomer : public QwtPlotZoomer
     bool m_inZoom;
     bool m_alignCanvasToScales[ QwtPlot::axisCnt ];
 };
-
-#endif

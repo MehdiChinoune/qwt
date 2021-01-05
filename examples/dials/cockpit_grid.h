@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef COCKPIT_GRID
-#define COCKPIT_GRID
+#pragma once
 
 #include <QFrame>
 #include <QPalette>
@@ -34,5 +33,3 @@ class CockpitGrid : public QFrame
     SpeedoMeter* m_speedo;
     AttitudeIndicator* m_ai;
 };
-
-#endif

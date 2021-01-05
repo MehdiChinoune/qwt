@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef KNOB_H
-#define KNOB_H
+#pragma once
 
 #include <QwtGlobal>
 #include <QWidget>
@@ -40,5 +39,3 @@ class Knob : public QWidget
     QwtKnob* m_knob;
     QLabel* m_label;
 };
-
-#endif

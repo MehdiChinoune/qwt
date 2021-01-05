@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef SLIDER_TAB_H
-#define SLIDER_TAB_H
+#pragma once
 
 #include <QWidget>
 
@@ -23,5 +22,3 @@ class SliderTab : public QWidget
     QBoxLayout* createLayout( Qt::Orientation,
         QWidget* widget = NULL );
 };
-
-#endif

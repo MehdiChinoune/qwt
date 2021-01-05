@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
 
 #include <QString>
 
@@ -48,5 +47,3 @@ class Settings
         QString title;
     } curve;
 };
-
-#endif

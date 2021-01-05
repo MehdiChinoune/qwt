@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CIRCULAR_BUFFER_H
-#define CIRCULAR_BUFFER_H
+#pragma once
 
 #include <QwtSeriesData>
 #include <QVector>
@@ -36,5 +35,3 @@ class CircularBuffer : public QwtSeriesData< QPointF >
     int m_startIndex;
     double m_offset;
 };
-
-#endif

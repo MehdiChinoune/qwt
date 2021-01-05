@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SCALE_PICKER_H
-#define SCALE_PICKER_H
+#pragma once
 
 #include <QwtGlobal>
 
@@ -29,5 +28,3 @@ class ScalePicker : public QObject
     void mouseClicked( const QwtScaleWidget*, const QPoint& );
     QRect scaleRect( const QwtScaleWidget* ) const;
 };
-
-#endif

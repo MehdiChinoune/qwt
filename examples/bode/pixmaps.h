@@ -1,5 +1,4 @@
-#ifndef PIXMAPS_H
-#define PIXMAPS_H
+#pragma once
 
 static const char* print_xpm[] =
 {
@@ -95,5 +94,3 @@ static const char* zoom_xpm[] =
     "...#aaaaaaaaaaaaaaaaaaaaaa#.####",
     "...########################..##."
 };
-
-#endif

@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef COMPASS_GRID
-#define COMPASS_GRID
+#pragma once
 
 #include <QFrame>
 
@@ -18,5 +17,3 @@ class CompassGrid : public QFrame
   private:
     QwtCompass* createCompass( int pos );
 };
-
-#endif

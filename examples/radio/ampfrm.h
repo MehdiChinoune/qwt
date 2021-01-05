@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef AMP_FRAME_H
-#define AMP_FRAME_H
+#pragma once
 
 #include <QwtGlobal>
 #include <QFrame>
@@ -37,5 +36,3 @@ class AmpFrame : public QFrame
     Thermo* m_thmRight;
     double m_master;
 };
-
-#endif

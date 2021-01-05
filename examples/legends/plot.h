@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PLOT_H
-#define PLOT_H
+#pragma once
 
 #include <QwtPlot>
 
@@ -33,5 +32,3 @@ class Plot : public QwtPlot
     LegendItem* m_legendItem;
     bool m_isDirty;
 };
-
-#endif

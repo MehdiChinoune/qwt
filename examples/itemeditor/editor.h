@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef EDITOR_H
-#define EDITOR_H
+#pragma once
 
 #include <QwtGlobal>
 
@@ -70,5 +69,3 @@ class Editor : public QObject
 
     Mode m_mode;
 };
-
-#endif

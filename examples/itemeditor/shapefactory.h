@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SHAPE_FACTORY_H
-#define SHAPE_FACTORY_H
+#pragma once
 
 class QPainterPath;
 class QPointF;
@@ -24,5 +23,3 @@ namespace ShapeFactory
 
     QPainterPath path( Shape, const QPointF&, const QSizeF& );
 }
-
-#endif

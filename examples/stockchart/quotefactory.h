@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef QUOTE_FACTORY_H
-#define QUOTE_FACTORY_H
+#pragma once
 
 #include <QtGlobal>
 
@@ -29,5 +28,3 @@ namespace QuoteFactory
     QVector< QwtOHLCSample > samples2010( Stock );
     QString title( Stock );
 }
-
-#endif

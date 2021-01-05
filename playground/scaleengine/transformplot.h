@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef TRANSFORM_PLOT_H
-#define TRANSFORM_PLOT_H
+#pragma once
 
 #include <QwtPlot>
 
@@ -29,5 +28,3 @@ class TransformPlot : public QwtPlot
 
   private:
 };
-
-#endif

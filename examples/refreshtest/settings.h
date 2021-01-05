@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#pragma once
 
 #include <QPen>
 #include <QBrush>
@@ -79,5 +78,3 @@ class Settings
     UpdateType updateType;
     int updateInterval;
 };
-
-#endif

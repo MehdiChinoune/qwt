@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -45,5 +44,3 @@ class MainWindow : public QMainWindow
     QwtPlotPicker* m_picker;
     QwtPlotPanner* m_panner;
 };
-
-#endif

@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef KNOB_TAB_H
-#define KNOB_TAB_H
+#pragma once
 
 #include <QWidget>
 
@@ -17,5 +16,3 @@ class KnobTab : public QWidget
   public:
     KnobTab( QWidget* parent = NULL );
 };
-
-#endif

@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SPEEDO_METER
-#define SPEEDO_METER
+#pragma once
 
 #include <QString>
 #include <QwtDial>
@@ -24,5 +23,3 @@ class SpeedoMeter : public QwtDial
   private:
     QString m_label;
 };
-
-#endif

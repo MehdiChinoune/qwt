@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef TV_PLOT_H
-#define TV_PLOT_H
+#pragma once
 
 #include <QwtPlot>
 
@@ -25,5 +24,3 @@ class TVPlot : public QwtPlot
   private Q_SLOTS:
     void showItem( const QVariant&, bool on );
 };
-
-#endif

@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef SETTINGS_EDITOR_H
-#define SETTINGS_EDITOR_H
+#pragma once
 
 #include "plot.h"
 #include <QFrame>
@@ -33,5 +32,3 @@ class SettingsEditor : public QFrame
 
     QCheckBox* m_checkBox[PlotSettings::NumFlags];
 };
-
-#endif

@@ -7,8 +7,7 @@
 * modify it under the terms of the Qwt License, Version 1.0
 *****************************************************************************/
 
-#ifndef KNOB_BOX_H_
-#define KNOB_BOX_H_
+#pragma once
 
 #include <QWidget>
 
@@ -30,5 +29,3 @@ class KnobBox : public QWidget
     QwtKnob* m_knob;
     QLabel* m_label;
 };
-
-#endif

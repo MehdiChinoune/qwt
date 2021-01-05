@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef PANEL_H
-#define PANEL_H
+#pragma once
 
 #include "settings.h"
 #include <QTabWidget>
@@ -55,5 +54,3 @@ class Panel : public QTabWidget
     QComboBox* m_curvePen;
     CheckBox* m_curveFilled;
 };
-
-#endif

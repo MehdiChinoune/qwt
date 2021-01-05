@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CPU_PIE_MARKER_H
-#define CPU_PIE_MARKER_H
+#pragma once
 
 #include <QwtPlotItem>
 
@@ -19,5 +18,3 @@ class CpuPieMarker : public QwtPlotItem
         const QwtScaleMap&, const QwtScaleMap&,
         const QRectF& ) const QWT_OVERRIDE;
 };
-
-#endif

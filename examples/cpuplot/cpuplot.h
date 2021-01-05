@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CPU_PLOT_H
-#define CPU_PLOT_H
+#pragma once
 
 #include "cpustat.h"
 #include <QwtPlot>
@@ -53,5 +52,3 @@ class CpuPlot : public QwtPlot
     int dataCount;
     CpuStat cpuStat;
 };
-
-#endif

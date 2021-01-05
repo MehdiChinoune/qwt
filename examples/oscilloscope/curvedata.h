@@ -3,8 +3,7 @@
 * This file may be used under the terms of the 3-clause BSD License
 *****************************************************************************/
 
-#ifndef CURVE_DATA
-#define CURVE_DATA
+#pragma once
 
 #include <QwtSeriesData>
 
@@ -21,5 +20,3 @@ class CurveData : public QwtSeriesData< QPointF >
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 };
-
-#endif
