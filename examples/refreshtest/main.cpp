@@ -16,20 +16,13 @@
 #include <qgl.h>
 #endif
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-#if USE_OPENGL
-    // on my box QPaintEngine::OpenGL2 has serious problems, f.e:
-    // the lines of a simple drawRect are wrong.
+    QApplication app( argc, argv );
 
-    QGL::setPreferredPaintEngine( QPaintEngine::OpenGL );
-#endif
+    MainWindow window;
+    window.resize( 600, 400 );
+    window.show();
 
-    QApplication a( argc, argv );
-
-    MainWindow mainWindow;
-    mainWindow.resize( 600, 400 );
-    mainWindow.show();
-
-    return a.exec();
+    return app.exec();
 }

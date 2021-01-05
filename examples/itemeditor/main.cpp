@@ -44,12 +44,11 @@ namespace
             toolBar->addWidget( modeBox );
             toolBar->addWidget( btnExport );
             addToolBar( toolBar );
-
         }
     };
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 

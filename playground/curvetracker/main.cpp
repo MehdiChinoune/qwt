@@ -6,13 +6,13 @@
 #include "Plot.h"
 #include <QApplication>
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
     Plot plot;
     plot.resize( 600, 400 );
     plot.show();
 
-    return a.exec();
+    return app.exec();
 }

@@ -15,22 +15,22 @@
 #include <QLabel>
 #include <QCheckBox>
 
-class MainWindow : public QMainWindow
+namespace
 {
-  public:
-    MainWindow( QWidget* = NULL );
-
-  private:
-    Plot* d_plot;
-};
+    class MainWindow : public QMainWindow
+    {
+      public:
+        MainWindow( QWidget* = NULL );
+    };
+}
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
 {
-    d_plot = new Plot( this );
-    d_plot->setContentsMargins( 0, 5, 0, 10 );
+    Plot* plot = new Plot( this );
+    plot->setContentsMargins( 0, 5, 0, 10 );
 
-    setCentralWidget( d_plot );
+    setCentralWidget( plot );
 
     QToolBar* toolBar = new QToolBar( this );
 
@@ -39,8 +39,7 @@ MainWindow::MainWindow( QWidget* parent )
     btnPrint->setText( "Print" );
     btnPrint->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     toolBar->addWidget( btnPrint );
-    connect( btnPrint, SIGNAL(clicked()),
-        d_plot, SLOT(printPlot()) );
+    connect( btnPrint, SIGNAL(clicked()), plot, SLOT(printPlot()) );
 
     toolBar->addSeparator();
 #endif
@@ -58,7 +57,7 @@ MainWindow::MainWindow( QWidget* parent )
     toolBar->addWidget( mapBox );
 
     connect( mapBox, SIGNAL(currentIndexChanged(int)),
-        d_plot, SLOT(setColorMap(int)) );
+        plot, SLOT(setColorMap(int)) );
 
     toolBar->addWidget( new QLabel("Table " ) );
 
@@ -70,14 +69,13 @@ MainWindow::MainWindow( QWidget* parent )
     toolBar->addWidget( colorTableBox );
 
     connect( colorTableBox, SIGNAL(currentIndexChanged(int)),
-        d_plot, SLOT(setColorTableSize(int)) );
+        plot, SLOT(setColorTableSize(int)) );
 
     toolBar->addWidget( new QLabel( " Opacity " ) );
     QSlider* slider = new QSlider( Qt::Horizontal );
     slider->setRange( 0, 255 );
     slider->setValue( 255 );
-    connect( slider, SIGNAL(valueChanged(int)),
-        d_plot, SLOT(setAlpha(int)) );
+    connect( slider, SIGNAL(valueChanged(int)), plot, SLOT(setAlpha(int)) );
 
     toolBar->addWidget( slider );
     toolBar->addWidget( new QLabel("   " ) );
@@ -85,31 +83,31 @@ MainWindow::MainWindow( QWidget* parent )
     QCheckBox* btnSpectrogram = new QCheckBox( "Spectrogram", toolBar );
     toolBar->addWidget( btnSpectrogram );
     connect( btnSpectrogram, SIGNAL(toggled(bool)),
-        d_plot, SLOT(showSpectrogram(bool)) );
+        plot, SLOT(showSpectrogram(bool)) );
 
     QCheckBox* btnContour = new QCheckBox( "Contour", toolBar );
     toolBar->addWidget( btnContour );
     connect( btnContour, SIGNAL(toggled(bool)),
-        d_plot, SLOT(showContour(bool)) );
+        plot, SLOT(showContour(bool)) );
 
     addToolBar( toolBar );
 
     btnSpectrogram->setChecked( true );
     btnContour->setChecked( false );
 
-    connect( d_plot, SIGNAL(rendered(const QString&)),
+    connect( plot, SIGNAL(rendered(const QString&)),
         statusBar(), SLOT(showMessage(const QString&)),
         Qt::QueuedConnection );
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
-    a.setStyle( "Windows" );
+    QApplication app( argc, argv );
+    app.setStyle( "Windows" );
 
-    MainWindow mainWindow;
-    mainWindow.resize( 600, 400 );
-    mainWindow.show();
+    MainWindow window;
+    window.resize( 600, 400 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }

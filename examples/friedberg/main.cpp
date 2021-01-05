@@ -49,14 +49,14 @@ namespace
     };
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
-    MainWindow w;
-    w.setObjectName( "MainWindow" );
-    w.resize( 600, 400 );
-    w.show();
+    MainWindow window;
+    window.setObjectName( "MainWindow" );
+    window.resize( 600, 400 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }

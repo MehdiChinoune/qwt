@@ -11,9 +11,9 @@
 
 #include <QApplication>
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
     QwtPlot plot;
     plot.setTitle( "Plot Demo" );
@@ -44,5 +44,5 @@ int main( int argc, char** argv )
     plot.resize( 600, 400 );
     plot.show();
 
-    return a.exec();
+    return app.exec();
 }

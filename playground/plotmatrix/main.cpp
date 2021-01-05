@@ -12,11 +12,14 @@
 
 #include <QApplication>
 
-class MainWindow : public PlotMatrix
+namespace
 {
-  public:
-    MainWindow();
-};
+    class MainWindow : public PlotMatrix
+    {
+      public:
+        MainWindow();
+    };
+}
 
 MainWindow::MainWindow()
     : PlotMatrix( 3, 4 )
@@ -62,7 +65,7 @@ MainWindow::MainWindow()
     updateLayout();
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
     QApplication app( argc, argv );
 

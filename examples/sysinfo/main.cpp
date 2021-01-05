@@ -122,14 +122,13 @@ class SysInfo : public QFrame
     }
 };
 
-int main ( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
     SysInfo info;
     info.resize( info.sizeHint().expandedTo( QSize( 600, 400 ) ) );
     info.show();
 
-    int rv = a.exec();
-    return rv;
+    return app.exec();
 }

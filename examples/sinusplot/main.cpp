@@ -25,67 +25,69 @@
 //      on the fly.
 //-----------------------------------------------------------------
 
-class FunctionData : public QwtSyntheticPointData
+namespace
 {
-  public:
-    FunctionData( double( *fy )( double ) )
-        : QwtSyntheticPointData( 100 ),
-        d_y( fy )
+    class FunctionData : public QwtSyntheticPointData
     {
-    }
+      public:
+        FunctionData( double( *fy )( double ) )
+            : QwtSyntheticPointData( 100 ),
+            d_y( fy )
+        {
+        }
 
-    virtual double y( double x ) const QWT_OVERRIDE
+        virtual double y( double x ) const QWT_OVERRIDE
+        {
+            return d_y( x );
+        }
+
+      private:
+        double ( * d_y )( double );
+    };
+
+    class ArrowSymbol : public QwtSymbol
     {
-        return d_y( x );
-    }
+      public:
+        ArrowSymbol()
+        {
+            QPen pen( Qt::black, 0 );
+            pen.setJoinStyle( Qt::MiterJoin );
 
-  private:
-    double ( * d_y )( double );
-};
+            setPen( pen );
+            setBrush( Qt::red );
 
-class ArrowSymbol : public QwtSymbol
-{
-  public:
-    ArrowSymbol()
+            QPainterPath path;
+            path.moveTo( 0, 8 );
+            path.lineTo( 0, 5 );
+            path.lineTo( -3, 5 );
+            path.lineTo( 0, 0 );
+            path.lineTo( 3, 5 );
+            path.lineTo( 0, 5 );
+
+            QTransform transform;
+            transform.rotate( -30.0 );
+            path = transform.map( path );
+
+            setPath( path );
+            setPinPoint( QPointF( 0, 0 ) );
+
+            setSize( 10, 14 );
+        }
+    };
+
+    class Plot : public QwtPlot
     {
-        QPen pen( Qt::black, 0 );
-        pen.setJoinStyle( Qt::MiterJoin );
+      public:
+        Plot( QWidget* parent = NULL );
 
-        setPen( pen );
-        setBrush( Qt::red );
+      protected:
+        virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
-        QPainterPath path;
-        path.moveTo( 0, 8 );
-        path.lineTo( 0, 5 );
-        path.lineTo( -3, 5 );
-        path.lineTo( 0, 0 );
-        path.lineTo( 3, 5 );
-        path.lineTo( 0, 5 );
-
-        QTransform transform;
-        transform.rotate( -30.0 );
-        path = transform.map( path );
-
-        setPath( path );
-        setPinPoint( QPointF( 0, 0 ) );
-
-        setSize( 10, 14 );
-    }
-};
-
-class Plot : public QwtPlot
-{
-  public:
-    Plot( QWidget* parent = NULL );
-
-  protected:
-    virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
-
-  private:
-    void populate();
-    void updateGradient();
-};
-
+      private:
+        void populate();
+        void updateGradient();
+    };
+}
 
 Plot::Plot( QWidget* parent )
     : QwtPlot( parent )
@@ -200,9 +202,9 @@ void Plot::resizeEvent( QResizeEvent* event )
     updateGradient();
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
     Plot* plot = new Plot();
 
@@ -211,6 +213,7 @@ int main( int argc, char** argv )
     // when resizing
 
     QWidget window;
+
     QHBoxLayout* layout = new QHBoxLayout( &window );
     layout->setContentsMargins( 0, 0, 0, 0 );
     layout->addWidget( plot );
@@ -218,5 +221,5 @@ int main( int argc, char** argv )
     window.resize( 600, 400 );
     window.show();
 
-    return a.exec();
+    return app.exec();
 }

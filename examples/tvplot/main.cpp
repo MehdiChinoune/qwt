@@ -53,14 +53,14 @@ MainWindow::MainWindow( QWidget* parent )
         d_plot, SLOT(setMode(int)) );
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
-    MainWindow mainWindow;
+    MainWindow window;
 
-    mainWindow.resize( 600, 400 );
-    mainWindow.show();
+    window.resize( 600, 400 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }

@@ -18,16 +18,14 @@ namespace
       public:
         MainWindow( QWidget* = NULL );
 
-      private:
-        BarChart* d_chart;
     };
 }
 
 MainWindow::MainWindow( QWidget* parent )
     : QMainWindow( parent )
 {
-    d_chart = new BarChart( this );
-    setCentralWidget( d_chart );
+    BarChart* chart = new BarChart( this );
+    setCentralWidget( chart );
 
     QToolBar* toolBar = new QToolBar( this );
 
@@ -39,31 +37,31 @@ MainWindow::MainWindow( QWidget* parent )
     QToolButton* btnExport = new QToolButton( toolBar );
     btnExport->setText( "Export" );
     btnExport->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-    connect( btnExport, SIGNAL(clicked()), d_chart, SLOT(exportChart()) );
+    connect( btnExport, SIGNAL(clicked()), chart, SLOT(exportChart()) );
 
     QToolButton* btnScreenshot = new QToolButton( toolBar );
     btnScreenshot->setText( "Screenshot" );
     btnScreenshot->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
-    connect( btnScreenshot, SIGNAL(clicked()), d_chart, SLOT(doScreenShot()) );
+    connect( btnScreenshot, SIGNAL(clicked()), chart, SLOT(doScreenShot()) );
 
     toolBar->addWidget( orientationBox );
     toolBar->addWidget( btnExport );
     toolBar->addWidget( btnScreenshot );
     addToolBar( toolBar );
 
-    d_chart->setOrientation( orientationBox->currentIndex() );
+    chart->setOrientation( orientationBox->currentIndex() );
     connect( orientationBox, SIGNAL(currentIndexChanged(int)),
-        d_chart, SLOT(setOrientation(int)) );
+        chart, SLOT(setOrientation(int)) );
 }
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
-    MainWindow mainWindow;
+    MainWindow window;
 
-    mainWindow.resize( 600, 400 );
-    mainWindow.show();
+    window.resize( 600, 400 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }

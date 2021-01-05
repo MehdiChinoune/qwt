@@ -6,14 +6,14 @@
 #include "MainWindow.h"
 #include <QApplication>
 
-int main( int argc, char** argv )
+int main( int argc, char* argv[] )
 {
-    QApplication a( argc, argv );
+    QApplication app( argc, argv );
 
-    MainWindow mainWindow;
-    mainWindow.resize( 800, 600 );
-    mainWindow.show();
+    MainWindow window;
+    window.resize( 800, 600 );
+    window.show();
 
-    return a.exec();
+    return app.exec();
 }
 

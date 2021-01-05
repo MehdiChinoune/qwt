@@ -153,73 +153,85 @@ class MySymbol : public QwtSymbol
     }
 };
 
-int main( int argc, char** argv )
+class Plot : public QwtPlot
 {
-    QApplication a( argc, argv );
-
-    QwtPlot plot;
-    plot.setTitle( "Plot Demo" );
-    plot.setCanvasBackground( Qt::white );
-
-    plot.setAxisScale( QwtPlot::xBottom, -1.0, 6.0 );
-
-    QwtLegend* legend = new QwtLegend();
-    plot.insertLegend( legend );
-
-    for ( int i = 0; i < 4; i++ )
+  public:
+    Plot()
     {
-        QwtPlotCurve* curve = new QwtPlotCurve();
-        curve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
-        curve->setPen( Qt::blue );
+        setTitle( "Plot Demo" );
+        setCanvasBackground( Qt::white );
 
-        QBrush brush;
-        QwtSymbol::Style style = QwtSymbol::NoSymbol;
-        QString title;
-        if ( i == 0 )
-        {
-            brush = Qt::magenta;
-            style = QwtSymbol::Path;
-            title = "Path";
-        }
-        else if ( i == 2 )
-        {
-            brush = Qt::red;
-            style = QwtSymbol::Graphic;
-            title = "Graphic";
-        }
-        else if ( i == 1 )
-        {
-            brush = Qt::yellow;
-            style = QwtSymbol::SvgDocument;
-            title = "Svg";
-        }
-        else if ( i == 3 )
-        {
-            brush = Qt::cyan;
-            style = QwtSymbol::Pixmap;
-            title = "Pixmap";
-        }
+        setAxisScale( QwtPlot::xBottom, -1.0, 6.0 );
 
-        MySymbol* symbol = new MySymbol( style, brush );
+        QwtLegend* legend = new QwtLegend();
+        insertLegend( legend );
 
-        curve->setSymbol( symbol );
-        curve->setTitle( title );
-        curve->setLegendAttribute( QwtPlotCurve::LegendShowSymbol, true );
-        curve->setLegendIconSize( QSize( 15, 18 ) );
-
-        QPolygonF points;
-        points << QPointF( 0.0, 4.4 ) << QPointF( 1.0, 3.0 )
-               << QPointF( 2.0, 4.5 ) << QPointF( 3.0, 6.8 )
-               << QPointF( 4.0, 7.9 ) << QPointF( 5.0, 7.1 );
-
-        points.translate( 0.0, i * 2.0 );
-
-        curve->setSamples( points );
-        curve->attach( &plot );
+        populate();
     }
 
+    void populate()
+    {
+        for ( int i = 0; i < 4; i++ )
+        {
+            QwtPlotCurve* curve = new QwtPlotCurve();
+            curve->setRenderHint( QwtPlotItem::RenderAntialiased, true );
+            curve->setPen( Qt::blue );
+
+            QBrush brush;
+            QwtSymbol::Style style = QwtSymbol::NoSymbol;
+            QString title;
+            if ( i == 0 )
+            {
+                brush = Qt::magenta;
+                style = QwtSymbol::Path;
+                title = "Path";
+            }
+            else if ( i == 2 )
+            {
+                brush = Qt::red;
+                style = QwtSymbol::Graphic;
+                title = "Graphic";
+            }
+            else if ( i == 1 )
+            {
+                brush = Qt::yellow;
+                style = QwtSymbol::SvgDocument;
+                title = "Svg";
+            }
+            else if ( i == 3 )
+            {
+                brush = Qt::cyan;
+                style = QwtSymbol::Pixmap;
+                title = "Pixmap";
+            }
+
+            MySymbol* symbol = new MySymbol( style, brush );
+
+            curve->setSymbol( symbol );
+            curve->setTitle( title );
+            curve->setLegendAttribute( QwtPlotCurve::LegendShowSymbol, true );
+            curve->setLegendIconSize( QSize( 15, 18 ) );
+
+            QPolygonF points;
+            points << QPointF( 0.0, 4.4 ) << QPointF( 1.0, 3.0 )
+                   << QPointF( 2.0, 4.5 ) << QPointF( 3.0, 6.8 )
+                   << QPointF( 4.0, 7.9 ) << QPointF( 5.0, 7.1 );
+
+            points.translate( 0.0, i * 2.0 );
+
+            curve->setSamples( points );
+            curve->attach( this );
+        }
+    }
+};
+
+int main( int argc, char* argv[] )
+{
+    QApplication app( argc, argv );
+
+    Plot plot;
     plot.resize( 600, 400 );
     plot.show();
 
-    return a.exec();
+    return app.exec();
 }
