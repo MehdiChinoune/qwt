@@ -103,3 +103,4 @@ QwtPlotOpenGLCanvas added to support rendering to a QOpenGLWidget
 
 	- qwtGetMin/qwtGetMax
 	  Removed
+ */

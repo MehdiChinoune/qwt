@@ -73,7 +73,6 @@ class QPolygon;
     picker->setTrackerMode(QwtPicker::ActiveOnly);
     picker->setRubberBand(QwtPicker::RectRubberBand);
    \endcode
-   \endpar
 
    The state machine triggers the following commands:
 

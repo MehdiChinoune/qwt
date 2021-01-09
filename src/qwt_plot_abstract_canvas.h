@@ -15,6 +15,9 @@
 
 class QwtPlot;
 
+/*!
+   \brief Base class for all type of plot canvases
+ */
 class QWT_EXPORT QwtPlotAbstractCanvas
 {
   public:
@@ -68,7 +71,7 @@ class QWT_EXPORT QwtPlotAbstractCanvas
     void drawStyled( QPainter*, bool );
     void drawUnstyled( QPainter* );
 
-    QPainterPath borderPath2( const QRect& rect ) const;
+    QPainterPath canvasBorderPath( const QRect& rect ) const;
     void updateStyleSheetInfo();
 
   private:
@@ -78,6 +81,9 @@ class QWT_EXPORT QwtPlotAbstractCanvas
     PrivateData* m_data;
 };
 
+/*!
+   \brief Base class of QwtPlotOpenGLCanvas and QwtPlotGLCanvas
+ */
 class QWT_EXPORT QwtPlotAbstractGLCanvas : public QwtPlotAbstractCanvas
 {
   public:

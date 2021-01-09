@@ -17,6 +17,20 @@
 
 class QwtPlot;
 
+/*!
+   \brief An alternative canvas for a QwtPlot derived from QOpenGLWidget
+    
+   Even if QwtPlotOpenGLCanvas is not derived from QFrame it imitates
+   its API. When using style sheets it supports the box model - beside
+   backgrounds with rounded borders. 
+
+   \sa QwtPlot::setCanvas(), QwtPlotCanvas, QwtPlotCanvas::OpenGLBuffer
+
+   \note Another way for getting hardware accelerated graphics is using
+        an OpenGL offscreen buffer ( QwtPlotCanvas::OpenGLBuffer ) with QwtPlotCanvas.
+        Performance is worse, than rendering straight to a QOpenGLWidget, but is usually
+        better integrated into a desktop application.
+ */
 class QWT_EXPORT QwtPlotOpenGLCanvas : public QOpenGLWidget, public QwtPlotAbstractGLCanvas
 {
     Q_OBJECT

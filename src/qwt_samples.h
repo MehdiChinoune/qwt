@@ -170,7 +170,6 @@ class QWT_EXPORT QwtOHLCSample
     double close;
 };
 
-
 /*!
    Constructor
 
@@ -233,6 +232,14 @@ inline QwtInterval QwtOHLCSample::boundingInterval() const
     return QwtInterval( minY, maxY );
 }
 
+/*!
+   \brief Sample used in vector fields
+
+   A vector field sample is a position and a vector - usually
+   representing some direction and magnitude - attached to this position.
+
+   \sa QwtVectorFieldData
+ */
 class QWT_EXPORT QwtVectorFieldSample
 {
   public:
@@ -246,36 +253,59 @@ class QWT_EXPORT QwtVectorFieldSample
 
     bool isNull() const;
 
+    //! x coordinate of the position
     double x;
+
+    //! y coordinate of the position
     double y;
 
+    //! x coordinate of the vector
     double vx;
+
+    //! y coordinate of the vector
     double vy;
 };
 
+/*!
+   \brief Constructor
+
+   \param posX x coordinate of the position
+   \param posY y coordinate of the position
+   \param vectorX x coordinate of the vector
+   \param vectorY y coordinate of the vector
+ */
 inline QwtVectorFieldSample::QwtVectorFieldSample(
-    double posX, double posY, double vectorX, double vectorY ):
-    x( posX ),
-    y( posY ),
-    vx( vectorX ),
-    vy( vectorY )
+        double posX, double posY, double vectorX, double vectorY )
+    : x( posX )
+    , y( posY )
+    , vx( vectorX )
+    , vy( vectorY )
 {
 }
 
+/*!
+   \brief Constructor
+
+   \param pos Position
+   \param vectorX x coordinate of the vector
+   \param vectorY y coordinate of the vector
+ */
 inline QwtVectorFieldSample::QwtVectorFieldSample(
-    const QPointF& pos, double vectorX, double vectorY ):
-    x( pos.x() ),
-    y( pos.y() ),
-    vx( vectorX ),
-    vy( vectorY )
+        const QPointF& pos, double vectorX, double vectorY )
+    : x( pos.x() )
+    , y( pos.y() )
+    , vx( vectorX )
+    , vy( vectorY )
 {
 }
 
+//! \return x/y coordinates as QPointF
 inline QPointF QwtVectorFieldSample::pos() const
 {
     return QPointF( x, y );
 }
 
+// \return true, if vx and vy are 0
 inline bool QwtVectorFieldSample::isNull() const
 {
     return ( vx == 0.0 ) && ( vy == 0.0 );

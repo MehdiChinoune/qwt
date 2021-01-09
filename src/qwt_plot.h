@@ -69,7 +69,6 @@ template< typename T > class QList;
       // finally, refresh the plot
       myPlot->replot();
     \endcode
-   \endpar
  */
 
 class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict

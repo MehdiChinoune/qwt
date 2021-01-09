@@ -41,10 +41,10 @@ Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtText )
 
 namespace
 {
-    class QwtTextEngineDict
+    class TextEngineDict
     {
       public:
-        static QwtTextEngineDict& dict();
+        static TextEngineDict& dict();
 
         void setTextEngine( QwtText::TextFormat, QwtTextEngine* );
 
@@ -53,8 +53,8 @@ namespace
             QwtText::TextFormat ) const;
 
       private:
-        QwtTextEngineDict();
-        ~QwtTextEngineDict();
+        TextEngineDict();
+        ~TextEngineDict();
 
         typedef QMap< int, QwtTextEngine* > EngineMap;
 
@@ -65,91 +65,91 @@ namespace
 
         EngineMap m_map;
     };
-}
 
-QwtTextEngineDict& QwtTextEngineDict::dict()
-{
-    static QwtTextEngineDict engineDict;
-    return engineDict;
-}
-
-QwtTextEngineDict::QwtTextEngineDict()
-{
-    m_map.insert( QwtText::PlainText, new QwtPlainTextEngine() );
-#ifndef QT_NO_RICHTEXT
-    m_map.insert( QwtText::RichText, new QwtRichTextEngine() );
-#endif
-}
-
-QwtTextEngineDict::~QwtTextEngineDict()
-{
-    for ( EngineMap::const_iterator it = m_map.constBegin();
-        it != m_map.constEnd(); ++it )
+    TextEngineDict& TextEngineDict::dict()
     {
-        const QwtTextEngine* textEngine = engine( it );
-        delete textEngine;
+        static TextEngineDict engineDict;
+        return engineDict;
     }
-}
 
-const QwtTextEngine* QwtTextEngineDict::textEngine( const QString& text,
-    QwtText::TextFormat format ) const
-{
-    if ( format == QwtText::AutoText )
+    TextEngineDict::TextEngineDict()
     {
-        for ( EngineMap::const_iterator it = m_map.begin();
-            it != m_map.end(); ++it )
+        m_map.insert( QwtText::PlainText, new QwtPlainTextEngine() );
+    #ifndef QT_NO_RICHTEXT
+        m_map.insert( QwtText::RichText, new QwtRichTextEngine() );
+    #endif
+    }
+
+    TextEngineDict::~TextEngineDict()
+    {
+        for ( EngineMap::const_iterator it = m_map.constBegin();
+            it != m_map.constEnd(); ++it )
         {
-            if ( it.key() != QwtText::PlainText )
-            {
-                const QwtTextEngine* e = engine( it );
-                if ( e && e->mightRender( text ) )
-                    return e;
-            }
+            const QwtTextEngine* textEngine = engine( it );
+            delete textEngine;
         }
     }
 
-    EngineMap::const_iterator it = m_map.find( format );
-    if ( it != m_map.end() )
+    const QwtTextEngine* TextEngineDict::textEngine( const QString& text,
+        QwtText::TextFormat format ) const
     {
-        const QwtTextEngine* e = engine( it );
-        if ( e )
-            return e;
+        if ( format == QwtText::AutoText )
+        {
+            for ( EngineMap::const_iterator it = m_map.begin();
+                it != m_map.end(); ++it )
+            {
+                if ( it.key() != QwtText::PlainText )
+                {
+                    const QwtTextEngine* e = engine( it );
+                    if ( e && e->mightRender( text ) )
+                        return e;
+                }
+            }
+        }
+
+        EngineMap::const_iterator it = m_map.find( format );
+        if ( it != m_map.end() )
+        {
+            const QwtTextEngine* e = engine( it );
+            if ( e )
+                return e;
+        }
+
+        it = m_map.find( QwtText::PlainText );
+        return engine( it );
     }
 
-    it = m_map.find( QwtText::PlainText );
-    return engine( it );
-}
-
-void QwtTextEngineDict::setTextEngine( QwtText::TextFormat format,
-    QwtTextEngine* engine )
-{
-    if ( format == QwtText::AutoText )
-        return;
-
-    if ( format == QwtText::PlainText && engine == NULL )
-        return;
-
-    EngineMap::const_iterator it = m_map.constFind( format );
-    if ( it != m_map.constEnd() )
+    void TextEngineDict::setTextEngine( QwtText::TextFormat format,
+        QwtTextEngine* engine )
     {
-        delete this->engine( it );
-        m_map.remove( format );
+        if ( format == QwtText::AutoText )
+            return;
+
+        if ( format == QwtText::PlainText && engine == NULL )
+            return;
+
+        EngineMap::const_iterator it = m_map.constFind( format );
+        if ( it != m_map.constEnd() )
+        {
+            delete this->engine( it );
+            m_map.remove( format );
+        }
+
+        if ( engine != NULL )
+            m_map.insert( format, engine );
     }
 
-    if ( engine != NULL )
-        m_map.insert( format, engine );
-}
+    const QwtTextEngine* TextEngineDict::textEngine(
+        QwtText::TextFormat format ) const
+    {
+        const QwtTextEngine* e = NULL;
 
-const QwtTextEngine* QwtTextEngineDict::textEngine(
-    QwtText::TextFormat format ) const
-{
-    const QwtTextEngine* e = NULL;
+        EngineMap::const_iterator it = m_map.find( format );
+        if ( it != m_map.end() )
+            e = engine( it );
 
-    EngineMap::const_iterator it = m_map.find( format );
-    if ( it != m_map.end() )
-        e = engine( it );
-
-    return e;
+        return e;
+    }
 }
 
 class QwtText::PrivateData
@@ -689,7 +689,7 @@ void QwtText::draw( QPainter* painter, const QRectF& rect ) const
 const QwtTextEngine* QwtText::textEngine( const QString& text,
     QwtText::TextFormat format )
 {
-    return QwtTextEngineDict::dict().textEngine( text, format );
+    return TextEngineDict::dict().textEngine( text, format );
 }
 
 /*!
@@ -708,7 +708,7 @@ const QwtTextEngine* QwtText::textEngine( const QString& text,
 void QwtText::setTextEngine( QwtText::TextFormat format,
     QwtTextEngine* engine )
 {
-    QwtTextEngineDict::dict().setTextEngine( format, engine );
+    TextEngineDict::dict().setTextEngine( format, engine );
 }
 
 /*!
@@ -721,7 +721,7 @@ void QwtText::setTextEngine( QwtText::TextFormat format,
  */
 const QwtTextEngine* QwtText::textEngine( QwtText::TextFormat format )
 {
-    return QwtTextEngineDict::dict().textEngine( format );
+    return TextEngineDict::dict().textEngine( format );
 }
 
 //! \return text().isNull()

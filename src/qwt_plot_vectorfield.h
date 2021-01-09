@@ -18,14 +18,32 @@ class QwtColorMap;
 class QPen;
 class QBrush;
 
+/*!
+    \brief A plot item, that represents a vector field
+
+    A vector field is a representation of a points with a given magnitude and direction
+    as arrows. While the direction affects the direction of the arrow, the magnitude
+    might be represented as a color or by the length of the arrow.
+
+    \sa QwtVectorFieldSymbol, QwtVectorFieldSample
+ */
 class QWT_EXPORT QwtPlotVectorField :
     public QwtPlotSeriesItem, public QwtSeriesStore< QwtVectorFieldSample >
 {
   public:
+    /*
+        Depending on the origin the indicator symbol ( usually an arrow )
+        will be to the position of the corresponding sample.
+     */
     enum IndicatorOrigin
     {
+        //! symbol points to the sample position
         OriginHead,
+
+        //! The arrow starts at the sample position
         OriginTail,
+
+        //! The arrow is centered at the sample position
         OriginCenter
     };
 
@@ -42,6 +60,10 @@ class QWT_EXPORT QwtPlotVectorField :
     //! Paint attributes
     typedef QFlags< PaintAttribute > PaintAttributes;
 
+    /*
+        Depending on the MagnitudeMode the magnitude component will have
+        an impact on the color or length of the symbol/arrow.
+     */
     enum MagnitudeMode
     {
         MagnitudeAsColor = 0x01,
@@ -85,7 +107,9 @@ class QWT_EXPORT QwtPlotVectorField :
 
     void setColorMap( QwtColorMap* );
     const QwtColorMap* colorMap() const;
-    void setMagnitudeRange( const QwtInterval& magnitudeRange);
+
+    void setMagnitudeRange( const QwtInterval& );
+    QwtInterval magnitudeRange() const;
 
     virtual double arrowLength( double magnitude ) const;
 

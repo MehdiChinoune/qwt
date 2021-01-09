@@ -124,11 +124,16 @@ bool QwtPlotGLCanvas::event( QEvent* event )
     return ok;
 }
 
+/*!
+   Invalidate the paint cache and repaint the canvas
+   \sa invalidatePaintCache()
+ */
 void QwtPlotGLCanvas::replot()
 {
     QwtPlotAbstractGLCanvas::replot();
 }
 
+//! Invalidate the internal backing store
 void QwtPlotGLCanvas::invalidateBackingStore()
 {
     m_data->fboDirty = true;
@@ -140,15 +145,26 @@ void QwtPlotGLCanvas::clearBackingStore()
     m_data->fbo = NULL;
 }
 
+/*!
+   Calculate the painter path for a styled or rounded border
+
+   When the canvas has no styled background or rounded borders
+   the painter path is empty.
+
+   \param rect Bounding rectangle of the canvas
+   \return Painter path, that can be used for clipping
+ */
 QPainterPath QwtPlotGLCanvas::borderPath( const QRect& rect ) const
 {
-    return borderPath2( rect );
+    return canvasBorderPath( rect );
 }
 
+//! No operation - reserved for some potential use in the future
 void QwtPlotGLCanvas::initializeGL()
 {
 }
 
+//! Paint the plot
 void QwtPlotGLCanvas::paintGL()
 {
     const bool hasFocusIndicator =
@@ -213,6 +229,7 @@ void QwtPlotGLCanvas::paintGL()
         drawFocusIndicator( &painter );
 }
 
+//! No operation - reserved for some potential use in the future
 void QwtPlotGLCanvas::resizeGL( int, int )
 {
     // nothing to do

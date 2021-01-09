@@ -40,7 +40,6 @@ class QwtText;
       titleItem->setText( title );
       titleItem->attach( plot );
     \endcode
-   \endpar
 
    \sa QwtPlotMarker
  */

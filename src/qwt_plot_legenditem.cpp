@@ -21,11 +21,11 @@
 
 namespace
 {
-    class QwtLegendLayoutItem QWT_FINAL : public QLayoutItem
+    class LayoutItem QWT_FINAL : public QLayoutItem
     {
       public:
-        QwtLegendLayoutItem( const QwtPlotLegendItem*, const QwtPlotItem* );
-        virtual ~QwtLegendLayoutItem();
+        LayoutItem( const QwtPlotLegendItem*, const QwtPlotItem* );
+        virtual ~LayoutItem();
 
         const QwtPlotItem* plotItem() const;
 
@@ -51,82 +51,82 @@ namespace
 
         QRect m_rect;
     };
-}
 
-QwtLegendLayoutItem::QwtLegendLayoutItem(
-        const QwtPlotLegendItem* legendItem, const QwtPlotItem* plotItem )
-    : m_legendItem( legendItem )
-    , m_plotItem( plotItem)
-{
-}
+    LayoutItem::LayoutItem(
+            const QwtPlotLegendItem* legendItem, const QwtPlotItem* plotItem )
+        : m_legendItem( legendItem )
+        , m_plotItem( plotItem)
+    {
+    }
 
-QwtLegendLayoutItem::~QwtLegendLayoutItem()
-{
-}
+    LayoutItem::~LayoutItem()
+    {
+    }
 
-const QwtPlotItem* QwtLegendLayoutItem::plotItem() const
-{
-    return m_plotItem;
-}
+    const QwtPlotItem* LayoutItem::plotItem() const
+    {
+        return m_plotItem;
+    }
 
-void QwtLegendLayoutItem::setData( const QwtLegendData& data )
-{
-    m_data = data;
-}
+    void LayoutItem::setData( const QwtLegendData& data )
+    {
+        m_data = data;
+    }
 
-const QwtLegendData& QwtLegendLayoutItem::data() const
-{
-    return m_data;
-}
+    const QwtLegendData& LayoutItem::data() const
+    {
+        return m_data;
+    }
 
-Qt::Orientations QwtLegendLayoutItem::expandingDirections() const
-{
-    return Qt::Horizontal;
-}
+    Qt::Orientations LayoutItem::expandingDirections() const
+    {
+        return Qt::Horizontal;
+    }
 
-bool QwtLegendLayoutItem::hasHeightForWidth() const
-{
-    return !m_data.title().isEmpty();
-}
+    bool LayoutItem::hasHeightForWidth() const
+    {
+        return !m_data.title().isEmpty();
+    }
 
-int QwtLegendLayoutItem::minimumHeightForWidth( int w ) const
-{
-    return m_legendItem->heightForWidth( m_data, w );
-}
+    int LayoutItem::minimumHeightForWidth( int w ) const
+    {
+        return m_legendItem->heightForWidth( m_data, w );
+    }
 
-int QwtLegendLayoutItem::heightForWidth( int w ) const
-{
-    return m_legendItem->heightForWidth( m_data, w );
-}
+    int LayoutItem::heightForWidth( int w ) const
+    {
+        return m_legendItem->heightForWidth( m_data, w );
+    }
 
-bool QwtLegendLayoutItem::isEmpty() const
-{
-    return false;
-}
+    bool LayoutItem::isEmpty() const
+    {
+        return false;
+    }
 
-QSize QwtLegendLayoutItem::maximumSize() const
-{
-    return QSize( QLAYOUTSIZE_MAX, QLAYOUTSIZE_MAX );
-}
+    QSize LayoutItem::maximumSize() const
+    {
+        return QSize( QLAYOUTSIZE_MAX, QLAYOUTSIZE_MAX );
+    }
 
-QSize QwtLegendLayoutItem::minimumSize() const
-{
-    return m_legendItem->minimumSize( m_data );
-}
+    QSize LayoutItem::minimumSize() const
+    {
+        return m_legendItem->minimumSize( m_data );
+    }
 
-QSize QwtLegendLayoutItem::sizeHint() const
-{
-    return minimumSize();
-}
+    QSize LayoutItem::sizeHint() const
+    {
+        return minimumSize();
+    }
 
-void QwtLegendLayoutItem::setGeometry( const QRect& rect )
-{
-    m_rect = rect;
-}
+    void LayoutItem::setGeometry( const QRect& rect )
+    {
+        m_rect = rect;
+    }
 
-QRect QwtLegendLayoutItem::geometry() const
-{
-    return m_rect;
+    QRect LayoutItem::geometry() const
+    {
+        return m_rect;
+    }
 }
 
 class QwtPlotLegendItem::PrivateData
@@ -167,7 +167,7 @@ class QwtPlotLegendItem::PrivateData
     int canvasOffset[2];
     Qt::Alignment canvasAlignment;
 
-    QMap< const QwtPlotItem*, QList< QwtLegendLayoutItem* > > map;
+    QMap< const QwtPlotItem*, QList< LayoutItem* > > map;
     QwtDynGridLayout* layout;
 };
 
@@ -603,8 +603,8 @@ void QwtPlotLegendItem::draw( QPainter* painter,
 
     for ( int i = 0; i < m_data->layout->count(); i++ )
     {
-        const QwtLegendLayoutItem* layoutItem =
-            static_cast< QwtLegendLayoutItem* >( m_data->layout->itemAt( i ) );
+        const LayoutItem* layoutItem =
+            static_cast< LayoutItem* >( m_data->layout->itemAt( i ) );
 
         if ( m_data->backgroundMode == QwtPlotLegendItem::ItemBackground )
             drawBackground( painter, layoutItem->geometry() );
@@ -700,9 +700,9 @@ void QwtPlotLegendItem::updateLegend( const QwtPlotItem* plotItem,
     if ( plotItem == NULL )
         return;
 
-    QList< QwtLegendLayoutItem* > layoutItems;
+    QList< LayoutItem* > layoutItems;
 
-    QMap< const QwtPlotItem*, QList< QwtLegendLayoutItem* > >::const_iterator it =
+    QMap< const QwtPlotItem*, QList< LayoutItem* > >::const_iterator it =
         m_data->map.constFind( plotItem );
     if ( it != m_data->map.constEnd() )
         layoutItems = it.value();
@@ -729,8 +729,8 @@ void QwtPlotLegendItem::updateLegend( const QwtPlotItem* plotItem,
 
             for ( int i = 0; i < data.size(); i++ )
             {
-                QwtLegendLayoutItem* layoutItem =
-                    new QwtLegendLayoutItem( this, plotItem );
+                LayoutItem* layoutItem =
+                    new LayoutItem( this, plotItem );
                 m_data->layout->addItem( layoutItem );
                 layoutItems += layoutItem;
             }
@@ -895,9 +895,9 @@ QList< const QwtPlotItem* > QwtPlotLegendItem::plotItems() const
 QList< QRect > QwtPlotLegendItem::legendGeometries(
     const QwtPlotItem* plotItem ) const
 {
-    QList< QwtLegendLayoutItem* > layoutItems;
+    QList< LayoutItem* > layoutItems;
 
-    QMap< const QwtPlotItem*, QList< QwtLegendLayoutItem* > >::const_iterator it =
+    QMap< const QwtPlotItem*, QList< LayoutItem* > >::const_iterator it =
         m_data->map.constFind( plotItem );
     if ( it != m_data->map.constEnd() )
         layoutItems = it.value();

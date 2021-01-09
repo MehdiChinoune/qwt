@@ -319,6 +319,14 @@ void QwtPlotVectorField::init()
     setZ( 20.0 );
 }
 
+/*
+   Assign a pen
+
+   \param pen New pen
+   \sa pen(), brush()
+
+   \note the pen is ignored in MagnitudeAsColor mode
+ */
 void QwtPlotVectorField::setPen( const QPen& pen )
 {
     if ( m_data->pen != pen )
@@ -330,11 +338,23 @@ void QwtPlotVectorField::setPen( const QPen& pen )
     }
 }
 
+/*!
+   \return Pen used to draw the lines
+   \sa setPen(), brush()
+ */
 QPen QwtPlotVectorField::pen() const
 {
     return m_data->pen;
 }
 
+/*!
+   \brief Assign a brush.
+
+   \param brush New brush
+   \sa brush(), pen()
+
+   \note the brush is ignored in MagnitudeAsColor mode
+ */
 void QwtPlotVectorField::setBrush( const QBrush& brush )
 {
     if ( m_data->brush != brush )
@@ -346,11 +366,21 @@ void QwtPlotVectorField::setBrush( const QBrush& brush )
     }
 }
 
+/*!
+   \return Brush used to fill the symbol
+   \sa setBrush(), pen()
+ */
 QBrush QwtPlotVectorField::brush() const
 {
     return m_data->brush;
 }
 
+/*!
+   Set the origin for the symbols/arrows
+
+   \param origin Origin
+   \sa indicatorOrigin()
+ */
 void QwtPlotVectorField::setIndicatorOrigin( IndicatorOrigin origin )
 {
     m_data->indicatorOrigin = origin;
@@ -361,6 +391,7 @@ void QwtPlotVectorField::setIndicatorOrigin( IndicatorOrigin origin )
     }
 }
 
+//! \return origin for the symbols/arrows
 QwtPlotVectorField::IndicatorOrigin QwtPlotVectorField::indicatorOrigin() const
 {
     return m_data->indicatorOrigin;
@@ -432,33 +463,6 @@ bool QwtPlotVectorField::testPaintAttribute(
 int QwtPlotVectorField::rtti() const
 {
     return QwtPlotItem::Rtti_PlotVectorField;
-}
-
-void QwtPlotVectorField::setMagnitudeMode( MagnitudeMode mode, bool on )
-{
-    if ( on == testMagnitudeMode( mode ) )
-        return;
-
-    if ( on )
-        m_data->magnitudeModes |= mode;
-    else
-        m_data->magnitudeModes &= ~mode;
-
-    itemChanged();
-}
-
-bool QwtPlotVectorField::testMagnitudeMode( MagnitudeMode mode ) const
-{
-    return m_data->magnitudeModes & mode;
-}
-
-void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
-{
-    if ( m_data->magnitudeModes != modes )
-    {
-        m_data->magnitudeModes = modes;
-        itemChanged();
-    }
 }
 
 /*!
@@ -546,22 +550,60 @@ const QwtColorMap* QwtPlotVectorField::colorMap() const
     return m_data->colorMap;
 }
 
+void QwtPlotVectorField::setMagnitudeMode( MagnitudeMode mode, bool on )
+{
+    if ( on == testMagnitudeMode( mode ) )
+        return;
+
+    if ( on )
+        m_data->magnitudeModes |= mode;
+    else
+        m_data->magnitudeModes &= ~mode;
+
+    itemChanged();
+}
+
+bool QwtPlotVectorField::testMagnitudeMode( MagnitudeMode mode ) const
+{
+    return m_data->magnitudeModes & mode;
+}
+
+void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
+{
+    if ( m_data->magnitudeModes != modes )
+    {
+        m_data->magnitudeModes = modes;
+        itemChanged();
+    }
+}
+
 /*!
    Sets the min/max magnitudes to be used for color map lookups.
+
    If invalid (min=max=0 or negative values), the range is determined from
    the current range of magnitudes in the vector samples.
  */
 void QwtPlotVectorField::setMagnitudeRange( const QwtInterval& magnitudeRange )
 {
-    m_data->magnitudeRange = magnitudeRange;
+    if ( m_data->magnitudeRange != magnitudeRange )
+    {
+        m_data->magnitudeRange = magnitudeRange;
+        itemChanged();
+    }
+}
+
+QwtInterval QwtPlotVectorField::magnitudeRange() const
+{
+    return m_data->magnitudeRange;
 }
 
 /*!
-   Computes length of the arrow in screen coordinate units based on
-   its magnitude. Default implementation simply scales the vector
-   using the magnitudeScaleFactor property.
+   Computes length of the arrow in screen coordinate units based on its magnitude.
+
+   Default implementation simply scales the vector using the magnitudeScaleFactor property.
    Re-implement this function to provide special handling for zero/non-zero
    magnitude arrows, or impose minimum/maximum arrow length limits.
+
    \return Length of arrow to be drawn in dependence of vector magnitude.
    \sa setMagnitudeScaleFactor
  */
@@ -576,9 +618,10 @@ double QwtPlotVectorField::arrowLength( double magnitude ) const
        will always lead to a reasonable display on screen.
      */
     const QwtVectorFieldData* vectorData = dynamic_cast< const QwtVectorFieldData* >( data() );
-    if (m_data->magnitudeRange.maxValue() > 0)
+    if ( m_data->magnitudeRange.maxValue() > 0 )
         magnitude /= m_data->magnitudeRange.maxValue();
 #endif
+
     double l = magnitude * m_data->magnitudeScaleFactor;
     if ( m_data->paintAttributes & LimitLength )
     {
@@ -604,6 +647,14 @@ QRectF QwtPlotVectorField::boundingRect() const
     return QwtPlotSeriesItem::boundingRect();
 }
 
+/*!
+   \return Icon representing the vector fiels on the legend
+
+   \param index Index of the legend entry ( ignored as there is only one )
+   \param size Icon size
+
+   \sa QwtPlotItem::setLegendIconSize(), QwtPlotItem::legendData()
+ */
 QwtGraphic QwtPlotVectorField::legendIcon(
     int index, const QSizeF& size ) const
 {

@@ -319,7 +319,7 @@ void QwtPlotCanvas::replot()
  */
 QPainterPath QwtPlotCanvas::borderPath( const QRect& rect ) const
 {
-    return borderPath2( rect );
+    return canvasBorderPath( rect );
 }
 
 #if QWT_MOC_INCLUDE

@@ -610,7 +610,7 @@ double QwtPlotAbstractCanvas::borderRadius() const
     return m_data->borderRadius;
 }
 
-QPainterPath QwtPlotAbstractCanvas::borderPath2( const QRect& rect ) const
+QPainterPath QwtPlotAbstractCanvas::canvasBorderPath( const QRect& rect ) const
 {
     return qwtBorderPath( canvasWidget(), rect );
 }
@@ -711,13 +711,13 @@ void QwtPlotAbstractCanvas::drawUnstyled( QPainter* painter )
             const int frameWidth = w->property( "frameWidth" ).toInt();
             if ( frameWidth > 0 )
             {
-                painter->setClipPath( borderPath2( canvasRect ) );
+                painter->setClipPath( canvasBorderPath( canvasRect ) );
                 painter->drawRect( canvasRect );
             }
             else
             {
                 painter->setRenderHint( QPainter::Antialiasing, true );
-                painter->drawPath( borderPath2( canvasRect ) );
+                painter->drawPath( canvasBorderPath( canvasRect ) );
             }
         }
         else
@@ -805,7 +805,7 @@ void QwtPlotAbstractCanvas::drawCanvas( QPainter* painter )
         if ( borderRadius() > 0.0 )
         {
             const QRect frameRect = w->property( "frameRect" ).toRect();
-            painter->setClipPath( borderPath2( frameRect ), Qt::IntersectClip );
+            painter->setClipPath( canvasBorderPath( frameRect ), Qt::IntersectClip );
         }
         else
         {

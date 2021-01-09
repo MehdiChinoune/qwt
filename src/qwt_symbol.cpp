@@ -957,7 +957,6 @@ QwtSymbol::CachePolicy QwtSymbol::cachePolicy() const
 
       setSize( 10, 14 );
     \endcode
-   \endpar
 
    \param path Painter path
 

@@ -22,7 +22,7 @@
 
 namespace
 {
-    class QwtLegendMap
+    class LegendMap
     {
       public:
         inline bool isEmpty() const { return d_entries.isEmpty(); }
@@ -50,79 +50,79 @@ namespace
 
         QList< Entry > d_entries;
     };
-}
 
-void QwtLegendMap::insert( const QVariant& itemInfo,
-    const QList< QWidget* >& widgets )
-{
-    for ( int i = 0; i < d_entries.size(); i++ )
+    void LegendMap::insert( const QVariant& itemInfo,
+        const QList< QWidget* >& widgets )
     {
-        Entry& entry = d_entries[i];
-        if ( entry.itemInfo == itemInfo )
+        for ( int i = 0; i < d_entries.size(); i++ )
         {
-            entry.widgets = widgets;
-            return;
+            Entry& entry = d_entries[i];
+            if ( entry.itemInfo == itemInfo )
+            {
+                entry.widgets = widgets;
+                return;
+            }
+        }
+
+        Entry newEntry;
+        newEntry.itemInfo = itemInfo;
+        newEntry.widgets = widgets;
+
+        d_entries += newEntry;
+    }
+
+    void LegendMap::remove( const QVariant& itemInfo )
+    {
+        for ( int i = 0; i < d_entries.size(); i++ )
+        {
+            Entry& entry = d_entries[i];
+            if ( entry.itemInfo == itemInfo )
+            {
+                d_entries.removeAt( i );
+                return;
+            }
         }
     }
 
-    Entry newEntry;
-    newEntry.itemInfo = itemInfo;
-    newEntry.widgets = widgets;
-
-    d_entries += newEntry;
-}
-
-void QwtLegendMap::remove( const QVariant& itemInfo )
-{
-    for ( int i = 0; i < d_entries.size(); i++ )
-    {
-        Entry& entry = d_entries[i];
-        if ( entry.itemInfo == itemInfo )
-        {
-            d_entries.removeAt( i );
-            return;
-        }
-    }
-}
-
-void QwtLegendMap::removeWidget( const QWidget* widget )
-{
-    QWidget* w = const_cast< QWidget* >( widget );
-
-    for ( int i = 0; i < d_entries.size(); i++ )
-        d_entries[ i ].widgets.removeAll( w );
-}
-
-QVariant QwtLegendMap::itemInfo( const QWidget* widget ) const
-{
-    if ( widget != NULL )
+    void LegendMap::removeWidget( const QWidget* widget )
     {
         QWidget* w = const_cast< QWidget* >( widget );
 
         for ( int i = 0; i < d_entries.size(); i++ )
-        {
-            const Entry& entry = d_entries[i];
-            if ( entry.widgets.indexOf( w ) >= 0 )
-                return entry.itemInfo;
-        }
+            d_entries[ i ].widgets.removeAll( w );
     }
 
-    return QVariant();
-}
-
-QList< QWidget* > QwtLegendMap::legendWidgets( const QVariant& itemInfo ) const
-{
-    if ( itemInfo.isValid() )
+    QVariant LegendMap::itemInfo( const QWidget* widget ) const
     {
-        for ( int i = 0; i < d_entries.size(); i++ )
+        if ( widget != NULL )
         {
-            const Entry& entry = d_entries[i];
-            if ( entry.itemInfo == itemInfo )
-                return entry.widgets;
+            QWidget* w = const_cast< QWidget* >( widget );
+
+            for ( int i = 0; i < d_entries.size(); i++ )
+            {
+                const Entry& entry = d_entries[i];
+                if ( entry.widgets.indexOf( w ) >= 0 )
+                    return entry.itemInfo;
+            }
         }
+
+        return QVariant();
     }
 
-    return QList< QWidget* >();
+    QList< QWidget* > LegendMap::legendWidgets( const QVariant& itemInfo ) const
+    {
+        if ( itemInfo.isValid() )
+        {
+            for ( int i = 0; i < d_entries.size(); i++ )
+            {
+                const Entry& entry = d_entries[i];
+                if ( entry.itemInfo == itemInfo )
+                    return entry.widgets;
+            }
+        }
+
+        return QList< QWidget* >();
+    }
 }
 
 class QwtLegend::PrivateData
@@ -135,7 +135,7 @@ class QwtLegend::PrivateData
     }
 
     QwtLegendData::Mode itemMode;
-    QwtLegendMap itemMap;
+    LegendMap itemMap;
 
     class LegendView;
     LegendView* view;

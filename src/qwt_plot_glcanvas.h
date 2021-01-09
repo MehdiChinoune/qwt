@@ -28,7 +28,9 @@ class QwtPlot;
    its API. When using style sheets it supports the box model - beside
    backgrounds with rounded borders.
 
-   \sa QwtPlot::setCanvas(), QwtPlotCanvas, QwtPlotCanvas::OpenGLBuffer
+   Since Qt 5.4 QOpenGLWidget is available, that is used by QwtPlotOpenGLCanvas.
+
+   \sa QwtPlot::setCanvas(), QwtPlotCanvas, QwtPlotOpenGLCanvas
 
    \note With Qt4 you might want to use the QPaintEngine::OpenGL paint engine
         ( see QGL::setPreferredPaintEngine() ). On a Linux test system

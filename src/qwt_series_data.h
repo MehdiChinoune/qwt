@@ -245,6 +245,7 @@ class QWT_EXPORT QwtSetSeriesData : public QwtArraySeriesData< QwtSetSample >
     virtual QRectF boundingRect() const QWT_OVERRIDE;
 };
 
+//! Interface for iterating over an array of vector field samples
 class QWT_EXPORT QwtVectorFieldData : public QwtArraySeriesData< QwtVectorFieldSample >
 {
   public:

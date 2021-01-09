@@ -64,28 +64,54 @@ static inline QRegion qwtMaskRegion( const QLine& l, int penWidth )
 
 namespace
 {
-    class QwtPickerRubberband QWT_FINAL : public QwtWidgetOverlay
+    class Rubberband QWT_FINAL : public QwtWidgetOverlay
     {
       public:
-        QwtPickerRubberband( QwtPicker*, QWidget* );
+        Rubberband( QwtPicker* picker, QWidget* parent )
+            : QwtWidgetOverlay( parent )
+            , m_picker( picker )
+        {
+            setMaskMode( QwtWidgetOverlay::MaskHint );
+        }
 
       protected:
-        virtual void drawOverlay( QPainter* ) const QWT_OVERRIDE;
-        virtual QRegion maskHint() const QWT_OVERRIDE;
+        virtual void drawOverlay( QPainter* painter ) const QWT_OVERRIDE
+        {
+            painter->setPen( m_picker->rubberBandPen() );
+            m_picker->drawRubberBand( painter );
+        }
 
-        QwtPicker* d_picker;
+        virtual QRegion maskHint() const QWT_OVERRIDE
+        {
+            return m_picker->rubberBandMask();
+        }
+
+        QwtPicker* m_picker;
     };
 
-    class QwtPickerTracker QWT_FINAL : public QwtWidgetOverlay
+    class Tracker QWT_FINAL : public QwtWidgetOverlay
     {
       public:
-        QwtPickerTracker( QwtPicker*, QWidget* );
+        Tracker( QwtPicker* picker, QWidget* parent )
+            : QwtWidgetOverlay( parent )
+            , m_picker( picker )
+        {
+            setMaskMode( QwtWidgetOverlay::MaskHint );
+        }
 
       protected:
-        virtual void drawOverlay( QPainter* ) const QWT_OVERRIDE;
-        virtual QRegion maskHint() const QWT_OVERRIDE;
+        virtual void drawOverlay( QPainter* painter ) const QWT_OVERRIDE
+        {
+            painter->setPen( m_picker->trackerPen() );
+            m_picker->drawTracker( painter );
+        }
 
-        QwtPicker* d_picker;
+        virtual QRegion maskHint() const QWT_OVERRIDE
+        {
+            return m_picker->trackerMask();
+        }
+
+        QwtPicker* m_picker;
     };
 }
 
@@ -124,49 +150,11 @@ class QwtPicker::PrivateData
 
     bool mouseTracking; // used to save previous value
 
-    QPointer< QwtPickerRubberband > rubberBandOverlay;
-    QPointer< QwtPickerTracker > trackerOverlay;
+    QPointer< Rubberband > rubberBandOverlay;
+    QPointer< Tracker > trackerOverlay;
 
     bool openGL;
 };
-
-QwtPickerRubberband::QwtPickerRubberband(
-    QwtPicker* picker, QWidget* parent ):
-    QwtWidgetOverlay( parent ),
-    d_picker( picker )
-{
-    setMaskMode( QwtWidgetOverlay::MaskHint );
-}
-
-QRegion QwtPickerRubberband::maskHint() const
-{
-    return d_picker->rubberBandMask();
-}
-
-void QwtPickerRubberband::drawOverlay( QPainter* painter ) const
-{
-    painter->setPen( d_picker->rubberBandPen() );
-    d_picker->drawRubberBand( painter );
-}
-
-QwtPickerTracker::QwtPickerTracker(
-    QwtPicker* picker, QWidget* parent ):
-    QwtWidgetOverlay( parent ),
-    d_picker( picker )
-{
-    setMaskMode( QwtWidgetOverlay::MaskHint );
-}
-
-QRegion QwtPickerTracker::maskHint() const
-{
-    return d_picker->trackerMask();
-}
-
-void QwtPickerTracker::drawOverlay( QPainter* painter ) const
-{
-    painter->setPen( d_picker->trackerPen() );
-    d_picker->drawTracker( painter );
-}
 
 /*!
    Constructor
@@ -788,7 +776,6 @@ void QwtPicker::drawTracker( QPainter* painter ) const
         return adjusted;
     }
    \endcode
-   \endpar
 
    \param points Selected points
    \return Selected points unmodified
@@ -1522,12 +1509,12 @@ void QwtPicker::updateDisplay()
         }
     }
 
-    QPointer< QwtPickerRubberband >& rw = m_data->rubberBandOverlay;
+    QPointer< Rubberband >& rw = m_data->rubberBandOverlay;
     if ( showRubberband )
     {
         if ( rw.isNull() )
         {
-            rw = new QwtPickerRubberband( this, NULL ); // NULL -> no extra event filter
+            rw = new Rubberband( this, NULL ); // NULL -> no extra event filter
             rw->setObjectName( "PickerRubberBand" );
             rw->setParent( w );
             rw->resize( w->size() );
@@ -1558,12 +1545,12 @@ void QwtPicker::updateDisplay()
         }
     }
 
-    QPointer< QwtPickerTracker >& tw = m_data->trackerOverlay;
+    QPointer< Tracker >& tw = m_data->trackerOverlay;
     if ( showTracker )
     {
         if ( tw.isNull() )
         {
-            tw = new QwtPickerTracker( this, NULL ); // NULL -> no extra event filter
+            tw = new Tracker( this, NULL ); // NULL -> no extra event filter
             tw->setObjectName( "PickerTracker" );
             tw->setParent( w );
             tw->resize( w->size() );
