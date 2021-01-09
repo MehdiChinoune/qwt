@@ -271,7 +271,6 @@ QwtValuePointData< T >::QwtValuePointData( const QVector< T >& y )
 /*!
    Constructor
 
-   \param x Array of x values
    \param y Array of y values
    \param size Size of the x and y arrays
    \sa QwtPlotCurve::setData(), QwtPlotCurve::setSamples()

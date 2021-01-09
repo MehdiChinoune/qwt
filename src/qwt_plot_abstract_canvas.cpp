@@ -527,6 +527,10 @@ class QwtPlotAbstractCanvas::PrivateData
     QWidget* canvasWidget;
 };
 
+/*!
+   \brief Constructor
+   \param canvasWidget plot canvas widget
+ */
 QwtPlotAbstractCanvas::QwtPlotAbstractCanvas( QWidget* canvasWidget )
 {
     m_data = new PrivateData;
@@ -538,6 +542,7 @@ QwtPlotAbstractCanvas::QwtPlotAbstractCanvas( QWidget* canvasWidget )
     canvasWidget->setAutoFillBackground( true );
 }
 
+//! Destructor
 QwtPlotAbstractCanvas::~QwtPlotAbstractCanvas()
 {
     delete m_data;
@@ -610,6 +615,7 @@ double QwtPlotAbstractCanvas::borderRadius() const
     return m_data->borderRadius;
 }
 
+//! \return Path for the canvas border
 QPainterPath QwtPlotAbstractCanvas::canvasBorderPath( const QRect& rect ) const
 {
     return qwtBorderPath( canvasWidget(), rect );
@@ -680,16 +686,19 @@ void QwtPlotAbstractCanvas::drawBorder( QPainter* painter )
     }
 }
 
+//! Helper function for the derived plot canvas
 void QwtPlotAbstractCanvas::drawBackground( QPainter* painter )
 {
     qwtDrawBackground( painter, canvasWidget() );
 }
 
+//! Helper function for the derived plot canvas
 void QwtPlotAbstractCanvas::fillBackground( QPainter* painter )
 {
     qwtFillBackground( painter, canvasWidget() );
 }
 
+//! Helper function for the derived plot canvas
 void QwtPlotAbstractCanvas::drawUnstyled( QPainter* painter )
 {
     fillBackground( painter );
@@ -731,6 +740,7 @@ void QwtPlotAbstractCanvas::drawUnstyled( QPainter* painter )
     drawCanvas( painter );
 }
 
+//! Helper function for the derived plot canvas
 void QwtPlotAbstractCanvas::drawStyled( QPainter* painter, bool hackStyledBackground )
 {
     fillBackground( painter );
@@ -789,6 +799,7 @@ void QwtPlotAbstractCanvas::drawStyled( QPainter* painter, bool hackStyledBackgr
     }
 }
 
+//!  \brief Draw the plot to the canvas
 void QwtPlotAbstractCanvas::drawCanvas( QPainter* painter )
 {
     QWidget* w = canvasWidget();
@@ -857,11 +868,13 @@ void QwtPlotAbstractCanvas::updateStyleSheetInfo()
     }
 }
 
+//! \return canvas widget
 QWidget* QwtPlotAbstractCanvas::canvasWidget()
 {
     return m_data->canvasWidget;
 }
 
+//! \return canvas widget
 const QWidget* QwtPlotAbstractCanvas::canvasWidget() const
 {
     return m_data->canvasWidget;
@@ -884,6 +897,10 @@ class QwtPlotAbstractGLCanvas::PrivateData
     int midLineWidth;
 };
 
+/*!
+   \brief Constructor
+   \param canvasWidget plot canvas widget
+ */
 QwtPlotAbstractGLCanvas::QwtPlotAbstractGLCanvas( QWidget* canvasWidget ):
     QwtPlotAbstractCanvas( canvasWidget )
 {
@@ -893,6 +910,7 @@ QwtPlotAbstractGLCanvas::QwtPlotAbstractGLCanvas( QWidget* canvasWidget ):
     m_data->paintAttributes = QwtPlotAbstractGLCanvas::BackingStore;
 }
 
+//! Destructor
 QwtPlotAbstractGLCanvas::~QwtPlotAbstractGLCanvas()
 {
     delete m_data;
@@ -1090,6 +1108,7 @@ QRect QwtPlotAbstractGLCanvas::frameRect() const
     return canvasWidget()->contentsRect().adjusted( -fw, -fw, fw, fw );
 }
 
+//! Helper function for the derived plot canvas
 void QwtPlotAbstractGLCanvas::draw( QPainter* painter )
 {
 #if FIX_GL_TRANSLATION

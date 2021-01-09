@@ -145,6 +145,7 @@ class QWT_EXPORT QwtPlotAbstractGLCanvas : public QwtPlotAbstractCanvas
     int frameWidth() const;
     QRect frameRect() const;
 
+    //! Invalidate the internal backing store
     virtual void invalidateBackingStore() = 0;
 
   protected:

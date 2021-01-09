@@ -319,7 +319,7 @@ void QwtPlotVectorField::init()
     setZ( 20.0 );
 }
 
-/*
+/*!
    Assign a pen
 
    \param pen New pen
@@ -722,6 +722,18 @@ void QwtPlotVectorField::drawSeries( QPainter* painter,
 #endif
 }
 
+/*!
+   Draw symbols
+
+   \param painter Painter
+   \param xMap x map
+   \param yMap y map
+   \param canvasRect Contents rectangle of the canvas
+   \param from Index of the first sample to be painted
+   \param to Index of the last sample to be painted
+
+   \sa setSymbol(), drawSeries()
+ */
 void QwtPlotVectorField::drawSymbols( QPainter* painter,
     const QwtScaleMap& xMap, const QwtScaleMap& yMap,
     const QRectF& canvasRect, int from, int to ) const

@@ -1258,7 +1258,6 @@ void QwtPlotCurve::setRawSamples( const double* yData, int size )
    keep the pointers during the lifetime of the underlying
    QwtCPointerValueData class.
 
-   \param xData pointer to x data
    \param yData pointer to y data
    \param size size of x and y
 
@@ -1324,6 +1323,7 @@ void QwtPlotCurve::setSamples( const QVector< double >& xData,
    interpreted as x coordinate.
 
    \param yData y data
+   \param size size of yData
 
    \sa QwtValuePointData
  */
@@ -1339,6 +1339,7 @@ void QwtPlotCurve::setSamples( const double* yData, int size )
    interpreted as x coordinate.
 
    \param yData y data
+   \param size size of yData
 
    \sa QwtValuePointData
  */

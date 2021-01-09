@@ -12,10 +12,12 @@
 #include <qpainter.h>
 #include <qpainterpath.h>
 
+//! Constructor
 QwtVectorFieldSymbol::QwtVectorFieldSymbol()
 {
 }
 
+//! Destructor
 QwtVectorFieldSymbol::~QwtVectorFieldSymbol()
 {
 }
@@ -59,11 +61,22 @@ class QwtVectorFieldArrow::PrivateData
 
 };
 
+/*!
+    \brief Constructor
+
+    The length is initialized by headWidth + 4
+
+    \param headWidth Width of the triangular head
+    \param tailWidth Width of the arrow tail
+
+    \sa setLength()
+ */
 QwtVectorFieldArrow::QwtVectorFieldArrow( qreal headWidth, qreal tailWidth )
 {
     m_data = new PrivateData( headWidth, tailWidth );
 }
 
+//! Destructor
 QwtVectorFieldArrow::~QwtVectorFieldArrow()
 {
     delete m_data;
@@ -104,11 +117,20 @@ class QwtVectorFieldThinArrow::PrivateData
     QPainterPath path;
 };
 
+/*!
+    \brief Constructor
+
+    The length is initialized by headWidth + 4
+
+    \param headWidth Width of the triangular head
+    \sa setLength()
+ */
 QwtVectorFieldThinArrow::QwtVectorFieldThinArrow( qreal headWidth )
 {
     m_data = new PrivateData( headWidth );
 }
 
+//! \brief Destructor
 QwtVectorFieldThinArrow::~QwtVectorFieldThinArrow()
 {
     delete m_data;

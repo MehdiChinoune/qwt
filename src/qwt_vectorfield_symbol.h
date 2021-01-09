@@ -35,9 +35,19 @@ class QWT_EXPORT QwtVectorFieldSymbol
     QwtVectorFieldSymbol();
     virtual ~QwtVectorFieldSymbol();
 
+    /*!
+        Set the length of the symbol/arrow
+        \sa length()
+     */
     virtual void setLength( qreal length ) = 0;
+
+    /*!
+        \return length of the symbol/arrow
+        \sa setLength()
+     */
     virtual qreal length() const = 0;
 
+    //! Draw the symbol/arrow
     virtual void paint( QPainter* ) const = 0;
 
   private:
@@ -56,6 +66,7 @@ class QWT_EXPORT QwtVectorFieldArrow : public QwtVectorFieldSymbol
 
     virtual void setLength( qreal length ) QWT_OVERRIDE;
     virtual qreal length() const QWT_OVERRIDE;
+
     virtual void paint( QPainter* ) const QWT_OVERRIDE;
 
   private:
@@ -75,6 +86,7 @@ class QWT_EXPORT QwtVectorFieldThinArrow : public QwtVectorFieldSymbol
 
     virtual void setLength( qreal length ) QWT_OVERRIDE;
     virtual qreal length() const QWT_OVERRIDE;
+
     virtual void paint( QPainter* ) const QWT_OVERRIDE;
 
   private:
