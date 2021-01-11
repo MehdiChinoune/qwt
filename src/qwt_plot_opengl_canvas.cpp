@@ -39,7 +39,6 @@ class QwtPlotOpenGLCanvas::PrivateData
     QOpenGLFramebufferObject* fbo;
 };
 
-
 /*!
    \brief Constructor
 
@@ -56,6 +55,13 @@ QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas( QwtPlot* plot )
     init( fmt );
 }
 
+/*!
+   \brief Constructor
+
+   \param format OpenGL surface format
+   \param plot Parent plot widget
+   \sa QwtPlot::setCanvas()
+ */
 QwtPlotOpenGLCanvas::QwtPlotOpenGLCanvas(
         const QSurfaceFormat& format, QwtPlot* plot )
     : QOpenGLWidget( plot )
