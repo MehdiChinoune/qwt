@@ -145,43 +145,43 @@ namespace
         FilterMatrix( const QRectF& dataRect,
             const QRectF& canvasRect, const QSizeF& cellSize )
         {
-            d_dx = cellSize.width();
-            d_dy = cellSize.height();
+            m_dx = cellSize.width();
+            m_dy = cellSize.height();
 
-            d_x0 = dataRect.x();
-            if ( d_x0 < canvasRect.x() )
-                d_x0 += int( ( canvasRect.x() - d_x0 ) / d_dx ) * d_dx;
+            m_x0 = dataRect.x();
+            if ( m_x0 < canvasRect.x() )
+                m_x0 += int( ( canvasRect.x() - m_x0 ) / m_dx ) * m_dx;
 
-            d_y0 = dataRect.y();
-            if ( d_y0 < canvasRect.y() )
-                d_y0 += int( ( canvasRect.y() - d_y0 ) / d_dy ) * d_dy;
+            m_y0 = dataRect.y();
+            if ( m_y0 < canvasRect.y() )
+                m_y0 += int( ( canvasRect.y() - m_y0 ) / m_dy ) * m_dy;
 
-            d_numColumns = canvasRect.width() / d_dx + 1;
-            d_numRows = canvasRect.height() / d_dy + 1;
+            m_numColumns = canvasRect.width() / m_dx + 1;
+            m_numRows = canvasRect.height() / m_dy + 1;
 
 #if 1
             /*
                 limit column and row count to a maximum of 1000000,
                 so that memory usage is not an issue
              */
-            if ( d_numColumns > 1000 )
+            if ( m_numColumns > 1000 )
             {
-                d_dx = canvasRect.width() / 1000;
-                d_numColumns = canvasRect.width() / d_dx + 1;
+                m_dx = canvasRect.width() / 1000;
+                m_numColumns = canvasRect.width() / m_dx + 1;
             }
 
-            if ( d_numRows > 1000 )
+            if ( m_numRows > 1000 )
             {
-                d_dy = canvasRect.height() / 1000;
-                d_numRows = canvasRect.height() / d_dx + 1;
+                m_dy = canvasRect.height() / 1000;
+                m_numRows = canvasRect.height() / m_dx + 1;
             }
 #endif
 
-            d_x1 = d_x0 + d_numColumns * d_dx;
-            d_y1 = d_y0 + d_numRows * d_dy;
+            m_x1 = m_x0 + m_numColumns * m_dx;
+            m_y1 = m_y0 + m_numRows * m_dy;
 
-            d_entries = ( Entry* )::calloc( d_numRows * d_numColumns, sizeof( Entry ) );
-            if ( d_entries == NULL )
+            m_entries = ( Entry* )::calloc( m_numRows * m_numColumns, sizeof( Entry ) );
+            if ( m_entries == NULL )
             {
                 qWarning() << "QwtPlotVectorField: raster for filtering too fine - running out of memory";
             }
@@ -189,50 +189,50 @@ namespace
 
         ~FilterMatrix()
         {
-            if ( d_entries )
-                std::free( d_entries );
+            if ( m_entries )
+                std::free( m_entries );
         }
 
         inline int numColumns() const
         {
-            return d_numColumns;
+            return m_numColumns;
         }
 
         inline int numRows() const
         {
-            return d_numRows;
+            return m_numRows;
         }
 
         inline void addSample( double x, double y,
             double u, double v )
         {
-            if ( x >= d_x0 && x < d_x1
-                && y >= d_y0 && y < d_y1 )
+            if ( x >= m_x0 && x < m_x1
+                && y >= m_y0 && y < m_y1 )
             {
-                Entry& entry = d_entries[ indexOf( x, y ) ];
+                Entry& entry = m_entries[ indexOf( x, y ) ];
                 entry.addSample( x, y, u, v );
             }
         }
 
         const FilterMatrix::Entry* entries() const
         {
-            return d_entries;
+            return m_entries;
         }
 
       private:
         inline int indexOf( qreal x, qreal y ) const
         {
-            const int col = ( x - d_x0 ) / d_dx;
-            const int row = ( y - d_y0 ) / d_dy;
+            const int col = ( x - m_x0 ) / m_dx;
+            const int row = ( y - m_y0 ) / m_dy;
 
-            return row * d_numColumns + col;
+            return row * m_numColumns + col;
         }
 
-        qreal d_x0, d_x1, d_y0, d_y1, d_dx, d_dy;
-        int d_numColumns;
-        int d_numRows;
+        qreal m_x0, m_x1, m_y0, m_y1, m_dx, m_dy;
+        int m_numColumns;
+        int m_numRows;
 
-        Entry* d_entries;
+        Entry* m_entries;
     };
 }
 

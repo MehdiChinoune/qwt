@@ -22,28 +22,28 @@ namespace QwtSplineCubicP
     {
       public:
         inline KahanSum( double value = 0.0 ):
-            d_sum( value ),
-            d_carry( 0.0 )
+            m_sum( value ),
+            m_carry( 0.0 )
         {
         }
 
         inline void reset()
         {
-            d_sum = d_carry = 0.0;
+            m_sum = m_carry = 0.0;
         }
 
         inline double value() const
         {
-            return d_sum;
+            return m_sum;
         }
 
         inline void add( double value )
         {
-            const double y = value - d_carry;
-            const double t = d_sum + y;
+            const double y = value - m_carry;
+            const double t = m_sum + y;
 
-            d_carry = ( t - d_sum ) - y;
-            d_sum = t;
+            m_carry = ( t - m_sum ) - y;
+            m_sum = t;
         }
 
         static inline double sum3( double d1, double d2, double d3 )
@@ -67,8 +67,8 @@ namespace QwtSplineCubicP
 
 
       private:
-        double d_sum;
-        double d_carry; // The carry from the previous operation
+        double m_sum;
+        double m_carry; // The carry from the previous operation
     };
 
     class CurvatureStore
@@ -76,44 +76,44 @@ namespace QwtSplineCubicP
       public:
         inline void setup( int size )
         {
-            d_curvatures.resize( size );
-            d_cv = d_curvatures.data();
+            m_curvatures.resize( size );
+            m_cv = m_curvatures.data();
         }
 
         inline void storeFirst( double,
             const QPointF&, const QPointF&, double b1, double )
         {
-            d_cv[0] = 2.0 * b1;
+            m_cv[0] = 2.0 * b1;
         }
 
         inline void storeNext( int index, double,
             const QPointF&, const QPointF&, double, double b2 )
         {
-            d_cv[index] = 2.0 * b2;
+            m_cv[index] = 2.0 * b2;
         }
 
         inline void storeLast( double,
             const QPointF&, const QPointF&, double, double b2 )
         {
-            d_cv[d_curvatures.size() - 1] = 2.0 * b2;
+            m_cv[m_curvatures.size() - 1] = 2.0 * b2;
         }
 
         inline void storePrevious( int index, double,
             const QPointF&, const QPointF&, double b1, double )
         {
-            d_cv[index] = 2.0 * b1;
+            m_cv[index] = 2.0 * b1;
         }
 
         inline void closeR()
         {
-            d_cv[0] = d_cv[d_curvatures.size() - 1];
+            m_cv[0] = m_cv[m_curvatures.size() - 1];
         }
 
-        QVector< double > curvatures() const { return d_curvatures; }
+        QVector< double > curvatures() const { return m_curvatures; }
 
       private:
-        QVector< double > d_curvatures;
-        double* d_cv;
+        QVector< double > m_curvatures;
+        double* m_cv;
     };
 
     class SlopeStore
@@ -121,17 +121,17 @@ namespace QwtSplineCubicP
       public:
         inline void setup( int size )
         {
-            d_slopes.resize( size );
-            d_m = d_slopes.data();
+            m_slopes.resize( size );
+            m_m = m_slopes.data();
         }
 
         inline void storeFirst( double h,
             const QPointF& p1, const QPointF& p2, double b1, double b2 )
         {
             const double s = ( p2.y() - p1.y() ) / h;
-            d_m[0] = s - h * ( 2.0 * b1 + b2 ) / 3.0;
+            m_m[0] = s - h * ( 2.0 * b1 + b2 ) / 3.0;
 #if KAHAN
-            d_sum.add( d_m[0] );
+            m_sum.add( m_m[0] );
 #endif
         }
 
@@ -142,14 +142,14 @@ namespace QwtSplineCubicP
             Q_UNUSED( p1 )
             Q_UNUSED( p2 )
 #if KAHAN
-            d_sum.add( ( b1 + b2 ) * h );
-            d_m[index] = d_sum.value();
+            m_sum.add( ( b1 + b2 ) * h );
+            m_m[index] = m_sum.value();
 #else
-            d_m[index] = d_m[index - 1] + ( b1 + b2 ) * h;
+            m_m[index] = m_m[index - 1] + ( b1 + b2 ) * h;
 #endif
 #else
             const double s = ( p2.y() - p1.y() ) / h;
-            d_m[index] = s + h * ( b1 + 2.0 * b2 ) / 3.0;
+            m_m[index] = s + h * ( b1 + 2.0 * b2 ) / 3.0;
 #endif
         }
 
@@ -157,9 +157,9 @@ namespace QwtSplineCubicP
             const QPointF& p1, const QPointF& p2, double b1, double b2 )
         {
             const double s = ( p2.y() - p1.y() ) / h;
-            d_m[d_slopes.size() - 1] = s + h * ( b1 + 2.0 * b2 ) / 3.0;
+            m_m[m_slopes.size() - 1] = s + h * ( b1 + 2.0 * b2 ) / 3.0;
 #if KAHAN
-            d_sum.add( d_m[d_slopes.size() - 1] );
+            m_sum.add( m_m[m_slopes.size() - 1] );
 #endif
         }
 
@@ -170,30 +170,30 @@ namespace QwtSplineCubicP
             Q_UNUSED( p1 )
             Q_UNUSED( p2 )
 #if KAHAN
-            d_sum.add( -( b1 + b2 ) * h );
-            d_m[index] = d_sum.value();
+            m_sum.add( -( b1 + b2 ) * h );
+            m_m[index] = m_sum.value();
 #else
-            d_m[index] = d_m[index + 1] - ( b1 + b2 ) * h;
+            m_m[index] = m_m[index + 1] - ( b1 + b2 ) * h;
 #endif
 
 #else
             const double s = ( p2.y() - p1.y() ) / h;
-            d_m[index] = s - h * ( 2.0 * b1 + b2 ) / 3.0;
+            m_m[index] = s - h * ( 2.0 * b1 + b2 ) / 3.0;
 #endif
         }
 
         inline void closeR()
         {
-            d_m[0] = d_m[d_slopes.size() - 1];
+            m_m[0] = m_m[m_slopes.size() - 1];
         }
 
-        QVector< double > slopes() const { return d_slopes; }
+        QVector< double > slopes() const { return m_slopes; }
 
       private:
-        QVector< double > d_slopes;
-        double* d_m;
+        QVector< double > m_slopes;
+        double* m_m;
 #if SLOPES_INCREMENTAL
-        KahanSum d_sum;
+        KahanSum m_sum;
 #endif
     };
 }
@@ -395,17 +395,17 @@ namespace QwtSplineCubicP
       public:
         void setStartCondition( double p, double q, double u, double r )
         {
-            d_conditionsEQ[0].setup( p, q, u, r );
+            m_conditionsEQ[0].setup( p, q, u, r );
         }
 
         void setEndCondition( double p, double q, double u, double r )
         {
-            d_conditionsEQ[1].setup( p, q, u, r );
+            m_conditionsEQ[1].setup( p, q, u, r );
         }
 
         const T& store() const
         {
-            return d_store;
+            return m_store;
         }
 
         void resolve( const QPolygonF& p )
@@ -414,14 +414,14 @@ namespace QwtSplineCubicP
             if ( n < 3 )
                 return;
 
-            if ( d_conditionsEQ[0].p == 0.0 ||
-                ( d_conditionsEQ[0].q == 0.0 && d_conditionsEQ[0].u != 0.0 ) )
+            if ( m_conditionsEQ[0].p == 0.0 ||
+                ( m_conditionsEQ[0].q == 0.0 && m_conditionsEQ[0].u != 0.0 ) )
             {
                 return;
             }
 
-            if ( d_conditionsEQ[1].u == 0.0 ||
-                ( d_conditionsEQ[1].q == 0.0 && d_conditionsEQ[1].p != 0.0 ) )
+            if ( m_conditionsEQ[1].u == 0.0 ||
+                ( m_conditionsEQ[1].q == 0.0 && m_conditionsEQ[1].p != 0.0 ) )
             {
                 return;
             }
@@ -430,7 +430,7 @@ namespace QwtSplineCubicP
             const double h1 = p[2].x() - p[1].x();
             const double hn = p[n - 1].x() - p[n - 2].x();
 
-            d_store.setup( n );
+            m_store.setup( n );
 
 
             if ( n == 3 )
@@ -441,14 +441,14 @@ namespace QwtSplineCubicP
                 // the spline equation - as for all other conditions.
 
                 const Equation3 eqSpline0( p[0], p[1], p[2] ); // ???
-                const Equation2 eq0 = d_conditionsEQ[0].substituted1( eqSpline0 );
+                const Equation2 eq0 = m_conditionsEQ[0].substituted1( eqSpline0 );
 
                 // The equation system can be solved without substitution
                 // from the start/end conditions and eqSpline0 ( = eqSplineN ).
 
                 double b1;
 
-                if ( d_conditionsEQ[0].normalized() == d_conditionsEQ[1].normalized() )
+                if ( m_conditionsEQ[0].normalized() == m_conditionsEQ[1].normalized() )
                 {
                     // When we have 3 points only and start/end conditions
                     // for 3 points mean the same condition the system
@@ -459,22 +459,22 @@ namespace QwtSplineCubicP
                 }
                 else
                 {
-                    const Equation2 eq = d_conditionsEQ[1].substituted1( eqSpline0 );
+                    const Equation2 eq = m_conditionsEQ[1].substituted1( eqSpline0 );
                     b1 = eq0.resolved1( eq );
                 }
 
                 const double b2 = eq0.resolved2( b1 );
                 const double b0 = eqSpline0.resolved1( b1, b2 );
 
-                d_store.storeFirst( h0, p[0], p[1], b0, b1 );
-                d_store.storeNext( 1, h0, p[0], p[1], b0, b1 );
-                d_store.storeNext( 2, h1, p[1], p[2], b1, b2 );
+                m_store.storeFirst( h0, p[0], p[1], b0, b1 );
+                m_store.storeNext( 1, h0, p[0], p[1], b0, b1 );
+                m_store.storeNext( 2, h1, p[1], p[2], b1, b2 );
 
                 return;
             }
 
             const Equation3 eqSplineN( p[n - 3], p[n - 2], p[n - 1] );
-            const Equation2 eqN = d_conditionsEQ[1].substituted3( eqSplineN );
+            const Equation2 eqN = m_conditionsEQ[1].substituted3( eqSplineN );
 
             Equation2 eq = eqN;
             if ( n > 4 )
@@ -487,34 +487,34 @@ namespace QwtSplineCubicP
             const Equation3 eqSpline0( p[0], p[1], p[2] );
 
             double b0, b1;
-            if ( d_conditionsEQ[0].u == 0.0 )
+            if ( m_conditionsEQ[0].u == 0.0 )
             {
                 eq = eqSpline0.substituted3( eq );
 
-                const Equation3& eq0 = d_conditionsEQ[0];
+                const Equation3& eq0 = m_conditionsEQ[0];
                 b0 = Equation2( eq0.p, eq0.q, eq0.r ).resolved1( eq );
                 b1 = eq.resolved2( b0 );
             }
             else
             {
-                const Equation2 eqX = d_conditionsEQ[0].substituted3( eq );
+                const Equation2 eqX = m_conditionsEQ[0].substituted3( eq );
                 const Equation2 eqY = eqSpline0.substituted3( eq );
 
                 b0 = eqY.resolved1( eqX );
                 b1 = eqY.resolved2( b0 );
             }
 
-            d_store.storeFirst( h0, p[0], p[1], b0, b1 );
-            d_store.storeNext( 1, h0, p[0], p[1], b0, b1 );
+            m_store.storeFirst( h0, p[0], p[1], b0, b1 );
+            m_store.storeNext( 1, h0, p[0], p[1], b0, b1 );
 
             const double bn2 = resolveSpline( p, b1 );
 
             const double bn1 = eqN.resolved2( bn2 );
-            const double bn0 = d_conditionsEQ[1].resolved3( bn2, bn1 );
+            const double bn0 = m_conditionsEQ[1].resolved3( bn2, bn1 );
 
             const double hx = p[n - 2].x() - p[n - 3].x();
-            d_store.storeNext( n - 2, hx, p[n - 3], p[n - 2], bn2, bn1 );
-            d_store.storeNext( n - 1, hn, p[n - 2], p[n - 1], bn1, bn0 );
+            m_store.storeNext( n - 2, hx, p[n - 3], p[n - 2], bn2, bn1 );
+            m_store.storeNext( n - 1, hn, p[n - 2], p[n - 1], bn1, bn0 );
         }
 
       private:
@@ -522,8 +522,8 @@ namespace QwtSplineCubicP
         {
             const int n = points.size();
 
-            d_eq.resize( n - 2 );
-            d_eq[n - 3] = eq;
+            m_eq.resize( n - 2 );
+            m_eq[n - 3] = eq;
 
             // eq[i].resolved2( b[i-1] ) => b[i]
 
@@ -531,8 +531,8 @@ namespace QwtSplineCubicP
 
             for ( int i = n - 4; i > 1; i-- )
             {
-                const Equation2& eq2 = d_eq[i + 1];
-                Equation2& eq1 = d_eq[i];
+                const Equation2& eq2 = m_eq[i + 1];
+                Equation2& eq1 = m_eq[i];
 
                 eq1.p = points[i].x() - points[i - 1].x();
                 const double slope1 = ( points[i].y() - points[i - 1].y() ) / eq1.p;
@@ -545,7 +545,7 @@ namespace QwtSplineCubicP
                 slope2 = slope1;
             }
 
-            return d_eq[2];
+            return m_eq[2];
         }
 
         double resolveSpline( const QPolygonF& points, double b1 )
@@ -556,8 +556,8 @@ namespace QwtSplineCubicP
             for ( int i = 2; i < n - 2; i++ )
             {
                 // eq[i].resolved2( b[i-1] ) => b[i]
-                const double b2 = d_eq[i].resolved2( b1 );
-                d_store.storeNext( i, d_eq[i].p, p[i - 1], p[i], b1, b2 );
+                const double b2 = m_eq[i].resolved2( b1 );
+                m_store.storeNext( i, m_eq[i].p, p[i - 1], p[i], b1, b2 );
 
                 b1 = b2;
             }
@@ -566,9 +566,9 @@ namespace QwtSplineCubicP
         }
 
       private:
-        Equation3 d_conditionsEQ[2];
-        QVector< Equation2 > d_eq;
-        T d_store;
+        Equation3 m_conditionsEQ[2];
+        QVector< Equation2 > m_eq;
+        T m_store;
     };
 
     template< class T >
@@ -577,7 +577,7 @@ namespace QwtSplineCubicP
       public:
         const T& store() const
         {
-            return d_store;
+            return m_store;
         }
 
         void resolve( const QPolygonF& p )
@@ -599,10 +599,10 @@ namespace QwtSplineCubicP
 
                 const double b = 3.0 * ( s0 - s1 ) / ( h0 + h1 );
 
-                d_store.setup( 3 );
-                d_store.storeLast( h1, p[1], p[2], -b, b );
-                d_store.storePrevious( 1, h1, p[1], p[2], -b, b );
-                d_store.closeR();
+                m_store.setup( 3 );
+                m_store.storeLast( h1, p[1], p[2], -b, b );
+                m_store.storePrevious( 1, h1, p[1], p[2], -b, b );
+                m_store.closeR();
 
                 return;
             }
@@ -615,13 +615,13 @@ namespace QwtSplineCubicP
             const double b0 = eqn.resolved2( eqX );
             const double bn = eqn.resolved1( b0 );
 
-            d_store.setup( n );
-            d_store.storeLast( hn, p[n - 2], p[n - 1], bn, b0 );
-            d_store.storePrevious( n - 2, hn, p[n - 2], p[n - 1], bn, b0 );
+            m_store.setup( n );
+            m_store.storeLast( hn, p[n - 2], p[n - 1], bn, b0 );
+            m_store.storePrevious( n - 2, hn, p[n - 2], p[n - 1], bn, b0 );
 
             resolveSpline( p, b0, bn );
 
-            d_store.closeR();
+            m_store.closeR();
         }
 
       private:
@@ -636,14 +636,14 @@ namespace QwtSplineCubicP
             const Equation3 eqSplineN(
                 QPointF( points[0].x() - hn, points[n - 2].y() ), points[0], points[1] );
 
-            d_eq.resize( n - 1 );
+            m_eq.resize( n - 1 );
 
             double dq = 0;
             double dr = 0;
 
-            d_eq[1] = eqSpline0;
+            m_eq[1] = eqSpline0;
 
-            double slope1 = ( points[2].y() - points[1].y() ) / d_eq[1].u;
+            double slope1 = ( points[2].y() - points[1].y() ) / m_eq[1].u;
 
             // a) p1 * b[0] + q1 * b[1] + u1 * b[2] = r1
             // b) p2 * b[n-2] + q2 * b[0] + u2 * b[1] = r2
@@ -659,8 +659,8 @@ namespace QwtSplineCubicP
 
             for ( int i = 2; i < n - 1; i++ )
             {
-                const Equation3& eq1 = d_eq[i - 1];
-                Equation3& eq2 = d_eq[i];
+                const Equation3& eq1 = m_eq[i - 1];
+                Equation3& eq2 = m_eq[i];
 
                 dq += eq1.p * eq1.p / eq1.q;
                 dr += eq1.p * eq1.r / eq1.q;
@@ -678,11 +678,11 @@ namespace QwtSplineCubicP
             }
 
 
-            // b[0] * d_p[n-2] + b[n-2] * d_q[n-2] + b[n-1] * pN = d_r[n-2]
-            eqn.setup( d_eq[n - 2].q, d_eq[n - 2].p + eqSplineN.p, d_eq[n - 2].r );
+            // b[0] * m_p[n-2] + b[n-2] * m_q[n-2] + b[n-1] * pN = m_r[n-2]
+            eqn.setup( m_eq[n - 2].q, m_eq[n - 2].p + eqSplineN.p, m_eq[n - 2].r );
 
-            // b[n-2] * pN + b[0] * ( qN - dq ) + b[n-2] * d_p[n-2] = rN - dr
-            eqX.setup( d_eq[n - 2].p + eqSplineN.p, eqSplineN.q - dq, eqSplineN.r - dr );
+            // b[n-2] * pN + b[0] * ( qN - dq ) + b[n-2] * m_p[n-2] = rN - dr
+            eqX.setup( m_eq[n - 2].p + eqSplineN.p, eqSplineN.q - dq, eqSplineN.r - dr );
         }
 
         void resolveSpline( const QPolygonF& points, double b0, double bi )
@@ -691,10 +691,10 @@ namespace QwtSplineCubicP
 
             for ( int i = n - 3; i >= 1; i-- )
             {
-                const Equation3& eq = d_eq[i];
+                const Equation3& eq = m_eq[i];
 
                 const double b = eq.resolved2( b0, bi );
-                d_store.storePrevious( i, eq.u, points[i], points[i + 1], b, bi );
+                m_store.storePrevious( i, eq.u, points[i], points[i + 1], b, bi );
 
                 bi = b;
             }
@@ -705,14 +705,14 @@ namespace QwtSplineCubicP
         {
             const int n = points.size();
 
-            bi = d_eq[0].resolved3( b0, bi );
+            bi = m_eq[0].resolved3( b0, bi );
 
             for ( int i = 1; i < n - 2; i++ )
             {
-                const Equation3& eq = d_eq[i];
+                const Equation3& eq = m_eq[i];
 
                 const double b = eq.resolved3( b0, bi );
-                m[i + 1] = m[i] + ( b + bi ) * d_eq[i].u;
+                m[i + 1] = m[i] + ( b + bi ) * m_eq[i].u;
 
                 bi = b;
             }
@@ -773,8 +773,8 @@ namespace QwtSplineCubicP
         }
 
       public:
-        QVector< Equation3 > d_eq;
-        T d_store;
+        QVector< Equation3 > m_eq;
+        T m_store;
     };
 }
 

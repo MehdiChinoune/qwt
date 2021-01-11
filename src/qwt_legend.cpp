@@ -25,7 +25,7 @@ namespace
     class LegendMap
     {
       public:
-        inline bool isEmpty() const { return d_entries.isEmpty(); }
+        inline bool isEmpty() const { return m_entries.isEmpty(); }
 
         void insert( const QVariant&, const QList< QWidget* >& );
         void remove( const QVariant& );
@@ -48,15 +48,15 @@ namespace
             QList< QWidget* > widgets;
         };
 
-        QList< Entry > d_entries;
+        QList< Entry > m_entries;
     };
 
     void LegendMap::insert( const QVariant& itemInfo,
         const QList< QWidget* >& widgets )
     {
-        for ( int i = 0; i < d_entries.size(); i++ )
+        for ( int i = 0; i < m_entries.size(); i++ )
         {
-            Entry& entry = d_entries[i];
+            Entry& entry = m_entries[i];
             if ( entry.itemInfo == itemInfo )
             {
                 entry.widgets = widgets;
@@ -68,17 +68,17 @@ namespace
         newEntry.itemInfo = itemInfo;
         newEntry.widgets = widgets;
 
-        d_entries += newEntry;
+        m_entries += newEntry;
     }
 
     void LegendMap::remove( const QVariant& itemInfo )
     {
-        for ( int i = 0; i < d_entries.size(); i++ )
+        for ( int i = 0; i < m_entries.size(); i++ )
         {
-            Entry& entry = d_entries[i];
+            Entry& entry = m_entries[i];
             if ( entry.itemInfo == itemInfo )
             {
-                d_entries.removeAt( i );
+                m_entries.removeAt( i );
                 return;
             }
         }
@@ -88,8 +88,8 @@ namespace
     {
         QWidget* w = const_cast< QWidget* >( widget );
 
-        for ( int i = 0; i < d_entries.size(); i++ )
-            d_entries[ i ].widgets.removeAll( w );
+        for ( int i = 0; i < m_entries.size(); i++ )
+            m_entries[ i ].widgets.removeAll( w );
     }
 
     QVariant LegendMap::itemInfo( const QWidget* widget ) const
@@ -98,9 +98,9 @@ namespace
         {
             QWidget* w = const_cast< QWidget* >( widget );
 
-            for ( int i = 0; i < d_entries.size(); i++ )
+            for ( int i = 0; i < m_entries.size(); i++ )
             {
-                const Entry& entry = d_entries[i];
+                const Entry& entry = m_entries[i];
                 if ( entry.widgets.indexOf( w ) >= 0 )
                     return entry.itemInfo;
             }
@@ -113,9 +113,9 @@ namespace
     {
         if ( itemInfo.isValid() )
         {
-            for ( int i = 0; i < d_entries.size(); i++ )
+            for ( int i = 0; i < m_entries.size(); i++ )
             {
-                const Entry& entry = d_entries[i];
+                const Entry& entry = m_entries[i];
                 if ( entry.itemInfo == itemInfo )
                     return entry.widgets;
             }

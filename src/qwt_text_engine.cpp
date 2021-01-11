@@ -88,13 +88,13 @@ class QwtPlainTextEngine::PrivateData
         const QString fontKey = font.key();
 
         QMap< QString, int >::const_iterator it =
-            d_ascentCache.constFind( fontKey );
+            m_ascentCache.constFind( fontKey );
 
-        if ( it != d_ascentCache.constEnd() )
+        if ( it != m_ascentCache.constEnd() )
             return *it;
 
         const int ascent = findAscent( font );
-        d_ascentCache.insert( fontKey, ascent );
+        m_ascentCache.insert( fontKey, ascent );
 
         return ascent;
     }
@@ -134,7 +134,7 @@ class QwtPlainTextEngine::PrivateData
         return fm.ascent();
     }
 
-    mutable QMap< QString, int > d_ascentCache;
+    mutable QMap< QString, int > m_ascentCache;
 };
 
 //! Constructor

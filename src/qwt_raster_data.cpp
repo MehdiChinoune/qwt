@@ -21,21 +21,21 @@ class QwtRasterData::ContourPlane
 {
   public:
     explicit inline ContourPlane( double z ):
-        d_z( z )
+        m_z( z )
     {
     }
 
     inline bool intersect( const QwtPoint3D vertex[3],
         QPointF line[2], bool ignoreOnPlane ) const;
 
-    inline double z() const { return d_z; }
+    inline double z() const { return m_z; }
 
   private:
     inline int compare( double z ) const;
     inline QPointF intersection(
         const QwtPoint3D& p1, const QwtPoint3D& p2 ) const;
 
-    double d_z;
+    double m_z;
 };
 
 inline bool QwtRasterData::ContourPlane::intersect(
@@ -140,10 +140,10 @@ inline bool QwtRasterData::ContourPlane::intersect(
 
 inline int QwtRasterData::ContourPlane::compare( double z ) const
 {
-    if ( z > d_z )
+    if ( z > m_z )
         return 1;
 
-    if ( z < d_z )
+    if ( z < m_z )
         return -1;
 
     return 0;
@@ -152,8 +152,8 @@ inline int QwtRasterData::ContourPlane::compare( double z ) const
 inline QPointF QwtRasterData::ContourPlane::intersection(
     const QwtPoint3D& p1, const QwtPoint3D& p2 ) const
 {
-    const double h1 = p1.z() - d_z;
-    const double h2 = p2.z() - d_z;
+    const double h1 = p1.z() - m_z;
+    const double h2 = p2.z() - m_z;
 
     const double x = ( h2 * p1.x() - h1 * p2.x() ) / ( h2 - h1 );
     const double y = ( h2 * p1.y() - h1 * p2.y() ) / ( h2 - h1 );

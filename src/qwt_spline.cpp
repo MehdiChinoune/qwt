@@ -102,14 +102,14 @@ namespace QwtSplineC1P
     {
       public:
         inline ControlPointsStore():
-            d_cp( NULL )
+            m_cp( NULL )
         {
         }
 
         inline void init( int size )
         {
             controlPoints.resize( size );
-            d_cp = controlPoints.data();
+            m_cp = controlPoints.data();
         }
 
         inline void start( double x1, double y1 )
@@ -124,7 +124,7 @@ namespace QwtSplineC1P
             Q_UNUSED( x2 );
             Q_UNUSED( y2 );
 
-            QLineF& l = *d_cp++;
+            QLineF& l = *m_cp++;
             l.setLine( cx1, cy1, cx2, cy2 );
         }
 
@@ -135,7 +135,7 @@ namespace QwtSplineC1P
         QVector< QLineF > controlPoints;
 
       private:
-        QLineF* d_cp;
+        QLineF* m_cp;
     };
 
     double slopeBoundary( int boundaryCondition, double boundaryValue,

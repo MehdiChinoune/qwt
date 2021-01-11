@@ -25,14 +25,14 @@ namespace
 
         inline BezierData( const QPointF& p1, const QPointF& cp1,
                 const QPointF& cp2, const QPointF& p2 ):
-            d_x1( p1.x() ),
-            d_y1( p1.y() ),
-            d_cx1( cp1.x() ),
-            d_cy1( cp1.y() ),
-            d_cx2( cp2.x() ),
-            d_cy2( cp2.y() ),
-            d_x2( p2.x() ),
-            d_y2( p2.y() )
+            m_x1( p1.x() ),
+            m_y1( p1.y() ),
+            m_cx1( cp1.x() ),
+            m_cy1( cp1.y() ),
+            m_cx2( cp2.x() ),
+            m_cy2( cp2.y() ),
+            m_x2( p2.x() ),
+            m_y2( p2.y() )
         {
         }
 
@@ -49,10 +49,10 @@ namespace
         {
             // algo by Roger Willcocks ( http://www.rops.org )
 
-            const double ux = 3.0 * d_cx1 - 2.0 * d_x1 - d_x2;
-            const double uy = 3.0 * d_cy1 - 2.0 * d_y1 - d_y2;
-            const double vx = 3.0 * d_cx2 - 2.0 * d_x2 - d_x1;
-            const double vy = 3.0 * d_cy2 - 2.0 * d_y2 - d_y1;
+            const double ux = 3.0 * m_cx1 - 2.0 * m_x1 - m_x2;
+            const double uy = 3.0 * m_cy1 - 2.0 * m_y1 - m_y2;
+            const double vx = 3.0 * m_cx2 - 2.0 * m_x2 - m_x1;
+            const double vy = 3.0 * m_cy2 - 2.0 * m_y2 - m_y1;
 
             const double ux2 = ux * ux;
             const double uy2 = uy * uy;
@@ -67,30 +67,30 @@ namespace
         {
             BezierData bz;
 
-            const double c1 = midValue( d_cx1, d_cx2 );
+            const double c1 = midValue( m_cx1, m_cx2 );
 
-            bz.d_cx1 = midValue( d_x1, d_cx1 );
-            d_cx2 = midValue( d_cx2, d_x2 );
-            bz.d_x1 = d_x1;
-            bz.d_cx2 = midValue( bz.d_cx1, c1 );
-            d_cx1 = midValue( c1, d_cx2 );
-            bz.d_x2 = d_x1 = midValue( bz.d_cx2, d_cx1 );
+            bz.m_cx1 = midValue( m_x1, m_cx1 );
+            m_cx2 = midValue( m_cx2, m_x2 );
+            bz.m_x1 = m_x1;
+            bz.m_cx2 = midValue( bz.m_cx1, c1 );
+            m_cx1 = midValue( c1, m_cx2 );
+            bz.m_x2 = m_x1 = midValue( bz.m_cx2, m_cx1 );
 
-            const double c2 = midValue( d_cy1, d_cy2 );
+            const double c2 = midValue( m_cy1, m_cy2 );
 
-            bz.d_cy1 = midValue( d_y1, d_cy1 );
-            d_cy2 = midValue( d_cy2, d_y2 );
-            bz.d_y1 = d_y1;
-            bz.d_cy2 = midValue( bz.d_cy1, c2 );
-            d_cy1 = midValue( d_cy2, c2 );
-            bz.d_y2 = d_y1 = midValue( bz.d_cy2, d_cy1 );
+            bz.m_cy1 = midValue( m_y1, m_cy1 );
+            m_cy2 = midValue( m_cy2, m_y2 );
+            bz.m_y1 = m_y1;
+            bz.m_cy2 = midValue( bz.m_cy1, c2 );
+            m_cy1 = midValue( m_cy2, c2 );
+            bz.m_y2 = m_y1 = midValue( bz.m_cy2, m_cy1 );
 
             return bz;
         }
 
         inline QPointF p2() const
         {
-            return QPointF( d_x2, d_y2 );
+            return QPointF( m_x2, m_y2 );
         }
 
       private:
@@ -99,10 +99,10 @@ namespace
             return 0.5 * ( v1 + v2 );
         }
 
-        double d_x1, d_y1;
-        double d_cx1, d_cy1;
-        double d_cx2, d_cy2;
-        double d_x2, d_y2;
+        double m_x1, m_y1;
+        double m_cx1, m_cy1;
+        double m_cx2, m_cy2;
+        double m_x2, m_y2;
     };
 }
 

@@ -93,14 +93,14 @@ namespace QwtSplinePleasingP
     {
       public:
         inline ControlPointsStore():
-            d_cp( NULL )
+            m_cp( NULL )
         {
         }
 
         inline void init( int size )
         {
             controlPoints.resize( size );
-            d_cp = controlPoints.data();
+            m_cp = controlPoints.data();
         }
 
         inline void start( const QPointF& )
@@ -110,14 +110,14 @@ namespace QwtSplinePleasingP
         inline void addCubic( const QPointF& cp1,
             const QPointF& cp2, const QPointF& )
         {
-            QLineF& l = *d_cp++;
+            QLineF& l = *m_cp++;
             l.setPoints( cp1, cp2 );
         }
 
         QVector< QLineF > controlPoints;
 
       private:
-        QLineF* d_cp;
+        QLineF* m_cp;
     };
 }
 

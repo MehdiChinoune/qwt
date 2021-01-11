@@ -217,40 +217,40 @@ class QwtGraphic::PathInfo
 {
   public:
     PathInfo()
-        : d_scalablePen( false )
+        : m_scalablePen( false )
     {
         // QVector needs a default constructor
     }
 
     PathInfo( const QRectF& pointRect,
             const QRectF& boundingRect, bool scalablePen )
-        : d_pointRect( pointRect )
-        , d_boundingRect( boundingRect )
-        , d_scalablePen( scalablePen )
+        : m_pointRect( pointRect )
+        , m_boundingRect( boundingRect )
+        , m_scalablePen( scalablePen )
     {
     }
 
     inline QRectF scaledBoundingRect( qreal sx, qreal sy, bool scalePens ) const
     {
         if ( sx == 1.0 && sy == 1.0 )
-            return d_boundingRect;
+            return m_boundingRect;
 
         QTransform transform;
         transform.scale( sx, sy );
 
         QRectF rect;
-        if ( scalePens && d_scalablePen )
+        if ( scalePens && m_scalablePen )
         {
-            rect = transform.mapRect( d_boundingRect );
+            rect = transform.mapRect( m_boundingRect );
         }
         else
         {
-            rect = transform.mapRect( d_pointRect );
+            rect = transform.mapRect( m_pointRect );
 
-            const qreal l = qAbs( d_pointRect.left() - d_boundingRect.left() );
-            const qreal r = qAbs( d_pointRect.right() - d_boundingRect.right() );
-            const qreal t = qAbs( d_pointRect.top() - d_boundingRect.top() );
-            const qreal b = qAbs( d_pointRect.bottom() - d_boundingRect.bottom() );
+            const qreal l = qAbs( m_pointRect.left() - m_boundingRect.left() );
+            const qreal r = qAbs( m_pointRect.right() - m_boundingRect.right() );
+            const qreal t = qAbs( m_pointRect.top() - m_boundingRect.top() );
+            const qreal b = qAbs( m_pointRect.bottom() - m_boundingRect.bottom() );
 
             rect.adjust( -l, -t, r, b );
         }
@@ -264,7 +264,7 @@ class QwtGraphic::PathInfo
         if ( pathRect.width() <= 0.0 )
             return 0.0;
 
-        const QPointF p0 = d_pointRect.center();
+        const QPointF p0 = m_pointRect.center();
 
         const qreal l = qAbs( pathRect.left() - p0.x() );
         const qreal r = qAbs( pathRect.right() - p0.x() );
@@ -273,17 +273,17 @@ class QwtGraphic::PathInfo
             * targetRect.width() / pathRect.width();
 
         double sx;
-        if ( scalePens && d_scalablePen )
+        if ( scalePens && m_scalablePen )
         {
-            sx = w / d_boundingRect.width();
+            sx = w / m_boundingRect.width();
         }
         else
         {
             const qreal pw = qwtMaxF(
-                qAbs( d_boundingRect.left() - d_pointRect.left() ),
-                qAbs( d_boundingRect.right() - d_pointRect.right() ) );
+                qAbs( m_boundingRect.left() - m_pointRect.left() ),
+                qAbs( m_boundingRect.right() - m_pointRect.right() ) );
 
-            sx = ( w - 2 * pw ) / d_pointRect.width();
+            sx = ( w - 2 * pw ) / m_pointRect.width();
         }
 
         return sx;
@@ -295,7 +295,7 @@ class QwtGraphic::PathInfo
         if ( pathRect.height() <= 0.0 )
             return 0.0;
 
-        const QPointF p0 = d_pointRect.center();
+        const QPointF p0 = m_pointRect.center();
 
         const qreal t = qAbs( pathRect.top() - p0.y() );
         const qreal b = qAbs( pathRect.bottom() - p0.y() );
@@ -304,26 +304,26 @@ class QwtGraphic::PathInfo
             * targetRect.height() / pathRect.height();
 
         double sy;
-        if ( scalePens && d_scalablePen )
+        if ( scalePens && m_scalablePen )
         {
-            sy = h / d_boundingRect.height();
+            sy = h / m_boundingRect.height();
         }
         else
         {
             const qreal pw = qwtMaxF(
-                qAbs( d_boundingRect.top() - d_pointRect.top() ),
-                qAbs( d_boundingRect.bottom() - d_pointRect.bottom() ) );
+                qAbs( m_boundingRect.top() - m_pointRect.top() ),
+                qAbs( m_boundingRect.bottom() - m_pointRect.bottom() ) );
 
-            sy = ( h - 2 * pw ) / d_pointRect.height();
+            sy = ( h - 2 * pw ) / m_pointRect.height();
         }
 
         return sy;
     }
 
   private:
-    QRectF d_pointRect;
-    QRectF d_boundingRect;
-    bool d_scalablePen;
+    QRectF m_pointRect;
+    QRectF m_boundingRect;
+    bool m_scalablePen;
 };
 
 class QwtGraphic::PrivateData

@@ -31,22 +31,22 @@ class QwtClip::LeftEdge
 {
   public:
     inline LeftEdge( Value x1, Value, Value, Value ):
-        d_x1( x1 )
+        m_x1( x1 )
     {
     }
 
     inline bool isInside( const Point& p  ) const
     {
-        return p.x() >= d_x1;
+        return p.x() >= m_x1;
     }
 
     inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dy = ( p1.y() - p2.y() ) / double( p1.x() - p2.x() );
-        return Point( d_x1, static_cast< Value >( p2.y() + ( d_x1 - p2.x() ) * dy ) );
+        return Point( m_x1, static_cast< Value >( p2.y() + ( m_x1 - p2.x() ) * dy ) );
     }
   private:
-    const Value d_x1;
+    const Value m_x1;
 };
 
 template< class Point, typename Value >
@@ -54,23 +54,23 @@ class QwtClip::RightEdge
 {
   public:
     inline RightEdge( Value, Value x2, Value, Value ):
-        d_x2( x2 )
+        m_x2( x2 )
     {
     }
 
     inline bool isInside( const Point& p  ) const
     {
-        return p.x() <= d_x2;
+        return p.x() <= m_x2;
     }
 
     inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dy = ( p1.y() - p2.y() ) / double( p1.x() - p2.x() );
-        return Point( d_x2, static_cast< Value >( p2.y() + ( d_x2 - p2.x() ) * dy ) );
+        return Point( m_x2, static_cast< Value >( p2.y() + ( m_x2 - p2.x() ) * dy ) );
     }
 
   private:
-    const Value d_x2;
+    const Value m_x2;
 };
 
 template< class Point, typename Value >
@@ -78,23 +78,23 @@ class QwtClip::TopEdge
 {
   public:
     inline TopEdge( Value, Value, Value y1, Value ):
-        d_y1( y1 )
+        m_y1( y1 )
     {
     }
 
     inline bool isInside( const Point& p  ) const
     {
-        return p.y() >= d_y1;
+        return p.y() >= m_y1;
     }
 
     inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dx = ( p1.x() - p2.x() ) / double( p1.y() - p2.y() );
-        return Point( static_cast< Value >( p2.x() + ( d_y1 - p2.y() ) * dx ), d_y1 );
+        return Point( static_cast< Value >( p2.x() + ( m_y1 - p2.y() ) * dx ), m_y1 );
     }
 
   private:
-    const Value d_y1;
+    const Value m_y1;
 };
 
 template< class Point, typename Value >
@@ -102,23 +102,23 @@ class QwtClip::BottomEdge
 {
   public:
     inline BottomEdge( Value, Value, Value, Value y2 ):
-        d_y2( y2 )
+        m_y2( y2 )
     {
     }
 
     inline bool isInside( const Point& p ) const
     {
-        return p.y() <= d_y2;
+        return p.y() <= m_y2;
     }
 
     inline Point intersection( const Point& p1, const Point& p2 ) const
     {
         double dx = ( p1.x() - p2.x() ) / double( p1.y() - p2.y() );
-        return Point( static_cast< Value >( p2.x() + ( d_y2 - p2.y() ) * dx ), d_y2 );
+        return Point( static_cast< Value >( p2.x() + ( m_y2 - p2.y() ) * dx ), m_y2 );
     }
 
   private:
-    const Value d_y2;
+    const Value m_y2;
 };
 
 using namespace QwtClip;
@@ -129,14 +129,14 @@ class QwtPolygonClipper
     typedef typename Polygon::value_type Point;
   public:
     explicit QwtPolygonClipper( const Rect& clipRect ):
-        d_clipRect( clipRect )
+        m_clipRect( clipRect )
     {
     }
 
     void clipPolygon( Polygon& points1, bool closePolygon ) const
     {
 #if 0
-        if ( d_clipRect.contains( points1.boundingRect() ) )
+        if ( m_clipRect.contains( points1.boundingRect() ) )
             return polygon;
 #endif
 
@@ -164,8 +164,8 @@ class QwtPolygonClipper
             return;
         }
 
-        const Edge edge( d_clipRect.x(), d_clipRect.x() + d_clipRect.width(),
-            d_clipRect.y(), d_clipRect.y() + d_clipRect.height() );
+        const Edge edge( m_clipRect.x(), m_clipRect.x() + m_clipRect.width(),
+            m_clipRect.y(), m_clipRect.y() + m_clipRect.height() );
 
         if ( !closePolygon )
         {
@@ -214,7 +214,7 @@ class QwtPolygonClipper
         }
     }
 
-    const Rect d_clipRect;
+    const Rect m_clipRect;
 };
 
 class QwtCircleClipper
@@ -239,12 +239,12 @@ class QwtCircleClipper
 
     double toAngle( const QPointF&, const QPointF& ) const;
 
-    const QRectF d_rect;
+    const QRectF m_rect;
 };
 
 
 QwtCircleClipper::QwtCircleClipper( const QRectF& r )
-    : d_rect( r )
+    : m_rect( r )
 {
 }
 
@@ -262,7 +262,7 @@ QVector< QwtInterval > QwtCircleClipper::clipCircle(
     {
         QRectF cRect( 0, 0, 2 * radius, 2 * radius );
         cRect.moveCenter( pos );
-        if ( d_rect.contains( cRect ) )
+        if ( m_rect.contains( cRect ) )
             intv += QwtInterval( 0.0, 2 * M_PI );
     }
     else
@@ -275,7 +275,7 @@ QVector< QwtInterval > QwtCircleClipper::clipCircle(
 
         std::sort( angles.begin(), angles.end() );
 
-        const int in = d_rect.contains( qwtPolar2Pos( pos, radius,
+        const int in = m_rect.contains( qwtPolar2Pos( pos, radius,
             angles[0] + ( angles[1] - angles[0] ) / 2 ) );
 
         intv.reserve( angles.size() / 2 );
@@ -328,31 +328,31 @@ QVector< QPointF > QwtCircleClipper::cuttingPoints(
 
     if ( edge == Left || edge == Right )
     {
-        const double x = ( edge == Left ) ? d_rect.left() : d_rect.right();
+        const double x = ( edge == Left ) ? m_rect.left() : m_rect.right();
         if ( qAbs( pos.x() - x ) < radius )
         {
             const double off = std::sqrt( qwtSqr( radius ) - qwtSqr( pos.x() - x ) );
             const double m_y1 = pos.y() + off;
-            if ( m_y1 >= d_rect.top() && m_y1 <= d_rect.bottom() )
+            if ( m_y1 >= m_rect.top() && m_y1 <= m_rect.bottom() )
                 points += QPointF( x, m_y1 );
 
             const double m_y2 = pos.y() - off;
-            if ( m_y2 >= d_rect.top() && m_y2 <= d_rect.bottom() )
+            if ( m_y2 >= m_rect.top() && m_y2 <= m_rect.bottom() )
                 points += QPointF( x, m_y2 );
         }
     }
     else
     {
-        const double y = ( edge == Top ) ? d_rect.top() : d_rect.bottom();
+        const double y = ( edge == Top ) ? m_rect.top() : m_rect.bottom();
         if ( qAbs( pos.y() - y ) < radius )
         {
             const double off = std::sqrt( qwtSqr( radius ) - qwtSqr( pos.y() - y ) );
             const double x1 = pos.x() + off;
-            if ( x1 >= d_rect.left() && x1 <= d_rect.right() )
+            if ( x1 >= m_rect.left() && x1 <= m_rect.right() )
                 points += QPointF( x1, y );
 
             const double m_x2 = pos.x() - off;
-            if ( m_x2 >= d_rect.left() && m_x2 <= d_rect.right() )
+            if ( m_x2 >= m_rect.left() && m_x2 <= m_rect.right() )
                 points += QPointF( m_x2, y );
         }
     }
