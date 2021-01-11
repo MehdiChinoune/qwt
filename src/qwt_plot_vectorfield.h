@@ -53,8 +53,14 @@ class QWT_EXPORT QwtPlotVectorField :
      */
     enum PaintAttribute
     {
-        FilterVectors        = 0x01,
-        LimitLength          = 0x02
+        /*
+            FilterVectors calculetes an average sample from all samples
+            that lie in the same cell of a grid that is determined by
+            setting the rasterSize().
+
+            \sa setRasterSize()
+         */
+        FilterVectors        = 0x01
     };
 
     //! Paint attributes
@@ -110,6 +116,12 @@ class QWT_EXPORT QwtPlotVectorField :
 
     void setMagnitudeRange( const QwtInterval& );
     QwtInterval magnitudeRange() const;
+
+    void setMinArrowLength( double );
+    double minArrowLength() const;
+
+    void setMaxArrowLength( double );
+    double maxArrowLength() const;
 
     virtual double arrowLength( double magnitude ) const;
 

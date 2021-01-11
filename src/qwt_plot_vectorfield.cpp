@@ -20,6 +20,7 @@
 #include <qpainterpath.h>
 #include <qdebug.h>
 #include <cstdlib>
+#include <limits>
 
 #define DEBUG_RENDER 0
 
@@ -245,6 +246,8 @@ class QwtPlotVectorField::PrivateData
         , indicatorOrigin( QwtPlotVectorField::OriginHead )
         , magnitudeScaleFactor( 1.0 )
         , rasterSize( 20, 20 )
+        , minArrowLength( 0.0 )
+        , maxArrowLength( std::numeric_limits< short >::max() )
         , magnitudeModes( MagnitudeAsLength )
     {
         colorMap = NULL;
@@ -274,6 +277,9 @@ class QwtPlotVectorField::PrivateData
 
     qreal magnitudeScaleFactor;
     QSizeF rasterSize;
+
+    double minArrowLength;
+    double maxArrowLength;
 
     PaintAttributes paintAttributes;
     MagnitudeModes magnitudeModes;
@@ -411,6 +417,11 @@ double QwtPlotVectorField::magnitudeScaleFactor() const
     return m_data->magnitudeScaleFactor;
 }
 
+/*!
+   Set the raster size used for filtering samples
+
+   \sa rasterSize(), QwtPlotVectorField::FilterVectors
+ */
 void QwtPlotVectorField::setRasterSize( const QSizeF& size )
 {
     if ( size != m_data->rasterSize )
@@ -420,6 +431,10 @@ void QwtPlotVectorField::setRasterSize( const QSizeF& size )
     }
 }
 
+/*!
+   \return raster size used for filtering samples
+   \sa setRasterSize(), QwtPlotVectorField::FilterVectors
+ */
 QSizeF QwtPlotVectorField::rasterSize() const
 {
     return m_data->rasterSize;
@@ -598,6 +613,62 @@ QwtInterval QwtPlotVectorField::magnitudeRange() const
 }
 
 /*!
+   Set a minimum for the arrow length of non zero vectors
+
+   \param length Minimum for the arrow length in pixels
+   \sa minArrowLength(), setMaxArrowLength(), arrowLength()
+   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+ */
+void QwtPlotVectorField::setMinArrowLength( double length )
+{
+    length = qMax( length, 0.0 );
+
+    if ( m_data->minArrowLength != length )
+    {
+        m_data->minArrowLength = length;
+        itemChanged();
+    }
+}
+
+/*!
+   \return minimum for the arrow length of non zero vectors
+   \sa setMinArrowLength(), maxArrowLength(), arrowLength()
+   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+ */
+double QwtPlotVectorField::minArrowLength() const
+{
+    return m_data->minArrowLength;
+}
+
+/*!
+   Set a maximum for the arrow length
+
+   \param length Maximum for the arrow length in pixels
+   \sa maxArrowLength(), setMinArrowLength(), arrowLength()
+   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+ */
+void QwtPlotVectorField::setMaxArrowLength( double length )
+{
+    length = qMax( length, 0.0 );
+
+    if ( m_data->maxArrowLength != length )
+    {
+        m_data->maxArrowLength = length;
+        itemChanged();
+    }
+}
+
+/*!
+   \return maximum for the arrow length
+   \sa setMinArrowLength(), maxArrowLength(), arrowLength()
+   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+ */
+double QwtPlotVectorField::maxArrowLength() const
+{
+    return m_data->maxArrowLength;
+}
+
+/*!
    Computes length of the arrow in screen coordinate units based on its magnitude.
 
    Default implementation simply scales the vector using the magnitudeScaleFactor property.
@@ -606,6 +677,7 @@ QwtInterval QwtPlotVectorField::magnitudeRange() const
 
    \return Length of arrow to be drawn in dependence of vector magnitude.
    \sa setMagnitudeScaleFactor
+   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
  */
 double QwtPlotVectorField::arrowLength( double magnitude ) const
 {
@@ -622,16 +694,7 @@ double QwtPlotVectorField::arrowLength( double magnitude ) const
         magnitude /= m_data->magnitudeRange.maxValue();
 #endif
 
-    double l = magnitude * m_data->magnitudeScaleFactor;
-    if ( m_data->paintAttributes & LimitLength )
-    {
-        // TODO : make 30 a parameter? or leave this to user code and remove LimitLength altogether?
-        l = qMin(l, 50.0);
-        // ensure non-zero arrows are always at least 3 pixels long
-        if (l != 0)
-            l = qMax(l, 3.0);
-    }
-    return l;
+    return magnitude * m_data->magnitudeScaleFactor;
 }
 
 QRectF QwtPlotVectorField::boundingRect() const
@@ -691,8 +754,6 @@ QwtGraphic QwtPlotVectorField::legendIcon(
    \param from Index of the first sample to be painted
    \param to Index of the last sample to be painted. If to < 0 the
          series will be painted to its last sample.
-
-   \sa drawDots()
  */
 void QwtPlotVectorField::drawSeries( QPainter* painter,
     const QwtScaleMap& xMap, const QwtScaleMap& yMap,
@@ -871,6 +932,12 @@ void QwtPlotVectorField::drawSymbol( QPainter* painter,
     if ( m_data->magnitudeModes & MagnitudeAsLength )
     {
         length = arrowLength( magnitude );
+
+        if ( length > 0.0 )
+        {
+            length = qBound( m_data->minArrowLength,
+                length, m_data->maxArrowLength );
+        }
     }
 
     symbol->setLength( length );
