@@ -1317,6 +1317,20 @@ void QwtPlotCurve::setSamples( const QVector< double >& xData,
 }
 
 /*!
+   \brief Initialize data with x- and y-arrays (explicitly shared)
+
+   \param xData x data
+   \param yData y data
+
+   \sa QwtPointArrayData
+ */
+void QwtPlotCurve::setSamples( const QVector< float >& xData,
+    const QVector< float >& yData )
+{
+    setData( new QwtPointArrayData< float >( xData, yData ) );
+}
+
+/*!
    Set data by copying y-values from a specified memory block.
 
    The memory contains the y coordinates, while the index is
