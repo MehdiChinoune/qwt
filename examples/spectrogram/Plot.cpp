@@ -287,7 +287,7 @@ void Plot::setColorTableSize( int type )
             break;
     }
 
-    m_spectrogram->setMaxRGBTableSize( numColors );
+    m_spectrogram->setColorTableSize( numColors );
     replot();
 }
 

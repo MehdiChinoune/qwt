@@ -50,7 +50,7 @@ class QwtPlotSpectrogram::PrivateData
   public:
     PrivateData()
         : data( NULL )
-        , maxRGBColorTableSize( 0 )
+        , colorTableSize( 0 )
     {
         colorMap = new QwtLinearColorMap();
         displayMode = ImageMode;
@@ -75,10 +75,10 @@ class QwtPlotSpectrogram::PrivateData
         }
         else
         {
-            if ( maxRGBColorTableSize == 0 )
+            if ( colorTableSize == 0 )
                 colorTable.clear();
             else
-                colorTable = colorMap->colorTable( maxRGBColorTableSize );
+                colorTable = colorMap->colorTable( colorTableSize );
         }
     }
 
@@ -90,7 +90,7 @@ class QwtPlotSpectrogram::PrivateData
     QPen defaultContourPen;
     QwtRasterData::ConrecFlags conrecFlags;
 
-    int maxRGBColorTableSize;
+    int colorTableSize;
     QVector< QRgb > colorTable;
 };
 
@@ -202,20 +202,42 @@ const QwtColorMap* QwtPlotSpectrogram::colorMap() const
     return m_data->colorMap;
 }
 
-void QwtPlotSpectrogram::setMaxRGBTableSize( int numColors )
+/*!
+    Limit the number of colors being used by the color map
+
+    When using a color table the mapping from the value into a color
+    is usually faster as it can be done by simple lookups into a
+    precalculated color table.
+
+    Setting a table size > 0 enables using a color table, while setting
+    the size to 0 disables it.
+
+    The default size = 0, and no color table is used.
+
+    \param numColors Number of colors. 0 means not using a color table
+    \note The colorTableSize has no effect when using a color table
+          of QwtColorMap::Indexed, where the size is always 256.
+    
+
+    \sa QwtColorMap::colorTable(), colorTableSize()
+ */
+void QwtPlotSpectrogram::setColorTableSize( int numColors )
 {
     numColors = qMax( numColors, 0 );
-    if ( numColors != m_data->maxRGBColorTableSize )
+    if ( numColors != m_data->colorTableSize )
     {
-        m_data->maxRGBColorTableSize = numColors;
+        m_data->colorTableSize = numColors;
         m_data->updateColorTable();
         invalidateCache();
     }
 }
-
-int QwtPlotSpectrogram::maxRGBTableSize() const
+/*!
+    \return Size of the color table, 0 means not using a color table
+    \sa QwtColorMap::colorTable(), setColorTableSize()
+ */
+int QwtPlotSpectrogram::colorTableSize() const
 {
-    return m_data->maxRGBColorTableSize;
+    return m_data->colorTableSize;
 }
 
 /*!

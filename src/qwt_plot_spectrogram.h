@@ -68,8 +68,8 @@ class QWT_EXPORT QwtPlotSpectrogram : public QwtPlotRasterItem
     void setColorMap( QwtColorMap* );
     const QwtColorMap* colorMap() const;
 
-    void setMaxRGBTableSize( int numColors );
-    int maxRGBTableSize() const;
+    void setColorTableSize( int numColors );
+    int colorTableSize() const;
 
     virtual QwtInterval interval( Qt::Axis ) const QWT_OVERRIDE;
     virtual QRectF pixelHint( const QRectF& ) const QWT_OVERRIDE;

@@ -67,7 +67,7 @@ QwtPlotOpenGLCanvas added to support rendering to a QOpenGLWidget
 
 \section SPECTROGRAM QwtPlotSpectrogram
 
-	- QwtPlotSpectrogram::setMaxRGBTableSize
+	- QwtPlotSpectrogram::setColorTableSize
       Using individual RGB tables
 
 	- QwtRasterData::setInterval/interval
