@@ -533,13 +533,12 @@ void QwtPlotVectorField::setSamples( QwtVectorFieldData* data )
 /*!
    Change the color map
 
-   Often it is useful to display the mapping between intensities and
-   colors as an additional plot axis, showing a color bar.
+   The color map is used to map the magnitude of a sample into
+   a color using a known range for the magnitudes.
 
    \param colorMap Color Map
 
-   \sa colorMap(), QwtScaleWidget::setColorBarEnabled(),
-      QwtScaleWidget::setColorMap()
+   \sa colorMap(), magnitudeRange()
  */
 void QwtPlotVectorField::setColorMap( QwtColorMap* colorMap )
 {
@@ -597,6 +596,8 @@ void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
 
    If invalid (min=max=0 or negative values), the range is determined from
    the current range of magnitudes in the vector samples.
+
+   \sa magnitudeRange(), colorMap()
  */
 void QwtPlotVectorField::setMagnitudeRange( const QwtInterval& magnitudeRange )
 {
@@ -607,6 +608,10 @@ void QwtPlotVectorField::setMagnitudeRange( const QwtInterval& magnitudeRange )
     }
 }
 
+/*!
+    \return min/max magnitudes to be used for color map lookups
+   \sa setMagnitudeRange(), colorMap()
+ */
 QwtInterval QwtPlotVectorField::magnitudeRange() const
 {
     return m_data->magnitudeRange;
@@ -793,7 +798,7 @@ void QwtPlotVectorField::drawSeries( QPainter* painter,
    \param from Index of the first sample to be painted
    \param to Index of the last sample to be painted
 
-   \sa setSymbol(), drawSeries()
+   \sa setSymbol(), drawSymbol(), drawSeries()
  */
 void QwtPlotVectorField::drawSymbols( QPainter* painter,
     const QwtScaleMap& xMap, const QwtScaleMap& yMap,
@@ -915,6 +920,14 @@ void QwtPlotVectorField::drawSymbols( QPainter* painter,
     }
 }
 
+/*!
+   Draw a arrow/symbols at a specfic position
+
+   x, y, are paint device coordinates, while vx, vy are from
+   the corresponding sample.
+
+   \sa setSymbol(), drawSeries()
+ */
 void QwtPlotVectorField::drawSymbol( QPainter* painter,
     double x, double y, double vx, double vy ) const
 {
