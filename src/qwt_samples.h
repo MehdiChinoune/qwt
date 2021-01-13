@@ -305,7 +305,7 @@ inline QPointF QwtVectorFieldSample::pos() const
     return QPointF( x, y );
 }
 
-// \return true, if vx and vy are 0
+//! \return true, if vx and vy are 0
 inline bool QwtVectorFieldSample::isNull() const
 {
     return ( vx == 0.0 ) && ( vy == 0.0 );

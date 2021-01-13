@@ -41,7 +41,6 @@ class QPalette;
 
       plot->enableAxis( QwtPlot::yLeft, false );
     \endcode
-   \endpar
  */
 
 class QWT_EXPORT QwtPlotScaleItem : public QwtPlotItem
