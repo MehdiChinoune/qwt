@@ -327,7 +327,6 @@ QRectF QwtIntervalSeriesData::boundingRect() const
 QwtVectorFieldData::QwtVectorFieldData(
         const QVector< QwtVectorFieldSample >& samples )
     : QwtArraySeriesData< QwtVectorFieldSample >( samples )
-    , m_maxMagnitude( -1.0 )
 {
 }
 
@@ -345,27 +344,6 @@ QRectF QwtVectorFieldData::boundingRect() const
         cachedBoundingRect = qwtBoundingRect( *this );
 
     return cachedBoundingRect;
-}
-
-double QwtVectorFieldData::maxMagnitude() const
-{
-    if ( m_maxMagnitude < 0.0 )
-    {
-        double max = 0.0;
-
-        for ( uint i = 0; i < size(); i++ )
-        {
-            const QwtVectorFieldSample s = sample( i );
-
-            const double l = s.vx * s.vx + s.vy * s.vy;
-            if ( l > max )
-                max = l;
-        }
-
-        m_maxMagnitude = std::sqrt( max );
-    }
-
-    return m_maxMagnitude;
 }
 
 /*!

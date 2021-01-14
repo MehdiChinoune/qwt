@@ -253,10 +253,6 @@ class QWT_EXPORT QwtVectorFieldData : public QwtArraySeriesData< QwtVectorFieldS
         const QVector< QwtVectorFieldSample >& = QVector< QwtVectorFieldSample >( ) );
 
     virtual QRectF boundingRect() const QWT_OVERRIDE;
-    virtual double maxMagnitude() const;
-
-  protected:
-    mutable double m_maxMagnitude;
 };
 
 /*!
