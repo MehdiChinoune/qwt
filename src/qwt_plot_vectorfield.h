@@ -31,7 +31,7 @@ class QWT_EXPORT QwtPlotVectorField :
     public QwtPlotSeriesItem, public QwtSeriesStore< QwtVectorFieldSample >
 {
   public:
-    /*
+    /*!
         Depending on the origin the indicator symbol ( usually an arrow )
         will be to the position of the corresponding sample.
      */
@@ -66,13 +66,24 @@ class QWT_EXPORT QwtPlotVectorField :
     //! Paint attributes
     typedef QFlags< PaintAttribute > PaintAttributes;
 
-    /*
+    /*!
         Depending on the MagnitudeMode the magnitude component will have
-        an impact on the color or length of the symbol/arrow.
+        an impact on the attributes of the symbol/arrow.
+
+        \sa setMagnitudeMode()
      */
     enum MagnitudeMode
     {
+        /*!
+           The magnitude will be mapped to a color using a color map
+           \sa magnitudeRange(), colorMap()
+         */
         MagnitudeAsColor = 0x01,
+
+        /*!
+           The magnitude will have an impact on the length of the arrow/symbol
+           \sa arrowLength(), magnitudeScaleFactor()
+         */
         MagnitudeAsLength = 0x02
     };
 
@@ -89,9 +100,6 @@ class QWT_EXPORT QwtPlotVectorField :
 
     void setMagnitudeMode( MagnitudeMode, bool on = true );
     bool testMagnitudeMode( MagnitudeMode ) const;
-
-    MagnitudeModes magnitudeModes() const;
-    void setMagnitudeModes( MagnitudeModes );
 
     void setSymbol( QwtVectorFieldSymbol* );
     const QwtVectorFieldSymbol* symbol() const;

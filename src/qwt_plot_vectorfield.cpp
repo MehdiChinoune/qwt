@@ -403,6 +403,17 @@ QwtPlotVectorField::IndicatorOrigin QwtPlotVectorField::indicatorOrigin() const
     return m_data->indicatorOrigin;
 }
 
+/*!
+   \brief Set the magnitudeScaleFactor
+
+   The length of the arrow in screen coordinate units is calculated by
+   scaling the maginute by the magnitudeScaleFactor.
+s
+   \param factor Scale factor
+
+   \sa magnitudeScaleFactor(), arrowLength()
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
+ */
 void QwtPlotVectorField::setMagnitudeScaleFactor( double factor )
 {
     if ( factor != m_data->magnitudeScaleFactor )
@@ -412,6 +423,20 @@ void QwtPlotVectorField::setMagnitudeScaleFactor( double factor )
     }
 }
 
+/*!
+   \return Scale factor used to calculate the arrow length from the magnized
+
+   The length of the arrow in screen coordinate units is calculated by
+   scaling the maginute by the magnitudeScaleFactor.
+
+   Default implementation simply scales the vector using the magnitudeScaleFactor
+   property.  Re-implement this function to provide special handling for
+   zero/non-zero magnitude arrows, or impose minimum/maximum arrow length limits.
+    
+   \return Length of arrow to be drawn in dependence of vector magnitude.
+   \sa magnitudeScaleFactor
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
+ */
 double QwtPlotVectorField::magnitudeScaleFactor() const
 {
     return m_data->magnitudeScaleFactor;
@@ -481,8 +506,12 @@ int QwtPlotVectorField::rtti() const
 }
 
 /*!
-    Sets a new arrow symbol (implementation of arrow drawing code).
-    Ownership is transferred to QwtPlotVectorField.
+   Sets a new arrow symbol (implementation of arrow drawing code).
+
+   \param symbol Arrow symbol
+
+   \sa symbol(), drawSymbol()
+   \note Ownership is transferred to QwtPlotVectorField.
  */
 void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol* symbol )
 {
@@ -496,14 +525,13 @@ void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol* symbol )
     legendChanged();
 }
 
+/*!
+  \return arrow symbol
+  \sa setSymbol(), drawSymbol()
+ */
 const QwtVectorFieldSymbol* QwtPlotVectorField::symbol() const
 {
     return m_data->symbol;
-}
-
-QwtPlotVectorField::MagnitudeModes QwtPlotVectorField::magnitudeModes() const
-{
-    return m_data->magnitudeModes;
 }
 
 /*!
@@ -564,6 +592,13 @@ const QwtColorMap* QwtPlotVectorField::colorMap() const
     return m_data->colorMap;
 }
 
+/*!
+   Specify a mode how to represent the magnitude a n arrow/symbol
+
+   \param mode Mode
+   \param on On/Off
+   \sa testMagnitudeMode()
+ */
 void QwtPlotVectorField::setMagnitudeMode( MagnitudeMode mode, bool on )
 {
     if ( on == testMagnitudeMode( mode ) )
@@ -577,18 +612,13 @@ void QwtPlotVectorField::setMagnitudeMode( MagnitudeMode mode, bool on )
     itemChanged();
 }
 
+/*!
+    \return True, when mode is enabled
+    \sa MagnitudeMode, setMagnitudeMode()
+ */
 bool QwtPlotVectorField::testMagnitudeMode( MagnitudeMode mode ) const
 {
     return m_data->magnitudeModes & mode;
-}
-
-void QwtPlotVectorField::setMagnitudeModes( MagnitudeModes modes )
-{
-    if ( m_data->magnitudeModes != modes )
-    {
-        m_data->magnitudeModes = modes;
-        itemChanged();
-    }
 }
 
 /*!
@@ -621,8 +651,9 @@ QwtInterval QwtPlotVectorField::magnitudeRange() const
    Set a minimum for the arrow length of non zero vectors
 
    \param length Minimum for the arrow length in pixels
+
    \sa minArrowLength(), setMaxArrowLength(), arrowLength()
-   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
  */
 void QwtPlotVectorField::setMinArrowLength( double length )
 {
@@ -637,8 +668,9 @@ void QwtPlotVectorField::setMinArrowLength( double length )
 
 /*!
    \return minimum for the arrow length of non zero vectors
+
    \sa setMinArrowLength(), maxArrowLength(), arrowLength()
-   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
  */
 double QwtPlotVectorField::minArrowLength() const
 {
@@ -649,8 +681,9 @@ double QwtPlotVectorField::minArrowLength() const
    Set a maximum for the arrow length
 
    \param length Maximum for the arrow length in pixels
+
    \sa maxArrowLength(), setMinArrowLength(), arrowLength()
-   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
  */
 void QwtPlotVectorField::setMaxArrowLength( double length )
 {
@@ -665,8 +698,9 @@ void QwtPlotVectorField::setMaxArrowLength( double length )
 
 /*!
    \return maximum for the arrow length
+
    \sa setMinArrowLength(), maxArrowLength(), arrowLength()
-   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
  */
 double QwtPlotVectorField::maxArrowLength() const
 {
@@ -676,30 +710,40 @@ double QwtPlotVectorField::maxArrowLength() const
 /*!
    Computes length of the arrow in screen coordinate units based on its magnitude.
 
-   Default implementation simply scales the vector using the magnitudeScaleFactor property.
-   Re-implement this function to provide special handling for zero/non-zero
-   magnitude arrows, or impose minimum/maximum arrow length limits.
+   Default implementation simply scales the vector using the magnitudeScaleFactor()
+   If the result is not null, the length is then bounded into the interval
+   [ minArrowLength(), maxArrowLength() ].
 
+   Re-implement this function to provide special handling for
+   zero/non-zero magnitude arrows, or impose minimum/maximum arrow length limits.
+
+   \param magnitude Magnitude
    \return Length of arrow to be drawn in dependence of vector magnitude.
-   \sa setMagnitudeScaleFactor
-   \note Has no effect in QwtPlotVectorField::MagnitudeAsColor mode
+
+   \sa magnitudeScaleFactor, minArrowLength(), maxArrowLength()
+   \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
  */
 double QwtPlotVectorField::arrowLength( double magnitude ) const
 {
 #if 0
     /*
-       Normalize magnitude with respect to value range.
-       Then, magnitudeScaleFactor is the number of pixels to draw (times the arrow tail width) for
-       a vector of length equal to magnitudeRange.maxValue().
-       The relative scaling ensures that change of data samples of very different magnitudes
-       will always lead to a reasonable display on screen.
+       Normalize magnitude with respect to value range.  Then, magnitudeScaleFactor
+       is the number of pixels to draw for a vector of length equal to
+       magnitudeRange.maxValue(). The relative scaling ensures that change of data
+       samples of very different magnitudes will always lead to a reasonable
+       display on screen.
      */
     const QwtVectorFieldData* vectorData = dynamic_cast< const QwtVectorFieldData* >( data() );
     if ( m_data->magnitudeRange.maxValue() > 0 )
         magnitude /= m_data->magnitudeRange.maxValue();
 #endif
 
-    return magnitude * m_data->magnitudeScaleFactor;
+    double length = magnitude * m_data->magnitudeScaleFactor;
+
+    if ( length > 0.0 )
+        length = qBound( m_data->minArrowLength, length, m_data->maxArrowLength );
+
+    return length;
 }
 
 QRectF QwtPlotVectorField::boundingRect() const
@@ -945,12 +989,6 @@ void QwtPlotVectorField::drawSymbol( QPainter* painter,
     if ( m_data->magnitudeModes & MagnitudeAsLength )
     {
         length = arrowLength( magnitude );
-
-        if ( length > 0.0 )
-        {
-            length = qBound( m_data->minArrowLength,
-                length, m_data->maxArrowLength );
-        }
     }
 
     symbol->setLength( length );
