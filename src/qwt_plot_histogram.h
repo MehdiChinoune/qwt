@@ -38,8 +38,9 @@ template< typename T > class QVector;
    \sa QwtPlotBarChart, QwtPlotMultiBarChart
  */
 
-class QWT_EXPORT QwtPlotHistogram :
-    public QwtPlotSeriesItem, public QwtSeriesStore< QwtIntervalSample >
+class QWT_EXPORT QwtPlotHistogram
+    : public QwtPlotSeriesItem
+    , public QwtSeriesStore< QwtIntervalSample >
 {
   public:
     /*!

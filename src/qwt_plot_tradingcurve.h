@@ -34,8 +34,9 @@
    When setting the minimum and maximum to the same value, the width of
    the symbol is fixed.
  */
-class QWT_EXPORT QwtPlotTradingCurve :
-    public QwtPlotSeriesItem, public QwtSeriesStore< QwtOHLCSample >
+class QWT_EXPORT QwtPlotTradingCurve
+    : public QwtPlotSeriesItem
+    , public QwtSeriesStore< QwtOHLCSample >
 {
   public:
     /*!

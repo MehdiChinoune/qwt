@@ -53,8 +53,9 @@ class QPen;
 
    \sa QwtPointSeriesData, QwtSymbol, QwtScaleMap
  */
-class QWT_EXPORT QwtPlotCurve :
-    public QwtPlotSeriesItem, public QwtSeriesStore< QPointF >
+class QWT_EXPORT QwtPlotCurve
+    : public QwtPlotSeriesItem
+    , public QwtSeriesStore< QPointF >
 {
   public:
     /*!

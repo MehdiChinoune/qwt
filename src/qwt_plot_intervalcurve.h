@@ -24,8 +24,9 @@ template< typename T > class QwtSeriesData;
    that is displayed for each interval. QwtPlotIntervalCurve might be used
    to display error bars or the area between 2 curves.
  */
-class QWT_EXPORT QwtPlotIntervalCurve :
-    public QwtPlotSeriesItem, public QwtSeriesStore< QwtIntervalSample >
+class QWT_EXPORT QwtPlotIntervalCurve
+    : public QwtPlotSeriesItem
+    , public QwtSeriesStore< QwtIntervalSample >
 {
   public:
     /*!

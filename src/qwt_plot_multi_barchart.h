@@ -38,8 +38,9 @@ template< typename T > class QwtSeriesData;
    \sa QwtPlotBarChart, QwtPlotHistogram
       QwtPlotSeriesItem::orientation(), QwtPlotAbstractBarChart::baseline()
  */
-class QWT_EXPORT QwtPlotMultiBarChart :
-    public QwtPlotAbstractBarChart, public QwtSeriesStore< QwtSetSample >
+class QWT_EXPORT QwtPlotMultiBarChart
+    : public QwtPlotAbstractBarChart
+    , public QwtSeriesStore< QwtSetSample >
 {
   public:
     /*!

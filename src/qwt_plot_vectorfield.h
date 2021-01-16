@@ -27,8 +27,9 @@ class QBrush;
 
     \sa QwtVectorFieldSymbol, QwtVectorFieldSample
  */
-class QWT_EXPORT QwtPlotVectorField :
-    public QwtPlotSeriesItem, public QwtSeriesStore< QwtVectorFieldSample >
+class QWT_EXPORT QwtPlotVectorField
+    : public QwtPlotSeriesItem
+    , public QwtSeriesStore< QwtVectorFieldSample >
 {
   public:
     /*!
