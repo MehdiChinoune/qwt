@@ -74,8 +74,7 @@ class QWT_EXPORT QwtPlotIntervalCurve
         ClipSymbol   = 0x02
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotIntervalCurve( const QString& title = QString() );
     explicit QwtPlotIntervalCurve( const QwtText& title );

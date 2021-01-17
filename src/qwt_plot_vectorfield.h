@@ -64,8 +64,7 @@ class QWT_EXPORT QwtPlotVectorField
         FilterVectors        = 0x01
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     /*!
         Depending on the MagnitudeMode the magnitude component will have
@@ -88,8 +87,7 @@ class QWT_EXPORT QwtPlotVectorField
         MagnitudeAsLength = 0x02
     };
 
-    //! Paint attributes
-    typedef QFlags< MagnitudeMode > MagnitudeModes;
+    Q_DECLARE_FLAGS( MagnitudeModes, MagnitudeMode )
 
     explicit QwtPlotVectorField( const QString& title = QString() );
     explicit QwtPlotVectorField( const QwtText& title );

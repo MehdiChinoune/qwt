@@ -80,8 +80,7 @@ class QWT_EXPORT QwtPlotRasterItem : public QwtPlotItem
         PaintInDeviceResolution = 1
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotRasterItem( const QString& title = QString() );
     explicit QwtPlotRasterItem( const QwtText& title );

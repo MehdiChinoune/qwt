@@ -54,8 +54,7 @@ class QWT_EXPORT QwtPlotLayout
         IgnoreFooter = 0x20
     };
 
-    //! Layout options
-    typedef QFlags< Option > Options;
+    Q_DECLARE_FLAGS( Options, Option )
 
     explicit QwtPlotLayout();
     virtual ~QwtPlotLayout();

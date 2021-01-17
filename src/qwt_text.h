@@ -123,8 +123,7 @@ class QWT_EXPORT QwtText
         PaintBackground = 0x04
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     /*!
        \brief Layout Attributes
@@ -141,8 +140,7 @@ class QWT_EXPORT QwtText
         MinimumLayout = 0x01
     };
 
-    //! Layout attributes
-    typedef QFlags< LayoutAttribute > LayoutAttributes;
+    Q_DECLARE_FLAGS( LayoutAttributes, LayoutAttribute )
 
     QwtText();
     QwtText( const QString&, TextFormat textFormat = AutoText );

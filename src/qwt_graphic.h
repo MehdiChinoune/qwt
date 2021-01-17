@@ -96,12 +96,7 @@ class QWT_EXPORT QwtGraphic : public QwtNullPaintDevice
         RenderPensUnscaled = 0x1
     };
 
-    /*!
-        \brief Render hints
-
-        The default setting is to disable all hints
-     */
-    typedef QFlags< RenderHint > RenderHints;
+    Q_DECLARE_FLAGS( RenderHints, RenderHint )
 
     /*!
        Indicator if the graphic contains a specific type of painter command
@@ -119,11 +114,7 @@ class QWT_EXPORT QwtGraphic : public QwtNullPaintDevice
         Transformation = 1 << 2
     };
 
-    /*!
-       Flag indicating what types of painter commands are in a QskGraphic
-       \sa commandTypes();
-     */
-    typedef QFlags< CommandType > CommandTypes;
+    Q_DECLARE_FLAGS( CommandTypes, CommandType )
 
     QwtGraphic();
     QwtGraphic( const QwtGraphic& );

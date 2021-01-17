@@ -47,8 +47,7 @@ class QWT_EXPORT QwtPolarCanvas : public QFrame
         BackingStore = 0x01
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPolarCanvas( QwtPolarPlot* );
     virtual ~QwtPolarCanvas();

@@ -83,8 +83,7 @@ class QWT_EXPORT QwtPolarItem
         AutoScale = 0x02
     };
 
-    //! Item attributes
-    typedef QFlags< ItemAttribute > ItemAttributes;
+    Q_DECLARE_FLAGS( ItemAttributes, ItemAttribute )
 
     /*!
        \brief Render hints
@@ -96,8 +95,7 @@ class QWT_EXPORT QwtPolarItem
         RenderAntialiased = 0x01
     };
 
-    //! Item attributes
-    typedef QFlags< RenderHint > RenderHints;
+    Q_DECLARE_FLAGS( RenderHints, RenderHint )
 
     explicit QwtPolarItem( const QwtText& title = QwtText() );
     virtual ~QwtPolarItem();

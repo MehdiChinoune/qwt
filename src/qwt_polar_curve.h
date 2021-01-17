@@ -72,8 +72,7 @@ class QWT_EXPORT QwtPolarCurve : public QwtPolarItem
         LegendShowSymbol = 0x02
     };
 
-    //! Legend attributes
-    typedef QFlags< LegendAttribute > LegendAttributes;
+    Q_DECLARE_FLAGS( LegendAttributes, LegendAttribute )
 
 
     explicit QwtPolarCurve();

@@ -44,8 +44,7 @@ class QWT_EXPORT QwtPolarSpectrogram : public QwtPolarItem
         ApproximatedAtan = 0x01
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPolarSpectrogram();
     virtual ~QwtPolarSpectrogram();

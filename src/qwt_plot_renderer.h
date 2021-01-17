@@ -72,8 +72,7 @@ class QWT_EXPORT QwtPlotRenderer : public QObject
 
     };
 
-    //! Disard flags
-    typedef QFlags< DiscardFlag > DiscardFlags;
+    Q_DECLARE_FLAGS( DiscardFlags, DiscardFlag )
 
     /*!
        \brief Layout flags
@@ -91,8 +90,7 @@ class QWT_EXPORT QwtPlotRenderer : public QObject
         FrameWithScales = 0x01
     };
 
-    //! Layout flags
-    typedef QFlags< LayoutFlag > LayoutFlags;
+    Q_DECLARE_FLAGS( LayoutFlags, LayoutFlag )
 
     explicit QwtPlotRenderer( QObject* = NULL );
     virtual ~QwtPlotRenderer();

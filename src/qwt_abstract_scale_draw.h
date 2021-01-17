@@ -48,8 +48,7 @@ class QWT_EXPORT QwtAbstractScaleDraw
         Labels = 0x04
     };
 
-    //! Scale components
-    typedef QFlags< ScaleComponent > ScaleComponents;
+    Q_DECLARE_FLAGS( ScaleComponents, ScaleComponent )
 
     QwtAbstractScaleDraw();
     virtual ~QwtAbstractScaleDraw();

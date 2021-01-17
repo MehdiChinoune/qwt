@@ -967,7 +967,7 @@ INPUT_FILTER           =
 # need to set EXTENSION_MAPPING for the extension otherwise the files are not
 # properly processed by doxygen.
 
-FILTER_PATTERNS        =
+FILTER_PATTERNS        = *.h=doxyfilter.sh
 
 # If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using
 # INPUT_FILTER) will also be used to filter the input files that are used for
@@ -2151,7 +2151,7 @@ PREDEFINED             = \
     Q_PROPERTY(x)= \
     QWT_CONSTEXPR=constexpr \
     QWT_OVERRIDE=override \
-    QWT_FINAL=final \
+    QWT_FINAL=final
     
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this

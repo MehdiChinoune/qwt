@@ -42,7 +42,7 @@ class QWT_EXPORT QwtInterval
     };
 
     //! Border flags
-    typedef QFlags< BorderFlag > BorderFlags;
+    Q_DECLARE_FLAGS( BorderFlags, BorderFlag )
 
     QwtInterval();
     QwtInterval( double minValue, double maxValue,

@@ -68,11 +68,7 @@ class QWT_EXPORT QwtPointMapper
         WeedOutIntermediatePoints = 0x04
     };
 
-    /*!
-       \brief Flags affecting the transformation process
-       \sa setFlag(), setFlags()
-     */
-    typedef QFlags< TransformationFlag > TransformationFlags;
+    Q_DECLARE_FLAGS( TransformationFlags, TransformationFlag )
 
     QwtPointMapper();
     ~QwtPointMapper();

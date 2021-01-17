@@ -40,8 +40,7 @@ class QWT_EXPORT QwtPolarLayout
         IgnoreLegend     = 0x08
     };
 
-    //! Options to configure the plot layout engine
-    typedef QFlags< Option > Options;
+    Q_DECLARE_FLAGS( Options, Option )
 
     explicit QwtPolarLayout();
     virtual ~QwtPolarLayout();

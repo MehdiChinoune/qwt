@@ -52,8 +52,7 @@ class QWT_EXPORT QwtPlotSpectrogram : public QwtPlotRasterItem
         ContourMode = 0x02
     };
 
-    //! Display modes
-    typedef QFlags< DisplayMode > DisplayModes;
+    Q_DECLARE_FLAGS( DisplayModes, DisplayMode )
 
     explicit QwtPlotSpectrogram( const QString& title = QString() );
     virtual ~QwtPlotSpectrogram();

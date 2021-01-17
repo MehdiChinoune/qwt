@@ -31,8 +31,7 @@ class QWT_EXPORT QwtPlotSpectroCurve
         ClipPoints = 1
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotSpectroCurve( const QString& title = QString() );
     explicit QwtPlotSpectroCurve( const QwtText& title );

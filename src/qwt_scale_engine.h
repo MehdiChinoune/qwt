@@ -75,8 +75,7 @@ class QWT_EXPORT QwtScaleEngine
         Inverted = 0x08
     };
 
-    //! Layout attributes
-    typedef QFlags< Attribute > Attributes;
+    Q_DECLARE_FLAGS( Attributes, Attribute )
 
     explicit QwtScaleEngine( uint base = 10 );
     virtual ~QwtScaleEngine();

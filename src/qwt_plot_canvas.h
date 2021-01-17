@@ -99,8 +99,7 @@ class QWT_EXPORT QwtPlotCanvas : public QFrame, public QwtPlotAbstractCanvas
         ImmediatePaint = 8
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotCanvas( QwtPlot* = NULL );
     virtual ~QwtPlotCanvas();

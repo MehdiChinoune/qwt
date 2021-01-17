@@ -98,8 +98,7 @@ class QWT_EXPORT QwtPlotTradingCurve
         ClipSymbols   = 0x01
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotTradingCurve( const QString& title = QString() );
     explicit QwtPlotTradingCurve( const QwtText& title );

@@ -46,8 +46,7 @@ class QWT_EXPORT QwtScaleWidget : public QWidget
         TitleInverted = 1
     };
 
-    //! Layout flags of the title
-    typedef QFlags< LayoutFlag > LayoutFlags;
+    Q_DECLARE_FLAGS( LayoutFlags, LayoutFlag )
 
     explicit QwtScaleWidget( QWidget* parent = NULL );
     explicit QwtScaleWidget( QwtScaleDraw::Alignment, QWidget* parent = NULL );

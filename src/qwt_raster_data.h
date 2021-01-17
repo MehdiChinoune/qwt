@@ -71,8 +71,7 @@ class QWT_EXPORT QwtRasterData
         WithoutGaps = 0x01
     };
 
-    //! Raster data Attributes
-    typedef QFlags< Attribute > Attributes;
+    Q_DECLARE_FLAGS( Attributes, Attribute )
 
     //! Flags to modify the contour algorithm
     enum ConrecFlag
@@ -84,8 +83,7 @@ class QWT_EXPORT QwtRasterData
         IgnoreOutOfRange = 0x02
     };
 
-    //! Flags to modify the contour algorithm
-    typedef QFlags< ConrecFlag > ConrecFlags;
+    Q_DECLARE_FLAGS( ConrecFlags, ConrecFlag )
 
     QwtRasterData();
     virtual ~QwtRasterData();

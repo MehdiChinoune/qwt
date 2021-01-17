@@ -130,8 +130,7 @@ class QWT_EXPORT QwtPlotCurve
         Fitted = 0x02
     };
 
-    //! Curve attributes
-    typedef QFlags< CurveAttribute > CurveAttributes;
+    Q_DECLARE_FLAGS( CurveAttributes, CurveAttribute )
 
     /*!
         Attributes how to represent the curve on the legend
@@ -166,8 +165,7 @@ class QWT_EXPORT QwtPlotCurve
         LegendShowBrush = 0x04
     };
 
-    //! Legend attributes
-    typedef QFlags< LegendAttribute > LegendAttributes;
+    Q_DECLARE_FLAGS( LegendAttributes, LegendAttribute )
 
     /*!
         Attributes to modify the drawing algorithm.
@@ -233,8 +231,7 @@ class QWT_EXPORT QwtPlotCurve
         FilterPointsAggressive = 0x10,
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotCurve( const QString& title = QString() );
     explicit QwtPlotCurve( const QwtText& title );

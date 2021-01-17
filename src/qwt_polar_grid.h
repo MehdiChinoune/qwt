@@ -85,8 +85,7 @@ class QWT_EXPORT QwtPolarGrid : public QwtPolarItem
         ClipGridLines = 16
     };
 
-    //! Display flags
-    typedef QFlags< DisplayFlag > DisplayFlags;
+    Q_DECLARE_FLAGS( DisplayFlags, DisplayFlag )
 
     /*!
        \brief Grid attributes
@@ -101,8 +100,7 @@ class QWT_EXPORT QwtPolarGrid : public QwtPolarItem
         AutoScaling = 0x01
     };
 
-    //! Grid attributes
-    typedef QFlags< GridAttribute > GridAttributes;
+    Q_DECLARE_FLAGS( GridAttributes, GridAttribute )
 
     explicit QwtPolarGrid();
     virtual ~QwtPolarGrid();

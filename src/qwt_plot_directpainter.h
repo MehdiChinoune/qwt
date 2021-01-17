@@ -70,8 +70,7 @@ class QWT_EXPORT QwtPlotDirectPainter : public QObject
         CopyBackingStore = 0x04
     };
 
-    //! Paint attributes
-    typedef QFlags< Attribute > Attributes;
+    Q_DECLARE_FLAGS( Attributes, Attribute )
 
     explicit QwtPlotDirectPainter( QObject* parent = NULL );
     virtual ~QwtPlotDirectPainter();

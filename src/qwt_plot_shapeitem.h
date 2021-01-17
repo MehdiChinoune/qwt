@@ -58,8 +58,7 @@ class QWT_EXPORT QwtPlotShapeItem : public QwtPlotItem
         ClipPolygons = 0x01,
     };
 
-    //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     //! Mode how to display the item on the legend
     enum LegendMode

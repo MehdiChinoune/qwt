@@ -119,7 +119,7 @@ class QWT_EXPORT QwtPlotAbstractGLCanvas : public QwtPlotAbstractCanvas
     };
 
     //! Paint attributes
-    typedef QFlags< PaintAttribute > PaintAttributes;
+    Q_DECLARE_FLAGS( PaintAttributes, PaintAttribute )
 
     explicit QwtPlotAbstractGLCanvas( QWidget* canvasWidget );
     virtual ~QwtPlotAbstractGLCanvas();

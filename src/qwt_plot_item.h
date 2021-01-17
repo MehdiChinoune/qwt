@@ -163,8 +163,7 @@ class QWT_EXPORT QwtPlotItem
         Margins = 0x04
     };
 
-    //! Plot Item Attributes
-    typedef QFlags< ItemAttribute > ItemAttributes;
+    Q_DECLARE_FLAGS( ItemAttributes, ItemAttribute )
 
     /*!
        \brief Plot Item Interests
@@ -197,8 +196,7 @@ class QWT_EXPORT QwtPlotItem
         LegendInterest = 0x02
     };
 
-    //! Plot Item Interests
-    typedef QFlags< ItemInterest > ItemInterests;
+    Q_DECLARE_FLAGS( ItemInterests, ItemInterest )
 
     //! Render hints
     enum RenderHint
@@ -207,8 +205,7 @@ class QWT_EXPORT QwtPlotItem
         RenderAntialiased = 0x1
     };
 
-    //! Render hints
-    typedef QFlags< RenderHint > RenderHints;
+    Q_DECLARE_FLAGS( RenderHints, RenderHint )
 
     explicit QwtPlotItem();
     explicit QwtPlotItem( const QString& title );
