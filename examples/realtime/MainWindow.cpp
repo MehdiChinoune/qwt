@@ -97,9 +97,9 @@ QToolBar* MainWindow::toolBar()
     setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
     setIconSize( QSize( 22, 22 ) );
 
-    m_startAction = new QAction( QPixmap( start_xpm ), "Start" );
+    m_startAction = new QAction( QPixmap( start_xpm ), "Start", this );
     m_startAction->setCheckable( true );
-    m_clearAction = new QAction( QPixmap( clear_xpm ), "Clear" );
+    m_clearAction = new QAction( QPixmap( clear_xpm ), "Clear", this );
 
     QAction* whatsThisAction = QWhatsThis::createAction();
     whatsThisAction->setText( "Help" );

@@ -18,16 +18,20 @@ static QwtPoint3D qwtPointToPoint3D( const QPointF& point )
 
 #endif
 
-static void qwtRegisterQwtPoint3D()
+namespace
 {
-    qRegisterMetaType< QwtPoint3D >();
+    static const struct RegisterQwtPoint3D
+    {
+        inline RegisterQwtPoint3D()
+        {
+            qRegisterMetaType< QwtPoint3D >();
 
 #if QT_VERSION >= 0x050200
-    QMetaType::registerConverter< QPointF, QwtPoint3D >( qwtPointToPoint3D );
+            QMetaType::registerConverter< QPointF, QwtPoint3D >( qwtPointToPoint3D );
 #endif
+        }
+    } qwtRegisterQwtPoint3D;
 }
-
-Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtPoint3D )
 
 #ifndef QT_NO_DEBUG_STREAM
 

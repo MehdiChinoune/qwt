@@ -14,7 +14,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QBuffer>
-#include <QtMath>
+#include <qmath.h>
 
 #ifdef QT_SVG_LIB
 #include <QSvgGenerator>

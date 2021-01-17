@@ -12,7 +12,7 @@
 
 #include <QLabel>
 #include <QResizeEvent>
-#include <QtMath>
+#include <qmath.h>
 
 Knob::Knob( const QString& title, double min, double max, QWidget* parent )
     : QWidget( parent )

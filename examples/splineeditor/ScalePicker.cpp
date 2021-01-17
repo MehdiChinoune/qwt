@@ -10,7 +10,7 @@
 #include <QwtScaleMap>
 
 #include <QMouseEvent>
-#include <QtMath>
+#include <qmath.h>
 
 ScalePicker::ScalePicker( QwtPlot* plot )
     : QObject( plot )

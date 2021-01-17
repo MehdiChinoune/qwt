@@ -9,12 +9,14 @@
 
 #include "qwt_interval.h"
 
-static void qwtRegisterQwtInterval()
+namespace
 {
-    qRegisterMetaType< QwtInterval >();
-}
+    static const struct RegisterQwtInterval
+    { 
+        inline RegisterQwtInterval() { qRegisterMetaType< QwtInterval >(); }
 
-Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtInterval )
+    } qwtRegisterQwtInterval;
+}
 
 /*!
    \brief Normalize the limits of the interval

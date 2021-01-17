@@ -18,17 +18,22 @@ static QwtPointPolar qwtPointToPolar( const QPointF& point )
 
 #endif 
 
-static void qwtRegisterQwtPointPolar()
+namespace
 {
-    qRegisterMetaType< QwtPointPolar >();
+    static const struct RegisterQwtPointPolar
+    {
+        inline RegisterQwtPointPolar()
+        {
+            qRegisterMetaType< QwtPointPolar >();
 
 #if QT_VERSION >= 0x050200
-    QMetaType::registerConverter< QPointF, QwtPointPolar >( qwtPointToPolar );
-    QMetaType::registerConverter< QwtPointPolar, QPointF >( &QwtPointPolar::toPoint );
+            QMetaType::registerConverter< QPointF, QwtPointPolar >( qwtPointToPolar );
+            QMetaType::registerConverter< QwtPointPolar, QPointF >( &QwtPointPolar::toPoint );
 #endif 
-}
+        }
 
-Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtPointPolar )
+    } qwtRegisterQwtPointPolar;
+}
 
 /*!
    Convert and assign values from a point in Cartesian coordinates

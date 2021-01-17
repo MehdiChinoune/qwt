@@ -17,7 +17,7 @@
 #include <QLayout>
 #include <QLabel>
 #include <QResizeEvent>
-#include <QtMath>
+#include <qmath.h>
 
 class Knob : public QWidget
 {

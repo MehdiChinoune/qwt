@@ -9,12 +9,15 @@
 
 #include "qwt_spline_polynomial.h"
 
-static void qwtRegisterQwtSplinePolynomial()
+namespace
 {
-    qRegisterMetaType< QwtSplinePolynomial >();
-}
+    static const struct RegisterQwtSplinePolynomial
+    {
+        inline RegisterQwtSplinePolynomial()
+            { qRegisterMetaType< QwtSplinePolynomial >(); }
 
-Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtSplinePolynomial )
+    } qwtRegisterQwtSplinePolynomial;
+}
 
 #ifndef QT_NO_DEBUG_STREAM
 

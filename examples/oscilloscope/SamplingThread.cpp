@@ -7,7 +7,7 @@
 #include "SignalData.h"
 
 #include <QwtMath>
-#include <QtMath>
+#include <qmath.h>
 
 SamplingThread::SamplingThread( QObject* parent )
     : QwtSamplingThread( parent )

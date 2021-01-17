@@ -28,16 +28,21 @@ static QwtText qwtStringToText( const QString& text )
 
 #endif
 
-static void qwtRegisterQwtText()
+namespace
 {
-    qRegisterMetaType< QwtText >();
+    static const struct RegisterQwtText
+    {
+        inline RegisterQwtText()
+        {
+            qRegisterMetaType< QwtText >();
 
 #if QT_VERSION >= 0x050200
-    QMetaType::registerConverter< QString, QwtText >( qwtStringToText );
+            QMetaType::registerConverter< QString, QwtText >( qwtStringToText );
 #endif
-}
+        }
 
-Q_CONSTRUCTOR_FUNCTION( qwtRegisterQwtText )
+    } qwtRegisterQwtText;
+}
 
 namespace
 {
