@@ -27,28 +27,27 @@ template< typename T > class QVector;
    \brief Some clipping algorithms
  */
 
-class QWT_EXPORT QwtClipper
+namespace QwtClipper
 {
-  public:
-    static void clipPolygon( const QRect&,
+    QWT_EXPORT void clipPolygon( const QRect&,
         QPolygon&, bool closePolygon = false );
 
-    static void clipPolygon( const QRectF&,
+    QWT_EXPORT void clipPolygon( const QRectF&,
         QPolygon&, bool closePolygon = false );
 
-    static void clipPolygonF( const QRectF&,
+    QWT_EXPORT void clipPolygonF( const QRectF&,
         QPolygonF&, bool closePolygon = false );
 
-    static QPolygon clippedPolygon( const QRect&,
+    QWT_EXPORT QPolygon clippedPolygon( const QRect&,
         const QPolygon&, bool closePolygon = false );
 
-    static QPolygon clippedPolygon( const QRectF&,
+    QWT_EXPORT QPolygon clippedPolygon( const QRectF&,
         const QPolygon&, bool closePolygon = false );
 
-    static QPolygonF clippedPolygonF( const QRectF&,
+    QWT_EXPORT QPolygonF clippedPolygonF( const QRectF&,
         const QPolygonF&, bool closePolygon = false );
 
-    static QVector< QwtInterval > clipCircle(
+    QWT_EXPORT QVector< QwtInterval > clipCircle(
         const QRectF&, const QPointF&, double radius );
 };
 
