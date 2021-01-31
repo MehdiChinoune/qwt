@@ -51,17 +51,12 @@ to control or display values, arrays, or ranges of type double.
   - \ref controlscreenshots\n
 
   \section downloads Downloads
-  Stable releases or prereleases are available at the Qwt <a href="http://sourceforge.net/projects/qwt/files">project page</a>.
+  Stable releases or prereleases are available at the Qwt <a href="http://sourceforge.net/projects/qwt/files">project page</a>, or from the <a href="https://sourceforge.net/p/qwt/git">git repository</a>.
 
-  For getting a snapshot with all bugfixes for the latest 5.2 release:
-  \code svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-5.2 \endcode
-
-  For getting a snapshot with all bugfixes for the latest 6.2 release:
-  \code svn export svn://svn.code.sf.net/p/qwt/code/branches/qwt-6.2 \endcode
-
-  For getting a development snapshot from the SVN repository:
-  \code svn export svn://svn.code.sf.net/p/qwt/code/trunk/qwt \endcode
-
+  Active development will happen in the develop branch supporting Qt >= 5.6 and relying
+  on at least C++11. However all versions >= Qt 4.8 will actively be supported in the
+  6.x branches. The popular multiaxes branch is in line with develop.
+ 
   \section installonmainpage Installation
 
   Qwt doesn't distribute binary packages, but today all major Linux distributors
@@ -88,7 +83,6 @@ to control or display values, arrays, or ranges of type double.
 
   \section relatedprojects Related Projects
 
-  <a href="http://qwtplot3d.sourceforge.net">QwtPlot3D</a>, an OpenGL 3D plot widget.\n
   <a href="https://github.com/GauiStori/PyQt-Qwt">PyQt-Qwt</a>, Python PyQt wrapper for Qwt.\n
 
   \section donations Donations
