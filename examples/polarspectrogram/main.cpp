@@ -1,7 +1,7 @@
 /*****************************************************************************
-* Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
-* This file may be used under the terms of the 3-clause BSD License
-*****************************************************************************/
+ * Qwt Polar Examples - Copyright (C) 2008   Uwe Rathmann
+ * This file may be used under the terms of the 3-clause BSD License
+ *****************************************************************************/
 
 #include "PlotWindow.h"
 #include "Plot.h"
