@@ -3,7 +3,7 @@
  * This file may be used under the terms of the 3-clause BSD License
  *****************************************************************************/
 
-#include "cpustat.h"
+#include "CpuStat.h"
 
 #include <QStringList>
 #include <QFile>

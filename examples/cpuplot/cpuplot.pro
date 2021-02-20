@@ -8,11 +8,12 @@ include( $${PWD}/../examples.pri )
 TARGET       = cpuplot
 
 HEADERS =  \
-    cpuplot.h \
-    cpustat.h \
-    cpupiemarker.h 
+    CpuStat.h \
+    CpuPlot.h \
+    CpuPieMarker.h 
 
 SOURCES = \
-    cpuplot.cpp \
-    cpustat.cpp \
-    cpupiemarker.cpp 
+    CpuPlot.cpp \
+    CpuStat.cpp \
+    CpuPieMarker.cpp \
+    main.cpp 

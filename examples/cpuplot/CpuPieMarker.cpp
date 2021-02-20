@@ -3,8 +3,8 @@
  * This file may be used under the terms of the 3-clause BSD License
  *****************************************************************************/
 
-#include "cpuplot.h"
-#include "cpupiemarker.h"
+#include "CpuPlot.h"
+#include "CpuPieMarker.h"
 
 #include <QwtScaleMap>
 #include <QwtPlotCurve>

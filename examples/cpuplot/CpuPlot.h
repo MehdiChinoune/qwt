@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "cpustat.h"
+#include "CpuStat.h"
 #include <QwtPlot>
 
 #define HISTORY 60 // seconds
