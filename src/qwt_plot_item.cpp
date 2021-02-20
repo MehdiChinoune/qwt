@@ -24,8 +24,8 @@ class QwtPlotItem::PrivateData
         , isVisible( true )
         , renderThreadCount( 1 )
         , z( 0.0 )
-        , xAxis( QwtPlot::xBottom )
-        , yAxis( QwtPlot::yLeft )
+        , xAxis( QwtAxis::XBottom )
+        , yAxis( QwtAxis::YLeft )
         , legendIconSize( 8, 8 )
     {
     }
@@ -499,17 +499,17 @@ void QwtPlotItem::legendChanged()
 
    The item will painted according to the coordinates of its Axes.
 
-   \param xAxis X Axis ( QwtPlot::xBottom or QwtPlot::xTop )
-   \param yAxis Y Axis ( QwtPlot::yLeft or QwtPlot::yRight )
+   \param xAxis X Axis ( QwtAxis::XBottom or QwtAxis::XTop )
+   \param yAxis Y Axis ( QwtAxis::YLeft or QwtAxis::YRight )
 
-   \sa setXAxis(), setYAxis(), xAxis(), yAxis(), QwtPlot::Axis
+   \sa setXAxis(), setYAxis(), xAxis(), yAxis(), QwtAxis::Axis
  */
 void QwtPlotItem::setAxes( int xAxis, int yAxis )
 {
-    if ( xAxis == QwtPlot::xBottom || xAxis == QwtPlot::xTop )
+    if ( QwtAxis::isXAxis( xAxis ) )
         m_data->xAxis = xAxis;
 
-    if ( yAxis == QwtPlot::yLeft || yAxis == QwtPlot::yRight )
+    if ( QwtAxis::isYAxis( yAxis ) )
         m_data->yAxis = yAxis;
 
     itemChanged();
@@ -520,12 +520,12 @@ void QwtPlotItem::setAxes( int xAxis, int yAxis )
 
    The item will painted according to the coordinates its Axes.
 
-   \param axis X Axis ( QwtPlot::xBottom or QwtPlot::xTop )
+   \param axis X Axis ( QwtAxis::XBottom or QwtAxis::XTop )
    \sa setAxes(), setYAxis(), xAxis(), QwtPlot::Axis
  */
 void QwtPlotItem::setXAxis( int axis )
 {
-    if ( axis == QwtPlot::xBottom || axis == QwtPlot::xTop )
+    if ( QwtAxis::isXAxis( axis ) )
     {
         m_data->xAxis = axis;
         itemChanged();
@@ -537,12 +537,12 @@ void QwtPlotItem::setXAxis( int axis )
 
    The item will painted according to the coordinates its Axes.
 
-   \param axis Y Axis ( QwtPlot::yLeft or QwtPlot::yRight )
+   \param axis Y Axis ( QwtAxis::YLeft or QwtAxis::YRight )
    \sa setAxes(), setXAxis(), yAxis(), QwtPlot::Axis
  */
 void QwtPlotItem::setYAxis( int axis )
 {
-    if ( axis == QwtPlot::yLeft || axis == QwtPlot::yRight )
+    if ( QwtAxis::isYAxis( axis ) )
     {
         m_data->yAxis = axis;
         itemChanged();

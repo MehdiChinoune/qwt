@@ -109,11 +109,11 @@ class QwtPlotPanner::PrivateData
   public:
     PrivateData()
     {
-        for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
+        for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
             isAxisEnabled[axis] = true;
     }
 
-    bool isAxisEnabled[QwtPlot::axisCnt];
+    bool isAxisEnabled[QwtAxis::AxisCount];
 };
 
 /*!
@@ -153,7 +153,7 @@ QwtPlotPanner::~QwtPlotPanner()
  */
 void QwtPlotPanner::setAxisEnabled( int axis, bool on )
 {
-    if ( axis >= 0 && axis < QwtPlot::axisCnt )
+    if ( QwtAxis::isValid( axis ) )
         m_data->isAxisEnabled[axis] = on;
 }
 
@@ -167,7 +167,7 @@ void QwtPlotPanner::setAxisEnabled( int axis, bool on )
  */
 bool QwtPlotPanner::isAxisEnabled( int axis ) const
 {
-    if ( axis >= 0 && axis < QwtPlot::axisCnt )
+    if ( QwtAxis::isValid( axis ) )
         return m_data->isAxisEnabled[axis];
 
     return true;
@@ -225,7 +225,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
     const bool doAutoReplot = plot->autoReplot();
     plot->setAutoReplot( false );
 
-    for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
     {
         if ( !m_data->isAxisEnabled[axis] )
             continue;
@@ -236,7 +236,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
         const double p2 = map.transform( plot->axisScaleDiv( axis ).upperBound() );
 
         double d1, d2;
-        if ( axis == QwtPlot::xBottom || axis == QwtPlot::xTop )
+        if ( QwtAxis::isXAxis( axis ) )
         {
             d1 = map.invTransform( p1 - dx );
             d2 = map.invTransform( p2 - dx );

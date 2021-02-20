@@ -79,8 +79,8 @@ RandomPlot::RandomPlot( QWidget* parent )
 
     setCanvasBackground( QColor( 29, 100, 141 ) ); // nice blue
 
-    setAxisScale( xBottom, 0, c_rangeMax );
-    setAxisScale( yLeft, 0, c_rangeMax );
+    setAxisScale( QwtAxis::XBottom, 0, c_rangeMax );
+    setAxisScale( QwtAxis::YLeft, 0, c_rangeMax );
 
     replot();
 

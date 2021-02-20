@@ -36,10 +36,10 @@ class QPalette;
     at the x position 0.0.
     \code
       QwtPlotScaleItem *scaleItem = new QwtPlotScaleItem( QwtScaleDraw::RightScale, 0.0 );
-      scaleItem->setFont( plot->axisWidget( QwtPlot::yLeft )->font() );
+      scaleItem->setFont( plot->axisWidget( QwtAxis::YLeft )->font() );
       scaleItem->attach(plot);
 
-      plot->enableAxis( QwtPlot::yLeft, false );
+      plot->setAxisVisible( QwtAxis::YLeft, false );
     \endcode
  */
 

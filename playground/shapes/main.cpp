@@ -81,11 +81,13 @@ namespace
             insertLegend( new QwtLegend(), QwtPlot::RightLegend );
 
             // axes
-            setAxisTitle( xBottom, "x -->" );
-            setAxisTitle( yLeft, "y -->" );
+            using namespace QwtAxis;
+
+            setAxisTitle( XBottom, "x -->" );
+            setAxisTitle( YLeft, "y -->" );
 #if 0
-            setAxisScaleEngine( xBottom, new QwtLog10ScaleEngine );
-            setAxisScaleEngine( yLeft, new QwtLog10ScaleEngine );
+            setAxisScaleEngine( XBottom, new QwtLog10ScaleEngine );
+            setAxisScaleEngine( YLeft, new QwtLog10ScaleEngine );
 #endif
 
             ShapeItem* item = new ShapeItem();

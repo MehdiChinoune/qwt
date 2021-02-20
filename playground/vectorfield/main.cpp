@@ -94,15 +94,15 @@ namespace
             const QRectF r = fieldItem->boundingRect();
 
 #if 1
-            setAxisScale( QwtPlot::xBottom, r.left() - 1.0, r.right() + 1.0 );
+            setAxisScale( QwtAxis::XBottom, r.left() - 1.0, r.right() + 1.0 );
 #else
-            setAxisScale( QwtPlot::xBottom, r.right() + 1.0, r.left() - 1.0 );
+            setAxisScale( QwtAxis::XBottom, r.right() + 1.0, r.left() - 1.0 );
 #endif
 
 #if 1
-            setAxisScale( QwtPlot::yLeft, r.top() - 1.0, r.bottom() + 1.0 );
+            setAxisScale( QwtAxis::YLeft, r.top() - 1.0, r.bottom() + 1.0 );
 #else
-            setAxisScale( QwtPlot::yLeft, r.bottom() + 1.0, r.top() - 1.0 );
+            setAxisScale( QwtAxis::YLeft, r.bottom() + 1.0, r.top() - 1.0 );
 #endif
         }    
     };

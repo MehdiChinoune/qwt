@@ -23,19 +23,18 @@ Plot::Plot( QWidget* parent )
 
     plotLayout()->setAlignCanvasToScales( true );
 
-    initAxis( QwtPlot::yLeft, "Local Time", Qt::LocalTime );
-    initAxis( QwtPlot::yRight,
+    initAxis( QwtAxis::YLeft, "Local Time", Qt::LocalTime );
+    initAxis( QwtAxis::YRight,
         "Coordinated Universal Time ( UTC )", Qt::UTC );
 
     QwtPlotPanner* panner = new QwtPlotPanner( canvas() );
     QwtPlotMagnifier* magnifier = new QwtPlotMagnifier( canvas() );
 
-    for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
     {
-        const bool on = axis == QwtPlot::yLeft ||
-            axis == QwtPlot::yRight;
+        const bool on = QwtAxis::isYAxis( axis );
 
-        enableAxis( axis, on );
+        setAxisVisible( axis, on );
         panner->setAxisEnabled( axis, on );
         magnifier->setAxisEnabled( axis, on );
     }
@@ -75,8 +74,8 @@ void Plot::initAxis( int axis,
 
 void Plot::applySettings( const Settings& settings )
 {
-    applyAxisSettings( QwtPlot::yLeft, settings );
-    applyAxisSettings( QwtPlot::yRight, settings );
+    applyAxisSettings( QwtAxis::YLeft, settings );
+    applyAxisSettings( QwtAxis::YRight, settings );
 
     replot();
 }

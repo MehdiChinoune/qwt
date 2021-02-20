@@ -65,8 +65,8 @@ TVPlot::TVPlot( QWidget* parent )
 
     plotLayout()->setAlignCanvasToScales( true );
 
-    setAxisTitle( QwtPlot::yLeft, "Number of People" );
-    setAxisTitle( QwtPlot::xBottom, "Number of Hours" );
+    setAxisTitle( QwtAxis::YLeft, "Number of People" );
+    setAxisTitle( QwtAxis::XBottom, "Number of Hours" );
 
     QwtLegend* legend = new QwtLegend;
     legend->setDefaultItemMode( QwtLegendData::Checkable );

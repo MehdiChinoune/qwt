@@ -35,8 +35,8 @@ Plot::Plot( QWidget* parent )
        hide the axes.
      */
     plotLayout()->setCanvasMargin( 0 );
-    for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
-        enableAxis( axis, false );
+    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+        setAxisVisible( axis, false );
 #endif
 
     /*
@@ -96,8 +96,8 @@ void Plot::loadSVG( const QString& fileName )
 
 void Plot::rescale()
 {
-    setAxisScale( QwtPlot::xBottom, m_mapRect.left(), m_mapRect.right() );
-    setAxisScale( QwtPlot::yLeft, m_mapRect.top(), m_mapRect.bottom() );
+    setAxisScale( QwtAxis::XBottom, m_mapRect.left(), m_mapRect.right() );
+    setAxisScale( QwtAxis::YLeft, m_mapRect.top(), m_mapRect.bottom() );
 }
 
 #include "moc_Plot.cpp"

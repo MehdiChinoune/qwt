@@ -105,10 +105,10 @@ class QWT_EXPORT QwtPlotLayout
         const QRectF& legendRect ) const;
 
     void expandLineBreaks( Options options, const QRectF& rect,
-        int& dimTitle, int& dimFooter, int dimAxes[QwtPlot::axisCnt] ) const;
+        int& dimTitle, int& dimFooter, int dimAxes[QwtAxis::AxisCount] ) const;
 
     void alignScales( Options options, QRectF& canvasRect,
-        QRectF scaleRect[QwtPlot::axisCnt] ) const;
+        QRectF scaleRect[QwtAxis::AxisCount] ) const;
 
   private:
     Q_DISABLE_COPY(QwtPlotLayout)

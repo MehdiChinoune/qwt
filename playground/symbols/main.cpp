@@ -161,7 +161,7 @@ class Plot : public QwtPlot
         setTitle( "Plot Demo" );
         setCanvasBackground( Qt::white );
 
-        setAxisScale( QwtPlot::xBottom, -1.0, 6.0 );
+        setAxisScale( QwtAxis::XBottom, -1.0, 6.0 );
 
         QwtLegend* legend = new QwtLegend();
         insertLegend( legend );

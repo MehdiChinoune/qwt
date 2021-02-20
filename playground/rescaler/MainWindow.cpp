@@ -68,12 +68,12 @@ Plot* MainWindow::createPlot( QWidget* parent )
     plot->replot();
 
     m_rescaler = new QwtPlotRescaler( plot->canvas() );
-    m_rescaler->setReferenceAxis( QwtPlot::xBottom );
-    m_rescaler->setAspectRatio( QwtPlot::yLeft, 1.0 );
-    m_rescaler->setAspectRatio( QwtPlot::yRight, 0.0 );
-    m_rescaler->setAspectRatio( QwtPlot::xTop, 0.0 );
+    m_rescaler->setReferenceAxis( QwtAxis::XBottom );
+    m_rescaler->setAspectRatio( QwtAxis::YLeft, 1.0 );
+    m_rescaler->setAspectRatio( QwtAxis::YRight, 0.0 );
+    m_rescaler->setAspectRatio( QwtAxis::XTop, 0.0 );
 
-    for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
         m_rescaler->setIntervalHint( axis, QwtInterval( 0.0, 1000.0 ) );
 
     connect( plot, SIGNAL(resized(double,double)),
@@ -118,9 +118,9 @@ void MainWindow::setRescaleMode( int mode )
         {
             m_rescaler->setRescalePolicy( QwtPlotRescaler::Fitting );
             const QwtInterval xIntv =
-                m_rescaler->intervalHint( QwtPlot::xBottom );
+                m_rescaler->intervalHint( QwtAxis::XBottom );
             const QwtInterval yIntv =
-                m_rescaler->intervalHint( QwtPlot::yLeft );
+                m_rescaler->intervalHint( QwtAxis::YLeft );
 
             rectOfInterest = QRectF( xIntv.minValue(), yIntv.minValue(),
                 xIntv.width(), yIntv.width() );
@@ -135,7 +135,7 @@ void MainWindow::setRescaleMode( int mode )
 
     m_rescaleInfo->setText( info );
     m_rescaler->setEnabled( doEnable );
-    for ( int axis = 0; axis < QwtPlot::axisCnt; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
         m_rescaler->setExpandingDirection( direction );
 
     if ( doEnable )

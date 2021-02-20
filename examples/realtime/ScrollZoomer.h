@@ -64,5 +64,5 @@ class ScrollZoomer : public QwtPlotZoomer
     ScrollData* m_vScrollData;
 
     bool m_inZoom;
-    bool m_alignCanvasToScales[ QwtPlot::axisCnt ];
+    bool m_alignCanvasToScales[ QwtAxis::AxisCount ];
 };

@@ -129,9 +129,9 @@ Plot::Plot( QWidget* parent )
 
     plotLayout()->setAlignCanvasToScales( true );
 
-    setAxisTitle( QwtPlot::xBottom, "Time [s]" );
-    setAxisScale( QwtPlot::xBottom, m_interval.minValue(), m_interval.maxValue() );
-    setAxisScale( QwtPlot::yLeft, -200.0, 200.0 );
+    setAxisTitle( QwtAxis::XBottom, "Time [s]" );
+    setAxisScale( QwtAxis::XBottom, m_interval.minValue(), m_interval.maxValue() );
+    setAxisScale( QwtAxis::YLeft, -200.0, 200.0 );
 
     QwtPlotGrid* grid = new QwtPlotGrid();
     grid->setPen( Qt::gray, 0.0, Qt::DotLine );
@@ -183,7 +183,7 @@ void Plot::setIntervalLength( double interval )
     if ( interval > 0.0 && interval != m_interval.width() )
     {
         m_interval.setMaxValue( m_interval.minValue() + interval );
-        setAxisScale( QwtPlot::xBottom,
+        setAxisScale( QwtAxis::XBottom,
             m_interval.minValue(), m_interval.maxValue() );
 
         replot();
@@ -238,7 +238,7 @@ void Plot::incrementInterval()
     // the autocalculation of the ticks and shift them
     // manually instead.
 
-    QwtScaleDiv scaleDiv = axisScaleDiv( QwtPlot::xBottom );
+    QwtScaleDiv scaleDiv = axisScaleDiv( QwtAxis::XBottom );
     scaleDiv.setInterval( m_interval );
 
     for ( int i = 0; i < QwtScaleDiv::NTickTypes; i++ )
@@ -248,7 +248,7 @@ void Plot::incrementInterval()
             ticks[j] += m_interval.width();
         scaleDiv.setTicks( i, ticks );
     }
-    setAxisScaleDiv( QwtPlot::xBottom, scaleDiv );
+    setAxisScaleDiv( QwtAxis::XBottom, scaleDiv );
 
     m_origin->setValue( m_interval.minValue() + m_interval.width() / 2.0, 0.0 );
 

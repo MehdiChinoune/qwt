@@ -23,8 +23,8 @@ class PlotMatrix : public QFrame
     QwtPlot* plotAt( int row, int column );
     const QwtPlot* plotAt( int row, int column ) const;
 
-    void enableAxis( int axisId, bool tf = true );
-    bool axisEnabled( int axisId ) const;
+    void setAxisVisible( int axisId, bool tf = true );
+    bool isAxisVisible( int axisId ) const;
 
     void setAxisScale( int axisId, int rowOrColumn,
         double min, double max, double step = 0 );

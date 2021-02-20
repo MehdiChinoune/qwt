@@ -24,24 +24,26 @@ namespace
 MainWindow::MainWindow()
     : PlotMatrix( 3, 4 )
 {
-    enableAxis( QwtPlot::yLeft );
-    enableAxis( QwtPlot::yRight );
-    enableAxis( QwtPlot::xBottom );
+    using namespace QwtAxis;
+
+    setAxisVisible( YLeft );
+    setAxisVisible( YRight );
+    setAxisVisible( XBottom );
 
     for ( int row = 0; row < numRows(); row++ )
     {
         const double v = std::pow( 10.0, row );
 
-        setAxisScale( QwtPlot::yLeft, row, -v, v );
-        setAxisScale( QwtPlot::yRight, row, -v, v );
+        setAxisScale( YLeft, row, -v, v );
+        setAxisScale( YRight, row, -v, v );
     }
 
     for ( int col = 0; col < numColumns(); col++ )
     {
         const double v = std::pow( 10.0, col );
 
-        setAxisScale( QwtPlot::xBottom, col, -v, v );
-        setAxisScale( QwtPlot::xTop, col, -v, v );
+        setAxisScale( XBottom, col, -v, v );
+        setAxisScale( XTop, col, -v, v );
     }
 
     for ( int row = 0; row < numRows(); row++ )
@@ -59,8 +61,8 @@ MainWindow::MainWindow()
         }
     }
 
-    plotAt( 1, 0 )->axisWidget( QwtPlot::yLeft )->setLabelRotation( 45 );
-    plotAt( 1, numColumns() - 1 )->axisWidget( QwtPlot::yRight )->setLabelRotation( -45 );
+    plotAt( 1, 0 )->axisWidget( YLeft )->setLabelRotation( 45 );
+    plotAt( 1, numColumns() - 1 )->axisWidget( YRight )->setLabelRotation( -45 );
 
     updateLayout();
 }

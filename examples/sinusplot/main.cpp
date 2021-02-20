@@ -100,11 +100,11 @@ Plot::Plot( QWidget* parent )
     insertLegend( new QwtLegend(), QwtPlot::RightLegend );
 
     // axes
-    setAxisTitle( xBottom, "x -->" );
-    setAxisScale( xBottom, 0.0, 10.0 );
+    setAxisTitle( QwtAxis::XBottom, "x -->" );
+    setAxisScale( QwtAxis::XBottom, 0.0, 10.0 );
 
-    setAxisTitle( yLeft, "y -->" );
-    setAxisScale( yLeft, -1.0, 1.0 );
+    setAxisTitle( QwtAxis::YLeft, "y -->" );
+    setAxisScale( QwtAxis::YLeft, -1.0, 1.0 );
 
     // canvas
     QwtPlotCanvas* canvas = new QwtPlotCanvas();

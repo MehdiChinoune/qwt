@@ -18,7 +18,7 @@ int main( int argc, char* argv[] )
     QwtPlot plot;
     plot.setTitle( "Plot Demo" );
     plot.setCanvasBackground( Qt::white );
-    plot.setAxisScale( QwtPlot::yLeft, 0.0, 10.0 );
+    plot.setAxisScale( QwtAxis::YLeft, 0.0, 10.0 );
     plot.insertLegend( new QwtLegend() );
 
     QwtPlotGrid* grid = new QwtPlotGrid();

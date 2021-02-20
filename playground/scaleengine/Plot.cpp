@@ -17,7 +17,7 @@ Plot::Plot( QWidget* parent )
 {
     setCanvasBackground( Qt::white );
 
-    setAxisScale(QwtPlot::yLeft, 0.0, 10.0 );
+    setAxisScale(QwtAxis::YLeft, 0.0, 10.0 );
     setTransformation( new QwtNullTransform() );
 
     populate();
@@ -58,20 +58,20 @@ void Plot::setTransformation( QwtTransform* transform )
     QwtLinearScaleEngine* scaleEngine = new QwtLinearScaleEngine();
     scaleEngine->setTransformation( transform );
 
-    setAxisScaleEngine( QwtPlot::xBottom, scaleEngine );
+    setAxisScaleEngine( QwtAxis::XBottom, scaleEngine );
 
     // we have to reassign the axis settings, because they are
     // invalidated, when the scale engine has changed
 
     QwtScaleDiv scaleDiv =
-        axisScaleEngine( QwtPlot::xBottom )->divideScale( 10.0, 1000.0, 8, 10 );
+        axisScaleEngine( QwtAxis::XBottom )->divideScale( 10.0, 1000.0, 8, 10 );
 
     QList< double > ticks;
     ticks += 10.0;
     ticks += scaleDiv.ticks( QwtScaleDiv::MajorTick );
     scaleDiv.setTicks( QwtScaleDiv::MajorTick, ticks );
 
-    setAxisScaleDiv( QwtPlot::xBottom, scaleDiv );
+    setAxisScaleDiv( QwtAxis::XBottom, scaleDiv );
 
     replot();
 }

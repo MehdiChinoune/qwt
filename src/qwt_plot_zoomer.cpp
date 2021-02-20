@@ -92,8 +92,8 @@ class QwtPlotZoomer::PrivateData
 
    The zoomer is set to those x- and y-axis of the parent plot of the
    canvas that are enabled. If both or no x-axis are enabled, the picker
-   is set to QwtPlot::xBottom. If both or no y-axis are
-   enabled, it is set to QwtPlot::yLeft.
+   is set to QwtAxis::XBottom. If both or no y-axis are
+   enabled, it is set to QwtAxis::YLeft.
 
    The zoomer is initialized with a QwtPickerDragRectMachine,
    the tracker mode is set to QwtPicker::ActiveOnly and the rubber band

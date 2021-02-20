@@ -217,12 +217,12 @@ Plot::Plot( QWidget* parent )
     const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
 
     // A color bar on the right axis
-    QwtScaleWidget* rightAxis = axisWidget( QwtPlot::yRight );
+    QwtScaleWidget* rightAxis = axisWidget( QwtAxis::YRight );
     rightAxis->setTitle( "Intensity" );
     rightAxis->setColorBarEnabled( true );
 
-    setAxisScale( QwtPlot::yRight, zInterval.minValue(), zInterval.maxValue() );
-    enableAxis( QwtPlot::yRight );
+    setAxisScale( QwtAxis::YRight, zInterval.minValue(), zInterval.maxValue() );
+    setAxisVisible( QwtAxis::YRight );
 
     plotLayout()->setAlignCanvasToScales( true );
 
@@ -240,16 +240,16 @@ Plot::Plot( QWidget* parent )
         Qt::RightButton );
 
     QwtPlotPanner* panner = new QwtPlotPanner( canvas() );
-    panner->setAxisEnabled( QwtPlot::yRight, false );
+    panner->setAxisEnabled( QwtAxis::YRight, false );
     panner->setMouseButton( Qt::MiddleButton );
 
     // Avoid jumping when labels with more/less digits
     // appear/disappear when scrolling vertically
 
     const int extent = QwtPainter::horizontalAdvance(
-        axisWidget( QwtPlot::yLeft )->fontMetrics(), "100.00" );
+        axisWidget( QwtAxis::YLeft )->fontMetrics(), "100.00" );
 
-    axisScaleDraw( QwtPlot::yLeft )->setMinimumExtent( extent );
+    axisScaleDraw( QwtAxis::YLeft )->setMinimumExtent( extent );
 
     const QColor c( Qt::darkBlue );
     zoomer->setRubberBandPen( c );
@@ -293,7 +293,7 @@ void Plot::setColorTableSize( int type )
 
 void Plot::setColorMap( int type )
 {
-    QwtScaleWidget* axis = axisWidget( QwtPlot::yRight );
+    QwtScaleWidget* axis = axisWidget( QwtAxis::YRight );
     const QwtInterval zInterval = m_spectrogram->data()->interval( Qt::ZAxis );
 
     m_mapType = type;
@@ -360,7 +360,7 @@ void Plot::setAlpha( int alpha )
 }
 
 void Plot::drawItems( QPainter* painter, const QRectF& canvasRect,
-    const QwtScaleMap maps[axisCnt] ) const
+    const QwtScaleMap maps[QwtAxis::AxisCount] ) const
 {
     QwtPlot::drawItems( painter, canvasRect, maps );
 

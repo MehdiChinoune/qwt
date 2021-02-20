@@ -42,7 +42,7 @@ MainWindow::MainWindow( QWidget* parent )
     updatePlot();
 
     connect( m_panel, SIGNAL(edited()), SLOT(updatePlot()) );
-    connect( m_plot->axisWidget( QwtPlot::yLeft ),
+    connect( m_plot->axisWidget( QwtAxis::YLeft ),
         SIGNAL(scaleDivChanged()), SLOT(updatePanel()) );
 }
 
@@ -55,7 +55,7 @@ void MainWindow::updatePlot()
 
 void MainWindow::updatePanel()
 {
-    const QwtScaleDiv scaleDiv = m_plot->axisScaleDiv( QwtPlot::yLeft );
+    const QwtScaleDiv scaleDiv = m_plot->axisScaleDiv( QwtAxis::YLeft );
 
     Settings settings = m_panel->settings();
     settings.startDateTime = QwtDate::toDateTime( scaleDiv.lowerBound(), Qt::LocalTime );

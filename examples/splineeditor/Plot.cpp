@@ -266,8 +266,8 @@ Plot::Plot( bool parametric, QWidget* parent )
     // Avoid jumping when label with 3 digits
     // appear/disappear when scrolling vertically
 
-    QwtScaleDraw* sd = axisScaleDraw( QwtPlot::yLeft );
-    sd->setMinimumExtent( sd->extent( axisWidget( QwtPlot::yLeft )->font() ) );
+    QwtScaleDraw* sd = axisScaleDraw( QwtAxis::YLeft );
+    sd->setMinimumExtent( sd->extent( axisWidget( QwtAxis::YLeft )->font() ) );
 
     // pointless marker
     m_marker = new LineMarker( "Marker", Qt::darkRed );
@@ -284,8 +284,8 @@ Plot::Plot( bool parametric, QWidget* parent )
 
     if ( parametric )
     {
-        setAxisScale( QwtPlot::xBottom, 20.0, 80.0 );
-        setAxisScale( QwtPlot::yLeft, -50.0, 100.0 );
+        setAxisScale( QwtAxis::XBottom, 20.0, 80.0 );
+        setAxisScale( QwtAxis::YLeft, -50.0, 100.0 );
 
         const QSizeF size( 40, 50 );
         const QPointF pos( 50, 70 );
@@ -318,8 +318,8 @@ Plot::Plot( bool parametric, QWidget* parent )
     }
     else
     {
-        setAxisScale( QwtPlot::xBottom, 0.0, 100.0 );
-        setAxisScale( QwtPlot::yLeft, -50.0, 100.0 );
+        setAxisScale( QwtAxis::XBottom, 0.0, 100.0 );
+        setAxisScale( QwtAxis::YLeft, -50.0, 100.0 );
 
         points << QPointF( 10, 30 ) << QPointF( 20, 90 ) << QPointF( 25, 60 )
                << QPointF( 35, 38 ) << QPointF( 42, 40 ) << QPointF( 55, 60 )
@@ -407,10 +407,10 @@ Plot::Plot( bool parametric, QWidget* parent )
     m_wheel->setTotalAngle( 4 * 360.0 );
     m_wheel->resize( 16, 60 );
 
-    plotLayout()->setAlignCanvasToScale( QwtPlot::xTop, true );
-    plotLayout()->setAlignCanvasToScale( QwtPlot::xBottom, true );
-    plotLayout()->setAlignCanvasToScale( QwtPlot::yLeft, true );
-    plotLayout()->setCanvasMargin( m_wheel->width() + 4, QwtPlot::yRight );
+    plotLayout()->setAlignCanvasToScale( QwtAxis::XTop, true );
+    plotLayout()->setAlignCanvasToScale( QwtAxis::XBottom, true );
+    plotLayout()->setAlignCanvasToScale( QwtAxis::YLeft, true );
+    plotLayout()->setCanvasMargin( m_wheel->width() + 4, QwtAxis::YRight );
 
     connect( m_wheel, SIGNAL(valueChanged(double)),
         SLOT(scrollLeftAxis(double)) );
@@ -420,14 +420,14 @@ Plot::Plot( bool parametric, QWidget* parent )
 
     m_wheel->setWhatsThis(
         "With the wheel you can move the visible area." );
-    axisWidget( xBottom )->setWhatsThis(
+    axisWidget( QwtAxis::XBottom )->setWhatsThis(
         "Selecting a value at the scale will insert a new curve." );
 }
 
 void Plot::scrollLeftAxis( double value )
 {
-    const double range = axisScaleDiv( QwtPlot::yLeft ).range();
-    setAxisScale( QwtPlot::yLeft, value, value + range );
+    const double range = axisScaleDiv( QwtAxis::YLeft ).range();
+    setAxisScale( QwtAxis::YLeft, value, value + range );
     replot();
 }
 
@@ -450,7 +450,7 @@ bool Plot::eventFilter( QObject* object, QEvent* e )
 
 void Plot::updateMarker( int axis, double value )
 {
-    if ( axis == yLeft || axis == yRight )
+    if ( QwtAxis::isYAxis( axis ) )
     {
         m_marker->setLineStyle( QwtPlotMarker::HLine );
         m_marker->setLabelOrientation( Qt::Horizontal );

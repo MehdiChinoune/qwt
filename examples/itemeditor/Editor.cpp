@@ -256,15 +256,15 @@ QwtPlotShapeItem* Editor::itemAt( const QPoint& pos ) const
         return NULL;
 
     // translate pos into the plot coordinates
-    double coords[ QwtPlot::axisCnt ];
-    coords[ QwtPlot::xBottom ] =
-        plot->canvasMap( QwtPlot::xBottom ).invTransform( pos.x() );
-    coords[ QwtPlot::xTop ] =
-        plot->canvasMap( QwtPlot::xTop ).invTransform( pos.x() );
-    coords[ QwtPlot::yLeft ] =
-        plot->canvasMap( QwtPlot::yLeft ).invTransform( pos.y() );
-    coords[ QwtPlot::yRight ] =
-        plot->canvasMap( QwtPlot::yRight ).invTransform( pos.y() );
+
+    using namespace QwtAxis;
+
+    double coords[ AxisCount ];
+
+    coords[ XBottom ] = plot->canvasMap( XBottom ).invTransform( pos.x() );
+    coords[ XTop ] = plot->canvasMap( XTop ).invTransform( pos.x() );
+    coords[ YLeft ] = plot->canvasMap( YLeft ).invTransform( pos.y() );
+    coords[ YRight ] = plot->canvasMap( YRight ).invTransform( pos.y() );
 
     QwtPlotItemList items = plot->itemList();
     for ( int i = items.size() - 1; i >= 0; i-- )

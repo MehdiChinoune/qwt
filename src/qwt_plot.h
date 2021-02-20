@@ -11,6 +11,7 @@
 #define QWT_PLOT_H
 
 #include "qwt_global.h"
+#include "qwt_axis.h"
 #include "qwt_plot_dict.h"
 
 #include <qframe.h>
@@ -26,6 +27,9 @@ class QwtTextLabel;
 class QwtInterval;
 class QwtText;
 template< typename T > class QList;
+
+// 6.1 compatibility definitions
+#define QWT_AXIS_COMPAT 1
 
 /*!
    \brief A 2-D plotting widget
@@ -81,25 +85,6 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     Q_PROPERTY( bool autoReplot READ autoReplot WRITE setAutoReplot )
 
   public:
-    //! \brief Axis index
-    enum Axis
-    {
-        //! Y axis left of the canvas
-        yLeft,
-
-        //! Y axis right of the canvas
-        yRight,
-
-        //! X axis below the canvas
-        xBottom,
-
-        //! X axis above the canvas
-        xTop,
-
-        //! Number of axes
-        axisCnt
-    };
-
     /*!
         Position of the legend, relative to the canvas.
 
@@ -107,10 +92,10 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
      */
     enum LegendPosition
     {
-        //! The legend will be left from the QwtPlot::yLeft axis.
+        //! The legend will be left from the QwtAxis::YLeft axis.
         LeftLegend,
 
-        //! The legend will be right from the QwtPlot::yRight axis.
+        //! The legend will be right from the QwtAxis::YRight axis.
         RightLegend,
 
         //! The legend will be below the footer
@@ -177,15 +162,15 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     void setAxisAutoScale( int axisId, bool on = true );
     bool axisAutoScale( int axisId ) const;
 
-    void enableAxis( int axisId, bool tf = true );
-    bool axisEnabled( int axisId ) const;
-
     void setAxisFont( int axisId, const QFont& );
     QFont axisFont( int axisId ) const;
 
     void setAxisScale( int axisId, double min, double max, double stepSize = 0 );
     void setAxisScaleDiv( int axisId, const QwtScaleDiv& );
     void setAxisScaleDraw( int axisId, QwtScaleDraw* );
+
+    void setAxisVisible( int axisId, bool on = true );
+    bool isAxisVisible( int axisId ) const;
 
     double axisStepSize( int axisId ) const;
     QwtInterval axisInterval( int axisId ) const;
@@ -241,10 +226,32 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     virtual bool eventFilter( QObject*, QEvent* ) QWT_OVERRIDE;
 
     virtual void drawItems( QPainter*, const QRectF&,
-        const QwtScaleMap maps[axisCnt] ) const;
+        const QwtScaleMap maps[ QwtAxis::AxisCount ] ) const;
 
     virtual QVariant itemToInfo( QwtPlotItem* ) const;
     virtual QwtPlotItem* infoToItem( const QVariant& ) const;
+
+#if QWT_AXIS_COMPAT
+    enum Axis
+    {
+        yLeft = QwtAxis::YLeft,
+        yRight = QwtAxis::YRight,
+        xBottom = QwtAxis::XBottom,
+        xTop = QwtAxis::XTop,
+        axisCnt = QwtAxis::AxisCount
+    };
+
+
+    void enableAxis( int axisId, bool on = true )
+    {
+        setAxisVisible( axisId, on );
+    }
+
+    bool axisEnabled( int axisId ) const
+    {
+        return isAxisVisible( axisId );
+    }
+#endif
 
   Q_SIGNALS:
     /*!
@@ -273,7 +280,6 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     void autoRefresh();
 
   protected:
-    static bool axisValid( int axisId );
 
     virtual void resizeEvent( QResizeEvent* ) QWT_OVERRIDE;
 
@@ -292,7 +298,7 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     void initPlot( const QwtText& title );
 
     class AxisData;
-    AxisData* m_axisData[axisCnt];
+    AxisData* m_axisData[ QwtAxis::AxisCount ];
 
     class PrivateData;
     PrivateData* m_data;

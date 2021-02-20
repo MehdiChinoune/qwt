@@ -142,8 +142,8 @@ class QwtCPointerValueData : public QwtPointSeriesData
     QApplication a( argc, argv );
 
     QwtPlot plot;
-    plot.setAxisScale( QwtPlot::xBottom, 0.0, 10.0 );
-    plot.setAxisScale( QwtPlot::yLeft, -1.0, 1.0 );
+    plot.setAxisScale( QwtAxis::XBottom, 0.0, 10.0 );
+    plot.setAxisScale( QwtAxis::YLeft, -1.0, 1.0 );
 
     QwtPlotCurve *curve = new QwtPlotCurve( "y = sin(x)" );
     curve->setData( new SinusData() );

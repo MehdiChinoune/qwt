@@ -180,8 +180,8 @@ void BarChart::setOrientation( int o )
     const Qt::Orientation orientation =
         ( o == 0 ) ? Qt::Vertical : Qt::Horizontal;
 
-    int axis1 = QwtPlot::xBottom;
-    int axis2 = QwtPlot::yLeft;
+    int axis1 = QwtAxis::XBottom;
+    int axis2 = QwtAxis::YLeft;
 
     if ( orientation == Qt::Horizontal )
         qSwap( axis1, axis2 );

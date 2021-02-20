@@ -75,11 +75,11 @@ Plot::Plot( QWidget* parent )
     m_curve->attach( this );
 
     // Axis
-    setAxisTitle( QwtPlot::xBottom, "Seconds" );
-    setAxisScale( QwtPlot::xBottom, -m_interval, 0.0 );
+    setAxisTitle( QwtAxis::XBottom, "Seconds" );
+    setAxisScale( QwtAxis::XBottom, -m_interval, 0.0 );
 
-    setAxisTitle( QwtPlot::yLeft, "Values" );
-    setAxisScale( QwtPlot::yLeft, -1.0, 1.0 );
+    setAxisTitle( QwtAxis::YLeft, "Values" );
+    setAxisScale( QwtAxis::YLeft, -1.0, 1.0 );
 
     m_elapsedTimer.start();
 
@@ -95,7 +95,7 @@ void Plot::alignScales()
     // the canvas frame, but is also a good example demonstrating
     // why the spreaded API needs polishing.
 
-    for ( int i = 0; i < QwtPlot::axisCnt; i++ )
+    for ( int i = 0; i < QwtAxis::AxisCount; i++ )
     {
         QwtScaleWidget* scaleWidget = axisWidget( i );
         if ( scaleWidget )

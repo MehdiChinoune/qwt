@@ -78,11 +78,11 @@ Plot::Plot( QWidget* parent )
     setObjectName( "FriedbergPlot" );
     setTitle( "Temperature of Friedberg/Germany" );
 
-    setAxisTitle( QwtPlot::xBottom, "2007" );
-    setAxisScaleDiv( QwtPlot::xBottom, yearScaleDiv() );
-    setAxisScaleDraw( QwtPlot::xBottom, new YearScaleDraw() );
+    setAxisTitle( QwtAxis::XBottom, "2007" );
+    setAxisScaleDiv( QwtAxis::XBottom, yearScaleDiv() );
+    setAxisScaleDraw( QwtAxis::XBottom, new YearScaleDraw() );
 
-    setAxisTitle( QwtPlot::yLeft,
+    setAxisTitle( QwtAxis::YLeft,
         QString( "Temperature [%1C]" ).arg( QChar( 0x00B0 ) ) );
 
     QwtPlotCanvas* canvas = new QwtPlotCanvas();

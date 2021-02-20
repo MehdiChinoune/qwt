@@ -80,7 +80,7 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
     };
 
     explicit QwtPlotRescaler( QWidget* canvas,
-        int referenceAxis = QwtPlot::xBottom,
+        int referenceAxis = QwtAxis::XBottom,
         RescalePolicy = Expanding );
 
     virtual ~QwtPlotRescaler();
@@ -127,7 +127,7 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
         const QSize& size ) const;
 
     virtual void updateScales(
-        QwtInterval intervals[QwtPlot::axisCnt] ) const;
+        QwtInterval intervals[QwtAxis::AxisCount] ) const;
 
     Qt::Orientation orientation( int axis ) const;
     QwtInterval interval( int axis ) const;

@@ -17,6 +17,7 @@ include( $${QWT_ROOT}/qwtfunctions.pri )
 CLASSHEADERS = \
     QwtAbstractScaleDraw \
     QwtAlphaColorMap \
+    QwtAxis \
     QwtBezier \
     QwtClipper \
     QwtColorMap \
