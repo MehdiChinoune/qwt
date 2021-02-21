@@ -12,6 +12,7 @@
 
 #include "qwt_global.h"
 #include "qwt_picker.h"
+#include "qwt_axis_id.h"
 
 class QwtPlot;
 class QPointF;
@@ -37,15 +38,15 @@ class QWT_EXPORT QwtPlotPicker : public QwtPicker
     explicit QwtPlotPicker( QWidget* canvas );
     virtual ~QwtPlotPicker();
 
-    explicit QwtPlotPicker( int xAxis, int yAxis, QWidget* );
+    explicit QwtPlotPicker( QwtAxisId xAxisId, QwtAxisId yAxisId, QWidget* );
 
-    explicit QwtPlotPicker( int xAxis, int yAxis,
+    explicit QwtPlotPicker( QwtAxisId xAxisId, QwtAxisId yAxisId,
         RubberBand rubberBand, DisplayMode trackerMode, QWidget* );
 
-    virtual void setAxis( int xAxis, int yAxis );
+    virtual void setAxes( QwtAxisId xAxisId, QwtAxisId yAxisId );
 
-    int xAxis() const;
-    int yAxis() const;
+    QwtAxisId xAxis() const;
+    QwtAxisId yAxis() const;
 
     QwtPlot* plot();
     const QwtPlot* plot() const;
@@ -109,8 +110,8 @@ class QWT_EXPORT QwtPlotPicker : public QwtPicker
     virtual bool end( bool ok = true ) QWT_OVERRIDE;
 
   private:
-    int m_xAxis;
-    int m_yAxis;
+    QwtAxisId m_xAxis;
+    QwtAxisId m_yAxis;
 };
 
 #endif

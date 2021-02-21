@@ -18,6 +18,7 @@ CLASSHEADERS = \
     QwtAbstractScaleDraw \
     QwtAlphaColorMap \
     QwtAxis \
+    QwtAxisId \
     QwtBezier \
     QwtClipper \
     QwtColorMap \

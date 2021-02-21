@@ -11,6 +11,7 @@
 #define QWT_PLOT_MAGNIFIER_H
 
 #include "qwt_global.h"
+#include "qwt_axis_id.h"
 #include "qwt_magnifier.h"
 
 class QwtPlot;
@@ -34,8 +35,8 @@ class QWT_EXPORT QwtPlotMagnifier : public QwtMagnifier
     explicit QwtPlotMagnifier( QWidget* );
     virtual ~QwtPlotMagnifier();
 
-    void setAxisEnabled( int axis, bool on );
-    bool isAxisEnabled( int axis ) const;
+    void setAxisEnabled( QwtAxisId, bool on );
+    bool isAxisEnabled( QwtAxisId ) const;
 
     QWidget* canvas();
     const QWidget* canvas() const;

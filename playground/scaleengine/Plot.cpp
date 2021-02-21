@@ -17,7 +17,7 @@ Plot::Plot( QWidget* parent )
 {
     setCanvasBackground( Qt::white );
 
-    setAxisScale(QwtAxis::YLeft, 0.0, 10.0 );
+    setAxisScale( QwtAxis::YLeft, 0.0, 10.0 );
     setTransformation( new QwtNullTransform() );
 
     populate();

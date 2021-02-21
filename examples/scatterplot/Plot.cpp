@@ -56,8 +56,8 @@ Plot::Plot( QWidget* parent )
         "border: 2px solid Black;"
         "border-radius: 15px;"
         "background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
-        "stop: 0 LemonChiffon, stop: 1 PaleGoldenrod );"
-        );
+            "stop: 0 LemonChiffon, stop: 1 PaleGoldenrod );"
+    );
 
     // attach curve
     m_curve = new QwtPlotCurve( "Scattered Points" );

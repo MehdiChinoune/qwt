@@ -66,8 +66,8 @@ MainWindow::MainWindow( QWidget* parent )
     m_zoomer[0]->setTrackerMode( QwtPicker::ActiveOnly );
     m_zoomer[0]->setTrackerPen( QColor( Qt::white ) );
 
-    m_zoomer[1] = new Zoomer( QwtAxis::XTop, QwtAxis::YRight,
-        m_plot->canvas() );
+    m_zoomer[1] = new Zoomer(
+        QwtAxis::XTop, QwtAxis::YRight, m_plot->canvas() );
 
     m_panner = new QwtPlotPanner( m_plot->canvas() );
     m_panner->setMouseButton( Qt::MiddleButton );

@@ -118,10 +118,10 @@ QwtPlotZoomer::QwtPlotZoomer( QWidget* canvas, bool doReplot )
 
    The zoomer is initialized with a QwtPickerDragRectMachine,
    the tracker mode is set to QwtPicker::ActiveOnly and the rubber band
-   is set to QwtPicker;;RectRubberBand
+   is set to QwtPicker::RectRubberBand
 
-   \param xAxis X axis of the zoomer
-   \param yAxis Y axis of the zoomer
+   \param xAxisId X axis of the zoomer
+   \param yAxisId Y axis of the zoomer
    \param canvas Plot canvas to observe, also the parent object
    \param doReplot Call QwtPlot::replot() for the attached plot before initializing
                   the zoomer with its scales. This might be necessary,
@@ -130,9 +130,9 @@ QwtPlotZoomer::QwtPlotZoomer( QWidget* canvas, bool doReplot )
    \sa QwtPlot::autoReplot(), QwtPlot::replot(), setZoomBase()
  */
 
-QwtPlotZoomer::QwtPlotZoomer( int xAxis, int yAxis,
+QwtPlotZoomer::QwtPlotZoomer( QwtAxisId xAxisId, QwtAxisId yAxisId,
         QWidget* canvas, bool doReplot )
-    : QwtPlotPicker( xAxis, yAxis, canvas )
+    : QwtPlotPicker( xAxisId, yAxisId, canvas )
 {
     if ( canvas )
         init( doReplot );
@@ -448,15 +448,15 @@ void QwtPlotZoomer::rescale()
 /*!
    Reinitialize the axes, and set the zoom base to their scales.
 
-   \param xAxis X axis
-   \param yAxis Y axis
+   \param xAxisId X axis
+   \param yAxisId Y axis
  */
 
-void QwtPlotZoomer::setAxis( int xAxis, int yAxis )
+void QwtPlotZoomer::setAxes( QwtAxisId xAxisId, QwtAxisId yAxisId )
 {
-    if ( xAxis != QwtPlotPicker::xAxis() || yAxis != QwtPlotPicker::yAxis() )
+    if ( xAxisId != QwtPlotPicker::xAxis() || yAxisId != QwtPlotPicker::yAxis() )
     {
-        QwtPlotPicker::setAxis( xAxis, yAxis );
+        QwtPlotPicker::setAxes( xAxisId, yAxisId );
         setZoomBase( scaleRect() );
     }
 }

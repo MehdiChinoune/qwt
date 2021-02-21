@@ -50,24 +50,24 @@ QwtPlotMagnifier::~QwtPlotMagnifier()
 
    \sa isAxisEnabled()
  */
-void QwtPlotMagnifier::setAxisEnabled( int axis, bool on )
+void QwtPlotMagnifier::setAxisEnabled( QwtAxisId axisId, bool on )
 {
-    if ( QwtAxis::isValid( axis ) )
-        m_data->isAxisEnabled[axis] = on;
+    if ( QwtAxis::isValid( axisId ) )
+        m_data->isAxisEnabled[axisId] = on;
 }
 
 /*!
    Test if an axis is enabled
 
-   \param axis Axis
+   \param axisId Axis
    \return True, if the axis is enabled
 
    \sa setAxisEnabled()
  */
-bool QwtPlotMagnifier::isAxisEnabled( int axis ) const
+bool QwtPlotMagnifier::isAxisEnabled( QwtAxisId axisId ) const
 {
-    if ( QwtAxis::isValid( axis ) )
-        return m_data->isAxisEnabled[axis];
+    if ( QwtAxis::isValid( axisId ) )
+        return m_data->isAxisEnabled[axisId];
 
     return true;
 }

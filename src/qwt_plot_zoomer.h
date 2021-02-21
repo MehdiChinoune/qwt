@@ -81,7 +81,7 @@ class QWT_EXPORT QwtPlotZoomer : public QwtPlotPicker
     Q_OBJECT
   public:
     explicit QwtPlotZoomer( QWidget*, bool doReplot = true );
-    explicit QwtPlotZoomer( int xAxis, int yAxis,
+    explicit QwtPlotZoomer( QwtAxisId xAxis, QwtAxisId yAxis,
         QWidget*, bool doReplot = true );
 
     virtual ~QwtPlotZoomer();
@@ -92,7 +92,7 @@ class QWT_EXPORT QwtPlotZoomer : public QwtPlotPicker
     QRectF zoomBase() const;
     QRectF zoomRect() const;
 
-    virtual void setAxis( int xAxis, int yAxis ) QWT_OVERRIDE;
+    virtual void setAxes( QwtAxisId xAxis, QwtAxisId yAxis ) QWT_OVERRIDE;
 
     void setMaxStackDepth( int );
     int maxStackDepth() const;

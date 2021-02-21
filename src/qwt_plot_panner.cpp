@@ -146,29 +146,29 @@ QwtPlotPanner::~QwtPlotPanner()
    Axes that are enabled will be synchronized to the
    result of panning. All other axes will remain unchanged.
 
-   \param axis Axis
+   \param axisId Axis id
    \param on On/Off
 
    \sa isAxisEnabled(), moveCanvas()
  */
-void QwtPlotPanner::setAxisEnabled( int axis, bool on )
+void QwtPlotPanner::setAxisEnabled( QwtAxisId axisId, bool on )
 {
-    if ( QwtAxis::isValid( axis ) )
-        m_data->isAxisEnabled[axis] = on;
+    if ( QwtAxis::isValid( axisId ) )
+        m_data->isAxisEnabled[axisId] = on;
 }
 
 /*!
    Test if an axis is enabled
 
-   \param axis Axis
+   \param axisId Axis
    \return True, if the axis is enabled
 
    \sa setAxisEnabled(), moveCanvas()
  */
-bool QwtPlotPanner::isAxisEnabled( int axis ) const
+bool QwtPlotPanner::isAxisEnabled( QwtAxisId axisId ) const
 {
-    if ( QwtAxis::isValid( axis ) )
-        return m_data->isAxisEnabled[axis];
+    if ( QwtAxis::isValid( axisId ) )
+        return m_data->isAxisEnabled[axisId];
 
     return true;
 }
@@ -225,18 +225,18 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
     const bool doAutoReplot = plot->autoReplot();
     plot->setAutoReplot( false );
 
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        if ( !m_data->isAxisEnabled[axis] )
+        if ( !m_data->isAxisEnabled[axisPos] )
             continue;
 
-        const QwtScaleMap map = plot->canvasMap( axis );
+        const QwtScaleMap map = plot->canvasMap( axisPos );
 
-        const double p1 = map.transform( plot->axisScaleDiv( axis ).lowerBound() );
-        const double p2 = map.transform( plot->axisScaleDiv( axis ).upperBound() );
+        const double p1 = map.transform( plot->axisScaleDiv( axisPos ).lowerBound() );
+        const double p2 = map.transform( plot->axisScaleDiv( axisPos ).upperBound() );
 
         double d1, d2;
-        if ( QwtAxis::isXAxis( axis ) )
+        if ( QwtAxis::isXAxis( axisPos ) )
         {
             d1 = map.invTransform( p1 - dx );
             d2 = map.invTransform( p2 - dx );
@@ -247,7 +247,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
             d2 = map.invTransform( p2 - dy );
         }
 
-        plot->setAxisScale( axis, d1, d2 );
+        plot->setAxisScale( axisPos, d1, d2 );
     }
 
     plot->setAutoReplot( doAutoReplot );

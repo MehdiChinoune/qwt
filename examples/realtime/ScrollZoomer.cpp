@@ -494,7 +494,7 @@ int ScrollZoomer::oppositeAxis( int axis ) const
             return YLeft;
 
         default:
-            break;
+            ;
     }
 
     return axis;

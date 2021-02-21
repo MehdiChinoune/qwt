@@ -223,38 +223,38 @@ QwtPlotLayout::~QwtPlotLayout()
    be set to -1, excluding the borders of the scales.
 
    \param margin New margin
-   \param axis One of QwtPlot::Axis. Specifies where the position of the margin.
+   \param axisPos One of QwtAxis::Position. Specifies where the position of the margin.
               -1 means margin at all borders.
    \sa canvasMargin()
 
    \warning The margin will have no effect when alignCanvasToScale() is true
  */
 
-void QwtPlotLayout::setCanvasMargin( int margin, int axis )
+void QwtPlotLayout::setCanvasMargin( int margin, int axisPos )
 {
     if ( margin < -1 )
         margin = -1;
 
-    if ( axis == -1 )
+    if ( axisPos == -1 )
     {
-        for ( axis = 0; axis < QwtAxis::AxisCount; axis++ )
-            m_data->canvasMargin[axis] = margin;
+        for ( axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+            m_data->canvasMargin[axisPos] = margin;
     }
-    else if ( axis >= 0 && axis < QwtAxis::AxisCount )
-        m_data->canvasMargin[axis] = margin;
+    else if ( QwtAxis::isValid( axisPos ) )
+        m_data->canvasMargin[axisPos] = margin;
 }
 
 /*!
-    \param axisId Axis index
+    \param axisPos Axis position
     \return Margin around the scale tick borders
     \sa setCanvasMargin()
  */
-int QwtPlotLayout::canvasMargin( int axisId ) const
+int QwtPlotLayout::canvasMargin( int axisPos ) const
 {
-    if ( axisId < 0 || axisId >= QwtAxis::AxisCount )
+    if ( !QwtAxis::isValid( axisPos ) )
         return 0;
 
-    return m_data->canvasMargin[axisId];
+    return m_data->canvasMargin[axisPos];
 }
 
 /*!
@@ -265,8 +265,8 @@ int QwtPlotLayout::canvasMargin( int axisId ) const
  */
 void QwtPlotLayout::setAlignCanvasToScales( bool on )
 {
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        m_data->alignCanvasToScales[axis] = on;
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+        m_data->alignCanvasToScales[axisPos] = on;
 }
 
 /*!
@@ -286,10 +286,10 @@ void QwtPlotLayout::setAlignCanvasToScales( bool on )
    \sa setCanvasMargin(), alignCanvasToScale(), setAlignCanvasToScales()
    \warning In case of on == true canvasMargin() will have no effect
  */
-void QwtPlotLayout::setAlignCanvasToScale( int axisId, bool on )
+void QwtPlotLayout::setAlignCanvasToScale( int axisPos, bool on )
 {
-    if ( QwtAxis::isValid( axisId ) )
-        m_data->alignCanvasToScales[axisId] = on;
+    if ( QwtAxis::isValid( axisPos ) )
+        m_data->alignCanvasToScales[axisPos] = on;
 }
 
 /*!
@@ -297,16 +297,16 @@ void QwtPlotLayout::setAlignCanvasToScale( int axisId, bool on )
    - extend beyond the axis scale ends to maximize its size
    - align with the axis scale ends to control its size.
 
-   \param axisId Axis index
+   \param axisPos Axis position
    \return align-canvas-to-axis-scales setting
    \sa setAlignCanvasToScale(), setAlignCanvasToScale(), setCanvasMargin()
  */
-bool QwtPlotLayout::alignCanvasToScale( int axisId ) const
+bool QwtPlotLayout::alignCanvasToScale( int axisPos ) const
 {
-    if ( !QwtAxis::isValid( axisId ) )
+    if ( !QwtAxis::isValid( axisPos ) )
         return false;
 
-    return m_data->alignCanvasToScales[ axisId ];
+    return m_data->alignCanvasToScales[ axisPos ];
 }
 
 /*!
@@ -493,30 +493,28 @@ QRectF QwtPlotLayout::legendRect() const
    This method is intended to be used from derived layouts
    overloading activate()
 
-   \param axis Axis index
+   \param axisId Axis
    \param rect Rectangle for the scale
 
    \sa scaleRect(), activate()
  */
-void QwtPlotLayout::setScaleRect( int axis, const QRectF& rect )
+void QwtPlotLayout::setScaleRect( QwtAxisId axisId, const QRectF& rect )
 {
-    if ( QwtAxis::isValid( axis ) )
-        m_data->scaleRect[axis] = rect;
+    if ( QwtAxis::isValid( axisId ) )
+        m_data->scaleRect[axisId] = rect;
 }
 
 /*!
-   \param axis Axis index
+   \param axisId Axis
    \return Geometry for the scale
    \sa activate(), invalidate()
  */
-QRectF QwtPlotLayout::scaleRect( int axis ) const
+QRectF QwtPlotLayout::scaleRect( QwtAxisId axisId ) const
 {
-    if ( !QwtAxis::isValid( axis ) )
-    {
-        static QRectF dummyRect;
-        return dummyRect;
-    }
-    return m_data->scaleRect[axis];
+    if ( QwtAxis::isValid( axisId ) )
+        return m_data->scaleRect[axisId];
+
+    return QRectF();
 }
 
 /*!
@@ -689,9 +687,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             {
                 w = labelW = labelH;
                 if ( centerOnCanvas )
-                {
                     w += scaleData[YLeft].w + scaleData[YRight].w;
-                }
 
                 labelH = label->heightForWidth( labelW );
             }

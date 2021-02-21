@@ -11,6 +11,7 @@
 #define QWT_PLOT_RENDERER_H
 
 #include "qwt_global.h"
+#include "qwt_axis_id.h"
 
 #include <qobject.h>
 #include <qsize.h>
@@ -136,7 +137,7 @@ class QWT_EXPORT QwtPlotRenderer : public QObject
         QPainter*, const QRectF& footerRect ) const;
 
     virtual void renderScale( const QwtPlot*, QPainter*,
-        int axisId, int startDist, int endDist,
+        QwtAxisId, int startDist, int endDist,
         int baseDist, const QRectF& scaleRect ) const;
 
     virtual void renderCanvas( const QwtPlot*,

@@ -513,8 +513,8 @@ void QwtPlotRenderer::render( QwtPlot* plot,
 
     QwtPlotLayout* layout = plot->plotLayout();
 
-    int baseLineDists[ QwtAxis::AxisCount ];
-    int canvasMargins[ QwtAxis::AxisCount ];
+    int baseLineDists[QwtAxis::AxisCount];
+    int canvasMargins[QwtAxis::AxisCount];
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
@@ -723,7 +723,7 @@ void QwtPlotRenderer::renderLegend( const QwtPlot* plot,
    \param scaleRect Bounding rectangle for the scale
  */
 void QwtPlotRenderer::renderScale( const QwtPlot* plot, QPainter* painter,
-    int axisId, int startDist, int endDist, int baseDist,
+    QwtAxisId axisId, int startDist, int endDist, int baseDist,
     const QRectF& scaleRect ) const
 {
     if ( !plot->isAxisVisible( axisId ) )

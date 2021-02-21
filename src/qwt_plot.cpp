@@ -679,12 +679,12 @@ void QwtPlot::getCanvasMarginsHint(
             double m[ AxisCount ];
             item->getCanvasMarginHint(
                 maps[ item->xAxis() ], maps[ item->yAxis() ],
-                canvasRect, m[ YLeft ], m[ XTop ], m[ YRight ], m[ XBottom ] );
+                canvasRect, m[YLeft], m[XTop], m[YRight], m[XBottom] );
 
-            left = qwtMaxF( left, m[ YLeft ] );
-            top = qwtMaxF( top, m[ XTop ] );
-            right = qwtMaxF( right, m[ YRight ] );
-            bottom = qwtMaxF( bottom, m[ XBottom ] );
+            left = qwtMaxF( left, m[YLeft] );
+            top = qwtMaxF( top, m[XTop] );
+            right = qwtMaxF( right, m[YRight] );
+            bottom = qwtMaxF( bottom, m[XBottom] );
         }
     }
 }
@@ -789,9 +789,8 @@ void QwtPlot::drawItems( QPainter* painter, const QRectF& canvasRect,
    \return Map for the axis on the canvas. With this map pixel coordinates can
           translated to plot coordinates and vice versa.
    \sa QwtScaleMap, transform(), invTransform()
-
  */
-QwtScaleMap QwtPlot::canvasMap( int axisId ) const
+QwtScaleMap QwtPlot::canvasMap( QwtAxisId axisId ) const
 {
     QwtScaleMap map;
     if ( !m_data->canvas )

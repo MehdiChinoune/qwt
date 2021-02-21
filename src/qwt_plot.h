@@ -11,7 +11,7 @@
 #define QWT_PLOT_H
 
 #include "qwt_global.h"
-#include "qwt_axis.h"
+#include "qwt_axis_id.h"
 #include "qwt_plot_dict.h"
 
 #include <qframe.h>
@@ -148,54 +148,54 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     void setCanvasBackground( const QBrush& );
     QBrush canvasBackground() const;
 
-    virtual QwtScaleMap canvasMap( int axisId ) const;
+    virtual QwtScaleMap canvasMap( QwtAxisId ) const;
 
-    double invTransform( int axisId, double pos ) const;
-    double transform( int axisId, double value ) const;
+    double invTransform( QwtAxisId, double pos ) const;
+    double transform( QwtAxisId, double value ) const;
 
     // Axes
 
-    void setAxisVisible( int axisId, bool on = true );
-    bool isAxisVisible( int axisId ) const;
+    void setAxisVisible( QwtAxisId, bool on = true );
+    bool isAxisVisible( QwtAxisId ) const;
 
     // Axes data
 
-    QwtScaleEngine* axisScaleEngine( int axisId );
-    const QwtScaleEngine* axisScaleEngine( int axisId ) const;
-    void setAxisScaleEngine( int axisId, QwtScaleEngine* );
+    QwtScaleEngine* axisScaleEngine( QwtAxisId );
+    const QwtScaleEngine* axisScaleEngine( QwtAxisId ) const;
+    void setAxisScaleEngine( QwtAxisId, QwtScaleEngine* );
 
-    void setAxisAutoScale( int axisId, bool on = true );
-    bool axisAutoScale( int axisId ) const;
+    void setAxisAutoScale( QwtAxisId, bool on = true );
+    bool axisAutoScale( QwtAxisId ) const;
 
-    void setAxisFont( int axisId, const QFont& );
-    QFont axisFont( int axisId ) const;
+    void setAxisFont( QwtAxisId, const QFont& );
+    QFont axisFont( QwtAxisId ) const;
 
-    void setAxisScale( int axisId, double min, double max, double stepSize = 0 );
-    void setAxisScaleDiv( int axisId, const QwtScaleDiv& );
-    void setAxisScaleDraw( int axisId, QwtScaleDraw* );
+    void setAxisScale( QwtAxisId, double min, double max, double stepSize = 0 );
+    void setAxisScaleDiv( QwtAxisId, const QwtScaleDiv& );
+    void setAxisScaleDraw( QwtAxisId, QwtScaleDraw* );
 
-    double axisStepSize( int axisId ) const;
-    QwtInterval axisInterval( int axisId ) const;
-    const QwtScaleDiv& axisScaleDiv( int axisId ) const;
+    double axisStepSize( QwtAxisId ) const;
+    QwtInterval axisInterval( QwtAxisId ) const;
+    const QwtScaleDiv& axisScaleDiv( QwtAxisId ) const;
 
-    const QwtScaleDraw* axisScaleDraw( int axisId ) const;
-    QwtScaleDraw* axisScaleDraw( int axisId );
+    const QwtScaleDraw* axisScaleDraw( QwtAxisId ) const;
+    QwtScaleDraw* axisScaleDraw( QwtAxisId );
 
-    const QwtScaleWidget* axisWidget( int axisId ) const;
-    QwtScaleWidget* axisWidget( int axisId );
+    const QwtScaleWidget* axisWidget( QwtAxisId ) const;
+    QwtScaleWidget* axisWidget( QwtAxisId );
 
-    void setAxisLabelAlignment( int axisId, Qt::Alignment );
-    void setAxisLabelRotation( int axisId, double rotation );
+    void setAxisLabelAlignment( QwtAxisId, Qt::Alignment );
+    void setAxisLabelRotation( QwtAxisId, double rotation );
 
-    void setAxisTitle( int axisId, const QString& );
-    void setAxisTitle( int axisId, const QwtText& );
-    QwtText axisTitle( int axisId ) const;
+    void setAxisTitle( QwtAxisId, const QString& );
+    void setAxisTitle( QwtAxisId, const QwtText& );
+    QwtText axisTitle( QwtAxisId ) const;
 
-    void setAxisMaxMinor( int axisId, int maxMinor );
-    int axisMaxMinor( int axisId ) const;
+    void setAxisMaxMinor( QwtAxisId, int maxMinor );
+    int axisMaxMinor( QwtAxisId ) const;
 
-    void setAxisMaxMajor( int axisId, int maxMajor );
-    int axisMaxMajor( int axisId ) const;
+    void setAxisMaxMajor( QwtAxisId, int maxMajor );
+    int axisMaxMajor( QwtAxisId ) const;
 
     // Legend
 
