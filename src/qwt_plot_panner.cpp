@@ -227,27 +227,31 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        if ( !m_data->isAxisEnabled[axisPos] )
-            continue;
-
-        const QwtScaleMap map = plot->canvasMap( axisPos );
-
-        const double p1 = map.transform( plot->axisScaleDiv( axisPos ).lowerBound() );
-        const double p2 = map.transform( plot->axisScaleDiv( axisPos ).upperBound() );
-
-        double d1, d2;
-        if ( QwtAxis::isXAxis( axisPos ) )
         {
-            d1 = map.invTransform( p1 - dx );
-            d2 = map.invTransform( p2 - dx );
-        }
-        else
-        {
-            d1 = map.invTransform( p1 - dy );
-            d2 = map.invTransform( p2 - dy );
-        }
+            const QwtAxisId axisId( axisPos );
 
-        plot->setAxisScale( axisPos, d1, d2 );
+            if ( !m_data->isAxisEnabled[axisId] )
+                continue;
+
+            const QwtScaleMap map = plot->canvasMap( axisId );
+
+            const double p1 = map.transform( plot->axisScaleDiv( axisId ).lowerBound() );
+            const double p2 = map.transform( plot->axisScaleDiv( axisId ).upperBound() );
+
+            double d1, d2;
+            if ( QwtAxis::isXAxis( axisPos ) )
+            {
+                d1 = map.invTransform( p1 - dx );
+                d2 = map.invTransform( p2 - dx );
+            }
+            else
+            {
+                d1 = map.invTransform( p1 - dy );
+                d2 = map.invTransform( p2 - dy );
+            }
+
+            plot->setAxisScale( axisId, d1, d2 );
+        }
     }
 
     plot->setAutoReplot( doAutoReplot );

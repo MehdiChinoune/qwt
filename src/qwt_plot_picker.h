@@ -110,8 +110,8 @@ class QWT_EXPORT QwtPlotPicker : public QwtPicker
     virtual bool end( bool ok = true ) QWT_OVERRIDE;
 
   private:
-    QwtAxisId m_xAxis;
-    QwtAxisId m_yAxis;
+    class PrivateData;
+    PrivateData* m_data;
 };
 
 #endif

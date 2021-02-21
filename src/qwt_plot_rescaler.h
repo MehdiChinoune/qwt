@@ -80,7 +80,7 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
     };
 
     explicit QwtPlotRescaler( QWidget* canvas,
-        int referenceAxis = QwtAxis::XBottom,
+        QwtAxisId referenceAxis = QwtAxis::XBottom,
         RescalePolicy = Expanding );
 
     virtual ~QwtPlotRescaler();
@@ -92,18 +92,18 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
     RescalePolicy rescalePolicy() const;
 
     void setExpandingDirection( ExpandingDirection );
-    void setExpandingDirection( int axis, ExpandingDirection );
-    ExpandingDirection expandingDirection( int axis ) const;
+    void setExpandingDirection( QwtAxisId, ExpandingDirection );
+    ExpandingDirection expandingDirection( QwtAxisId ) const;
 
-    void setReferenceAxis( int axis );
-    int referenceAxis() const;
+    void setReferenceAxis( QwtAxisId );
+    QwtAxisId referenceAxis() const;
 
     void setAspectRatio( double ratio );
-    void setAspectRatio( int axis, double ratio );
-    double aspectRatio( int axis ) const;
+    void setAspectRatio( QwtAxisId, double ratio );
+    double aspectRatio( QwtAxisId ) const;
 
-    void setIntervalHint( int axis, const QwtInterval& );
-    QwtInterval intervalHint( int axis ) const;
+    void setIntervalHint( QwtAxisId, const QwtInterval& );
+    QwtInterval intervalHint( QwtAxisId ) const;
 
     QWidget* canvas();
     const QWidget* canvas() const;
@@ -120,22 +120,21 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
 
     virtual void rescale( const QSize& oldSize, const QSize& newSize ) const;
     virtual QwtInterval expandScale(
-        int axis, const QSize& oldSize, const QSize& newSize ) const;
+        QwtAxisId, const QSize& oldSize, const QSize& newSize ) const;
 
     virtual QwtInterval syncScale(
-        int axis, const QwtInterval& reference,
-        const QSize& size ) const;
+        QwtAxisId, const QwtInterval& reference, const QSize& size ) const;
 
     virtual void updateScales(
         QwtInterval intervals[QwtAxis::AxisCount] ) const;
 
-    Qt::Orientation orientation( int axis ) const;
-    QwtInterval interval( int axis ) const;
+    Qt::Orientation orientation( QwtAxisId ) const;
+    QwtInterval interval( QwtAxisId ) const;
     QwtInterval expandInterval( const QwtInterval&,
         double width, ExpandingDirection ) const;
 
   private:
-    double pixelDist( int axis, const QSize& ) const;
+    double pixelDist( QwtAxisId, const QSize& ) const;
 
     class AxisData;
     class PrivateData;

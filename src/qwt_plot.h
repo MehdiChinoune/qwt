@@ -155,6 +155,8 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 
     // Axes
 
+    bool isAxisValid( QwtAxisId ) const;
+
     void setAxisVisible( QwtAxisId, bool on = true );
     bool isAxisVisible( QwtAxisId ) const;
 

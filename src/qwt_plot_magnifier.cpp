@@ -45,7 +45,7 @@ QwtPlotMagnifier::~QwtPlotMagnifier()
    Only Axes that are enabled will be zoomed.
    All other axes will remain unchanged.
 
-   \param axis Axis
+   \param axisId Axis
    \param on On/Off
 
    \sa isAxisEnabled()
@@ -125,35 +125,39 @@ void QwtPlotMagnifier::rescale( double factor )
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        if ( isAxisEnabled( axisPos ) )
         {
-            const QwtScaleMap scaleMap = plt->canvasMap( axisPos );
+            const QwtAxisId axisId( axisPos );
 
-            double v1 = scaleMap.s1();
-            double v2 = scaleMap.s2();
-
-            if ( scaleMap.transformation() )
+            if ( isAxisEnabled( axisId ) )
             {
-                // the coordinate system of the paint device is always linear
+                const QwtScaleMap scaleMap = plt->canvasMap( axisId );
 
-                v1 = scaleMap.transform( v1 ); // scaleMap.p1()
-                v2 = scaleMap.transform( v2 ); // scaleMap.p2()
+                double v1 = scaleMap.s1();
+                double v2 = scaleMap.s2();
+
+                if ( scaleMap.transformation() )
+                {
+                    // the coordinate system of the paint device is always linear
+
+                    v1 = scaleMap.transform( v1 ); // scaleMap.p1()
+                    v2 = scaleMap.transform( v2 ); // scaleMap.p2()
+                }
+
+                const double center = 0.5 * ( v1 + v2 );
+                const double width_2 = 0.5 * ( v2 - v1 ) * factor;
+
+                v1 = center - width_2;
+                v2 = center + width_2;
+
+                if ( scaleMap.transformation() )
+                {
+                    v1 = scaleMap.invTransform( v1 );
+                    v2 = scaleMap.invTransform( v2 );
+                }
+
+                plt->setAxisScale( axisId, v1, v2 );
+                doReplot = true;
             }
-
-            const double center = 0.5 * ( v1 + v2 );
-            const double width_2 = 0.5 * ( v2 - v1 ) * factor;
-
-            v1 = center - width_2;
-            v2 = center + width_2;
-
-            if ( scaleMap.transformation() )
-            {
-                v1 = scaleMap.invTransform( v1 );
-                v2 = scaleMap.invTransform( v2 );
-            }
-
-            plt->setAxisScale( axisPos, v1, v2 );
-            doReplot = true;
         }
     }
 

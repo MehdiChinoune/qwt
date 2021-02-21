@@ -522,14 +522,16 @@ void QwtPlotRenderer::render( QwtPlot* plot,
 
         if ( m_data->layoutFlags & FrameWithScales )
         {
-            QwtScaleWidget* scaleWidget = plot->axisWidget( axisPos );
+            const QwtAxisId axisId( axisPos );
+
+            QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
             if ( scaleWidget )
             {
                 baseLineDists[axisPos] = scaleWidget->margin();
                 scaleWidget->setMargin( 0 );
             }
 
-            if ( !plot->isAxisVisible( axisPos ) )
+            if ( !plot->isAxisVisible( axisId ) )
             {
                 // When we have a scale the frame is painted on
                 // the position of the backbone - otherwise we
@@ -623,16 +625,20 @@ void QwtPlotRenderer::render( QwtPlot* plot,
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        QwtScaleWidget* scaleWidget = plot->axisWidget( axisPos );
-        if ( scaleWidget )
         {
-            int baseDist = scaleWidget->margin();
+            const QwtAxisId axisId( axisPos );
 
-            int startDist, endDist;
-            scaleWidget->getBorderDistHint( startDist, endDist );
+            QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
+            if ( scaleWidget )
+            {
+                int baseDist = scaleWidget->margin();
 
-            renderScale( plot, painter, axisPos, startDist, endDist,
-                baseDist, layout->scaleRect( axisPos ) );
+                int startDist, endDist;
+                scaleWidget->getBorderDistHint( startDist, endDist );
+
+                renderScale( plot, painter, axisId, startDist, endDist,
+                    baseDist, layout->scaleRect( axisId ) );
+            }
         }
     }
 
@@ -643,7 +649,9 @@ void QwtPlotRenderer::render( QwtPlot* plot,
     {
         if ( m_data->layoutFlags & FrameWithScales )
         {
-            QwtScaleWidget* scaleWidget = plot->axisWidget( axisPos );
+            const QwtAxisId axisId( axisPos );
+
+            QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
             if ( scaleWidget  )
                 scaleWidget->setMargin( baseLineDists[axisPos] );
         }
@@ -963,49 +971,55 @@ void QwtPlotRenderer::buildCanvasMaps( const QwtPlot* plot,
 {
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        maps[axisPos].setTransformation(
-            plot->axisScaleEngine( axisPos )->transformation() );
-
-        const QwtScaleDiv& scaleDiv = plot->axisScaleDiv( axisPos );
-        maps[axisPos].setScaleInterval(
-            scaleDiv.lowerBound(), scaleDiv.upperBound() );
-
-        double from, to;
-        if ( plot->isAxisVisible( axisPos ) )
         {
-            const int sDist = plot->axisWidget( axisPos )->startBorderDist();
-            const int eDist = plot->axisWidget( axisPos )->endBorderDist();
-            const QRectF scaleRect = plot->plotLayout()->scaleRect( axisPos );
+            const QwtAxisId axisId( axisPos );
 
-            if ( QwtAxis::isXAxis( axisPos ) )
+            QwtScaleMap& scaleMap = maps[axisId];
+
+            scaleMap.setTransformation(
+                plot->axisScaleEngine( axisId )->transformation() );
+
+            const QwtScaleDiv& scaleDiv = plot->axisScaleDiv( axisId );
+            scaleMap.setScaleInterval(
+                scaleDiv.lowerBound(), scaleDiv.upperBound() );
+
+            double from, to;
+            if ( plot->isAxisVisible( axisId ) )
             {
-                from = scaleRect.left() + sDist;
-                to = scaleRect.right() - eDist;
+                const int sDist = plot->axisWidget( axisId )->startBorderDist();
+                const int eDist = plot->axisWidget( axisId )->endBorderDist();
+                const QRectF scaleRect = plot->plotLayout()->scaleRect( axisId );
+
+                if ( QwtAxis::isXAxis( axisPos ) )
+                {
+                    from = scaleRect.left() + sDist;
+                    to = scaleRect.right() - eDist;
+                }
+                else
+                {
+                    from = scaleRect.bottom() - eDist;
+                    to = scaleRect.top() + sDist;
+                }
             }
             else
             {
-                from = scaleRect.bottom() - eDist;
-                to = scaleRect.top() + sDist;
-            }
-        }
-        else
-        {
-            int margin = 0;
-            if ( !plot->plotLayout()->alignCanvasToScale( axisPos ) )
-                margin = plot->plotLayout()->canvasMargin( axisPos );
+                int margin = 0;
+                if ( !plot->plotLayout()->alignCanvasToScale( axisPos ) )
+                    margin = plot->plotLayout()->canvasMargin( axisPos );
 
-            if ( QwtAxis::isYAxis( axisPos ) )
-            {
-                from = canvasRect.bottom() - margin;
-                to = canvasRect.top() + margin;
+                if ( QwtAxis::isYAxis( axisPos ) )
+                {
+                    from = canvasRect.bottom() - margin;
+                    to = canvasRect.top() + margin;
+                }
+                else
+                {
+                    from = canvasRect.left() + margin;
+                    to = canvasRect.right() - margin;
+                }
             }
-            else
-            {
-                from = canvasRect.left() + margin;
-                to = canvasRect.right() - margin;
-            }
+            scaleMap.setPaintInterval( from, to );
         }
-        maps[axisPos].setPaintInterval( from, to );
     }
 }
 

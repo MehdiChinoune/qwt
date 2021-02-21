@@ -484,24 +484,28 @@ QSize QwtPlot::sizeHint() const
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        if ( isAxisVisible( axisPos ) )
         {
-            const int niceDist = 40;
-            const QwtScaleWidget* scaleWidget = axisWidget( axisPos );
-            const QwtScaleDiv& scaleDiv = scaleWidget->scaleDraw()->scaleDiv();
-            const int majCnt = scaleDiv.ticks( QwtScaleDiv::MajorTick ).count();
+            const QwtAxisId axisId( axisPos );
 
-            const QSize hint = scaleWidget->minimumSizeHint();
+            if ( isAxisVisible( axisId ) )
+            {
+                const int niceDist = 40;
+                const QwtScaleWidget* scaleWidget = axisWidget( axisId );
+                const QwtScaleDiv& scaleDiv = scaleWidget->scaleDraw()->scaleDiv();
+                const int majCnt = scaleDiv.ticks( QwtScaleDiv::MajorTick ).count();
 
-            if ( QwtAxis::isYAxis( axisPos ) )
-            {
-                const int hDiff = ( majCnt - 1 ) * niceDist - hint.height();
-                dh = qMax( dh, hDiff );
-            }
-            else
-            {
-                const int wDiff = ( majCnt - 1 ) * niceDist - hint.width();
-                dw = qMax( dw, wDiff );
+                const QSize hint = scaleWidget->minimumSizeHint();
+
+                if ( QwtAxis::isYAxis( axisPos ) )
+                {
+                    const int hDiff = ( majCnt - 1 ) * niceDist - hint.height();
+                    dh = qMax( dh, hDiff );
+                }
+                else
+                {
+                    const int wDiff = ( majCnt - 1 ) * niceDist - hint.width();
+                    dw = qMax( dw, wDiff );
+                }
             }
         }
     }
@@ -608,25 +612,29 @@ void QwtPlot::updateLayout()
 
     for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        QwtScaleWidget* scaleWidget = axisWidget( axisPos );
-
-        if ( isAxisVisible( axisPos ) )
         {
-            if ( scaleRect[axisPos] != scaleWidget->geometry() )
+            const QwtAxisId axisId( axisPos );
+
+            QwtScaleWidget* scaleWidget = axisWidget( axisId );
+
+            if ( isAxisVisible( axisId ) )
             {
-                scaleWidget->setGeometry( scaleRect[axisPos] );
+                if ( scaleRect[axisId] != scaleWidget->geometry() )
+                {
+                    scaleWidget->setGeometry( scaleRect[axisId] );
 
-                int startDist, endDist;
-                scaleWidget->getBorderDistHint( startDist, endDist );
-                scaleWidget->setBorderDist( startDist, endDist );
+                    int startDist, endDist;
+                    scaleWidget->getBorderDistHint( startDist, endDist );
+                    scaleWidget->setBorderDist( startDist, endDist );
+                }
+
+                if ( !scaleWidget->isVisibleTo( this ) )
+                    scaleWidget->show();
             }
-
-            if ( !scaleWidget->isVisibleTo( this ) )
-                scaleWidget->show();
-        }
-        else
-        {
-            scaleWidget->hide();
+            else
+            {
+                scaleWidget->hide();
+            }
         }
     }
 
@@ -765,6 +773,9 @@ void QwtPlot::drawItems( QPainter* painter, const QRectF& canvasRect,
         QwtPlotItem* item = *it;
         if ( item && item->isVisible() )
         {
+            const QwtAxisId xAxis = item->xAxis();
+            const QwtAxisId yAxis = item->yAxis();
+
             painter->save();
 
             painter->setRenderHint( QPainter::Antialiasing,
@@ -775,9 +786,7 @@ void QwtPlot::drawItems( QPainter* painter, const QRectF& canvasRect,
                 item->testRenderHint( QwtPlotItem::RenderAntialiased ) );
 #endif
 
-            item->draw( painter,
-                maps[item->xAxis()], maps[item->yAxis()],
-                canvasRect );
+            item->draw( painter, maps[xAxis], maps[yAxis], canvasRect );
 
             painter->restore();
         }
@@ -971,7 +980,8 @@ void QwtPlot::insertLegend( QwtAbstractLegend* legend,
             {
                 case LeftLegend:
                 {
-                    previousInChain = axisWidget( QwtAxis::XTop );
+                    const QwtAxisId axisId( QwtAxis::XTop );
+                    previousInChain = axisWidget( axisId );
                     break;
                 }
                 case TopLegend:
@@ -981,7 +991,8 @@ void QwtPlot::insertLegend( QwtAbstractLegend* legend,
                 }
                 case RightLegend:
                 {
-                    previousInChain = axisWidget( QwtAxis::YRight );
+                    const QwtAxisId axisId( QwtAxis::YRight );
+                    previousInChain = axisWidget( axisId );
                     break;
                 }
                 case BottomLegend:

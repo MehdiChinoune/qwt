@@ -11,6 +11,7 @@
 #define QWT_PLOT_ITEM_H
 
 #include "qwt_global.h"
+#include "qwt_axis_id.h"
 #include <qmetatype.h>
 
 class QwtScaleMap;
@@ -247,13 +248,13 @@ class QWT_EXPORT QwtPlotItem
     virtual void setVisible( bool );
     bool isVisible () const;
 
-    void setAxes( int xAxis, int yAxis );
+    void setAxes( QwtAxisId xAxis, QwtAxisId yAxis );
 
-    void setXAxis( int axis );
-    int xAxis() const;
+    void setXAxis( QwtAxisId );
+    QwtAxisId xAxis() const;
 
-    void setYAxis( int axis );
-    int yAxis() const;
+    void setYAxis( QwtAxisId );
+    QwtAxisId yAxis() const;
 
     virtual void itemChanged();
     virtual void legendChanged();
