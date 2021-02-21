@@ -150,7 +150,7 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 
     virtual QwtScaleMap canvasMap( int axisId ) const;
 
-    double invTransform( int axisId, int pos ) const;
+    double invTransform( int axisId, double pos ) const;
     double transform( int axisId, double value ) const;
 
     // Axes

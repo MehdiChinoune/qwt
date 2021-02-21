@@ -374,7 +374,7 @@ void QwtPlot::setAxisVisible( int axisId, bool tf )
    \warning The position can be an x or a y coordinate,
            depending on the specified axis.
  */
-double QwtPlot::invTransform( int axisId, int pos ) const
+double QwtPlot::invTransform( int axisId, double pos ) const
 {
     if ( QwtAxis::isValid( axisId ) )
         return( canvasMap( axisId ).invTransform( pos ) );
