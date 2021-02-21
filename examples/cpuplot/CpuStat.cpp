@@ -11,14 +11,14 @@
 
 CpuStat::CpuStat()
 {
-    lookUp( procValues );
+    lookUp( m_procValues );
 }
 
 QTime CpuStat::upTime() const
 {
     QTime t( 0, 0, 0 );
     for ( int i = 0; i < NValues; i++ )
-        t = t.addSecs( int( procValues[i] / 100 ) );
+        t = t.addSecs( int( m_procValues[i] / 100 ) );
 
     return t;
 }
@@ -30,18 +30,18 @@ void CpuStat::statistic( double& user, double& system )
     lookUp( values );
 
     double userDelta = values[User] + values[Nice]
-        - procValues[User] - procValues[Nice];
-    double systemDelta = values[System] - procValues[System];
+        - m_procValues[User] - m_procValues[Nice];
+    double systemDelta = values[System] - m_procValues[System];
 
     double totalDelta = 0;
     for ( int i = 0; i < NValues; i++ )
-        totalDelta += values[i] - procValues[i];
+        totalDelta += values[i] - m_procValues[i];
 
     user = userDelta / totalDelta * 100.0;
     system = systemDelta / totalDelta * 100.0;
 
     for ( int j = 0; j < NValues; j++ )
-        procValues[j] = values[j];
+        m_procValues[j] = values[j];
 }
 
 void CpuStat::lookUp( double values[NValues] ) const

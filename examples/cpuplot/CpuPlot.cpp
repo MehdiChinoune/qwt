@@ -88,8 +88,10 @@ namespace
 
 CpuPlot::CpuPlot( QWidget* parent )
     : QwtPlot( parent )
-    , dataCount( 0 )
+    , m_dataCount( 0 )
 {
+    using namespace QwtAxis;
+
     setAutoReplot( false );
 
     QwtPlotCanvas* canvas = new QwtPlotCanvas();
@@ -103,12 +105,11 @@ CpuPlot::CpuPlot( QWidget* parent )
     legend->setDefaultItemMode( QwtLegendData::Checkable );
     insertLegend( legend, QwtPlot::RightLegend );
 
-    setAxisTitle( QwtAxis::XBottom, " System Uptime [h:m:s]" );
-    setAxisScaleDraw( QwtAxis::XBottom,
-        new TimeScaleDraw( cpuStat.upTime() ) );
-    setAxisScale( QwtAxis::XBottom, 0, HISTORY );
-    setAxisLabelRotation( QwtAxis::XBottom, -50.0 );
-    setAxisLabelAlignment( QwtAxis::XBottom, Qt::AlignLeft | Qt::AlignBottom );
+    setAxisTitle( XBottom, " System Uptime [h:m:s]" );
+    setAxisScaleDraw( XBottom, new TimeScaleDraw( m_cpuStat.upTime() ) );
+    setAxisScale( XBottom, 0, HISTORY );
+    setAxisLabelRotation( XBottom, -50.0 );
+    setAxisLabelAlignment( XBottom, Qt::AlignLeft | Qt::AlignBottom );
 
     /*
        In situations, when there is a label at the most right position of the
@@ -119,12 +120,12 @@ CpuPlot::CpuPlot( QWidget* parent )
        is enough space for the overlapping label below the left scale.
      */
 
-    QwtScaleWidget* scaleWidget = axisWidget( QwtAxis::XBottom );
+    QwtScaleWidget* scaleWidget = axisWidget( XBottom );
     const int fmh = QFontMetrics( scaleWidget->font() ).height();
     scaleWidget->setMinBorderDist( 0, fmh / 2 );
 
-    setAxisTitle( QwtAxis::YLeft, "Cpu Usage [%]" );
-    setAxisScale( QwtAxis::YLeft, 0, 100 );
+    setAxisTitle( YLeft, "Cpu Usage [%]" );
+    setAxisScale( YLeft, 0, 100 );
 
     Background* bg = new Background();
     bg->attach( this );
@@ -137,33 +138,33 @@ CpuPlot::CpuPlot( QWidget* parent )
     curve = new CpuCurve( "System" );
     curve->setColor( Qt::red );
     curve->attach( this );
-    data[System].curve = curve;
+    m_data[System].curve = curve;
 
     curve = new CpuCurve( "User" );
     curve->setColor( Qt::blue );
     curve->setZ( curve->z() - 1 );
     curve->attach( this );
-    data[User].curve = curve;
+    m_data[User].curve = curve;
 
     curve = new CpuCurve( "Total" );
     curve->setColor( Qt::black );
     curve->setZ( curve->z() - 2 );
     curve->attach( this );
-    data[Total].curve = curve;
+    m_data[Total].curve = curve;
 
     curve = new CpuCurve( "Idle" );
     curve->setColor( Qt::darkCyan );
     curve->setZ( curve->z() - 3 );
     curve->attach( this );
-    data[Idle].curve = curve;
+    m_data[Idle].curve = curve;
 
-    showCurve( data[System].curve, true );
-    showCurve( data[User].curve, true );
-    showCurve( data[Total].curve, false );
-    showCurve( data[Idle].curve, false );
+    showCurve( m_data[System].curve, true );
+    showCurve( m_data[User].curve, true );
+    showCurve( m_data[Total].curve, false );
+    showCurve( m_data[Idle].curve, false );
 
     for ( int i = 0; i < HISTORY; i++ )
-        timeData[HISTORY - 1 - i] = i;
+        m_timeData[HISTORY - 1 - i] = i;
 
     ( void )startTimer( 1000 ); // 1 second
 
@@ -173,33 +174,33 @@ CpuPlot::CpuPlot( QWidget* parent )
 
 void CpuPlot::timerEvent( QTimerEvent* )
 {
-    for ( int i = dataCount; i > 0; i-- )
+    for ( int i = m_dataCount; i > 0; i-- )
     {
         for ( int c = 0; c < NCpuData; c++ )
         {
             if ( i < HISTORY )
-                data[c].data[i] = data[c].data[i - 1];
+                m_data[c].data[i] = m_data[c].data[i - 1];
         }
     }
 
-    cpuStat.statistic( data[User].data[0], data[System].data[0] );
+    m_cpuStat.statistic( m_data[User].data[0], m_data[System].data[0] );
 
-    data[Total].data[0] = data[User].data[0] + data[System].data[0];
-    data[Idle].data[0] = 100.0 - data[Total].data[0];
+    m_data[Total].data[0] = m_data[User].data[0] + m_data[System].data[0];
+    m_data[Idle].data[0] = 100.0 - m_data[Total].data[0];
 
-    if ( dataCount < HISTORY )
-        dataCount++;
+    if ( m_dataCount < HISTORY )
+        m_dataCount++;
 
     for ( int j = 0; j < HISTORY; j++ )
-        timeData[j]++;
+        m_timeData[j]++;
 
     setAxisScale( QwtAxis::XBottom,
-        timeData[HISTORY - 1], timeData[0] );
+        m_timeData[HISTORY - 1], m_timeData[0] );
 
     for ( int c = 0; c < NCpuData; c++ )
     {
-        data[c].curve->setRawSamples(
-            timeData, data[c].data, dataCount );
+        m_data[c].curve->setRawSamples(
+            m_timeData, m_data[c].data, m_dataCount );
     }
 
     replot();

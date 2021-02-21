@@ -29,7 +29,7 @@ class CpuPlot : public QwtPlot
     CpuPlot( QWidget* = 0 );
     const QwtPlotCurve* cpuCurve( int id ) const
     {
-        return data[id].curve;
+        return m_data[id].curve;
     }
 
   protected:
@@ -45,10 +45,10 @@ class CpuPlot : public QwtPlot
     {
         QwtPlotCurve* curve;
         double data[HISTORY];
-    } data[NCpuData];
+    } m_data[NCpuData];
 
-    double timeData[HISTORY];
+    double m_timeData[HISTORY];
 
-    int dataCount;
-    CpuStat cpuStat;
+    int m_dataCount;
+    CpuStat m_cpuStat;
 };

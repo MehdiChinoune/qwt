@@ -11,8 +11,11 @@ class CpuStat
 {
   public:
     CpuStat();
+
     void statistic( double& user, double& system );
     QTime upTime() const;
+
+  private:
 
     enum Value
     {
@@ -24,7 +27,7 @@ class CpuStat
         NValues
     };
 
-  private:
     void lookUp( double[NValues] ) const;
-    double procValues[NValues];
+
+    double m_procValues[NValues];
 };
