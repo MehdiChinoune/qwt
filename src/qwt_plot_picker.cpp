@@ -19,7 +19,7 @@
 
    The picker is set to those x- and y-axis of the plot
    that are enabled. If both or no x-axis are enabled, the picker
-   is set to QwtPlot::xBottom. If both or no y-axis are
+   is set to QwtAxis::XBottom. If both or no y-axis are
    enabled, it is set to QwtAxis::YLeft.
 
    \param canvas Plot canvas to observe, also the parent object
@@ -35,23 +35,18 @@ QwtPlotPicker::QwtPlotPicker( QWidget* canvas )
     if ( !canvas )
         return;
 
+    const QwtPlot* plot = QwtPlotPicker::plot();
     // attach axes
 
     using namespace QwtAxis;
 
     int xAxis = XBottom;
-
-    const QwtPlot* plot = QwtPlotPicker::plot();
     if ( !plot->isAxisVisible( XBottom ) && plot->isAxisVisible( XTop ) )
-    {
         xAxis = XTop;
-    }
 
     int yAxis = YLeft;
     if ( !plot->isAxisVisible( YLeft ) && plot->isAxisVisible( YRight ) )
-    {
         yAxis = YRight;
-    }
 
     setAxis( xAxis, yAxis );
 }

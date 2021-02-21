@@ -10,6 +10,8 @@
 #ifndef QWT_AXIS_H
 #define QWT_AXIS_H
 
+#include "qwt_global.h"
+
 /*!
   Enums and methods for axes
 */

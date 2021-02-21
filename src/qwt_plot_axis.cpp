@@ -17,7 +17,7 @@
 class QwtPlot::AxisData
 {
   public:
-    bool isEnabled;
+    bool isVisible;
     bool doAutoScale;
 
     double minValue;
@@ -96,10 +96,10 @@ void QwtPlot::initAxesData()
         d.isValid = false;
     }
 
-    m_axisData[YLeft]->isEnabled = true;
-    m_axisData[YRight]->isEnabled = false;
-    m_axisData[XBottom]->isEnabled = true;
-    m_axisData[XTop]->isEnabled = false;
+    m_axisData[YLeft]->isVisible = true;
+    m_axisData[YRight]->isVisible = false;
+    m_axisData[XBottom]->isVisible = true;
+    m_axisData[XTop]->isVisible = false;
 }
 
 void QwtPlot::deleteAxesData()
@@ -163,7 +163,7 @@ void QwtPlot::setAxisScaleEngine( int axisId, QwtScaleEngine* scaleEngine )
 }
 
 /*!
-   \param axisId Axis index
+   \param axisId Axis
    \return Scale engine for a specific axis
  */
 QwtScaleEngine* QwtPlot::axisScaleEngine( int axisId )
@@ -175,7 +175,7 @@ QwtScaleEngine* QwtPlot::axisScaleEngine( int axisId )
 }
 
 /*!
-   \param axisId Axis index
+   \param axisId Axis
    \return Scale engine for a specific axis
  */
 const QwtScaleEngine* QwtPlot::axisScaleEngine( int axisId ) const
@@ -187,7 +187,7 @@ const QwtScaleEngine* QwtPlot::axisScaleEngine( int axisId ) const
 }
 /*!
    \return \c True, if autoscaling is enabled
-   \param axisId Axis index
+   \param axisId Axis
  */
 bool QwtPlot::axisAutoScale( int axisId ) const
 {
@@ -198,13 +198,13 @@ bool QwtPlot::axisAutoScale( int axisId ) const
 }
 
 /*!
-   \return \c True, if a specified axis is enabled
-   \param axisId Axis index
+   \return \c True, if a specified axis is visible
+   \param axisId Axis
  */
 bool QwtPlot::isAxisVisible( int axisId ) const
 {
     if ( QwtAxis::isValid( axisId ) )
-        return m_axisData[axisId]->isEnabled;
+        return m_axisData[axisId]->isVisible;
     else
         return false;
 }
@@ -341,23 +341,22 @@ QwtText QwtPlot::axisTitle( int axisId ) const
 }
 
 /*!
-   \brief Enable or disable a specified axis
+   \brief Hide or show a specified axis
 
-   When an axis is disabled, this only means that it is not
-   visible on the screen. Curves, markers and can be attached
-   to disabled axes, and transformation of screen coordinates
+   Curves, markers and other items can be attached
+   to hidden axes, and transformation of screen coordinates
    into values works as normal.
 
    Only QwtAxis::XBottom and QwtAxis::YLeft are enabled by default.
 
    \param axisId Axis index
-   \param tf \c true (enabled) or \c false (disabled)
+   \param on \c true (visible) or \c false (hidden)
  */
-void QwtPlot::setAxisVisible( int axisId, bool tf )
+void QwtPlot::setAxisVisible( int axisId, bool on )
 {
-    if ( QwtAxis::isValid( axisId ) && tf != m_axisData[axisId]->isEnabled )
+    if ( QwtAxis::isValid( axisId ) && on != m_axisData[axisId]->isVisible )
     {
-        m_axisData[axisId]->isEnabled = tf;
+        m_axisData[axisId]->isVisible = on;
         updateLayout();
     }
 }
@@ -677,20 +676,20 @@ void QwtPlot::updateAxes()
 
     // Adjust scales
 
-    for ( int axisId = 0; axisId < QwtAxis::AxisCount; axisId++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        AxisData& d = *m_axisData[axisId];
+        AxisData& d = *m_axisData[axisPos];
 
         double minValue = d.minValue;
         double maxValue = d.maxValue;
         double stepSize = d.stepSize;
 
-        if ( d.doAutoScale && intv[axisId].isValid() )
+        if ( d.doAutoScale && intv[axisPos].isValid() )
         {
             d.isValid = false;
 
-            minValue = intv[axisId].minValue();
-            maxValue = intv[axisId].maxValue();
+            minValue = intv[axisPos].minValue();
+            maxValue = intv[axisPos].maxValue();
 
             d.scaleEngine->autoScale( d.maxMajor,
                 minValue, maxValue, stepSize );
@@ -703,7 +702,7 @@ void QwtPlot::updateAxes()
             d.isValid = true;
         }
 
-        QwtScaleWidget* scaleWidget = axisWidget( axisId );
+        QwtScaleWidget* scaleWidget = axisWidget( axisPos );
         scaleWidget->setScaleDiv( d.scaleDiv );
 
         int startDist, endDist;

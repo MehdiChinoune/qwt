@@ -155,6 +155,11 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 
     // Axes
 
+    void setAxisVisible( int axisId, bool on = true );
+    bool isAxisVisible( int axisId ) const;
+
+    // Axes data
+
     QwtScaleEngine* axisScaleEngine( int axisId );
     const QwtScaleEngine* axisScaleEngine( int axisId ) const;
     void setAxisScaleEngine( int axisId, QwtScaleEngine* );
@@ -169,12 +174,8 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     void setAxisScaleDiv( int axisId, const QwtScaleDiv& );
     void setAxisScaleDraw( int axisId, QwtScaleDraw* );
 
-    void setAxisVisible( int axisId, bool on = true );
-    bool isAxisVisible( int axisId ) const;
-
     double axisStepSize( int axisId ) const;
     QwtInterval axisInterval( int axisId ) const;
-
     const QwtScaleDiv& axisScaleDiv( int axisId ) const;
 
     const QwtScaleDraw* axisScaleDraw( int axisId ) const;

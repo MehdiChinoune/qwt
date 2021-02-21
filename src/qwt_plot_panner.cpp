@@ -146,7 +146,7 @@ QwtPlotPanner::~QwtPlotPanner()
    Axes that are enabled will be synchronized to the
    result of panning. All other axes will remain unchanged.
 
-   \param axis Axis, see QwtPlot::Axis
+   \param axis Axis
    \param on On/Off
 
    \sa isAxisEnabled(), moveCanvas()
@@ -160,7 +160,7 @@ void QwtPlotPanner::setAxisEnabled( int axis, bool on )
 /*!
    Test if an axis is enabled
 
-   \param axis Axis, see QwtPlot::Axis
+   \param axis Axis
    \return True, if the axis is enabled
 
    \sa setAxisEnabled(), moveCanvas()

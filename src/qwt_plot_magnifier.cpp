@@ -45,7 +45,7 @@ QwtPlotMagnifier::~QwtPlotMagnifier()
    Only Axes that are enabled will be zoomed.
    All other axes will remain unchanged.
 
-   \param axis Axis, see QwtPlot::Axis
+   \param axis Axis
    \param on On/Off
 
    \sa isAxisEnabled()
@@ -59,7 +59,7 @@ void QwtPlotMagnifier::setAxisEnabled( int axis, bool on )
 /*!
    Test if an axis is enabled
 
-   \param axis Axis, see QwtPlot::Axis
+   \param axis Axis
    \return True, if the axis is enabled
 
    \sa setAxisEnabled()
@@ -123,11 +123,11 @@ void QwtPlotMagnifier::rescale( double factor )
     const bool autoReplot = plt->autoReplot();
     plt->setAutoReplot( false );
 
-    for ( int axisId = 0; axisId < QwtAxis::AxisCount; axisId++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
     {
-        if ( isAxisEnabled( axisId ) )
+        if ( isAxisEnabled( axisPos ) )
         {
-            const QwtScaleMap scaleMap = plt->canvasMap( axisId );
+            const QwtScaleMap scaleMap = plt->canvasMap( axisPos );
 
             double v1 = scaleMap.s1();
             double v2 = scaleMap.s2();
@@ -152,7 +152,7 @@ void QwtPlotMagnifier::rescale( double factor )
                 v2 = scaleMap.invTransform( v2 );
             }
 
-            plt->setAxisScale( axisId, v1, v2 );
+            plt->setAxisScale( axisPos, v1, v2 );
             doReplot = true;
         }
     }
