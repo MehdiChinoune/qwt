@@ -10,6 +10,9 @@
 #ifndef QWT_AXIS_H
 #define QWT_AXIS_H
 
+/*!
+  Enums and methods for axes
+*/
 namespace QwtAxis
 {
     //! \brief Axis position
@@ -36,16 +39,19 @@ namespace QwtAxis
     bool isXAxis( int axisPos );
 }
 
+//! \return true, when axisPos is in the valid range [ YLeft, XTop ]
 inline bool QwtAxis::isValid( int axisPos )
 {
     return ( axisPos >= 0 && axisPos < AxisCount );
 }
 
+//! \return true, when axisPos is XBottom or XTop
 inline bool QwtAxis::isXAxis( int axisPos )
 {
     return ( axisPos == XBottom ) || ( axisPos == XTop );
 }
 
+//! \return true, when axisPos is YLeft or YRight
 inline bool QwtAxis::isYAxis( int axisPos )
 {
     return ( axisPos == YLeft ) || ( axisPos == YRight );
