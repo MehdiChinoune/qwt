@@ -300,8 +300,8 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 
     void initPlot( const QwtText& title );
 
-    class AxisData;
-    AxisData* m_axisData[ QwtAxis::AxisCount ];
+    class ScaleData;
+    ScaleData* m_scaleData;
 
     class PrivateData;
     PrivateData* m_data;
