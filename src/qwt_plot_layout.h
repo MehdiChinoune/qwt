@@ -91,8 +91,6 @@ class QWT_EXPORT QwtPlotLayout
     QRectF scaleRect( QwtAxisId ) const;
     QRectF canvasRect() const;
 
-    class LayoutData;
-
   protected:
 
     void setTitleRect( const QRectF& );

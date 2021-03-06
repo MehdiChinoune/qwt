@@ -16,160 +16,163 @@
 
 #include <qmargins.h>
 
-class QwtPlotLayout::LayoutData
+namespace
 {
-  public:
-    void init( const QwtPlot*, const QRectF& rect );
-
-    struct t_legendData
+    class LayoutData
     {
-        int frameWidth;
-        int hScrollExtent;
-        int vScrollExtent;
-        QSize hint;
-    } legend;
+      public:
+        void init( const QwtPlot*, const QRectF& rect );
 
-    struct t_titleData
-    {
-        QwtText text;
-        int frameWidth;
-    } title;
-
-    struct t_footerData
-    {
-        QwtText text;
-        int frameWidth;
-    } footer;
-
-    struct t_scaleData
-    {
-        bool isEnabled;
-        const QwtScaleWidget* scaleWidget;
-        QFont scaleFont;
-        int start;
-        int end;
-        int baseLineOffset;
-        double tickOffset;
-        int dimWithoutTitle;
-    } scale[ QwtAxis::AxisCount ];
-
-    struct t_canvasData
-    {
-        int contentsMargins[ QwtAxis::AxisCount ];
-
-    } canvas;
-};
-
-/*
-   Extract all layout relevant data from the plot components
- */
-void QwtPlotLayout::LayoutData::init( const QwtPlot* plot, const QRectF& rect )
-{
-    // legend
-
-    if ( plot->legend() )
-    {
-        legend.frameWidth = plot->legend()->frameWidth();
-        legend.hScrollExtent =
-            plot->legend()->scrollExtent( Qt::Horizontal );
-        legend.vScrollExtent =
-            plot->legend()->scrollExtent( Qt::Vertical );
-
-        const QSize hint = plot->legend()->sizeHint();
-
-        const int w = qMin( hint.width(), qwtFloor( rect.width() ) );
-
-        int h = plot->legend()->heightForWidth( w );
-        if ( h <= 0 )
-            h = hint.height();
-
-        legend.hint = QSize( w, h );
-    }
-
-    // title
-
-    title.frameWidth = 0;
-    title.text = QwtText();
-
-    if ( plot->titleLabel() )
-    {
-        const QwtTextLabel* label = plot->titleLabel();
-        title.text = label->text();
-        if ( !( title.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
-            title.text.setFont( label->font() );
-
-        title.frameWidth = plot->titleLabel()->frameWidth();
-    }
-
-    // footer
-
-    footer.frameWidth = 0;
-    footer.text = QwtText();
-
-    if ( plot->footerLabel() )
-    {
-        const QwtTextLabel* label = plot->footerLabel();
-        footer.text = label->text();
-        if ( !( footer.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
-            footer.text.setFont( label->font() );
-
-        footer.frameWidth = plot->footerLabel()->frameWidth();
-    }
-
-    // scales
-
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-    {
-        if ( plot->isAxisVisible( axis ) )
+        struct t_legendData
         {
-            const QwtScaleWidget* scaleWidget = plot->axisWidget( axis );
+            int frameWidth;
+            int hScrollExtent;
+            int vScrollExtent;
+            QSize hint;
+        } legend;
 
-            scale[axis].isEnabled = true;
+        struct t_titleData
+        {
+            QwtText text;
+            int frameWidth;
+        } title;
 
-            scale[axis].scaleWidget = scaleWidget;
+        struct t_footerData
+        {
+            QwtText text;
+            int frameWidth;
+        } footer;
 
-            scale[axis].scaleFont = scaleWidget->font();
+        struct t_scaleData
+        {
+            bool isEnabled;
+            const QwtScaleWidget* scaleWidget;
+            QFont scaleFont;
+            int start;
+            int end;
+            int baseLineOffset;
+            double tickOffset;
+            int dimWithoutTitle;
+        } scale[ QwtAxis::AxisCount ];
 
-            scale[axis].start = scaleWidget->startBorderDist();
-            scale[axis].end = scaleWidget->endBorderDist();
+        struct t_canvasData
+        {
+            int contentsMargins[ QwtAxis::AxisCount ];
 
-            scale[axis].baseLineOffset = scaleWidget->margin();
-            scale[axis].tickOffset = scaleWidget->margin();
-            if ( scaleWidget->scaleDraw()->hasComponent(
-                QwtAbstractScaleDraw::Ticks ) )
+        } canvas;
+    };
+
+    /*
+       Extract all layout relevant data from the plot components
+     */
+    void LayoutData::init( const QwtPlot* plot, const QRectF& rect )
+    {
+        // legend
+
+        if ( plot->legend() )
+        {
+            legend.frameWidth = plot->legend()->frameWidth();
+            legend.hScrollExtent =
+                plot->legend()->scrollExtent( Qt::Horizontal );
+            legend.vScrollExtent =
+                plot->legend()->scrollExtent( Qt::Vertical );
+
+            const QSize hint = plot->legend()->sizeHint();
+
+            const int w = qMin( hint.width(), qwtFloor( rect.width() ) );
+
+            int h = plot->legend()->heightForWidth( w );
+            if ( h <= 0 )
+                h = hint.height();
+
+            legend.hint = QSize( w, h );
+        }
+
+        // title
+
+        title.frameWidth = 0;
+        title.text = QwtText();
+
+        if ( plot->titleLabel() )
+        {
+            const QwtTextLabel* label = plot->titleLabel();
+            title.text = label->text();
+            if ( !( title.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
+                title.text.setFont( label->font() );
+
+            title.frameWidth = plot->titleLabel()->frameWidth();
+        }
+
+        // footer
+
+        footer.frameWidth = 0;
+        footer.text = QwtText();
+
+        if ( plot->footerLabel() )
+        {
+            const QwtTextLabel* label = plot->footerLabel();
+            footer.text = label->text();
+            if ( !( footer.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
+                footer.text.setFont( label->font() );
+
+            footer.frameWidth = plot->footerLabel()->frameWidth();
+        }
+
+        // scales
+
+        for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+        {
+            if ( plot->isAxisVisible( axis ) )
             {
-                scale[axis].tickOffset +=
-                    scaleWidget->scaleDraw()->maxTickLength();
+                const QwtScaleWidget* scaleWidget = plot->axisWidget( axis );
+
+                scale[axis].isEnabled = true;
+
+                scale[axis].scaleWidget = scaleWidget;
+
+                scale[axis].scaleFont = scaleWidget->font();
+
+                scale[axis].start = scaleWidget->startBorderDist();
+                scale[axis].end = scaleWidget->endBorderDist();
+
+                scale[axis].baseLineOffset = scaleWidget->margin();
+                scale[axis].tickOffset = scaleWidget->margin();
+                if ( scaleWidget->scaleDraw()->hasComponent(
+                    QwtAbstractScaleDraw::Ticks ) )
+                {
+                    scale[axis].tickOffset +=
+                        scaleWidget->scaleDraw()->maxTickLength();
+                }
+
+                scale[axis].dimWithoutTitle = scaleWidget->dimForLength(
+                    QWIDGETSIZE_MAX, scale[axis].scaleFont );
+
+                if ( !scaleWidget->title().isEmpty() )
+                {
+                    scale[axis].dimWithoutTitle -=
+                        scaleWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
+                }
             }
-
-            scale[axis].dimWithoutTitle = scaleWidget->dimForLength(
-                QWIDGETSIZE_MAX, scale[axis].scaleFont );
-
-            if ( !scaleWidget->title().isEmpty() )
+            else
             {
-                scale[axis].dimWithoutTitle -=
-                    scaleWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
+                scale[axis].isEnabled = false;
+                scale[axis].start = 0;
+                scale[axis].end = 0;
+                scale[axis].baseLineOffset = 0;
+                scale[axis].tickOffset = 0.0;
+                scale[axis].dimWithoutTitle = 0;
             }
         }
-        else
-        {
-            scale[axis].isEnabled = false;
-            scale[axis].start = 0;
-            scale[axis].end = 0;
-            scale[axis].baseLineOffset = 0;
-            scale[axis].tickOffset = 0.0;
-            scale[axis].dimWithoutTitle = 0;
-        }
+
+        // canvas
+
+        const QMargins m = plot->canvas()->contentsMargins();
+
+        canvas.contentsMargins[ QwtAxis::YLeft ] = m.left();
+        canvas.contentsMargins[ QwtAxis::XTop ] = m.top();
+        canvas.contentsMargins[ QwtAxis::YRight ] = m.right();
+        canvas.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
     }
-
-    // canvas
-
-    const QMargins m = plot->canvas()->contentsMargins();
-
-    canvas.contentsMargins[ QwtAxis::YLeft ] = m.left();
-    canvas.contentsMargins[ QwtAxis::XTop ] = m.top();
-    canvas.contentsMargins[ QwtAxis::YRight ] = m.right();
-    canvas.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
 }
 
 class QwtPlotLayout::PrivateData
@@ -187,7 +190,7 @@ class QwtPlotLayout::PrivateData
     QRectF scaleRect[ QwtAxis::AxisCount ];
     QRectF canvasRect;
 
-    QwtPlotLayout::LayoutData layoutData;
+    LayoutData layoutData;
 
     QwtPlot::LegendPosition legendPos;
     double legendRatio;
@@ -1291,22 +1294,22 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         {
             case QwtPlot::LeftLegend:
             {
-                rect.setLeft( rect.left() + m_data->spacing );
+                rect.setLeft( rect.left() + spacing() );
                 break;
             }
             case QwtPlot::RightLegend:
             {
-                rect.setRight( rect.right() - m_data->spacing );
+                rect.setRight( rect.right() - spacing() );
                 break;
             }
             case QwtPlot::TopLegend:
             {
-                rect.setTop( rect.top() + m_data->spacing );
+                rect.setTop( rect.top() + spacing() );
                 break;
             }
             case QwtPlot::BottomLegend:
             {
-                rect.setBottom( rect.bottom() - m_data->spacing );
+                rect.setBottom( rect.bottom() - spacing() );
                 break;
             }
         }
