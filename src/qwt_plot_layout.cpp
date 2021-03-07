@@ -208,6 +208,8 @@ namespace
       public:
         LayoutHintData( const QwtPlot* plot );
 
+        int alignedSize( const QwtAxisId ) const;
+
         struct ScaleData
         {
             ScaleData()
@@ -232,18 +234,18 @@ namespace
 
         const int fw = plot->canvas()->contentsMargins().left();
 
-        int axis;
-        for ( axis = 0; axis < AxisCount; axis++ )
+        for ( int axis = 0; axis < AxisCount; axis++ )
         {
             if ( plot->isAxisVisible( axis ) )
             {
                 const QwtScaleWidget* scl = plot->axisWidget( axis );
-                ScaleData& sd = scaleData[axis];
-
                 const QSize hint = scl->minimumSizeHint();
+
+                ScaleData& sd = scaleData[axis];
                 sd.w = hint.width();
                 sd.h = hint.height();
                 scl->getBorderDistHint( sd.minLeft, sd.minRight );
+
                 sd.tickOffset = scl->margin();
                 if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
                     sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
@@ -252,54 +254,76 @@ namespace
             canvasBorder[axis] = fw + plot->plotLayout()->canvasMargin( axis ) + 1;
         }
 
-        for ( axis = 0; axis < AxisCount; axis++ )
+        for ( int axis = 0; axis < AxisCount; axis++ )
         {
+            const int sz = alignedSize( axis );
+
             ScaleData& sd = scaleData[axis];
-            if ( sd.w && isXAxis( axis ) )
-            {
-                if ( ( sd.minLeft > canvasBorder[YLeft] ) && scaleData[YLeft].w )
-                {
-                    int shiftLeft = sd.minLeft - canvasBorder[YLeft];
-                    if ( shiftLeft > scaleData[YLeft].w )
-                        shiftLeft = scaleData[YLeft].w;
-
-                    sd.w -= shiftLeft;
-                }
-
-                if ( ( sd.minRight > canvasBorder[YRight] ) && scaleData[YRight].w )
-                {
-                    int shiftRight = sd.minRight - canvasBorder[YRight];
-                    if ( shiftRight > scaleData[YRight].w )
-                        shiftRight = scaleData[YRight].w;
-
-                    sd.w -= shiftRight;
-                }
-            }
-
-            if ( sd.h && ( isYAxis( axis ) ) )
-            {
-                if ( ( sd.minLeft > canvasBorder[XBottom] ) && scaleData[XBottom].h )
-                {
-                    int shiftBottom = sd.minLeft - canvasBorder[XBottom];
-                    if ( shiftBottom > scaleData[XBottom].tickOffset )
-                        shiftBottom = scaleData[XBottom].tickOffset;
-
-                    sd.h -= shiftBottom;
-                }
-
-                if ( ( sd.minLeft > canvasBorder[XTop] ) && scaleData[XTop].h )
-                {
-                    int shiftTop = sd.minRight - canvasBorder[XTop];
-                    if ( shiftTop > scaleData[XTop].tickOffset )
-                        shiftTop = scaleData[XTop].tickOffset;
-
-                    sd.h -= shiftTop;
-                }
-            }
+            if ( isXAxis( axis ) )
+                sd.w = sz;
+            else
+                sd.h = sz;
         }
-
     }
 
+    int LayoutHintData::alignedSize( const QwtAxisId axisId ) const
+    {
+        using namespace QwtAxis;
+
+        const ScaleData& sd = scaleData[axisId];
+
+        if ( sd.w && isXAxis( axisId ) )
+        {
+            int w = sd.w;
+
+            if ( ( sd.minLeft > canvasBorder[YLeft] ) && scaleData[YLeft].w )
+            {
+                int shiftLeft = sd.minLeft - canvasBorder[YLeft];
+                if ( shiftLeft > scaleData[YLeft].w )
+                    shiftLeft = scaleData[YLeft].w;
+
+                w -= shiftLeft;
+            }
+
+            if ( ( sd.minRight > canvasBorder[YRight] ) && scaleData[YRight].w )
+            {
+                int shiftRight = sd.minRight - canvasBorder[YRight];
+                if ( shiftRight > scaleData[YRight].w )
+                    shiftRight = scaleData[YRight].w;
+
+                w -= shiftRight;
+            }
+
+            return w;
+        }
+
+        if ( sd.h && ( isYAxis( axisId ) ) )
+        {
+            int h = sd.h;
+
+            if ( ( sd.minLeft > canvasBorder[XBottom] ) && scaleData[XBottom].h )
+            {
+                int shiftBottom = sd.minLeft - canvasBorder[XBottom];
+                if ( shiftBottom > scaleData[XBottom].tickOffset )
+                    shiftBottom = scaleData[XBottom].tickOffset;
+
+                h -= shiftBottom;
+            }
+
+            if ( ( sd.minLeft > canvasBorder[XTop] ) && scaleData[XTop].h )
+            {
+                int shiftTop = sd.minRight - canvasBorder[XTop];
+                if ( shiftTop > scaleData[XTop].tickOffset )
+                    shiftTop = scaleData[XTop].tickOffset;
+
+                h -= shiftTop;
+            }
+
+            return h;
+        }
+
+        return 0;
+    }
 };
 
 namespace
