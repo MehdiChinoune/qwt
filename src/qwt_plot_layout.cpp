@@ -416,68 +416,72 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
             }
         }
 
-        for ( int axis = 0; axis < AxisCount; axis++ )
+        for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
         {
-            const struct LayoutData::ScaleData& scaleData =
-                layoutData.scaleData[axis];
-
-            if ( scaleData.isVisible )
             {
-                double length;
-                if ( isXAxis( axis ) )
+                const QwtAxisId axisId( axisPos );
+
+                const struct LayoutData::ScaleData& scaleData =
+                    layoutData.scaleData[axisId];
+
+                if ( scaleData.isVisible )
                 {
-                    length = rect.width() - dimAxis[YLeft] - dimAxis[YRight];
-                    length -= scaleData.start + scaleData.end;
-
-                    if ( dimAxis[YRight] > 0 )
-                        length -= 1;
-
-                    length += qMin( dimAxis[YLeft],
-                        scaleData.start - backboneOffset[YLeft] );
-                    length += qMin( dimAxis[YRight],
-                        scaleData.end - backboneOffset[YRight] );
-                }
-                else // YLeft, YRight
-                {
-                    length = rect.height() - dimAxis[XTop] - dimAxis[XBottom];
-                    length -= scaleData.start + scaleData.end;
-                    length -= 1;
-
-                    if ( dimAxis[XBottom] <= 0 )
-                        length -= 1;
-
-                    if ( dimAxis[XTop] <= 0 )
-                        length -= 1;
-
-                    if ( dimAxis[XBottom] > 0 )
+                    double length;
+                    if ( isXAxis( axisId ) )
                     {
-                        length += qMin(
-                            layoutData.scaleData[XBottom].tickOffset,
-                            double( scaleData.start - backboneOffset[XBottom] ) );
+                        length = rect.width() - dimAxis[YLeft] - dimAxis[YRight];
+                        length -= scaleData.start + scaleData.end;
+
+                        if ( dimAxis[YRight] > 0 )
+                            length -= 1;
+
+                        length += qMin( dimAxis[YLeft],
+                            scaleData.start - backboneOffset[YLeft] );
+                        length += qMin( dimAxis[YRight],
+                            scaleData.end - backboneOffset[YRight] );
+                    }
+                    else // YLeft, YRight
+                    {
+                        length = rect.height() - dimAxis[XTop] - dimAxis[XBottom];
+                        length -= scaleData.start + scaleData.end;
+                        length -= 1;
+
+                        if ( dimAxis[XBottom] <= 0 )
+                            length -= 1;
+
+                        if ( dimAxis[XTop] <= 0 )
+                            length -= 1;
+
+                        if ( dimAxis[XBottom] > 0 )
+                        {
+                            length += qMin(
+                                layoutData.scaleData[XBottom].tickOffset,
+                                double( scaleData.start - backboneOffset[XBottom] ) );
+                        }
+
+                        if ( dimAxis[XTop] > 0 )
+                        {
+                            length += qMin(
+                                layoutData.scaleData[XTop].tickOffset,
+                                double( scaleData.end - backboneOffset[XTop] ) );
+                        }
+
+                        if ( dimTitle > 0 )
+                            length -= dimTitle + spacing();
                     }
 
-                    if ( dimAxis[XTop] > 0 )
+                    int d = scaleData.dimWithoutTitle;
+                    if ( !scaleData.scaleWidget->title().isEmpty() )
                     {
-                        length += qMin(
-                            layoutData.scaleData[XTop].tickOffset,
-                            double( scaleData.end - backboneOffset[XTop] ) );
+                        d += scaleData.scaleWidget->titleHeightForWidth( qwtFloor( length ) );
                     }
 
-                    if ( dimTitle > 0 )
-                        length -= dimTitle + spacing();
-                }
 
-                int d = scaleData.dimWithoutTitle;
-                if ( !scaleData.scaleWidget->title().isEmpty() )
-                {
-                    d += scaleData.scaleWidget->titleHeightForWidth( qwtFloor( length ) );
-                }
-
-
-                if ( d > dimAxis[axis] )
-                {
-                    dimAxis[axis] = d;
-                    done = false;
+                    if ( d > dimAxis[axisId] )
+                    {
+                        dimAxis[axisId] = d;
+                        done = false;
+                    }
                 }
             }
         }
