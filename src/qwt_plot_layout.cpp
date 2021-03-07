@@ -187,6 +187,10 @@ namespace
         {
         }
 
+        void alignScales( QwtPlotLayout::Options,
+            const LayoutData&, QRectF& canvasRect,
+            QRectF scaleRect[QwtAxis::AxisCount] ) const;
+
         inline void setSpacing( unsigned int spacing ) { m_spacing = spacing; }
         inline unsigned int spacing() const { return m_spacing; }
 
@@ -211,6 +215,260 @@ namespace
 
         unsigned int m_spacing;
     };
+}
+
+void LayoutEngine::alignScales( QwtPlotLayout::Options options,
+    const LayoutData& layoutData, QRectF& canvasRect,
+    QRectF scaleRect[QwtAxis::AxisCount] ) const
+{
+    using namespace QwtAxis;
+
+    int backboneOffset[AxisCount];
+    for ( int axis = 0; axis < AxisCount; axis++ )
+    {
+        backboneOffset[axis] = 0;
+
+        if ( !m_alignCanvas[axis] )
+        {
+            backboneOffset[axis] += m_canvasMargin[axis];
+        }
+
+        if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+        {
+            backboneOffset[axis] += layoutData.canvas.contentsMargins[axis];
+        }
+    }
+
+    for ( int axis = 0; axis < AxisCount; axis++ )
+    {
+        if ( !scaleRect[axis].isValid() )
+            continue;
+
+        const int startDist = layoutData.scale[axis].start;
+        const int endDist = layoutData.scale[axis].end;
+
+        QRectF& axisRect = scaleRect[axis];
+
+        if ( isXAxis( axis ) )
+        {
+            const QRectF& leftScaleRect = scaleRect[YLeft];
+            const int leftOffset = backboneOffset[YLeft] - startDist;
+
+            if ( leftScaleRect.isValid() )
+            {
+                const double dx = leftOffset + leftScaleRect.width();
+                if ( m_alignCanvas[YLeft] && dx < 0.0 )
+                {
+                    /*
+                       The axis needs more space than the width
+                       of the left scale.
+                     */
+                    const double cLeft = canvasRect.left(); // qreal -> double
+                    canvasRect.setLeft( qwtMaxF( cLeft, axisRect.left() - dx ) );
+                }
+                else
+                {
+                    const double minLeft = leftScaleRect.left();
+                    const double left = axisRect.left() + leftOffset;
+                    axisRect.setLeft( qwtMaxF( left, minLeft ) );
+                }
+            }
+            else
+            {
+                if ( m_alignCanvas[YLeft] && leftOffset < 0 )
+                {
+                    canvasRect.setLeft( qwtMaxF( canvasRect.left(),
+                        axisRect.left() - leftOffset ) );
+                }
+                else
+                {
+                    if ( leftOffset > 0 )
+                        axisRect.setLeft( axisRect.left() + leftOffset );
+                }
+            }
+
+            const QRectF& rightScaleRect = scaleRect[YRight];
+            const int rightOffset = backboneOffset[YRight] - endDist + 1;
+
+            if ( rightScaleRect.isValid() )
+            {
+                const double dx = rightOffset + rightScaleRect.width();
+                if ( m_alignCanvas[YRight] && dx < 0 )
+                {
+                    /*
+                       The axis needs more space than the width
+                       of the right scale.
+                     */
+                    const double cRight = canvasRect.right(); // qreal -> double
+                    canvasRect.setRight( qwtMinF( cRight, axisRect.right() + dx ) );
+                }
+
+                const double maxRight = rightScaleRect.right();
+                const double right = axisRect.right() - rightOffset;
+                axisRect.setRight( qwtMinF( right, maxRight ) );
+            }
+            else
+            {
+                if ( m_alignCanvas[YRight] && rightOffset < 0 )
+                {
+                    canvasRect.setRight( qwtMinF( canvasRect.right(),
+                        axisRect.right() + rightOffset ) );
+                }
+                else
+                {
+                    if ( rightOffset > 0 )
+                        axisRect.setRight( axisRect.right() - rightOffset );
+                }
+            }
+        }
+        else // YLeft, YRight
+        {
+            const QRectF& bottomScaleRect = scaleRect[XBottom];
+            const int bottomOffset = backboneOffset[XBottom] - endDist + 1;
+
+            if ( bottomScaleRect.isValid() )
+            {
+                const double dy = bottomOffset + bottomScaleRect.height();
+                if ( m_alignCanvas[XBottom] && dy < 0 )
+                {
+                    /*
+                       The axis needs more space than the height
+                       of the bottom scale.
+                     */
+                    const double cBottom = canvasRect.bottom(); // qreal -> double
+                    canvasRect.setBottom( qwtMinF( cBottom, axisRect.bottom() + dy ) );
+                }
+                else
+                {
+                    const double maxBottom = bottomScaleRect.top() +
+                        layoutData.scale[XBottom].tickOffset;
+                    const double bottom = axisRect.bottom() - bottomOffset;
+                    axisRect.setBottom( qwtMinF( bottom, maxBottom ) );
+                }
+            }
+            else
+            {
+                if ( m_alignCanvas[XBottom] && bottomOffset < 0 )
+                {
+                    canvasRect.setBottom( qwtMinF( canvasRect.bottom(),
+                        axisRect.bottom() + bottomOffset ) );
+                }
+                else
+                {
+                    if ( bottomOffset > 0 )
+                        axisRect.setBottom( axisRect.bottom() - bottomOffset );
+                }
+            }
+
+            const QRectF& topScaleRect = scaleRect[XTop];
+            const int topOffset = backboneOffset[XTop] - startDist;
+
+            if ( topScaleRect.isValid() )
+            {
+                const double dy = topOffset + topScaleRect.height();
+                if ( m_alignCanvas[XTop] && dy < 0 )
+                {
+                    /*
+                       The axis needs more space than the height
+                       of the top scale.
+                     */
+                    const double cTop = canvasRect.top(); // qreal -> double
+                    canvasRect.setTop( qwtMaxF( cTop, axisRect.top() - dy ) );
+                }
+                else
+                {
+                    const double minTop = topScaleRect.bottom() -
+                        layoutData.scale[XTop].tickOffset;
+
+                    const double top = axisRect.top() + topOffset;
+                    axisRect.setTop( qwtMaxF( top, minTop ) );
+                }
+            }
+            else
+            {
+                if ( m_alignCanvas[XTop] && topOffset < 0 )
+                {
+                    canvasRect.setTop( qwtMaxF( canvasRect.top(),
+                        axisRect.top() - topOffset ) );
+                }
+                else
+                {
+                    if ( topOffset > 0 )
+                        axisRect.setTop( axisRect.top() + topOffset );
+                }
+            }
+        }
+    }
+
+    /*
+       The canvas has been aligned to the scale with largest
+       border distances. Now we have to realign the other scale.
+     */
+
+    for ( int axis = 0; axis < AxisCount; axis++ )
+    {
+        QRectF& sRect = scaleRect[axis];
+
+        if ( !sRect.isValid() )
+            continue;
+
+        if ( isXAxis( axis ) )
+        {
+            if ( m_alignCanvas[YLeft] )
+            {
+                double y = canvasRect.left() - layoutData.scale[axis].start;
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    y += layoutData.canvas.contentsMargins[YLeft];
+
+                sRect.setLeft( y );
+            }
+
+            if ( m_alignCanvas[YRight] )
+            {
+                double y = canvasRect.right() - 1 + layoutData.scale[axis].end;
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    y -= layoutData.canvas.contentsMargins[YRight];
+
+                sRect.setRight( y );
+            }
+
+            if ( m_alignCanvas[axis] )
+            {
+                if ( axis == XTop )
+                    sRect.setBottom( canvasRect.top() );
+                else
+                    sRect.setTop( canvasRect.bottom() );
+            }
+        }
+        else
+        {
+            if ( m_alignCanvas[XTop] )
+            {
+                double x = canvasRect.top() - layoutData.scale[axis].start;
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    x += layoutData.canvas.contentsMargins[XTop];
+
+                sRect.setTop( x );
+            }
+
+            if ( m_alignCanvas[XBottom] )
+            {
+                double x = canvasRect.bottom() - 1 + layoutData.scale[axis].end;
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    x -= layoutData.canvas.contentsMargins[XBottom];
+
+                sRect.setBottom( x );
+            }
+
+            if ( m_alignCanvas[axis] )
+            {
+                if ( axis == YLeft )
+                    sRect.setRight( canvasRect.left() );
+                else
+                    sRect.setLeft( canvasRect.right() );
+            }
+        }
+    }
 }
 
 // === PrivateData
@@ -1038,273 +1296,6 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
 }
 
 /*!
-   Align the ticks of the axis to the canvas borders using
-   the empty corners.
-
-   \param options Layout options
-   \param canvasRect Geometry of the canvas ( IN/OUT )
-   \param scaleRect Geometries of the scales ( IN/OUT )
-
-   \sa Options
- */
-
-void QwtPlotLayout::alignScales( Options options,
-    QRectF& canvasRect, QRectF scaleRect[QwtAxis::AxisCount] ) const
-{
-    using namespace QwtAxis;
-
-    const LayoutEngine& engine = m_data->engine;
-    const LayoutData& layoutData = m_data->layoutData;
-
-    int backboneOffset[AxisCount];
-    for ( int axis = 0; axis < AxisCount; axis++ )
-    {
-        backboneOffset[axis] = 0;
-
-        if ( !engine.alignCanvas( axis ) )
-        {
-            backboneOffset[axis] += engine.canvasMargin( axis );
-        }
-
-        if ( !( options & IgnoreFrames ) )
-        {
-            backboneOffset[axis] += layoutData.canvas.contentsMargins[axis];
-        }
-    }
-
-    for ( int axis = 0; axis < AxisCount; axis++ )
-    {
-        if ( !scaleRect[axis].isValid() )
-            continue;
-
-        const int startDist = layoutData.scale[axis].start;
-        const int endDist = layoutData.scale[axis].end;
-
-        QRectF& axisRect = scaleRect[axis];
-
-        if ( isXAxis( axis ) )
-        {
-            const QRectF& leftScaleRect = scaleRect[YLeft];
-            const int leftOffset = backboneOffset[YLeft] - startDist;
-
-            if ( leftScaleRect.isValid() )
-            {
-                const double dx = leftOffset + leftScaleRect.width();
-                if ( engine.alignCanvas( YLeft ) && dx < 0.0 )
-                {
-                    /*
-                       The axis needs more space than the width
-                       of the left scale.
-                     */
-                    const double cLeft = canvasRect.left(); // qreal -> double
-                    canvasRect.setLeft( qwtMaxF( cLeft, axisRect.left() - dx ) );
-                }
-                else
-                {
-                    const double minLeft = leftScaleRect.left();
-                    const double left = axisRect.left() + leftOffset;
-                    axisRect.setLeft( qwtMaxF( left, minLeft ) );
-                }
-            }
-            else
-            {
-                if ( engine.alignCanvas( YLeft ) && leftOffset < 0 )
-                {
-                    canvasRect.setLeft( qwtMaxF( canvasRect.left(),
-                        axisRect.left() - leftOffset ) );
-                }
-                else
-                {
-                    if ( leftOffset > 0 )
-                        axisRect.setLeft( axisRect.left() + leftOffset );
-                }
-            }
-
-            const QRectF& rightScaleRect = scaleRect[YRight];
-            const int rightOffset = backboneOffset[YRight] - endDist + 1;
-
-            if ( rightScaleRect.isValid() )
-            {
-                const double dx = rightOffset + rightScaleRect.width();
-                if ( engine.alignCanvas( YRight ) && dx < 0 )
-                {
-                    /*
-                       The axis needs more space than the width
-                       of the right scale.
-                     */
-                    const double cRight = canvasRect.right(); // qreal -> double
-                    canvasRect.setRight( qwtMinF( cRight, axisRect.right() + dx ) );
-                }
-
-                const double maxRight = rightScaleRect.right();
-                const double right = axisRect.right() - rightOffset;
-                axisRect.setRight( qwtMinF( right, maxRight ) );
-            }
-            else
-            {
-                if ( engine.alignCanvas( YRight ) && rightOffset < 0 )
-                {
-                    canvasRect.setRight( qwtMinF( canvasRect.right(),
-                        axisRect.right() + rightOffset ) );
-                }
-                else
-                {
-                    if ( rightOffset > 0 )
-                        axisRect.setRight( axisRect.right() - rightOffset );
-                }
-            }
-        }
-        else // YLeft, YRight
-        {
-            const QRectF& bottomScaleRect = scaleRect[XBottom];
-            const int bottomOffset = backboneOffset[XBottom] - endDist + 1;
-
-            if ( bottomScaleRect.isValid() )
-            {
-                const double dy = bottomOffset + bottomScaleRect.height();
-                if ( engine.alignCanvas( XBottom ) && dy < 0 )
-                {
-                    /*
-                       The axis needs more space than the height
-                       of the bottom scale.
-                     */
-                    const double cBottom = canvasRect.bottom(); // qreal -> double
-                    canvasRect.setBottom( qwtMinF( cBottom, axisRect.bottom() + dy ) );
-                }
-                else
-                {
-                    const double maxBottom = bottomScaleRect.top() +
-                        layoutData.scale[XBottom].tickOffset;
-                    const double bottom = axisRect.bottom() - bottomOffset;
-                    axisRect.setBottom( qwtMinF( bottom, maxBottom ) );
-                }
-            }
-            else
-            {
-                if ( engine.alignCanvas( XBottom ) && bottomOffset < 0 )
-                {
-                    canvasRect.setBottom( qwtMinF( canvasRect.bottom(),
-                        axisRect.bottom() + bottomOffset ) );
-                }
-                else
-                {
-                    if ( bottomOffset > 0 )
-                        axisRect.setBottom( axisRect.bottom() - bottomOffset );
-                }
-            }
-
-            const QRectF& topScaleRect = scaleRect[XTop];
-            const int topOffset = backboneOffset[XTop] - startDist;
-
-            if ( topScaleRect.isValid() )
-            {
-                const double dy = topOffset + topScaleRect.height();
-                if ( engine.alignCanvas( XTop ) && dy < 0 )
-                {
-                    /*
-                       The axis needs more space than the height
-                       of the top scale.
-                     */
-                    const double cTop = canvasRect.top(); // qreal -> double
-                    canvasRect.setTop( qwtMaxF( cTop, axisRect.top() - dy ) );
-                }
-                else
-                {
-                    const double minTop = topScaleRect.bottom() -
-                        layoutData.scale[XTop].tickOffset;
-
-                    const double top = axisRect.top() + topOffset;
-                    axisRect.setTop( qwtMaxF( top, minTop ) );
-                }
-            }
-            else
-            {
-                if ( engine.alignCanvas( XTop ) && topOffset < 0 )
-                {
-                    canvasRect.setTop( qwtMaxF( canvasRect.top(),
-                        axisRect.top() - topOffset ) );
-                }
-                else
-                {
-                    if ( topOffset > 0 )
-                        axisRect.setTop( axisRect.top() + topOffset );
-                }
-            }
-        }
-    }
-
-    /*
-       The canvas has been aligned to the scale with largest
-       border distances. Now we have to realign the other scale.
-     */
-
-    for ( int axis = 0; axis < AxisCount; axis++ )
-    {
-        QRectF& sRect = scaleRect[axis];
-
-        if ( !sRect.isValid() )
-            continue;
-
-        if ( isXAxis( axis ) )
-        {
-            if ( engine.alignCanvas( YLeft ) )
-            {
-                double y = canvasRect.left() - layoutData.scale[axis].start;
-                if ( !( options & IgnoreFrames ) )
-                    y += layoutData.canvas.contentsMargins[YLeft];
-
-                sRect.setLeft( y );
-            }
-
-            if ( engine.alignCanvas( YRight ) )
-            {
-                double y = canvasRect.right() - 1 + layoutData.scale[axis].end;
-                if ( !( options & IgnoreFrames ) )
-                    y -= layoutData.canvas.contentsMargins[YRight];
-
-                sRect.setRight( y );
-            }
-
-            if ( engine.alignCanvas( axis ) )
-            {
-                if ( axis == XTop )
-                    sRect.setBottom( canvasRect.top() );
-                else
-                    sRect.setTop( canvasRect.bottom() );
-            }
-        }
-        else
-        {
-            if ( engine.alignCanvas( XTop ) )
-            {
-                double x = canvasRect.top() - layoutData.scale[axis].start;
-                if ( !( options & IgnoreFrames ) )
-                    x += layoutData.canvas.contentsMargins[XTop];
-
-                sRect.setTop( x );
-            }
-
-            if ( engine.alignCanvas( XBottom ) )
-            {
-                double x = canvasRect.bottom() - 1 + layoutData.scale[axis].end;
-                if ( !( options & IgnoreFrames ) )
-                    x -= layoutData.canvas.contentsMargins[XBottom];
-
-                sRect.setBottom( x );
-            }
-
-            if ( engine.alignCanvas( axis ) )
-            {
-                if ( axis == YLeft )
-                    sRect.setRight( canvasRect.left() );
-                else
-                    sRect.setLeft( canvasRect.right() );
-            }
-        }
-    }
-}
-
-/*!
    \brief Recalculate the geometry of all components.
 
    \param plot Plot to be layout
@@ -1495,7 +1486,8 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // corners to extend the axes, so that the label texts
     // left/right of the min/max ticks are moved into them.
 
-    alignScales( options, m_data->canvasRect, m_data->scaleRects );
+    m_data->engine.alignScales( options, m_data->layoutData,
+        m_data->canvasRect, m_data->scaleRects );
 
     if ( !m_data->legendRect.isEmpty() )
     {
