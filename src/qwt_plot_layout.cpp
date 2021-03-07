@@ -180,15 +180,26 @@ namespace
     class LayoutEngine
     {
       public:
-        LayoutEngine():
-            m_spacing( 5 )
+        LayoutEngine()
+            : m_legendPos( QwtPlot::BottomLegend )
+            , m_legendRatio( 1.0 )
+            , m_spacing( 5 )
         {
         }
 
         inline void setSpacing( unsigned int spacing ) { m_spacing = spacing; }
         inline unsigned int spacing() const { return m_spacing; }
 
+        inline void setLegendPos( QwtPlot::LegendPosition pos ) { m_legendPos = pos; }
+        inline QwtPlot::LegendPosition legendPos() const { return m_legendPos; }
+
+        inline void setLegendRatio( double ratio ) { m_legendRatio = ratio; }
+        inline double legendRatio() const { return m_legendRatio; }
+
       private:
+        QwtPlot::LegendPosition m_legendPos;
+        double m_legendRatio;
+
         unsigned int m_spacing;
     };
 }
@@ -198,11 +209,6 @@ namespace
 class QwtPlotLayout::PrivateData
 {
   public:
-    PrivateData()
-        : legendRatio( 1.0 )
-    {
-    }
-
     QRectF titleRect;
     QRectF footerRect;
     QRectF legendRect;
@@ -213,8 +219,6 @@ class QwtPlotLayout::PrivateData
 
     LayoutData layoutData;
 
-    QwtPlot::LegendPosition legendPos;
-    double legendRatio;
     unsigned int canvasMargin[ QwtAxis::AxisCount ];
     bool alignCanvasToScales[ QwtAxis::AxisCount ];
 };
@@ -371,6 +375,8 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos, double ratio
     if ( ratio > 1.0 )
         ratio = 1.0;
 
+    LayoutEngine& engine = m_data->layoutEngine;
+
     switch ( pos )
     {
         case QwtPlot::TopLegend:
@@ -378,8 +384,9 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos, double ratio
         {
             if ( ratio <= 0.0 )
                 ratio = 0.33;
-            m_data->legendRatio = ratio;
-            m_data->legendPos = pos;
+
+            engine.setLegendRatio( ratio );
+            engine.setLegendPos( pos );
             break;
         }
         case QwtPlot::LeftLegend:
@@ -387,8 +394,10 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos, double ratio
         {
             if ( ratio <= 0.0 )
                 ratio = 0.5;
-            m_data->legendRatio = ratio;
-            m_data->legendPos = pos;
+
+            engine.setLegendRatio( ratio );
+            engine.setLegendPos( pos );
+
             break;
         }
         default:
@@ -416,7 +425,7 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos )
  */
 QwtPlot::LegendPosition QwtPlotLayout::legendPosition() const
 {
-    return m_data->legendPos;
+    return m_data->layoutEngine.legendPos();
 }
 
 /*!
@@ -439,7 +448,7 @@ void QwtPlotLayout::setLegendRatio( double ratio )
  */
 double QwtPlotLayout::legendRatio() const
 {
-    return m_data->legendRatio;
+    return m_data->layoutEngine.legendRatio();
 }
 
 /*!
@@ -723,8 +732,10 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
     const QwtAbstractLegend* legend = plot->legend();
     if ( legend && !legend->isEmpty() )
     {
-        if ( m_data->legendPos == QwtPlot::LeftLegend
-            || m_data->legendPos == QwtPlot::RightLegend )
+        const LayoutEngine& engine = m_data->layoutEngine;
+
+        if ( engine.legendPos() == QwtPlot::LeftLegend
+            || engine.legendPos() == QwtPlot::RightLegend )
         {
             int legendW = legend->sizeHint().width();
             int legendH = legend->heightForWidth( legendW );
@@ -735,8 +746,8 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             if ( legendH > h )
                 legendW += legend->scrollExtent( Qt::Horizontal );
 
-            if ( m_data->legendRatio < 1.0 )
-                legendW = qMin( legendW, int( w / ( 1.0 - m_data->legendRatio ) ) );
+            if ( engine.legendRatio() < 1.0 )
+                legendW = qMin( legendW, int( w / ( 1.0 - engine.legendRatio() ) ) );
 
             w += legendW + spacing();
         }
@@ -748,8 +759,8 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             if ( legend->frameWidth() > 0 )
                 h += spacing();
 
-            if ( m_data->legendRatio < 1.0 )
-                legendH = qMin( legendH, int( h / ( 1.0 - m_data->legendRatio ) ) );
+            if ( engine.legendRatio() < 1.0 )
+                legendH = qMin( legendH, int( h / ( 1.0 - engine.legendRatio() ) ) );
 
             h += legendH + spacing();
         }
@@ -771,15 +782,16 @@ QRectF QwtPlotLayout::layoutLegend( Options options,
     const QRectF& rect ) const
 {
     const QSize hint( m_data->layoutData.legend.hint );
+    const LayoutEngine& engine = m_data->layoutEngine;
 
     int dim;
-    if ( m_data->legendPos == QwtPlot::LeftLegend
-        || m_data->legendPos == QwtPlot::RightLegend )
+    if ( engine.legendPos() == QwtPlot::LeftLegend
+        || engine.legendPos() == QwtPlot::RightLegend )
     {
         // We don't allow vertical legends to take more than
         // half of the available space.
 
-        dim = qMin( hint.width(), int( rect.width() * m_data->legendRatio ) );
+        dim = qMin( hint.width(), int( rect.width() * engine.legendRatio() ) );
 
         if ( !( options & IgnoreScrollbars ) )
         {
@@ -794,12 +806,12 @@ QRectF QwtPlotLayout::layoutLegend( Options options,
     }
     else
     {
-        dim = qMin( hint.height(), int( rect.height() * m_data->legendRatio ) );
+        dim = qMin( hint.height(), int( rect.height() * engine.legendRatio() ) );
         dim = qMax( dim, m_data->layoutData.legend.vScrollExtent );
     }
 
     QRectF legendRect = rect;
-    switch ( m_data->legendPos )
+    switch ( engine.legendPos() )
     {
         case QwtPlot::LeftLegend:
             legendRect.setWidth( dim );
@@ -833,8 +845,8 @@ QRectF QwtPlotLayout::alignLegend( const QRectF& canvasRect,
 {
     QRectF alignedRect = legendRect;
 
-    if ( m_data->legendPos == QwtPlot::BottomLegend
-        || m_data->legendPos == QwtPlot::TopLegend )
+    if ( m_data->layoutEngine.legendPos() == QwtPlot::BottomLegend
+        || m_data->layoutEngine.legendPos() == QwtPlot::TopLegend )
     {
         if ( m_data->layoutData.legend.hint.width() < canvasRect.width() )
         {
@@ -1310,7 +1322,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         const QRegion region( rect.toRect() );
         rect = region.subtracted( m_data->legendRect.toRect() ).boundingRect();
 
-        switch ( m_data->legendPos )
+        switch ( m_data->layoutEngine.legendPos() )
         {
             case QwtPlot::LeftLegend:
             {
