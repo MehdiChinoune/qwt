@@ -343,14 +343,14 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
         dimAxis[axis] = 0;
 
     int backboneOffset[AxisCount];
-    for ( int axis = 0; axis < AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
-        backboneOffset[axis] = 0;
+        backboneOffset[axisPos] = 0;
         if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-            backboneOffset[axis] += layoutData.canvasData.contentsMargins[ axis ];
+            backboneOffset[axisPos] += layoutData.canvasData.contentsMargins[axisPos];
 
-        if ( !alignCanvas( axis ) )
-            backboneOffset[axis] += canvasMargin( axis );
+        if ( !m_alignCanvas[axisPos] )
+            backboneOffset[axisPos] += m_canvasMargin[axisPos];
     }
 
     bool done = false;
