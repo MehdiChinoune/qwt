@@ -98,6 +98,7 @@ namespace
         };
 
         void init( const QwtPlot*, const QRectF& rect );
+        bool hasSymmetricYAxes() const;
 
         inline ScaleData& axisData( QwtAxisId axisId )
         {
@@ -188,6 +189,12 @@ namespace
         canvasData.contentsMargins[ QwtAxis::XTop ] = m.top();
         canvasData.contentsMargins[ QwtAxis::YRight ] = m.right();
         canvasData.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
+    }
+
+    bool LayoutData::hasSymmetricYAxes() const
+    {
+        return scaleData[ QwtAxis::YLeft ].isVisible ==
+               scaleData[ QwtAxis::YRight ].isVisible;
     }
 }
 
@@ -371,8 +378,7 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
         {
             double w = rect.width();
 
-            if ( layoutData.scaleData[YLeft].isVisible
-                != layoutData.scaleData[YRight].isVisible )
+            if ( !layoutData.hasSymmetricYAxes() )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
@@ -396,8 +402,7 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
         {
             double w = rect.width();
 
-            if ( layoutData.scaleData[YLeft].isVisible
-                != layoutData.scaleData[YRight].isVisible )
+            if ( !layoutData.hasSymmetricYAxes() )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
@@ -1413,8 +1418,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setTop( m_data->titleRect.bottom() + spacing() );
 
-        if ( m_data->layoutData.scaleData[YLeft].isVisible !=
-            m_data->layoutData.scaleData[YRight].isVisible )
+        if ( !m_data->layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the title centered to the canvas
@@ -1432,8 +1436,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setBottom( m_data->footerRect.top() - spacing() );
 
-        if ( m_data->layoutData.scaleData[YLeft].isVisible !=
-            m_data->layoutData.scaleData[YRight].isVisible )
+        if ( !m_data->layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
