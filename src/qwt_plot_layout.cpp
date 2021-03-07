@@ -334,7 +334,7 @@ namespace
             return w;
         }
 
-        if ( sd.h && ( isYAxis( axisId ) ) )
+        if ( sd.h && isYAxis( axisId ) )
         {
             int h = sd.h;
 
@@ -361,7 +361,7 @@ namespace
 
         return 0;
     }
-};
+}
 
 namespace
 {
