@@ -14,6 +14,8 @@
 #include "qwt_abstract_legend.h"
 #include "qwt_math.h"
 
+#include <qmargins.h>
+
 namespace
 {
     class LayoutData
@@ -73,6 +75,27 @@ namespace
 
         struct ScaleData
         {
+            void init( const QwtScaleWidget* axisWidget )
+            {
+                isVisible = true;
+
+                scaleWidget = axisWidget;
+                scaleFont = axisWidget->font();
+
+                start = axisWidget->startBorderDist();
+                end = axisWidget->endBorderDist();
+
+                baseLineOffset = axisWidget->margin();
+
+                tickOffset = axisWidget->margin();
+                if ( axisWidget->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
+                    tickOffset += axisWidget->scaleDraw()->maxTickLength();
+
+                dimWithoutTitle = axisWidget->dimForLength( QWIDGETSIZE_MAX, scaleFont );
+                if ( !axisWidget->title().isEmpty() )
+                    dimWithoutTitle -= axisWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
+            }
+
             void reset()
             {
                 isVisible = false;
@@ -159,35 +182,7 @@ namespace
 
                 if ( plot->isAxisVisible( axisId ) )
                 {
-                    const QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
-
-                    scaleData.isVisible = true;
-
-                    scaleData.scaleWidget = scaleWidget;
-
-                    scaleData.scaleFont = scaleWidget->font();
-
-                    scaleData.start = scaleWidget->startBorderDist();
-                    scaleData.end = scaleWidget->endBorderDist();
-
-                    scaleData.baseLineOffset = scaleWidget->margin();
-                    scaleData.tickOffset = scaleWidget->margin();
-
-                    if ( scaleWidget->scaleDraw()->hasComponent(
-                        QwtAbstractScaleDraw::Ticks ) )
-                    {
-                        scaleData.tickOffset +=
-                            scaleWidget->scaleDraw()->maxTickLength();
-                    }
-
-                    scaleData.dimWithoutTitle = scaleWidget->dimForLength(
-                        QWIDGETSIZE_MAX, scaleData.scaleFont );
-
-                    if ( !scaleWidget->title().isEmpty() )
-                    {
-                        scaleData.dimWithoutTitle -=
-                            scaleWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
-                    }
+                    scaleData.init( plot->axisWidget( axisId ) );
                 }
                 else
                 {
@@ -195,8 +190,6 @@ namespace
                 }
             }
         }
-
-        // canvas
 
         canvasData.init( plot->canvas() );
     }
@@ -230,7 +223,7 @@ namespace
             const LayoutData&, QRectF& canvasRect,
             QRectF scaleRect[QwtAxis::AxisCount] ) const;
 
-        void layoutDimensions( QwtPlotLayout::Options, 
+        void layoutDimensions( QwtPlotLayout::Options,
             const LayoutData&, const QRectF&, int& dimTitle,
             int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const;
 
@@ -1359,13 +1352,14 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // We extract all layout relevant parameters from the widgets,
     // and save them to m_data->layoutData.
 
-    m_data->layoutData.init( plot, rect );
+    LayoutData& layoutData = m_data->layoutData;
+    layoutData.init( plot, rect );
 
     if ( !( options & IgnoreLegend )
         && plot->legend() && !plot->legend()->isEmpty() )
     {
         m_data->legendRect = m_data->engine.layoutLegend(
-            options, m_data->layoutData.legendData, rect );
+            options, layoutData.legendData, rect );
 
         // subtract m_data->legendRect from rect
 
@@ -1434,7 +1428,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setTop( m_data->titleRect.bottom() + spacing() );
 
-        if ( !m_data->layoutData.hasSymmetricYAxes() )
+        if ( !layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the title centered to the canvas
@@ -1452,7 +1446,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setBottom( m_data->footerRect.top() - spacing() );
 
-        if ( !m_data->layoutData.hasSymmetricYAxes() )
+        if ( !layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
@@ -1473,38 +1467,42 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     {
         // set the rects for the axes
 
+        const int pos = 0;
         {
             const QwtAxisId axis( axisPos );
 
             if ( dimAxes[axis] )
             {
-                int dim = dimAxes[axis];
-                QRectF& scaleRect = m_data->scaleRects[axis];
+                const int dim = dimAxes[axis];
 
-                scaleRect = m_data->canvasRect;
-                switch ( axis )
+                const QRectF& canvasRect = m_data->canvasRect;
+
+                QRectF& scaleRect = m_data->scaleRects[axis];
+                scaleRect = canvasRect;
+
+                switch ( axisPos )
                 {
                     case YLeft:
                     {
-                        scaleRect.setX( m_data->canvasRect.left() - dim );
+                        scaleRect.setX( canvasRect.left() - pos - dim );
                         scaleRect.setWidth( dim );
                         break;
                     }
                     case YRight:
                     {
-                        scaleRect.setX( m_data->canvasRect.right() );
+                        scaleRect.setX( canvasRect.right() + pos );
                         scaleRect.setWidth( dim );
                         break;
                     }
                     case XBottom:
                     {
-                        scaleRect.setY( m_data->canvasRect.bottom() );
+                        scaleRect.setY( canvasRect.bottom() + pos );
                         scaleRect.setHeight( dim );
                         break;
                     }
                     case XTop:
                     {
-                        scaleRect.setY( m_data->canvasRect.top() - dim );
+                        scaleRect.setY( canvasRect.top() - pos - dim );
                         scaleRect.setHeight( dim );
                         break;
                     }
@@ -1534,7 +1532,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // corners to extend the axes, so that the label texts
     // left/right of the min/max ticks are moved into them.
 
-    m_data->engine.alignScales( options, m_data->layoutData,
+    m_data->engine.alignScales( options, layoutData,
         m_data->canvasRect, m_data->scaleRects );
 
     if ( !m_data->legendRect.isEmpty() )
@@ -1543,7 +1541,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         // the complete plot - if possible.
 
         m_data->legendRect = m_data->engine.alignLegend(
-            m_data->layoutData.legendData.hint,
+            layoutData.legendData.hint,
             m_data->canvasRect, m_data->legendRect );
     }
 }
