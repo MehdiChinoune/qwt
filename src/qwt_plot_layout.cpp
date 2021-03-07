@@ -137,45 +137,52 @@ namespace
 
         for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
         {
-            if ( plot->isAxisVisible( axis ) )
             {
-                const QwtScaleWidget* scaleWidget = plot->axisWidget( axis );
+                const QwtAxisId axisId( axis );
 
-                scaleData[axis].isVisible = true;
+                ScaleData& scaleData = axisData( axisId );
 
-                scaleData[axis].scaleWidget = scaleWidget;
-
-                scaleData[axis].scaleFont = scaleWidget->font();
-
-                scaleData[axis].start = scaleWidget->startBorderDist();
-                scaleData[axis].end = scaleWidget->endBorderDist();
-
-                scaleData[axis].baseLineOffset = scaleWidget->margin();
-                scaleData[axis].tickOffset = scaleWidget->margin();
-                if ( scaleWidget->scaleDraw()->hasComponent(
-                    QwtAbstractScaleDraw::Ticks ) )
+                if ( plot->isAxisVisible( axisId ) )
                 {
-                    scaleData[axis].tickOffset +=
-                        scaleWidget->scaleDraw()->maxTickLength();
+                    const QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
+
+                    scaleData.isVisible = true;
+
+                    scaleData.scaleWidget = scaleWidget;
+
+                    scaleData.scaleFont = scaleWidget->font();
+
+                    scaleData.start = scaleWidget->startBorderDist();
+                    scaleData.end = scaleWidget->endBorderDist();
+
+                    scaleData.baseLineOffset = scaleWidget->margin();
+                    scaleData.tickOffset = scaleWidget->margin();
+
+                    if ( scaleWidget->scaleDraw()->hasComponent(
+                        QwtAbstractScaleDraw::Ticks ) )
+                    {
+                        scaleData.tickOffset +=
+                            scaleWidget->scaleDraw()->maxTickLength();
+                    }
+
+                    scaleData.dimWithoutTitle = scaleWidget->dimForLength(
+                        QWIDGETSIZE_MAX, scaleData.scaleFont );
+
+                    if ( !scaleWidget->title().isEmpty() )
+                    {
+                        scaleData.dimWithoutTitle -=
+                            scaleWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
+                    }
                 }
-
-                scaleData[axis].dimWithoutTitle = scaleWidget->dimForLength(
-                    QWIDGETSIZE_MAX, scaleData[axis].scaleFont );
-
-                if ( !scaleWidget->title().isEmpty() )
+                else
                 {
-                    scaleData[axis].dimWithoutTitle -=
-                        scaleWidget->titleHeightForWidth( QWIDGETSIZE_MAX );
+                    scaleData.isVisible = false;
+                    scaleData.start = 0;
+                    scaleData.end = 0;
+                    scaleData.baseLineOffset = 0;
+                    scaleData.tickOffset = 0.0;
+                    scaleData.dimWithoutTitle = 0;
                 }
-            }
-            else
-            {
-                scaleData[axis].isVisible = false;
-                scaleData[axis].start = 0;
-                scaleData[axis].end = 0;
-                scaleData[axis].baseLineOffset = 0;
-                scaleData[axis].tickOffset = 0.0;
-                scaleData[axis].dimWithoutTitle = 0;
             }
         }
 
