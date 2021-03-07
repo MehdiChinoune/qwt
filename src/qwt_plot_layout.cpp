@@ -530,15 +530,14 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
     for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
         {
-            if ( !scaleRect[axisPos].isValid() )
+            QRectF& axisRect = scaleRect[axisPos];
+            if ( !axisRect.isValid() )
                 continue;
 
             const QwtAxisId axisId( axisPos );
 
-            const int startDist = layoutData.scaleData[axisId].start;
-            const int endDist = layoutData.scaleData[axisId].end;
-
-            QRectF& axisRect = scaleRect[axisId];
+            const int startDist = layoutData.axisData( axisId ).start;
+            const int endDist = layoutData.axisData( axisId ).end;
 
             if ( isXAxis( axisPos ) )
             {
