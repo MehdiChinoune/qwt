@@ -473,6 +473,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
 
                         length += qMin( dimensions.dimAxes[YLeft],
                             scaleData.start - backboneOffset[YLeft] );
+
                         length += qMin( dimensions.dimAxes[YRight],
                             scaleData.end - backboneOffset[YRight] );
                     }
@@ -1448,36 +1449,39 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
     if ( dimensions.dimTitle > 0 )
     {
-        m_data->titleRect.setRect(
-            rect.left(), rect.top(), rect.width(), dimensions.dimTitle );
+        QRectF& labelRect = m_data->titleRect;
 
-        rect.setTop( m_data->titleRect.bottom() + spacing() );
+        labelRect.setRect( rect.left(), rect.top(), rect.width(), dimensions.dimTitle );
+
+        rect.setTop( labelRect.bottom() + spacing() );
 
         if ( !layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the title centered to the canvas
 
-            m_data->titleRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
-            m_data->titleRect.setWidth( rect.width()
+            labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
+            labelRect.setWidth( rect.width()
                 - dimensions.dimAxes[YLeft] - dimensions.dimAxes[YRight] );
         }
     }
 
     if ( dimensions.dimFooter > 0 )
     {
-        m_data->footerRect.setRect(
-            rect.left(), rect.bottom() - dimensions.dimFooter, rect.width(), dimensions.dimFooter );
+        QRectF& labelRect = m_data->footerRect;
 
-        rect.setBottom( m_data->footerRect.top() - spacing() );
+        labelRect.setRect( rect.left(), rect.bottom() - dimensions.dimFooter,
+            rect.width(), dimensions.dimFooter );
+
+        rect.setBottom( labelRect.top() - spacing() );
 
         if ( !layoutData.hasSymmetricYAxes() )
         {
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
 
-            m_data->footerRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
-            m_data->footerRect.setWidth( rect.width()
+            labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
+            labelRect.setWidth( rect.width()
                 - dimensions.dimAxes[YLeft] - dimensions.dimAxes[YRight] );
         }
     }
