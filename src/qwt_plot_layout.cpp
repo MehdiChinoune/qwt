@@ -371,51 +371,57 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
         // axis what might result in a line break of a horizontal
         // axis ... . So we loop as long until no size changes.
 
-        const LayoutData::LabelData& titleData =
-            layoutData.labelData[ LayoutData::Title ];
-
-        if ( !( ( options & QwtPlotLayout::IgnoreTitle ) || titleData.text.isEmpty() ) )
+        if ( !( options & QwtPlotLayout::IgnoreTitle ) )
         {
-            double w = rect.width();
+            const LayoutData::LabelData& labelData =
+                layoutData.labelData[ LayoutData::Title ];
 
-            if ( !layoutData.hasSymmetricYAxes() )
+            if ( !labelData.text.isEmpty() )
             {
-                // center to the canvas
-                w -= dimAxis[YLeft] + dimAxis[YRight];
-            }
+                double w = rect.width();
 
-            int d = qwtCeil( titleData.text.heightForWidth( w ) );
-            if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                d += 2 * titleData.frameWidth;
+                if ( !layoutData.hasSymmetricYAxes() )
+                {
+                    // center to the canvas
+                    w -= dimAxis[YLeft] + dimAxis[YRight];
+                }
 
-            if ( d > dimTitle )
-            {
-                dimTitle = d;
-                done = false;
+                int d = qwtCeil( labelData.text.heightForWidth( w ) );
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    d += 2 * labelData.frameWidth;
+
+                if ( d > dimTitle )
+                {
+                    dimTitle = d;
+                    done = false;
+                }
             }
         }
 
-        const LayoutData::LabelData& footerData =
-            layoutData.labelData[ LayoutData::Footer ];
-
-        if ( !( ( options & QwtPlotLayout::IgnoreFooter ) || footerData.text.isEmpty() ) )
+        if ( !( options & QwtPlotLayout::IgnoreFooter ) )
         {
-            double w = rect.width();
+            const LayoutData::LabelData& labelData =
+                layoutData.labelData[ LayoutData::Footer ];
 
-            if ( !layoutData.hasSymmetricYAxes() )
+            if ( !labelData.text.isEmpty() )
             {
-                // center to the canvas
-                w -= dimAxis[YLeft] + dimAxis[YRight];
-            }
+                double w = rect.width();
 
-            int d = qwtCeil( footerData.text.heightForWidth( w ) );
-            if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                d += 2 * footerData.frameWidth;
+                if ( !layoutData.hasSymmetricYAxes() )
+                {
+                    // center to the canvas
+                    w -= dimAxis[YLeft] + dimAxis[YRight];
+                }
 
-            if ( d > dimFooter )
-            {
-                dimFooter = d;
-                done = false;
+                int d = qwtCeil( labelData.text.heightForWidth( w ) );
+                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                    d += 2 * labelData.frameWidth;
+
+                if ( d > dimFooter )
+                {
+                    dimFooter = d;
+                    done = false;
+                }
             }
         }
 
