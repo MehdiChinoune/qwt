@@ -190,6 +190,9 @@ namespace
         inline void setSpacing( unsigned int spacing ) { m_spacing = spacing; }
         inline unsigned int spacing() const { return m_spacing; }
 
+        inline void setCanvasMargin( int axisPos, int margin ) { m_canvasMargin[ axisPos ] = margin; }
+        inline int canvasMargin( int axisPos ) const { return m_canvasMargin[ axisPos ]; }
+
         inline void setLegendPos( QwtPlot::LegendPosition pos ) { m_legendPos = pos; }
         inline QwtPlot::LegendPosition legendPos() const { return m_legendPos; }
 
@@ -199,6 +202,8 @@ namespace
       private:
         QwtPlot::LegendPosition m_legendPos;
         double m_legendRatio;
+
+        unsigned int m_canvasMargin[ QwtAxis::AxisCount ];
 
         unsigned int m_spacing;
     };
@@ -219,7 +224,6 @@ class QwtPlotLayout::PrivateData
 
     LayoutData layoutData;
 
-    unsigned int canvasMargin[ QwtAxis::AxisCount ];
     bool alignCanvasToScales[ QwtAxis::AxisCount ];
 };
 
@@ -262,13 +266,17 @@ void QwtPlotLayout::setCanvasMargin( int margin, int axisPos )
     if ( margin < -1 )
         margin = -1;
 
+    LayoutEngine& engine = m_data->layoutEngine;
+
     if ( axisPos == -1 )
     {
         for ( axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
-            m_data->canvasMargin[axisPos] = margin;
+            engine.setCanvasMargin( axisPos, margin );
     }
     else if ( QwtAxis::isValid( axisPos ) )
-        m_data->canvasMargin[axisPos] = margin;
+    {
+        engine.setCanvasMargin( axisPos, margin );
+    }
 }
 
 /*!
@@ -281,7 +289,7 @@ int QwtPlotLayout::canvasMargin( int axisPos ) const
     if ( !QwtAxis::isValid( axisPos ) )
         return 0;
 
-    return m_data->canvasMargin[axisPos];
+    return m_data->layoutEngine.canvasMargin( axisPos );
 }
 
 /*!
@@ -630,7 +638,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
                 sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
         }
 
-        canvasBorder[axis] = fw + m_data->canvasMargin[axis] + 1;
+        canvasBorder[axis] = fw + m_data->layoutEngine.canvasMargin( axis ) + 1;
     }
 
     for ( axis = 0; axis < AxisCount; axis++ )
@@ -895,7 +903,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
             backboneOffset[axis] += m_data->layoutData.canvas.contentsMargins[ axis ];
 
         if ( !m_data->alignCanvasToScales[axis] )
-            backboneOffset[axis] += m_data->canvasMargin[axis];
+            backboneOffset[axis] += m_data->layoutEngine.canvasMargin( axis );
     }
 
     bool done = false;
@@ -1048,7 +1056,7 @@ void QwtPlotLayout::alignScales( Options options,
 
         if ( !m_data->alignCanvasToScales[axis] )
         {
-            backboneOffset[axis] += m_data->canvasMargin[axis];
+            backboneOffset[axis] += m_data->layoutEngine.canvasMargin( axis );
         }
 
         if ( !( options & IgnoreFrames ) )
