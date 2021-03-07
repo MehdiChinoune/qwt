@@ -73,6 +73,16 @@ namespace
 
         struct ScaleData
         {
+            void reset()
+            {
+                isVisible = false;
+                start = 0;
+                end = 0;
+                baseLineOffset = 0;
+                tickOffset = 0.0;
+                dimWithoutTitle = 0;
+            }
+
             bool isVisible;
             const QwtScaleWidget* scaleWidget;
             QFont scaleFont;
@@ -181,12 +191,7 @@ namespace
                 }
                 else
                 {
-                    scaleData.isVisible = false;
-                    scaleData.start = 0;
-                    scaleData.end = 0;
-                    scaleData.baseLineOffset = 0;
-                    scaleData.tickOffset = 0.0;
-                    scaleData.dimWithoutTitle = 0;
+                    scaleData.reset();
                 }
             }
         }
