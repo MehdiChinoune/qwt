@@ -206,7 +206,7 @@ namespace
         QwtPlot::LegendPosition m_legendPos;
         double m_legendRatio;
 
-        unsigned int m_canvasMargin[ QwtAxis::AxisCount ];
+        unsigned int m_canvasMargin[QwtAxis::AxisCount];
         bool m_alignCanvas[QwtAxis::AxisCount];
 
         unsigned int m_spacing;
@@ -225,7 +225,6 @@ class QwtPlotLayout::PrivateData
     QRectF canvasRect;
 
     LayoutEngine engine;
-
     LayoutData layoutData;
 };
 
@@ -397,6 +396,7 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos, double ratio
 
             engine.setLegendRatio( ratio );
             engine.setLegendPos( pos );
+
             break;
         }
         case QwtPlot::LeftLegend:
@@ -587,11 +587,11 @@ QRectF QwtPlotLayout::canvasRect() const
  */
 void QwtPlotLayout::invalidate()
 {
-    m_data->titleRect = m_data->footerRect
-            = m_data->legendRect = m_data->canvasRect = QRect();
+    m_data->titleRect = m_data->footerRect =
+        m_data->legendRect = m_data->canvasRect = QRectF();
 
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        m_data->scaleRects[axis] = QRect();
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+        m_data->scaleRects[axisPos] = QRect();
 }
 
 /*!
@@ -714,7 +714,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
         const QwtTextLabel* label = labels[i];
         if ( label && !label->text().isEmpty() )
         {
-            // If only YLeft or YRight is showing, we center on the plot canvas.
+            // we center on the plot canvas.
             const bool centerOnCanvas = !( plot->isAxisVisible( YLeft )
                 && plot->isAxisVisible( YRight ) );
 
