@@ -193,7 +193,7 @@ namespace
         }
 
         QRectF layoutLegend( QwtPlotLayout::Options,
-            const LayoutData&, const QRectF& ) const;
+            const LayoutData::LegendData&, const QRectF& ) const;
 
         void alignScales( QwtPlotLayout::Options,
             const LayoutData&, QRectF& canvasRect,
@@ -226,9 +226,9 @@ namespace
 }
 
 QRectF LayoutEngine::layoutLegend( QwtPlotLayout::Options options,
-    const LayoutData& layoutData, const QRectF& rect ) const
+    const LayoutData::LegendData& legendData, const QRectF& rect ) const
 {
-    const QSize legendHint( layoutData.legendData.hint );
+    const QSize legendHint( legendData.hint );
 
     int dim;
     if ( m_legendPos == QwtPlot::LeftLegend
@@ -246,14 +246,14 @@ QRectF LayoutEngine::layoutLegend( QwtPlotLayout::Options options,
                 // The legend will need additional
                 // space for the vertical scrollbar.
 
-                dim += layoutData.legendData.hScrollExtent;
+                dim += legendData.hScrollExtent;
             }
         }
     }
     else
     {
         dim = qMin( legendHint.height(), int( rect.height() * m_legendRatio ) );
-        dim = qMax( dim, layoutData.legendData.vScrollExtent );
+        dim = qMax( dim, legendData.vScrollExtent );
     }
 
     QRectF legendRect = rect;
@@ -1119,7 +1119,8 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
  */
 QRectF QwtPlotLayout::layoutLegend( Options options, const QRectF& rect ) const
 {
-    return m_data->engine.layoutLegend( options, m_data->layoutData, rect );
+    return m_data->engine.layoutLegend(
+        options, m_data->layoutData.legendData, rect );
 }
 
 /*!
@@ -1451,44 +1452,48 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         rect.width() - dimAxes[YRight] - dimAxes[YLeft],
         rect.height() - dimAxes[XBottom] - dimAxes[XTop] );
 
-    for ( int axis = 0; axis < AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
         // set the rects for the axes
 
-        if ( dimAxes[axis] )
         {
-            int dim = dimAxes[axis];
-            QRectF& scaleRect = m_data->scaleRects[axis];
+            const QwtAxisId axis( axisPos );
 
-            scaleRect = m_data->canvasRect;
-            switch ( axis )
+            if ( dimAxes[axis] )
             {
-                case YLeft:
+                int dim = dimAxes[axis];
+                QRectF& scaleRect = m_data->scaleRects[axis];
+
+                scaleRect = m_data->canvasRect;
+                switch ( axis )
                 {
-                    scaleRect.setX( m_data->canvasRect.left() - dim );
-                    scaleRect.setWidth( dim );
-                    break;
+                    case YLeft:
+                    {
+                        scaleRect.setX( m_data->canvasRect.left() - dim );
+                        scaleRect.setWidth( dim );
+                        break;
+                    }
+                    case YRight:
+                    {
+                        scaleRect.setX( m_data->canvasRect.right() );
+                        scaleRect.setWidth( dim );
+                        break;
+                    }
+                    case XBottom:
+                    {
+                        scaleRect.setY( m_data->canvasRect.bottom() );
+                        scaleRect.setHeight( dim );
+                        break;
+                    }
+                    case XTop:
+                    {
+                        scaleRect.setY( m_data->canvasRect.top() - dim );
+                        scaleRect.setHeight( dim );
+                        break;
+                    }
                 }
-                case YRight:
-                {
-                    scaleRect.setX( m_data->canvasRect.right() );
-                    scaleRect.setWidth( dim );
-                    break;
-                }
-                case XBottom:
-                {
-                    scaleRect.setY( m_data->canvasRect.bottom() );
-                    scaleRect.setHeight( dim );
-                    break;
-                }
-                case XTop:
-                {
-                    scaleRect.setY( m_data->canvasRect.top() - dim );
-                    scaleRect.setHeight( dim );
-                    break;
-                }
+                scaleRect = scaleRect.normalized();
             }
-            scaleRect = scaleRect.normalized();
         }
     }
 
