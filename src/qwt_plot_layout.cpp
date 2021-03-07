@@ -203,6 +203,30 @@ namespace
 
 namespace
 {
+    class LayoutHintData
+    {
+      public:
+        struct ScaleData
+        {
+            ScaleData()
+            {
+                w = h = minLeft = minRight = tickOffset = 0;
+            }
+
+            int w;
+            int h;
+            int minLeft;
+            int minRight;
+            int tickOffset;
+
+        } scaleData[ QwtAxis::AxisCount ];
+
+        int canvasBorder[ QwtAxis::AxisCount];
+    };
+};
+
+namespace
+{
     class LayoutEngine
     {
       public:
@@ -1184,22 +1208,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 {
     using namespace QwtAxis;
 
-    class ScaleData
-    {
-      public:
-        ScaleData()
-        {
-            w = h = minLeft = minRight = tickOffset = 0;
-        }
-
-        int w;
-        int h;
-        int minLeft;
-        int minRight;
-        int tickOffset;
-    } scaleData[AxisCount];
-
-    int canvasBorder[AxisCount];
+    LayoutHintData hintData;
 
     const int fw = plot->canvas()->contentsMargins().left();
 
@@ -1209,7 +1218,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
         if ( plot->isAxisVisible( axis ) )
         {
             const QwtScaleWidget* scl = plot->axisWidget( axis );
-            ScaleData& sd = scaleData[axis];
+            LayoutHintData::ScaleData& sd = hintData.scaleData[axis];
 
             const QSize hint = scl->minimumSizeHint();
             sd.w = hint.width();
@@ -1220,28 +1229,28 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
                 sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
         }
 
-        canvasBorder[axis] = fw + m_data->engine.canvasMargin( axis ) + 1;
+        hintData.canvasBorder[axis] = fw + m_data->engine.canvasMargin( axis ) + 1;
     }
 
     for ( axis = 0; axis < AxisCount; axis++ )
     {
-        ScaleData& sd = scaleData[axis];
+        LayoutHintData::ScaleData& sd = hintData.scaleData[axis];
         if ( sd.w && isXAxis( axis ) )
         {
-            if ( ( sd.minLeft > canvasBorder[YLeft] ) && scaleData[YLeft].w )
+            if ( ( sd.minLeft > hintData.canvasBorder[YLeft] ) && hintData.scaleData[YLeft].w )
             {
-                int shiftLeft = sd.minLeft - canvasBorder[YLeft];
-                if ( shiftLeft > scaleData[YLeft].w )
-                    shiftLeft = scaleData[YLeft].w;
+                int shiftLeft = sd.minLeft - hintData.canvasBorder[YLeft];
+                if ( shiftLeft > hintData.scaleData[YLeft].w )
+                    shiftLeft = hintData.scaleData[YLeft].w;
 
                 sd.w -= shiftLeft;
             }
 
-            if ( ( sd.minRight > canvasBorder[YRight] ) && scaleData[YRight].w )
+            if ( ( sd.minRight > hintData.canvasBorder[YRight] ) && hintData.scaleData[YRight].w )
             {
-                int shiftRight = sd.minRight - canvasBorder[YRight];
-                if ( shiftRight > scaleData[YRight].w )
-                    shiftRight = scaleData[YRight].w;
+                int shiftRight = sd.minRight - hintData.canvasBorder[YRight];
+                if ( shiftRight > hintData.scaleData[YRight].w )
+                    shiftRight = hintData.scaleData[YRight].w;
 
                 sd.w -= shiftRight;
             }
@@ -1249,20 +1258,20 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 
         if ( sd.h && ( isYAxis( axis ) ) )
         {
-            if ( ( sd.minLeft > canvasBorder[XBottom] ) && scaleData[XBottom].h )
+            if ( ( sd.minLeft > hintData.canvasBorder[XBottom] ) && hintData.scaleData[XBottom].h )
             {
-                int shiftBottom = sd.minLeft - canvasBorder[XBottom];
-                if ( shiftBottom > scaleData[XBottom].tickOffset )
-                    shiftBottom = scaleData[XBottom].tickOffset;
+                int shiftBottom = sd.minLeft - hintData.canvasBorder[XBottom];
+                if ( shiftBottom > hintData.scaleData[XBottom].tickOffset )
+                    shiftBottom = hintData.scaleData[XBottom].tickOffset;
 
                 sd.h -= shiftBottom;
             }
 
-            if ( ( sd.minLeft > canvasBorder[XTop] ) && scaleData[XTop].h )
+            if ( ( sd.minLeft > hintData.canvasBorder[XTop] ) && hintData.scaleData[XTop].h )
             {
-                int shiftTop = sd.minRight - canvasBorder[XTop];
-                if ( shiftTop > scaleData[XTop].tickOffset )
-                    shiftTop = scaleData[XTop].tickOffset;
+                int shiftTop = sd.minRight - hintData.canvasBorder[XTop];
+                if ( shiftTop > hintData.scaleData[XTop].tickOffset )
+                    shiftTop = hintData.scaleData[XTop].tickOffset;
 
                 sd.h -= shiftTop;
             }
@@ -1275,13 +1284,13 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 
     const QSize minCanvasSize = canvas->minimumSize();
 
-    int w = scaleData[YLeft].w + scaleData[YRight].w;
-    int cw = qMax( scaleData[XBottom].w, scaleData[XTop].w )
+    int w = hintData.scaleData[YLeft].w + hintData.scaleData[YRight].w;
+    int cw = qMax( hintData.scaleData[XBottom].w, hintData.scaleData[XTop].w )
         + m.left() + 1 + m.right() + 1;
     w += qMax( cw, minCanvasSize.width() );
 
-    int h = scaleData[XBottom].h + scaleData[XTop].h;
-    int ch = qMax( scaleData[YLeft].h, scaleData[YRight].h )
+    int h = hintData.scaleData[XBottom].h + hintData.scaleData[XTop].h;
+    int ch = qMax( hintData.scaleData[YLeft].h, hintData.scaleData[YRight].h )
         + m.top() + 1 + m.bottom() + 1;
     h += qMax( ch, minCanvasSize.height() );
 
@@ -1301,7 +1310,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             int labelW = w;
             if ( centerOnCanvas )
             {
-                labelW -= scaleData[YLeft].w + scaleData[YRight].w;
+                labelW -= hintData.scaleData[YLeft].w + hintData.scaleData[YRight].w;
             }
 
             int labelH = label->heightForWidth( labelW );
@@ -1309,7 +1318,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             {
                 w = labelW = labelH;
                 if ( centerOnCanvas )
-                    w += scaleData[YLeft].w + scaleData[YRight].w;
+                    w += hintData.scaleData[YLeft].w + hintData.scaleData[YRight].w;
 
                 labelH = label->heightForWidth( labelW );
             }
