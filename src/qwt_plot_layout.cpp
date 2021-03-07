@@ -21,8 +21,6 @@ namespace
     class LayoutData
     {
       public:
-        void init( const QwtPlot*, const QRectF& rect );
-
         struct LegendData
         {
             int frameWidth;
@@ -53,6 +51,9 @@ namespace
         {
             int contentsMargins[ QwtAxis::AxisCount ];
         };
+
+      public:
+        void init( const QwtPlot*, const QRectF& rect );
 
         LegendData legendData;
 
