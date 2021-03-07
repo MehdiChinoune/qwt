@@ -683,19 +683,22 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
        border distances. Now we have to realign the other scale.
      */
 
-    for ( int axis = 0; axis < AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
         {
-            QRectF& sRect = scaleRect[axis];
+            const QwtAxisId axisId( axisPos );
+
+            QRectF& sRect = scaleRect[axisPos];
+            const LayoutData::ScaleData& axisData = layoutData.axisData( axisId );
 
             if ( !sRect.isValid() )
                 continue;
 
-            if ( isXAxis( axis ) )
+            if ( isXAxis( axisPos ) )
             {
                 if ( m_alignCanvas[YLeft] )
                 {
-                    double y = canvasRect.left() - layoutData.scaleData[axis].start;
+                    double y = canvasRect.left() - axisData.start;
                     if ( !( options & QwtPlotLayout::IgnoreFrames ) )
                         y += layoutData.canvasData.contentsMargins[YLeft];
 
@@ -704,16 +707,16 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
 
                 if ( m_alignCanvas[YRight] )
                 {
-                    double y = canvasRect.right() - 1 + layoutData.scaleData[axis].end;
+                    double y = canvasRect.right() - 1 + axisData.end;
                     if ( !( options & QwtPlotLayout::IgnoreFrames ) )
                         y -= layoutData.canvasData.contentsMargins[YRight];
 
                     sRect.setRight( y );
                 }
 
-                if ( m_alignCanvas[axis] )
+                if ( m_alignCanvas[axisPos] )
                 {
-                    if ( axis == XTop )
+                    if ( axisPos == XTop )
                         sRect.setBottom( canvasRect.top() );
                     else
                         sRect.setTop( canvasRect.bottom() );
@@ -723,7 +726,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
             {
                 if ( m_alignCanvas[XTop] )
                 {
-                    double x = canvasRect.top() - layoutData.scaleData[axis].start;
+                    double x = canvasRect.top() - axisData.start;
                     if ( !( options & QwtPlotLayout::IgnoreFrames ) )
                         x += layoutData.canvasData.contentsMargins[XTop];
 
@@ -732,16 +735,16 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
 
                 if ( m_alignCanvas[XBottom] )
                 {
-                    double x = canvasRect.bottom() - 1 + layoutData.scaleData[axis].end;
+                    double x = canvasRect.bottom() - 1 + axisData.end;
                     if ( !( options & QwtPlotLayout::IgnoreFrames ) )
                         x -= layoutData.canvasData.contentsMargins[XBottom];
 
                     sRect.setBottom( x );
                 }
 
-                if ( m_alignCanvas[axis] )
+                if ( m_alignCanvas[axisPos] )
                 {
-                    if ( axis == YLeft )
+                    if ( axisPos == YLeft )
                         sRect.setRight( canvasRect.left() );
                     else
                         sRect.setLeft( canvasRect.right() );
@@ -750,8 +753,6 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
         }
     }
 }
-
-// === PrivateData
 
 class QwtPlotLayout::PrivateData
 {
