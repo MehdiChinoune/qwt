@@ -220,7 +220,7 @@ class QwtPlotLayout::PrivateData
     QRectF scaleRects[QwtAxis::AxisCount];
     QRectF canvasRect;
 
-    LayoutEngine layoutEngine;
+    LayoutEngine engine;
 
     LayoutData layoutData;
 
@@ -266,7 +266,7 @@ void QwtPlotLayout::setCanvasMargin( int margin, int axisPos )
     if ( margin < -1 )
         margin = -1;
 
-    LayoutEngine& engine = m_data->layoutEngine;
+    LayoutEngine& engine = m_data->engine;
 
     if ( axisPos == -1 )
     {
@@ -289,7 +289,7 @@ int QwtPlotLayout::canvasMargin( int axisPos ) const
     if ( !QwtAxis::isValid( axisPos ) )
         return 0;
 
-    return m_data->layoutEngine.canvasMargin( axisPos );
+    return m_data->engine.canvasMargin( axisPos );
 }
 
 /*!
@@ -353,7 +353,7 @@ bool QwtPlotLayout::alignCanvasToScale( int axisPos ) const
  */
 void QwtPlotLayout::setSpacing( int spacing )
 {
-    m_data->layoutEngine.setSpacing( qMax( 0, spacing ) );
+    m_data->engine.setSpacing( qMax( 0, spacing ) );
 }
 
 /*!
@@ -362,7 +362,7 @@ void QwtPlotLayout::setSpacing( int spacing )
  */
 int QwtPlotLayout::spacing() const
 {
-    return m_data->layoutEngine.spacing();
+    return m_data->engine.spacing();
 }
 
 /*!
@@ -383,7 +383,7 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos, double ratio
     if ( ratio > 1.0 )
         ratio = 1.0;
 
-    LayoutEngine& engine = m_data->layoutEngine;
+    LayoutEngine& engine = m_data->engine;
 
     switch ( pos )
     {
@@ -433,7 +433,7 @@ void QwtPlotLayout::setLegendPosition( QwtPlot::LegendPosition pos )
  */
 QwtPlot::LegendPosition QwtPlotLayout::legendPosition() const
 {
-    return m_data->layoutEngine.legendPos();
+    return m_data->engine.legendPos();
 }
 
 /*!
@@ -456,7 +456,7 @@ void QwtPlotLayout::setLegendRatio( double ratio )
  */
 double QwtPlotLayout::legendRatio() const
 {
-    return m_data->layoutEngine.legendRatio();
+    return m_data->engine.legendRatio();
 }
 
 /*!
@@ -638,7 +638,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
                 sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
         }
 
-        canvasBorder[axis] = fw + m_data->layoutEngine.canvasMargin( axis ) + 1;
+        canvasBorder[axis] = fw + m_data->engine.canvasMargin( axis ) + 1;
     }
 
     for ( axis = 0; axis < AxisCount; axis++ )
@@ -740,7 +740,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
     const QwtAbstractLegend* legend = plot->legend();
     if ( legend && !legend->isEmpty() )
     {
-        const LayoutEngine& engine = m_data->layoutEngine;
+        const LayoutEngine& engine = m_data->engine;
 
         if ( engine.legendPos() == QwtPlot::LeftLegend
             || engine.legendPos() == QwtPlot::RightLegend )
@@ -790,7 +790,7 @@ QRectF QwtPlotLayout::layoutLegend( Options options,
     const QRectF& rect ) const
 {
     const QSize hint( m_data->layoutData.legend.hint );
-    const LayoutEngine& engine = m_data->layoutEngine;
+    const LayoutEngine& engine = m_data->engine;
 
     int dim;
     if ( engine.legendPos() == QwtPlot::LeftLegend
@@ -853,8 +853,8 @@ QRectF QwtPlotLayout::alignLegend( const QRectF& canvasRect,
 {
     QRectF alignedRect = legendRect;
 
-    if ( m_data->layoutEngine.legendPos() == QwtPlot::BottomLegend
-        || m_data->layoutEngine.legendPos() == QwtPlot::TopLegend )
+    if ( m_data->engine.legendPos() == QwtPlot::BottomLegend
+        || m_data->engine.legendPos() == QwtPlot::TopLegend )
     {
         if ( m_data->layoutData.legend.hint.width() < canvasRect.width() )
         {
@@ -903,7 +903,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
             backboneOffset[axis] += m_data->layoutData.canvas.contentsMargins[ axis ];
 
         if ( !m_data->alignCanvasToScales[axis] )
-            backboneOffset[axis] += m_data->layoutEngine.canvasMargin( axis );
+            backboneOffset[axis] += m_data->engine.canvasMargin( axis );
     }
 
     bool done = false;
@@ -1056,7 +1056,7 @@ void QwtPlotLayout::alignScales( Options options,
 
         if ( !m_data->alignCanvasToScales[axis] )
         {
-            backboneOffset[axis] += m_data->layoutEngine.canvasMargin( axis );
+            backboneOffset[axis] += m_data->engine.canvasMargin( axis );
         }
 
         if ( !( options & IgnoreFrames ) )
@@ -1330,7 +1330,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         const QRegion region( rect.toRect() );
         rect = region.subtracted( m_data->legendRect.toRect() ).boundingRect();
 
-        switch ( m_data->layoutEngine.legendPos() )
+        switch ( m_data->engine.legendPos() )
         {
             case QwtPlot::LeftLegend:
             {
