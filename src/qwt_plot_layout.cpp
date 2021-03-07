@@ -187,7 +187,7 @@ class QwtPlotLayout::PrivateData
     QRectF titleRect;
     QRectF footerRect;
     QRectF legendRect;
-    QRectF scaleRect[ QwtAxis::AxisCount ];
+    QRectF scaleRects[QwtAxis::AxisCount];
     QRectF canvasRect;
 
     LayoutData layoutData;
@@ -504,7 +504,7 @@ QRectF QwtPlotLayout::legendRect() const
 void QwtPlotLayout::setScaleRect( QwtAxisId axisId, const QRectF& rect )
 {
     if ( QwtAxis::isValid( axisId ) )
-        m_data->scaleRect[axisId] = rect;
+        m_data->scaleRects[axisId] = rect;
 }
 
 /*!
@@ -515,7 +515,7 @@ void QwtPlotLayout::setScaleRect( QwtAxisId axisId, const QRectF& rect )
 QRectF QwtPlotLayout::scaleRect( QwtAxisId axisId ) const
 {
     if ( QwtAxis::isValid( axisId ) )
-        return m_data->scaleRect[axisId];
+        return m_data->scaleRects[axisId];
 
     return QRectF();
 }
@@ -552,7 +552,7 @@ void QwtPlotLayout::invalidate()
             = m_data->legendRect = m_data->canvasRect = QRect();
 
     for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        m_data->scaleRect[axis] = QRect();
+        m_data->scaleRects[axis] = QRect();
 }
 
 /*!
@@ -1395,7 +1395,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         if ( dimAxes[axis] )
         {
             int dim = dimAxes[axis];
-            QRectF& scaleRect = m_data->scaleRect[axis];
+            QRectF& scaleRect = m_data->scaleRects[axis];
 
             scaleRect = m_data->canvasRect;
             switch ( axis )
@@ -1449,7 +1449,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // corners to extend the axes, so that the label texts
     // left/right of the min/max ticks are moved into them.
 
-    alignScales( options, m_data->canvasRect, m_data->scaleRect );
+    alignScales( options, m_data->canvasRect, m_data->scaleRects );
 
     if ( !m_data->legendRect.isEmpty() )
     {
