@@ -23,27 +23,21 @@ namespace
       public:
         void init( const QwtPlot*, const QRectF& rect );
 
-        struct t_legendData
+        struct LegendData
         {
             int frameWidth;
             int hScrollExtent;
             int vScrollExtent;
             QSize hint;
-        } legend;
+        };
 
-        struct t_titleData
+        struct LabelData
         {
             QwtText text;
             int frameWidth;
-        } title;
+        };
 
-        struct t_footerData
-        {
-            QwtText text;
-            int frameWidth;
-        } footer;
-
-        struct t_scaleData
+        struct ScaleData
         {
             bool isEnabled;
             const QwtScaleWidget* scaleWidget;
@@ -53,13 +47,21 @@ namespace
             int baseLineOffset;
             double tickOffset;
             int dimWithoutTitle;
-        } scale[ QwtAxis::AxisCount ];
+        };
 
-        struct t_canvasData
+        struct CanvasData
         {
             int contentsMargins[ QwtAxis::AxisCount ];
+        };
 
-        } canvas;
+        LegendData legend;
+
+        LabelData title;
+        LabelData footer;
+
+        ScaleData scale[ QwtAxis::AxisCount ];
+
+        CanvasData canvas;
     };
 
     /*
@@ -1244,7 +1246,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
 
         for ( int axis = 0; axis < AxisCount; axis++ )
         {
-            const struct LayoutData::t_scaleData& scaleData =
+            const struct LayoutData::ScaleData& scaleData =
                 layoutData.scale[axis];
 
             if ( scaleData.isEnabled )
