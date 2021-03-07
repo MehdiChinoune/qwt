@@ -99,7 +99,6 @@ class QWT_EXPORT QwtPlotLayout
     void setScaleRect( QwtAxisId, const QRectF& );
     void setCanvasRect( const QRectF& );
 
-    QRectF layoutLegend( Options options, const QRectF& ) const;
     QRectF alignLegend( const QRectF& canvasRect,
         const QRectF& legendRect ) const;
 

@@ -1122,21 +1122,6 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 }
 
 /*!
-   Find the geometry for the legend
-
-   \param options Options how to layout the legend
-   \param rect Rectangle where to place the legend
-
-   \return Geometry for the legend
-   \sa Options
- */
-QRectF QwtPlotLayout::layoutLegend( Options options, const QRectF& rect ) const
-{
-    return m_data->engine.layoutLegend(
-        options, m_data->layoutData.legendData, rect );
-}
-
-/*!
    Align the legend to the canvas
 
    \param canvasRect Geometry of the canvas
@@ -1360,7 +1345,8 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     if ( !( options & IgnoreLegend )
         && plot->legend() && !plot->legend()->isEmpty() )
     {
-        m_data->legendRect = layoutLegend( options, rect );
+        m_data->legendRect = m_data->engine.layoutLegend(
+            options, m_data->layoutData.legendData, rect );
 
         // subtract m_data->legendRect from rect
 
