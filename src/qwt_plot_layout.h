@@ -99,9 +99,6 @@ class QWT_EXPORT QwtPlotLayout
     void setScaleRect( QwtAxisId, const QRectF& );
     void setCanvasRect( const QRectF& );
 
-    QRectF alignLegend( const QRectF& canvasRect,
-        const QRectF& legendRect ) const;
-
     void expandLineBreaks( Options options, const QRectF& rect,
         int& dimTitle, int& dimFooter, int dimAxes[QwtAxis::AxisCount] ) const;
 

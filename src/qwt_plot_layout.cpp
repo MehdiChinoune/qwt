@@ -208,6 +208,9 @@ namespace
         QRectF layoutLegend( QwtPlotLayout::Options,
             const LayoutData::LegendData&, const QRectF& ) const;
 
+        QRectF alignLegend( const QSize& legendHint,
+            const QRectF& canvasRect, const QRectF& legendRect ) const;
+
         void alignScales( QwtPlotLayout::Options,
             const LayoutData&, QRectF& canvasRect,
             QRectF scaleRect[QwtAxis::AxisCount] ) const;
@@ -297,6 +300,32 @@ QRectF LayoutEngine::layoutLegend( QwtPlotLayout::Options options,
     }
 
     return legendRect;
+}
+
+QRectF LayoutEngine::alignLegend( const QSize& legendHint,
+    const QRectF& canvasRect, const QRectF& legendRect ) const
+{
+    QRectF alignedRect = legendRect;
+
+    if ( m_legendPos == QwtPlot::BottomLegend
+        || m_legendPos == QwtPlot::TopLegend )
+    {
+        if ( legendHint.width() < canvasRect.width() )
+        {
+            alignedRect.setX( canvasRect.x() );
+            alignedRect.setWidth( canvasRect.width() );
+        }
+    }
+    else
+    {
+        if ( legendHint.height() < canvasRect.height() )
+        {
+            alignedRect.setY( canvasRect.y() );
+            alignedRect.setHeight( canvasRect.height() );
+        }
+    }
+
+    return alignedRect;
 }
 
 void LayoutEngine::alignScales( QwtPlotLayout::Options options,
@@ -1122,40 +1151,6 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 }
 
 /*!
-   Align the legend to the canvas
-
-   \param canvasRect Geometry of the canvas
-   \param legendRect Maximum geometry for the legend
-
-   \return Geometry for the aligned legend
- */
-QRectF QwtPlotLayout::alignLegend( const QRectF& canvasRect,
-    const QRectF& legendRect ) const
-{
-    QRectF alignedRect = legendRect;
-
-    if ( m_data->engine.legendPos() == QwtPlot::BottomLegend
-        || m_data->engine.legendPos() == QwtPlot::TopLegend )
-    {
-        if ( m_data->layoutData.legendData.hint.width() < canvasRect.width() )
-        {
-            alignedRect.setX( canvasRect.x() );
-            alignedRect.setWidth( canvasRect.width() );
-        }
-    }
-    else
-    {
-        if ( m_data->layoutData.legendData.hint.height() < canvasRect.height() )
-        {
-            alignedRect.setY( canvasRect.y() );
-            alignedRect.setHeight( canvasRect.height() );
-        }
-    }
-
-    return alignedRect;
-}
-
-/*!
    Expand all line breaks in text labels, and calculate the height
    of their widgets in orientation of the text.
 
@@ -1524,6 +1519,8 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         // We prefer to align the legend to the canvas - not to
         // the complete plot - if possible.
 
-        m_data->legendRect = alignLegend( m_data->canvasRect, m_data->legendRect );
+        m_data->legendRect = m_data->engine.alignLegend(
+            m_data->layoutData.legendData.hint,
+            m_data->canvasRect, m_data->legendRect );
     }
 }
