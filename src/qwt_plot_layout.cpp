@@ -215,6 +215,21 @@ namespace
                     dimAxes[axisPos] = 0;
             }
 
+            inline int dimAxis( QwtAxisId axisId ) const
+            {
+                return dimAxes[ axisId ];
+            }
+
+            inline int dimYAxes() const
+            {
+                return dimAxis( QwtAxis::YLeft ) + dimAxis( QwtAxis::YRight );
+            }
+
+            inline int dimXAxes() const
+            {
+                return dimAxis( QwtAxis::XTop ) + dimAxis( QwtAxis::XBottom );
+            }
+
             int dimTitle;
             int dimFooter;
             int dimAxes[QwtAxis::AxisCount];
@@ -416,7 +431,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
         {
             const int d = heightForWidth(
                 LayoutData::Title, layoutData, options,
-                rect.width(), dimensions.dimAxes[YLeft] + dimensions.dimAxes[YRight] );
+                rect.width(), dimensions.dimYAxes() );
 
             if ( d > dimensions.dimTitle )
             {
@@ -429,7 +444,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
         {
             const int d = heightForWidth(
                 LayoutData::Footer, layoutData, options,
-                rect.width(), dimensions.dimAxes[YLeft] + dimensions.dimAxes[YRight] );
+                rect.width(), dimensions.dimYAxes() );
 
             if ( d > dimensions.dimFooter )
             {
@@ -450,7 +465,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                     double length;
                     if ( isXAxis( axisPos ) )
                     {
-                        length = rect.width() - dimensions.dimAxes[YLeft] - dimensions.dimAxes[YRight];
+                        length = rect.width() - dimensions.dimYAxes();
                         length -= scaleData.start + scaleData.end;
 
                         if ( dimensions.dimAxes[YRight] > 0 )
@@ -463,7 +478,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                     }
                     else // y axis
                     {
-                        length = rect.height() - dimensions.dimAxes[XTop] - dimensions.dimAxes[XBottom];
+                        length = rect.height() - dimensions.dimXAxes();
                         length -= scaleData.start + scaleData.end;
                         length -= 1;
 
