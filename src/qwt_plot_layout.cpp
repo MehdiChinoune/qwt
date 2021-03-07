@@ -78,10 +78,20 @@ namespace
 
         void init( const QwtPlot*, const QRectF& rect );
 
+        inline ScaleData& axisData( QwtAxisId axisId )
+        {
+            return scaleData[ axisId ];
+        }
+
+        inline const ScaleData& axisData( QwtAxisId axisId ) const
+        {
+            return scaleData[ axisId ];
+        }
+
         LegendData legendData;
         LabelData labelData[ NumLabels ];
         ScaleData scaleData[ QwtAxis::AxisCount ];
-        CanvasData canvas;
+        CanvasData canvasData;
     };
 
     /*
@@ -163,10 +173,10 @@ namespace
 
         const QMargins m = plot->canvas()->contentsMargins();
 
-        canvas.contentsMargins[ QwtAxis::YLeft ] = m.left();
-        canvas.contentsMargins[ QwtAxis::XTop ] = m.top();
-        canvas.contentsMargins[ QwtAxis::YRight ] = m.right();
-        canvas.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
+        canvasData.contentsMargins[ QwtAxis::YLeft ] = m.left();
+        canvasData.contentsMargins[ QwtAxis::XTop ] = m.top();
+        canvasData.contentsMargins[ QwtAxis::YRight ] = m.right();
+        canvasData.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
     }
 }
 
@@ -294,7 +304,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
 
         if ( !( options & QwtPlotLayout::IgnoreFrames ) )
         {
-            backboneOffset[axis] += layoutData.canvas.contentsMargins[axis];
+            backboneOffset[axis] += layoutData.canvasData.contentsMargins[axis];
         }
     }
 
@@ -466,65 +476,67 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
 
     for ( int axis = 0; axis < AxisCount; axis++ )
     {
-        QRectF& sRect = scaleRect[axis];
-
-        if ( !sRect.isValid() )
-            continue;
-
-        if ( isXAxis( axis ) )
         {
-            if ( m_alignCanvas[YLeft] )
-            {
-                double y = canvasRect.left() - layoutData.scaleData[axis].start;
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    y += layoutData.canvas.contentsMargins[YLeft];
+            QRectF& sRect = scaleRect[axis];
 
-                sRect.setLeft( y );
+            if ( !sRect.isValid() )
+                continue;
+
+            if ( isXAxis( axis ) )
+            {
+                if ( m_alignCanvas[YLeft] )
+                {
+                    double y = canvasRect.left() - layoutData.scaleData[axis].start;
+                    if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                        y += layoutData.canvasData.contentsMargins[YLeft];
+
+                    sRect.setLeft( y );
+                }
+
+                if ( m_alignCanvas[YRight] )
+                {
+                    double y = canvasRect.right() - 1 + layoutData.scaleData[axis].end;
+                    if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                        y -= layoutData.canvasData.contentsMargins[YRight];
+
+                    sRect.setRight( y );
+                }
+
+                if ( m_alignCanvas[axis] )
+                {
+                    if ( axis == XTop )
+                        sRect.setBottom( canvasRect.top() );
+                    else
+                        sRect.setTop( canvasRect.bottom() );
+                }
             }
-
-            if ( m_alignCanvas[YRight] )
+            else
             {
-                double y = canvasRect.right() - 1 + layoutData.scaleData[axis].end;
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    y -= layoutData.canvas.contentsMargins[YRight];
+                if ( m_alignCanvas[XTop] )
+                {
+                    double x = canvasRect.top() - layoutData.scaleData[axis].start;
+                    if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                        x += layoutData.canvasData.contentsMargins[XTop];
 
-                sRect.setRight( y );
-            }
+                    sRect.setTop( x );
+                }
 
-            if ( m_alignCanvas[axis] )
-            {
-                if ( axis == XTop )
-                    sRect.setBottom( canvasRect.top() );
-                else
-                    sRect.setTop( canvasRect.bottom() );
-            }
-        }
-        else
-        {
-            if ( m_alignCanvas[XTop] )
-            {
-                double x = canvasRect.top() - layoutData.scaleData[axis].start;
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    x += layoutData.canvas.contentsMargins[XTop];
+                if ( m_alignCanvas[XBottom] )
+                {
+                    double x = canvasRect.bottom() - 1 + layoutData.scaleData[axis].end;
+                    if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                        x -= layoutData.canvasData.contentsMargins[XBottom];
 
-                sRect.setTop( x );
-            }
+                    sRect.setBottom( x );
+                }
 
-            if ( m_alignCanvas[XBottom] )
-            {
-                double x = canvasRect.bottom() - 1 + layoutData.scaleData[axis].end;
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    x -= layoutData.canvas.contentsMargins[XBottom];
-
-                sRect.setBottom( x );
-            }
-
-            if ( m_alignCanvas[axis] )
-            {
-                if ( axis == YLeft )
-                    sRect.setRight( canvasRect.left() );
-                else
-                    sRect.setLeft( canvasRect.right() );
+                if ( m_alignCanvas[axis] )
+                {
+                    if ( axis == YLeft )
+                        sRect.setRight( canvasRect.left() );
+                    else
+                        sRect.setLeft( canvasRect.right() );
+                }
             }
         }
     }
@@ -1172,7 +1184,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
     {
         backboneOffset[axis] = 0;
         if ( !( options & IgnoreFrames ) )
-            backboneOffset[axis] += layoutData.canvas.contentsMargins[ axis ];
+            backboneOffset[axis] += layoutData.canvasData.contentsMargins[ axis ];
 
         if ( !m_data->engine.alignCanvas( axis ) )
             backboneOffset[axis] += m_data->engine.canvasMargin( axis );
