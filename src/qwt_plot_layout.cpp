@@ -31,6 +31,21 @@ namespace
 
         struct LabelData
         {
+            void init( const QwtTextLabel* label )
+            {
+                frameWidth = 0;
+                text = QwtText();
+
+                if ( label )
+                {
+                    text = label->text();
+                    if ( !( text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
+                        text.setFont( label->font() );
+
+                    frameWidth = label->frameWidth();
+                }
+            }
+
             QwtText text;
             int frameWidth;
         };
@@ -53,15 +68,19 @@ namespace
         };
 
       public:
+        enum Label
+        {
+            Title,
+            Footer,
+
+            NumLabels
+        };
+
         void init( const QwtPlot*, const QRectF& rect );
 
         LegendData legendData;
-
-        LabelData title;
-        LabelData footer;
-
+        LabelData labelData[ NumLabels ];
         ScaleData scaleData[ QwtAxis::AxisCount ];
-
         CanvasData canvas;
     };
 
@@ -91,35 +110,8 @@ namespace
             legendData.hint = QSize( w, h );
         }
 
-        // title
-
-        title.frameWidth = 0;
-        title.text = QwtText();
-
-        if ( plot->titleLabel() )
-        {
-            const QwtTextLabel* label = plot->titleLabel();
-            title.text = label->text();
-            if ( !( title.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
-                title.text.setFont( label->font() );
-
-            title.frameWidth = plot->titleLabel()->frameWidth();
-        }
-
-        // footer
-
-        footer.frameWidth = 0;
-        footer.text = QwtText();
-
-        if ( plot->footerLabel() )
-        {
-            const QwtTextLabel* label = plot->footerLabel();
-            footer.text = label->text();
-            if ( !( footer.text.testPaintAttribute( QwtText::PaintUsingTextFont ) ) )
-                footer.text.setFont( label->font() );
-
-            footer.frameWidth = plot->footerLabel()->frameWidth();
-        }
+        labelData[ Title ].init( plot->titleLabel() );
+        labelData[ Footer ].init( plot->footerLabel() );
 
         // scales
 
@@ -1199,8 +1191,10 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         // axis what might result in a line break of a horizontal
         // axis ... . So we loop as long until no size changes.
 
-        if ( !( ( options & IgnoreTitle ) ||
-            layoutData.title.text.isEmpty() ) )
+        const LayoutData::LabelData& titleData =
+            layoutData.labelData[ LayoutData::Title ];
+
+        if ( !( ( options & IgnoreTitle ) || titleData.text.isEmpty() ) )
         {
             double w = rect.width();
 
@@ -1211,9 +1205,9 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
                 w -= dimAxis[YLeft] + dimAxis[YRight];
             }
 
-            int d = qwtCeil( layoutData.title.text.heightForWidth( w ) );
+            int d = qwtCeil( titleData.text.heightForWidth( w ) );
             if ( !( options & IgnoreFrames ) )
-                d += 2 * layoutData.title.frameWidth;
+                d += 2 * titleData.frameWidth;
 
             if ( d > dimTitle )
             {
@@ -1222,8 +1216,10 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
             }
         }
 
-        if ( !( ( options & IgnoreFooter ) ||
-            layoutData.footer.text.isEmpty() ) )
+        const LayoutData::LabelData& footerData =
+            layoutData.labelData[ LayoutData::Footer ];
+
+        if ( !( ( options & IgnoreFooter ) || footerData.text.isEmpty() ) )
         {
             double w = rect.width();
 
@@ -1234,9 +1230,9 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
                 w -= dimAxis[YLeft] + dimAxis[YRight];
             }
 
-            int d = qwtCeil( layoutData.footer.text.heightForWidth( w ) );
+            int d = qwtCeil( footerData.text.heightForWidth( w ) );
             if ( !( options & IgnoreFrames ) )
-                d += 2 * layoutData.footer.frameWidth;
+                d += 2 * footerData.frameWidth;
 
             if ( d > dimFooter )
             {
