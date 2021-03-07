@@ -14,8 +14,6 @@
 #include "qwt_abstract_legend.h"
 #include "qwt_math.h"
 
-#include <qmargins.h>
-
 namespace
 {
     class LayoutData
@@ -421,13 +419,12 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
             {
                 const QwtAxisId axisId( axisPos );
 
-                const struct LayoutData::ScaleData& scaleData =
-                    layoutData.scaleData[axisId];
+                const LayoutData::ScaleData& scaleData = layoutData.axisData( axisId );
 
                 if ( scaleData.isVisible )
                 {
                     double length;
-                    if ( isXAxis( axisId ) )
+                    if ( isXAxis( axisPos ) )
                     {
                         length = rect.width() - dimAxis[YLeft] - dimAxis[YRight];
                         length -= scaleData.start + scaleData.end;
@@ -440,7 +437,7 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
                         length += qMin( dimAxis[YRight],
                             scaleData.end - backboneOffset[YRight] );
                     }
-                    else // YLeft, YRight
+                    else // y axis
                     {
                         length = rect.height() - dimAxis[XTop] - dimAxis[XBottom];
                         length -= scaleData.start + scaleData.end;
@@ -452,6 +449,11 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
                         if ( dimAxis[XTop] <= 0 )
                             length -= 1;
 
+                        /*
+                           The tick labels of the y axes are always left/right from the
+                           backbone/ticks of the x axes - but we have to take care,
+                           that the labels don't overlap.
+                         */
                         if ( dimAxis[XBottom] > 0 )
                         {
                             length += qMin(
@@ -467,7 +469,7 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
                         }
 
                         if ( dimTitle > 0 )
-                            length -= dimTitle + spacing();
+                            length -= dimTitle + m_spacing;
                     }
 
                     int d = scaleData.dimWithoutTitle;
