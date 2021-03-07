@@ -52,7 +52,7 @@ namespace
 
         struct ScaleData
         {
-            bool isEnabled;
+            bool isVisible;
             const QwtScaleWidget* scaleWidget;
             QFont scaleFont;
             int start;
@@ -121,7 +121,7 @@ namespace
             {
                 const QwtScaleWidget* scaleWidget = plot->axisWidget( axis );
 
-                scaleData[axis].isEnabled = true;
+                scaleData[axis].isVisible = true;
 
                 scaleData[axis].scaleWidget = scaleWidget;
 
@@ -150,7 +150,7 @@ namespace
             }
             else
             {
-                scaleData[axis].isEnabled = false;
+                scaleData[axis].isVisible = false;
                 scaleData[axis].start = 0;
                 scaleData[axis].end = 0;
                 scaleData[axis].baseLineOffset = 0;
@@ -1198,8 +1198,8 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         {
             double w = rect.width();
 
-            if ( layoutData.scaleData[YLeft].isEnabled
-                != layoutData.scaleData[YRight].isEnabled )
+            if ( layoutData.scaleData[YLeft].isVisible
+                != layoutData.scaleData[YRight].isVisible )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
@@ -1223,8 +1223,8 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         {
             double w = rect.width();
 
-            if ( layoutData.scaleData[YLeft].isEnabled
-                != layoutData.scaleData[YRight].isEnabled )
+            if ( layoutData.scaleData[YLeft].isVisible
+                != layoutData.scaleData[YRight].isVisible )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
@@ -1246,7 +1246,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
             const struct LayoutData::ScaleData& scaleData =
                 layoutData.scaleData[axis];
 
-            if ( scaleData.isEnabled )
+            if ( scaleData.isVisible )
             {
                 double length;
                 if ( isXAxis( axis ) )
@@ -1402,8 +1402,8 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setTop( m_data->titleRect.bottom() + spacing() );
 
-        if ( m_data->layoutData.scaleData[YLeft].isEnabled !=
-            m_data->layoutData.scaleData[YRight].isEnabled )
+        if ( m_data->layoutData.scaleData[YLeft].isVisible !=
+            m_data->layoutData.scaleData[YRight].isVisible )
         {
             // if only one of the y axes is missing we align
             // the title centered to the canvas
@@ -1421,8 +1421,8 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         rect.setBottom( m_data->footerRect.top() - spacing() );
 
-        if ( m_data->layoutData.scaleData[YLeft].isEnabled !=
-            m_data->layoutData.scaleData[YRight].isEnabled )
+        if ( m_data->layoutData.scaleData[YLeft].isVisible !=
+            m_data->layoutData.scaleData[YRight].isVisible )
         {
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
