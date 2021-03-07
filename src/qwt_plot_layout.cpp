@@ -497,18 +497,19 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
     using namespace QwtAxis;
 
     int backboneOffset[AxisCount];
-    for ( int axis = 0; axis < AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
-        backboneOffset[axis] = 0;
+        backboneOffset[axisPos] = 0;
 
-        if ( !m_alignCanvas[axis] )
+        if ( !m_alignCanvas[axisPos] )
         {
-            backboneOffset[axis] += m_canvasMargin[axis];
+            backboneOffset[axisPos] += m_canvasMargin[axisPos];
         }
 
         if ( !( options & QwtPlotLayout::IgnoreFrames ) )
         {
-            backboneOffset[axis] += layoutData.canvasData.contentsMargins[axis];
+            backboneOffset[axisPos] +=
+                layoutData.canvasData.contentsMargins[axisPos];
         }
     }
 
