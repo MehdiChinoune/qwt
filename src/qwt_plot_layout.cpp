@@ -187,6 +187,9 @@ namespace
         {
         }
 
+        QRectF layoutLegend( QwtPlotLayout::Options,
+            const LayoutData&, const QRectF& ) const;
+
         void alignScales( QwtPlotLayout::Options,
             const LayoutData&, QRectF& canvasRect,
             QRectF scaleRect[QwtAxis::AxisCount] ) const;
@@ -215,6 +218,67 @@ namespace
 
         unsigned int m_spacing;
     };
+}
+
+QRectF LayoutEngine::layoutLegend( QwtPlotLayout::Options options,
+    const LayoutData& layoutData, const QRectF& rect ) const
+{
+    const QSize legendHint( layoutData.legend.hint );
+
+    int dim;
+    if ( m_legendPos == QwtPlot::LeftLegend
+        || m_legendPos == QwtPlot::RightLegend )
+    {
+        // We don't allow vertical legends to take more than
+        // half of the available space.
+
+        dim = qMin( legendHint.width(), int( rect.width() * m_legendRatio ) );
+
+        if ( !( options & QwtPlotLayout::IgnoreScrollbars ) )
+        {
+            if ( legendHint.height() > rect.height() )
+            {
+                // The legend will need additional
+                // space for the vertical scrollbar.
+
+                dim += layoutData.legend.hScrollExtent;
+            }
+        }
+    }
+    else
+    {
+        dim = qMin( legendHint.height(), int( rect.height() * m_legendRatio ) );
+        dim = qMax( dim, layoutData.legend.vScrollExtent );
+    }
+
+    QRectF legendRect = rect;
+    switch ( m_legendPos )
+    {
+        case QwtPlot::LeftLegend:
+        {
+            legendRect.setWidth( dim );
+            break;
+        }
+        case QwtPlot::RightLegend:
+        {
+            legendRect.setX( rect.right() - dim );
+            legendRect.setWidth( dim );
+            break;
+        }
+        case QwtPlot::TopLegend:
+        {
+            legendRect.setHeight( dim );
+            break;
+        }
+        case QwtPlot::BottomLegend:
+        {
+            legendRect.setY( rect.bottom() - dim );
+            legendRect.setHeight( dim );
+            break;
+        }
+    }
+
+    return legendRect;
 }
 
 void LayoutEngine::alignScales( QwtPlotLayout::Options options,
@@ -1046,58 +1110,9 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
    \return Geometry for the legend
    \sa Options
  */
-QRectF QwtPlotLayout::layoutLegend( Options options,
-    const QRectF& rect ) const
+QRectF QwtPlotLayout::layoutLegend( Options options, const QRectF& rect ) const
 {
-    const QSize hint( m_data->layoutData.legend.hint );
-    const LayoutEngine& engine = m_data->engine;
-
-    int dim;
-    if ( engine.legendPos() == QwtPlot::LeftLegend
-        || engine.legendPos() == QwtPlot::RightLegend )
-    {
-        // We don't allow vertical legends to take more than
-        // half of the available space.
-
-        dim = qMin( hint.width(), int( rect.width() * engine.legendRatio() ) );
-
-        if ( !( options & IgnoreScrollbars ) )
-        {
-            if ( hint.height() > rect.height() )
-            {
-                // The legend will need additional
-                // space for the vertical scrollbar.
-
-                dim += m_data->layoutData.legend.hScrollExtent;
-            }
-        }
-    }
-    else
-    {
-        dim = qMin( hint.height(), int( rect.height() * engine.legendRatio() ) );
-        dim = qMax( dim, m_data->layoutData.legend.vScrollExtent );
-    }
-
-    QRectF legendRect = rect;
-    switch ( engine.legendPos() )
-    {
-        case QwtPlot::LeftLegend:
-            legendRect.setWidth( dim );
-            break;
-        case QwtPlot::RightLegend:
-            legendRect.setX( rect.right() - dim );
-            legendRect.setWidth( dim );
-            break;
-        case QwtPlot::TopLegend:
-            legendRect.setHeight( dim );
-            break;
-        case QwtPlot::BottomLegend:
-            legendRect.setY( rect.bottom() - dim );
-            legendRect.setHeight( dim );
-            break;
-    }
-
-    return legendRect;
+    return m_data->engine.layoutLegend( options, m_data->layoutData, rect );
 }
 
 /*!
