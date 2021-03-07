@@ -122,8 +122,6 @@ namespace
      */
     void LayoutData::init( const QwtPlot* plot, const QRectF& rect )
     {
-        // legend
-
         if ( plot->legend() )
         {
             legendData.init( plot->legend() );
@@ -133,12 +131,10 @@ namespace
         labelData[ Title ].init( plot->titleLabel() );
         labelData[ Footer ].init( plot->footerLabel() );
 
-        // scales
-
-        for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+        for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
         {
             {
-                const QwtAxisId axisId( axis );
+                const QwtAxisId axisId( axisPos );
 
                 ScaleData& scaleData = axisData( axisId );
 
