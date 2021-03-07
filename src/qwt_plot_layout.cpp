@@ -893,6 +893,8 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
 {
     using namespace QwtAxis;
 
+    const LayoutData& layoutData = m_data->layoutData;
+
     dimTitle = dimFooter = 0;
     for ( int axis = 0; axis < AxisCount; axis++ )
         dimAxis[axis] = 0;
@@ -902,7 +904,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
     {
         backboneOffset[axis] = 0;
         if ( !( options & IgnoreFrames ) )
-            backboneOffset[axis] += m_data->layoutData.canvas.contentsMargins[ axis ];
+            backboneOffset[axis] += layoutData.canvas.contentsMargins[ axis ];
 
         if ( !m_data->engine.alignCanvas( axis ) )
             backboneOffset[axis] += m_data->engine.canvasMargin( axis );
@@ -922,20 +924,20 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         // axis ... . So we loop as long until no size changes.
 
         if ( !( ( options & IgnoreTitle ) ||
-            m_data->layoutData.title.text.isEmpty() ) )
+            layoutData.title.text.isEmpty() ) )
         {
             double w = rect.width();
 
-            if ( m_data->layoutData.scale[YLeft].isEnabled
-                != m_data->layoutData.scale[YRight].isEnabled )
+            if ( layoutData.scale[YLeft].isEnabled
+                != layoutData.scale[YRight].isEnabled )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
             }
 
-            int d = qwtCeil( m_data->layoutData.title.text.heightForWidth( w ) );
+            int d = qwtCeil( layoutData.title.text.heightForWidth( w ) );
             if ( !( options & IgnoreFrames ) )
-                d += 2 * m_data->layoutData.title.frameWidth;
+                d += 2 * layoutData.title.frameWidth;
 
             if ( d > dimTitle )
             {
@@ -945,20 +947,20 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         }
 
         if ( !( ( options & IgnoreFooter ) ||
-            m_data->layoutData.footer.text.isEmpty() ) )
+            layoutData.footer.text.isEmpty() ) )
         {
             double w = rect.width();
 
-            if ( m_data->layoutData.scale[YLeft].isEnabled
-                != m_data->layoutData.scale[YRight].isEnabled )
+            if ( layoutData.scale[YLeft].isEnabled
+                != layoutData.scale[YRight].isEnabled )
             {
                 // center to the canvas
                 w -= dimAxis[YLeft] + dimAxis[YRight];
             }
 
-            int d = qwtCeil( m_data->layoutData.footer.text.heightForWidth( w ) );
+            int d = qwtCeil( layoutData.footer.text.heightForWidth( w ) );
             if ( !( options & IgnoreFrames ) )
-                d += 2 * m_data->layoutData.footer.frameWidth;
+                d += 2 * layoutData.footer.frameWidth;
 
             if ( d > dimFooter )
             {
@@ -970,7 +972,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
         for ( int axis = 0; axis < AxisCount; axis++ )
         {
             const struct LayoutData::t_scaleData& scaleData =
-                m_data->layoutData.scale[axis];
+                layoutData.scale[axis];
 
             if ( scaleData.isEnabled )
             {
@@ -1003,14 +1005,14 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
                     if ( dimAxis[XBottom] > 0 )
                     {
                         length += qMin(
-                            m_data->layoutData.scale[XBottom].tickOffset,
+                            layoutData.scale[XBottom].tickOffset,
                             double( scaleData.start - backboneOffset[XBottom] ) );
                     }
 
                     if ( dimAxis[XTop] > 0 )
                     {
                         length += qMin(
-                            m_data->layoutData.scale[XTop].tickOffset,
+                            layoutData.scale[XTop].tickOffset,
                             double( scaleData.end - backboneOffset[XTop] ) );
                     }
 
