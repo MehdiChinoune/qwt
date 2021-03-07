@@ -85,6 +85,16 @@ namespace
 
         struct CanvasData
         {
+            void init( const QWidget* canvas )
+            {
+                const QMargins m = canvas->contentsMargins();
+
+                contentsMargins[ QwtAxis::YLeft ] = m.left();
+                contentsMargins[ QwtAxis::XTop ] = m.top();
+                contentsMargins[ QwtAxis::YRight ] = m.right();
+                contentsMargins[ QwtAxis::XBottom ] = m.bottom();
+            }
+
             int contentsMargins[ QwtAxis::AxisCount ];
         };
 
@@ -183,12 +193,7 @@ namespace
 
         // canvas
 
-        const QMargins m = plot->canvas()->contentsMargins();
-
-        canvasData.contentsMargins[ QwtAxis::YLeft ] = m.left();
-        canvasData.contentsMargins[ QwtAxis::XTop ] = m.top();
-        canvasData.contentsMargins[ QwtAxis::YRight ] = m.right();
-        canvasData.contentsMargins[ QwtAxis::XBottom ] = m.bottom();
+        canvasData.init( plot->canvas() );
     }
 
     bool LayoutData::hasSymmetricYAxes() const
