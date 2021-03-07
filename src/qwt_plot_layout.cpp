@@ -240,6 +240,9 @@ namespace
         inline double legendRatio() const { return m_legendRatio; }
 
       private:
+        int heightForWidth( LayoutData::Label, const LayoutData&,
+            QwtPlotLayout::Options, double width, int axesWidth ) const;
+
         QwtPlot::LegendPosition m_legendPos;
         double m_legendRatio;
 
@@ -337,9 +340,34 @@ QRectF LayoutEngine::alignLegend( const QSize& legendHint,
     return alignedRect;
 }
 
-void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options, 
-    const LayoutData& layoutData, const QRectF& rect, int& dimTitle,
-    int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const
+int LayoutEngine::heightForWidth(
+    LayoutData::Label labelType, const LayoutData& layoutData,
+    QwtPlotLayout::Options options,
+    double width, int axesWidth ) const
+{
+    const LayoutData::LabelData& labelData = layoutData.labelData[ labelType ];
+
+    if ( labelData.text.isEmpty() )
+        return 0;
+
+    double w = width;
+
+    if ( !layoutData.hasSymmetricYAxes() )
+    {
+        // center to the canvas
+        w -= axesWidth;
+    }
+
+    int d = qwtCeil( labelData.text.heightForWidth( w ) );
+    if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+        d += 2 * labelData.frameWidth;
+
+    return d;
+}
+
+void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
+    const LayoutData& layoutData, const QRectF& rect,
+    int& dimTitle, int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const
 {
     using namespace QwtAxis;
 
@@ -373,55 +401,27 @@ void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options,
 
         if ( !( options & QwtPlotLayout::IgnoreTitle ) )
         {
-            const LayoutData::LabelData& labelData =
-                layoutData.labelData[ LayoutData::Title ];
+            const int d = heightForWidth(
+                LayoutData::Title, layoutData, options,
+                rect.width(), dimAxis[YLeft] + dimAxis[YRight] );
 
-            if ( !labelData.text.isEmpty() )
+            if ( d > dimTitle )
             {
-                double w = rect.width();
-
-                if ( !layoutData.hasSymmetricYAxes() )
-                {
-                    // center to the canvas
-                    w -= dimAxis[YLeft] + dimAxis[YRight];
-                }
-
-                int d = qwtCeil( labelData.text.heightForWidth( w ) );
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    d += 2 * labelData.frameWidth;
-
-                if ( d > dimTitle )
-                {
-                    dimTitle = d;
-                    done = false;
-                }
+                dimTitle = d;
+                done = false;
             }
         }
 
         if ( !( options & QwtPlotLayout::IgnoreFooter ) )
         {
-            const LayoutData::LabelData& labelData =
-                layoutData.labelData[ LayoutData::Footer ];
+            const int d = heightForWidth(
+                LayoutData::Footer, layoutData, options,
+                rect.width(), dimAxis[YLeft] + dimAxis[YRight] );
 
-            if ( !labelData.text.isEmpty() )
+            if ( d > dimFooter )
             {
-                double w = rect.width();
-
-                if ( !layoutData.hasSymmetricYAxes() )
-                {
-                    // center to the canvas
-                    w -= dimAxis[YLeft] + dimAxis[YRight];
-                }
-
-                int d = qwtCeil( labelData.text.heightForWidth( w ) );
-                if ( !( options & QwtPlotLayout::IgnoreFrames ) )
-                    d += 2 * labelData.frameWidth;
-
-                if ( d > dimFooter )
-                {
-                    dimFooter = d;
-                    done = false;
-                }
+                dimFooter = d;
+                done = false;
             }
         }
 
