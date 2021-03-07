@@ -23,6 +23,29 @@ namespace
       public:
         struct LegendData
         {
+            void init( const QwtAbstractLegend* legend )
+            {
+                if ( legend )
+                {
+                    frameWidth = legend->frameWidth();
+                    hScrollExtent = legend->scrollExtent( Qt::Horizontal );
+                    vScrollExtent = legend->scrollExtent( Qt::Vertical );
+
+                    hint = legend->sizeHint();
+                }
+            }
+
+            QSize legendHint( const QwtAbstractLegend* legend, const QRectF& rect ) const
+            {
+                const int w = qMin( hint.width(), qwtFloor( rect.width() ) );
+
+                int h = legend->heightForWidth( w );
+                if ( h <= 0 )
+                    h = hint.height();
+
+                return QSize( w, h );
+            }
+
             int frameWidth;
             int hScrollExtent;
             int vScrollExtent;
@@ -103,21 +126,8 @@ namespace
 
         if ( plot->legend() )
         {
-            legendData.frameWidth = plot->legend()->frameWidth();
-            legendData.hScrollExtent =
-                plot->legend()->scrollExtent( Qt::Horizontal );
-            legendData.vScrollExtent =
-                plot->legend()->scrollExtent( Qt::Vertical );
-
-            const QSize hint = plot->legend()->sizeHint();
-
-            const int w = qMin( hint.width(), qwtFloor( rect.width() ) );
-
-            int h = plot->legend()->heightForWidth( w );
-            if ( h <= 0 )
-                h = hint.height();
-
-            legendData.hint = QSize( w, h );
+            legendData.init( plot->legend() );
+            legendData.hint = legendData.legendHint( plot->legend(), rect );
         }
 
         labelData[ Title ].init( plot->titleLabel() );
