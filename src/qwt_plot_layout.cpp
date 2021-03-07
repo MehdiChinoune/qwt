@@ -206,6 +206,8 @@ namespace
     class LayoutHintData
     {
       public:
+        LayoutHintData( const QwtPlot* plot );
+
         struct ScaleData
         {
             ScaleData()
@@ -223,6 +225,81 @@ namespace
 
         int canvasBorder[ QwtAxis::AxisCount];
     };
+
+    LayoutHintData::LayoutHintData( const QwtPlot* plot )
+    {
+        using namespace QwtAxis;
+
+        const int fw = plot->canvas()->contentsMargins().left();
+
+        int axis;
+        for ( axis = 0; axis < AxisCount; axis++ )
+        {
+            if ( plot->isAxisVisible( axis ) )
+            {
+                const QwtScaleWidget* scl = plot->axisWidget( axis );
+                ScaleData& sd = scaleData[axis];
+
+                const QSize hint = scl->minimumSizeHint();
+                sd.w = hint.width();
+                sd.h = hint.height();
+                scl->getBorderDistHint( sd.minLeft, sd.minRight );
+                sd.tickOffset = scl->margin();
+                if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
+                    sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
+            }
+
+            canvasBorder[axis] = fw + plot->plotLayout()->canvasMargin( axis ) + 1;
+        }
+
+        for ( axis = 0; axis < AxisCount; axis++ )
+        {
+            ScaleData& sd = scaleData[axis];
+            if ( sd.w && isXAxis( axis ) )
+            {
+                if ( ( sd.minLeft > canvasBorder[YLeft] ) && scaleData[YLeft].w )
+                {
+                    int shiftLeft = sd.minLeft - canvasBorder[YLeft];
+                    if ( shiftLeft > scaleData[YLeft].w )
+                        shiftLeft = scaleData[YLeft].w;
+
+                    sd.w -= shiftLeft;
+                }
+
+                if ( ( sd.minRight > canvasBorder[YRight] ) && scaleData[YRight].w )
+                {
+                    int shiftRight = sd.minRight - canvasBorder[YRight];
+                    if ( shiftRight > scaleData[YRight].w )
+                        shiftRight = scaleData[YRight].w;
+
+                    sd.w -= shiftRight;
+                }
+            }
+
+            if ( sd.h && ( isYAxis( axis ) ) )
+            {
+                if ( ( sd.minLeft > canvasBorder[XBottom] ) && scaleData[XBottom].h )
+                {
+                    int shiftBottom = sd.minLeft - canvasBorder[XBottom];
+                    if ( shiftBottom > scaleData[XBottom].tickOffset )
+                        shiftBottom = scaleData[XBottom].tickOffset;
+
+                    sd.h -= shiftBottom;
+                }
+
+                if ( ( sd.minLeft > canvasBorder[XTop] ) && scaleData[XTop].h )
+                {
+                    int shiftTop = sd.minRight - canvasBorder[XTop];
+                    if ( shiftTop > scaleData[XTop].tickOffset )
+                        shiftTop = scaleData[XTop].tickOffset;
+
+                    sd.h -= shiftTop;
+                }
+            }
+        }
+
+    }
+
 };
 
 namespace
@@ -1208,75 +1285,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 {
     using namespace QwtAxis;
 
-    LayoutHintData hintData;
-
-    const int fw = plot->canvas()->contentsMargins().left();
-
-    int axis;
-    for ( axis = 0; axis < AxisCount; axis++ )
-    {
-        if ( plot->isAxisVisible( axis ) )
-        {
-            const QwtScaleWidget* scl = plot->axisWidget( axis );
-            LayoutHintData::ScaleData& sd = hintData.scaleData[axis];
-
-            const QSize hint = scl->minimumSizeHint();
-            sd.w = hint.width();
-            sd.h = hint.height();
-            scl->getBorderDistHint( sd.minLeft, sd.minRight );
-            sd.tickOffset = scl->margin();
-            if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
-                sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
-        }
-
-        hintData.canvasBorder[axis] = fw + m_data->engine.canvasMargin( axis ) + 1;
-    }
-
-    for ( axis = 0; axis < AxisCount; axis++ )
-    {
-        LayoutHintData::ScaleData& sd = hintData.scaleData[axis];
-        if ( sd.w && isXAxis( axis ) )
-        {
-            if ( ( sd.minLeft > hintData.canvasBorder[YLeft] ) && hintData.scaleData[YLeft].w )
-            {
-                int shiftLeft = sd.minLeft - hintData.canvasBorder[YLeft];
-                if ( shiftLeft > hintData.scaleData[YLeft].w )
-                    shiftLeft = hintData.scaleData[YLeft].w;
-
-                sd.w -= shiftLeft;
-            }
-
-            if ( ( sd.minRight > hintData.canvasBorder[YRight] ) && hintData.scaleData[YRight].w )
-            {
-                int shiftRight = sd.minRight - hintData.canvasBorder[YRight];
-                if ( shiftRight > hintData.scaleData[YRight].w )
-                    shiftRight = hintData.scaleData[YRight].w;
-
-                sd.w -= shiftRight;
-            }
-        }
-
-        if ( sd.h && ( isYAxis( axis ) ) )
-        {
-            if ( ( sd.minLeft > hintData.canvasBorder[XBottom] ) && hintData.scaleData[XBottom].h )
-            {
-                int shiftBottom = sd.minLeft - hintData.canvasBorder[XBottom];
-                if ( shiftBottom > hintData.scaleData[XBottom].tickOffset )
-                    shiftBottom = hintData.scaleData[XBottom].tickOffset;
-
-                sd.h -= shiftBottom;
-            }
-
-            if ( ( sd.minLeft > hintData.canvasBorder[XTop] ) && hintData.scaleData[XTop].h )
-            {
-                int shiftTop = sd.minRight - hintData.canvasBorder[XTop];
-                if ( shiftTop > hintData.scaleData[XTop].tickOffset )
-                    shiftTop = hintData.scaleData[XTop].tickOffset;
-
-                sd.h -= shiftTop;
-            }
-        }
-    }
+    LayoutHintData hintData( plot );
 
     const QWidget* canvas = plot->canvas();
 
