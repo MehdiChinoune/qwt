@@ -598,7 +598,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
                     }
                 }
             }
-            else // YLeft, YRight
+            else // y axes
             {
                 const QRectF& bottomScaleRect = scaleRect[XBottom];
                 const int bottomOffset = backboneOffset[XBottom] - endDist + 1;
@@ -676,6 +676,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
                 }
             }
         }
+    }
 
     /*
        The canvas has been aligned to the scale with largest
@@ -747,7 +748,6 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
                 }
             }
         }
-    }
     }
 }
 
