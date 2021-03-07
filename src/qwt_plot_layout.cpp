@@ -175,12 +175,31 @@ namespace
     }
 }
 
+namespace
+{
+    class LayoutEngine
+    {
+      public:
+        LayoutEngine():
+            m_spacing( 5 )
+        {
+        }
+
+        inline void setSpacing( unsigned int spacing ) { m_spacing = spacing; }
+        inline unsigned int spacing() const { return m_spacing; }
+
+      private:
+        unsigned int m_spacing;
+    };
+}
+
+// === PrivateData
+
 class QwtPlotLayout::PrivateData
 {
   public:
     PrivateData()
         : legendRatio( 1.0 )
-        , spacing( 5 )
     {
     }
 
@@ -190,11 +209,12 @@ class QwtPlotLayout::PrivateData
     QRectF scaleRects[QwtAxis::AxisCount];
     QRectF canvasRect;
 
+    LayoutEngine layoutEngine;
+
     LayoutData layoutData;
 
     QwtPlot::LegendPosition legendPos;
     double legendRatio;
-    unsigned int spacing;
     unsigned int canvasMargin[ QwtAxis::AxisCount ];
     bool alignCanvasToScales[ QwtAxis::AxisCount ];
 };
@@ -321,7 +341,7 @@ bool QwtPlotLayout::alignCanvasToScale( int axisPos ) const
  */
 void QwtPlotLayout::setSpacing( int spacing )
 {
-    m_data->spacing = qMax( 0, spacing );
+    m_data->layoutEngine.setSpacing( qMax( 0, spacing ) );
 }
 
 /*!
@@ -330,7 +350,7 @@ void QwtPlotLayout::setSpacing( int spacing )
  */
 int QwtPlotLayout::spacing() const
 {
-    return m_data->spacing;
+    return m_data->layoutEngine.spacing();
 }
 
 /*!
@@ -694,7 +714,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 
                 labelH = label->heightForWidth( labelW );
             }
-            h += labelH + m_data->spacing;
+            h += labelH + spacing();
         }
     }
 
@@ -710,7 +730,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             int legendH = legend->heightForWidth( legendW );
 
             if ( legend->frameWidth() > 0 )
-                w += m_data->spacing;
+                w += spacing();
 
             if ( legendH > h )
                 legendW += legend->scrollExtent( Qt::Horizontal );
@@ -718,7 +738,7 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             if ( m_data->legendRatio < 1.0 )
                 legendW = qMin( legendW, int( w / ( 1.0 - m_data->legendRatio ) ) );
 
-            w += legendW + m_data->spacing;
+            w += legendW + spacing();
         }
         else
         {
@@ -726,12 +746,12 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
             int legendH = legend->heightForWidth( legendW );
 
             if ( legend->frameWidth() > 0 )
-                h += m_data->spacing;
+                h += spacing();
 
             if ( m_data->legendRatio < 1.0 )
                 legendH = qMin( legendH, int( h / ( 1.0 - m_data->legendRatio ) ) );
 
-            h += legendH + m_data->spacing;
+            h += legendH + spacing();
         }
     }
 
@@ -973,7 +993,7 @@ void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
                     }
 
                     if ( dimTitle > 0 )
-                        length -= dimTitle + m_data->spacing;
+                        length -= dimTitle + spacing();
                 }
 
                 int d = scaleData.dimWithoutTitle;
@@ -1349,7 +1369,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         m_data->titleRect.setRect(
             rect.left(), rect.top(), rect.width(), dimTitle );
 
-        rect.setTop( m_data->titleRect.bottom() + m_data->spacing );
+        rect.setTop( m_data->titleRect.bottom() + spacing() );
 
         if ( m_data->layoutData.scale[YLeft].isEnabled !=
             m_data->layoutData.scale[YRight].isEnabled )
@@ -1368,7 +1388,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         m_data->footerRect.setRect(
             rect.left(), rect.bottom() - dimFooter, rect.width(), dimFooter );
 
-        rect.setBottom( m_data->footerRect.top() - m_data->spacing );
+        rect.setBottom( m_data->footerRect.top() - spacing() );
 
         if ( m_data->layoutData.scale[YLeft].isEnabled !=
             m_data->layoutData.scale[YRight].isEnabled )
