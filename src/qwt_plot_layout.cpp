@@ -215,6 +215,10 @@ namespace
             const LayoutData&, QRectF& canvasRect,
             QRectF scaleRect[QwtAxis::AxisCount] ) const;
 
+        void layoutDimensions( QwtPlotLayout::Options, 
+            const LayoutData&, const QRectF&, int& dimTitle,
+            int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const;
+
         inline void setSpacing( unsigned int spacing ) { m_spacing = spacing; }
         inline unsigned int spacing() const { return m_spacing; }
 
@@ -326,6 +330,158 @@ QRectF LayoutEngine::alignLegend( const QSize& legendHint,
     }
 
     return alignedRect;
+}
+
+void LayoutEngine::layoutDimensions( QwtPlotLayout::Options options, 
+    const LayoutData& layoutData, const QRectF& rect, int& dimTitle,
+    int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const
+{
+    using namespace QwtAxis;
+
+    dimTitle = dimFooter = 0;
+    for ( int axis = 0; axis < AxisCount; axis++ )
+        dimAxis[axis] = 0;
+
+    int backboneOffset[AxisCount];
+    for ( int axis = 0; axis < AxisCount; axis++ )
+    {
+        backboneOffset[axis] = 0;
+        if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+            backboneOffset[axis] += layoutData.canvasData.contentsMargins[ axis ];
+
+        if ( !alignCanvas( axis ) )
+            backboneOffset[axis] += canvasMargin( axis );
+    }
+
+    bool done = false;
+    while ( !done )
+    {
+        done = true;
+
+        // the size for the 4 axis depend on each other. Expanding
+        // the height of a horizontal axis will shrink the height
+        // for the vertical axis, shrinking the height of a vertical
+        // axis will result in a line break what will expand the
+        // width and results in shrinking the width of a horizontal
+        // axis what might result in a line break of a horizontal
+        // axis ... . So we loop as long until no size changes.
+
+        const LayoutData::LabelData& titleData =
+            layoutData.labelData[ LayoutData::Title ];
+
+        if ( !( ( options & QwtPlotLayout::IgnoreTitle ) || titleData.text.isEmpty() ) )
+        {
+            double w = rect.width();
+
+            if ( layoutData.scaleData[YLeft].isVisible
+                != layoutData.scaleData[YRight].isVisible )
+            {
+                // center to the canvas
+                w -= dimAxis[YLeft] + dimAxis[YRight];
+            }
+
+            int d = qwtCeil( titleData.text.heightForWidth( w ) );
+            if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                d += 2 * titleData.frameWidth;
+
+            if ( d > dimTitle )
+            {
+                dimTitle = d;
+                done = false;
+            }
+        }
+
+        const LayoutData::LabelData& footerData =
+            layoutData.labelData[ LayoutData::Footer ];
+
+        if ( !( ( options & QwtPlotLayout::IgnoreFooter ) || footerData.text.isEmpty() ) )
+        {
+            double w = rect.width();
+
+            if ( layoutData.scaleData[YLeft].isVisible
+                != layoutData.scaleData[YRight].isVisible )
+            {
+                // center to the canvas
+                w -= dimAxis[YLeft] + dimAxis[YRight];
+            }
+
+            int d = qwtCeil( footerData.text.heightForWidth( w ) );
+            if ( !( options & QwtPlotLayout::IgnoreFrames ) )
+                d += 2 * footerData.frameWidth;
+
+            if ( d > dimFooter )
+            {
+                dimFooter = d;
+                done = false;
+            }
+        }
+
+        for ( int axis = 0; axis < AxisCount; axis++ )
+        {
+            const struct LayoutData::ScaleData& scaleData =
+                layoutData.scaleData[axis];
+
+            if ( scaleData.isVisible )
+            {
+                double length;
+                if ( isXAxis( axis ) )
+                {
+                    length = rect.width() - dimAxis[YLeft] - dimAxis[YRight];
+                    length -= scaleData.start + scaleData.end;
+
+                    if ( dimAxis[YRight] > 0 )
+                        length -= 1;
+
+                    length += qMin( dimAxis[YLeft],
+                        scaleData.start - backboneOffset[YLeft] );
+                    length += qMin( dimAxis[YRight],
+                        scaleData.end - backboneOffset[YRight] );
+                }
+                else // YLeft, YRight
+                {
+                    length = rect.height() - dimAxis[XTop] - dimAxis[XBottom];
+                    length -= scaleData.start + scaleData.end;
+                    length -= 1;
+
+                    if ( dimAxis[XBottom] <= 0 )
+                        length -= 1;
+
+                    if ( dimAxis[XTop] <= 0 )
+                        length -= 1;
+
+                    if ( dimAxis[XBottom] > 0 )
+                    {
+                        length += qMin(
+                            layoutData.scaleData[XBottom].tickOffset,
+                            double( scaleData.start - backboneOffset[XBottom] ) );
+                    }
+
+                    if ( dimAxis[XTop] > 0 )
+                    {
+                        length += qMin(
+                            layoutData.scaleData[XTop].tickOffset,
+                            double( scaleData.end - backboneOffset[XTop] ) );
+                    }
+
+                    if ( dimTitle > 0 )
+                        length -= dimTitle + spacing();
+                }
+
+                int d = scaleData.dimWithoutTitle;
+                if ( !scaleData.scaleWidget->title().isEmpty() )
+                {
+                    d += scaleData.scaleWidget->titleHeightForWidth( qwtFloor( length ) );
+                }
+
+
+                if ( d > dimAxis[axis] )
+                {
+                    dimAxis[axis] = d;
+                    done = false;
+                }
+            }
+        }
+    }
 }
 
 void LayoutEngine::alignScales( QwtPlotLayout::Options options,
@@ -1151,171 +1307,6 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 }
 
 /*!
-   Expand all line breaks in text labels, and calculate the height
-   of their widgets in orientation of the text.
-
-   \param options Options how to layout the legend
-   \param rect Bounding rectangle for title, footer, axes and canvas.
-   \param dimTitle Expanded height of the title widget
-   \param dimFooter Expanded height of the footer widget
-   \param dimAxis Expanded heights of the axis in axis orientation.
-
-   \sa Options
- */
-void QwtPlotLayout::expandLineBreaks( Options options, const QRectF& rect,
-    int& dimTitle, int& dimFooter, int dimAxis[QwtAxis::AxisCount] ) const
-{
-    using namespace QwtAxis;
-
-    const LayoutData& layoutData = m_data->layoutData;
-
-    dimTitle = dimFooter = 0;
-    for ( int axis = 0; axis < AxisCount; axis++ )
-        dimAxis[axis] = 0;
-
-    int backboneOffset[AxisCount];
-    for ( int axis = 0; axis < AxisCount; axis++ )
-    {
-        backboneOffset[axis] = 0;
-        if ( !( options & IgnoreFrames ) )
-            backboneOffset[axis] += layoutData.canvasData.contentsMargins[ axis ];
-
-        if ( !m_data->engine.alignCanvas( axis ) )
-            backboneOffset[axis] += m_data->engine.canvasMargin( axis );
-    }
-
-    bool done = false;
-    while ( !done )
-    {
-        done = true;
-
-        // the size for the 4 axis depend on each other. Expanding
-        // the height of a horizontal axis will shrink the height
-        // for the vertical axis, shrinking the height of a vertical
-        // axis will result in a line break what will expand the
-        // width and results in shrinking the width of a horizontal
-        // axis what might result in a line break of a horizontal
-        // axis ... . So we loop as long until no size changes.
-
-        const LayoutData::LabelData& titleData =
-            layoutData.labelData[ LayoutData::Title ];
-
-        if ( !( ( options & IgnoreTitle ) || titleData.text.isEmpty() ) )
-        {
-            double w = rect.width();
-
-            if ( layoutData.scaleData[YLeft].isVisible
-                != layoutData.scaleData[YRight].isVisible )
-            {
-                // center to the canvas
-                w -= dimAxis[YLeft] + dimAxis[YRight];
-            }
-
-            int d = qwtCeil( titleData.text.heightForWidth( w ) );
-            if ( !( options & IgnoreFrames ) )
-                d += 2 * titleData.frameWidth;
-
-            if ( d > dimTitle )
-            {
-                dimTitle = d;
-                done = false;
-            }
-        }
-
-        const LayoutData::LabelData& footerData =
-            layoutData.labelData[ LayoutData::Footer ];
-
-        if ( !( ( options & IgnoreFooter ) || footerData.text.isEmpty() ) )
-        {
-            double w = rect.width();
-
-            if ( layoutData.scaleData[YLeft].isVisible
-                != layoutData.scaleData[YRight].isVisible )
-            {
-                // center to the canvas
-                w -= dimAxis[YLeft] + dimAxis[YRight];
-            }
-
-            int d = qwtCeil( footerData.text.heightForWidth( w ) );
-            if ( !( options & IgnoreFrames ) )
-                d += 2 * footerData.frameWidth;
-
-            if ( d > dimFooter )
-            {
-                dimFooter = d;
-                done = false;
-            }
-        }
-
-        for ( int axis = 0; axis < AxisCount; axis++ )
-        {
-            const struct LayoutData::ScaleData& scaleData =
-                layoutData.scaleData[axis];
-
-            if ( scaleData.isVisible )
-            {
-                double length;
-                if ( isXAxis( axis ) )
-                {
-                    length = rect.width() - dimAxis[YLeft] - dimAxis[YRight];
-                    length -= scaleData.start + scaleData.end;
-
-                    if ( dimAxis[YRight] > 0 )
-                        length -= 1;
-
-                    length += qMin( dimAxis[YLeft],
-                        scaleData.start - backboneOffset[YLeft] );
-                    length += qMin( dimAxis[YRight],
-                        scaleData.end - backboneOffset[YRight] );
-                }
-                else // YLeft, YRight
-                {
-                    length = rect.height() - dimAxis[XTop] - dimAxis[XBottom];
-                    length -= scaleData.start + scaleData.end;
-                    length -= 1;
-
-                    if ( dimAxis[XBottom] <= 0 )
-                        length -= 1;
-
-                    if ( dimAxis[XTop] <= 0 )
-                        length -= 1;
-
-                    if ( dimAxis[XBottom] > 0 )
-                    {
-                        length += qMin(
-                            layoutData.scaleData[XBottom].tickOffset,
-                            double( scaleData.start - backboneOffset[XBottom] ) );
-                    }
-
-                    if ( dimAxis[XTop] > 0 )
-                    {
-                        length += qMin(
-                            layoutData.scaleData[XTop].tickOffset,
-                            double( scaleData.end - backboneOffset[XTop] ) );
-                    }
-
-                    if ( dimTitle > 0 )
-                        length -= dimTitle + spacing();
-                }
-
-                int d = scaleData.dimWithoutTitle;
-                if ( !scaleData.scaleWidget->title().isEmpty() )
-                {
-                    d += scaleData.scaleWidget->titleHeightForWidth( qwtFloor( length ) );
-                }
-
-
-                if ( d > dimAxis[axis] )
-                {
-                    dimAxis[axis] = d;
-                    done = false;
-                }
-            }
-        }
-    }
-}
-
-/*!
    \brief Recalculate the geometry of all components.
 
    \param plot Plot to be layout
@@ -1394,13 +1385,14 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // label depends on its line breaks, that depend on the width
     // for the label. A line break in a horizontal text will reduce
     // the available width for vertical texts and vice versa.
-    // expandLineBreaks finds the height/width for title, footer and axes
+    // layoutDimensions finds the height/width for title, footer and axes
     // including all line breaks.
 
     using namespace QwtAxis;
 
     int dimTitle, dimFooter, dimAxes[AxisCount];
-    expandLineBreaks( options, rect, dimTitle, dimFooter, dimAxes );
+    m_data->engine.layoutDimensions( options, m_data->layoutData,
+        rect, dimTitle, dimFooter, dimAxes );
 
     if ( dimTitle > 0 )
     {

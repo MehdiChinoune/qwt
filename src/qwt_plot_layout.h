@@ -99,9 +99,6 @@ class QWT_EXPORT QwtPlotLayout
     void setScaleRect( QwtAxisId, const QRectF& );
     void setCanvasRect( const QRectF& );
 
-    void expandLineBreaks( Options options, const QRectF& rect,
-        int& dimTitle, int& dimFooter, int dimAxes[QwtAxis::AxisCount] ) const;
-
   private:
     Q_DISABLE_COPY(QwtPlotLayout)
 
