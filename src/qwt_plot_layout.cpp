@@ -1461,8 +1461,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // the title centered to the canvas
 
             labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
-            labelRect.setWidth( rect.width()
-                - dimensions.dimAxes[YLeft] - dimensions.dimAxes[YRight] );
+            labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
         }
     }
 
@@ -1481,16 +1480,15 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // the footer centered to the canvas
 
             labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
-            labelRect.setWidth( rect.width()
-                - dimensions.dimAxes[YLeft] - dimensions.dimAxes[YRight] );
+            labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
         }
     }
 
     m_data->canvasRect.setRect(
         rect.x() + dimensions.dimAxes[YLeft],
         rect.y() + dimensions.dimAxes[XTop],
-        rect.width() - dimensions.dimAxes[YRight] - dimensions.dimAxes[YLeft],
-        rect.height() - dimensions.dimAxes[XBottom] - dimensions.dimAxes[XTop] );
+        rect.width() - dimensions.dimYAxes(),
+        rect.height() - dimensions.dimXAxes() );
 
     for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
