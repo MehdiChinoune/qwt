@@ -247,7 +247,7 @@ namespace
             int minRight;
             int tickOffset;
 
-        } m_scaleData[ QwtAxis::AxisCount ];
+        };
 
         int canvasBorder[ QwtAxis::AxisCount];
 
@@ -262,7 +262,7 @@ namespace
             return m_scaleData[ axisId ];
         }
 
-        QSize m_axesSize[ QwtAxis::AxisCount ];
+        ScaleData m_scaleData[ QwtAxis::AxisCount ];
     };
 
     LayoutHintData::LayoutHintData( const QwtPlot* plot )
