@@ -280,10 +280,18 @@ namespace
     {
         using namespace QwtAxis;
 
-        const int fw = plot->canvas()->contentsMargins().left();
+        const QMargins m = plot->canvas()->contentsMargins();
+
+        int contentsMargins[ 4 ];
+        contentsMargins[ YLeft ] = m.left();
+        contentsMargins[ XTop ] = m.top();
+        contentsMargins[ YRight ] = m.right();
+        contentsMargins[ XBottom ] = m.bottom();
 
         for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
         {
+            canvasBorder[axisPos] = contentsMargins[axisPos] +
+                plot->plotLayout()->canvasMargin( axisPos ) + 1;
             {
                 const QwtAxisId axisId( axisPos );
 
@@ -298,13 +306,13 @@ namespace
                     sd.h = hint.height();
                     scl->getBorderDistHint( sd.minLeft, sd.minRight );
 
-                    sd.tickOffset = scl->margin();
-                    if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
-                        sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
+                    {
+                        sd.tickOffset = scl->margin();
+                        if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
+                            sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
+                    }
                 }
             }
-
-            canvasBorder[axisPos] = fw + plot->plotLayout()->canvasMargin( axisPos ) + 1;
         }
 
         for ( int axis = 0; axis < AxisCount; axis++ )
