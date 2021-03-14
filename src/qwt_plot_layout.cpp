@@ -335,22 +335,28 @@ namespace
         {
             int h = sd.h;
 
-            if ( ( sd.minLeft > canvasBorder[XBottom] ) && axisData( XBottom ).h )
+            if ( axisData( XBottom ).h )
             {
-                int shiftBottom = sd.minLeft - canvasBorder[XBottom];
-                if ( shiftBottom > axisData( XBottom ).tickOffset )
-                    shiftBottom = axisData( XBottom ).tickOffset;
+                if ( sd.minLeft > canvasBorder[XBottom] )
+                {
+                    int shiftBottom = sd.minLeft - canvasBorder[XBottom];
+                    if ( shiftBottom > axisData( XBottom ).tickOffset )
+                        shiftBottom = axisData( XBottom ).tickOffset;
 
-                h -= shiftBottom;
+                    h -= shiftBottom;
+                }
             }
 
-            if ( ( sd.minLeft > canvasBorder[XTop] ) && axisData( XTop ).h )
+            if ( axisData( XTop ).h )
             {
-                int shiftTop = sd.minRight - canvasBorder[XTop];
-                if ( shiftTop > axisData( XTop ).tickOffset )
-                    shiftTop = axisData( XTop ).tickOffset;
+                if ( sd.minLeft > canvasBorder[XTop] )
+                {
+                    int shiftTop = sd.minRight - canvasBorder[XTop];
+                    if ( shiftTop > axisData( XTop ).tickOffset )
+                        shiftTop = axisData( XTop ).tickOffset;
 
-                h -= shiftTop;
+                    h -= shiftTop;
+                }
             }
 
             return h;
