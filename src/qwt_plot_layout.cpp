@@ -324,14 +324,14 @@ namespace
         {
             int w = sd.w;
 
-            if ( const int leftW = axisData( YLeft ).w )
+            if ( const int leftW = axesWidth( YLeft ) )
             {
                 const int shiftLeft = sd.minLeft - canvasBorder[YLeft];
                 if ( shiftLeft > 0 )
                     w -= qMin( shiftLeft, leftW );
             }
 
-            if ( const int rightW = axisData( YRight ).w )
+            if ( const int rightW = axesWidth( YRight ) )
             {
                 const int shiftRight = sd.minRight - canvasBorder[YRight];
                 if ( shiftRight > 0 )
@@ -345,14 +345,14 @@ namespace
         {
             int h = sd.h;
 
-            if ( axisData( XBottom ).h )
+            if ( axesHeight( XBottom ) )
             {
                 const int shiftBottom = sd.minLeft - canvasBorder[XBottom];
                 if ( shiftBottom > 0 )
                     h -= qMin( shiftBottom, axisData( XBottom ).tickOffset );
             }
 
-            if ( axisData( XTop ).h )
+            if ( axesHeight( XTop ) )
             {
                 const int shiftTop = sd.minRight - canvasBorder[XTop];
                 if ( shiftTop > 0 )
@@ -394,14 +394,15 @@ namespace
             {
                 return m_dimAxes[ axisPos ];
             }
+
             inline int dimYAxes() const
             {
-                return dimAxis( QwtAxis::YLeft ) + dimAxis( QwtAxis::YRight );
+                return dimAxes( QwtAxis::YLeft ) + dimAxes( QwtAxis::YRight );
             }
 
             inline int dimXAxes() const
             {
-                return dimAxis( QwtAxis::XTop ) + dimAxis( QwtAxis::XBottom );
+                return dimAxes( QwtAxis::XTop ) + dimAxes( QwtAxis::XBottom );
             }
 
             inline QRectF centered( const QRectF& rect, const QRectF& labelRect ) const
