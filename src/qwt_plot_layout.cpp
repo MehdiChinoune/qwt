@@ -145,12 +145,12 @@ namespace
 
         inline ScaleData& axisData( QwtAxisId axisId )
         {
-            return scaleData[ axisId ];
+            return m_scaleData[ axisId ];
         }
 
         inline const ScaleData& axisData( QwtAxisId axisId ) const
         {
-            return scaleData[ axisId ];
+            return m_scaleData[ axisId ];
         }
 
         inline double tickOffset( int axisPos ) const
@@ -160,8 +160,10 @@ namespace
 
         LegendData legendData;
         LabelData labelData[ NumLabels ];
-        ScaleData scaleData[ QwtAxis::AxisCount ];
         CanvasData canvasData;
+
+      private:
+        ScaleData m_scaleData[ QwtAxis::AxisCount ];
     };
 
     /*
@@ -203,7 +205,7 @@ namespace
     bool LayoutData::hasSymmetricYAxes() const
     {
         using namespace QwtAxis;
-        return scaleData[ YLeft ].isVisible == scaleData[ YRight ].isVisible;
+        return m_scaleData[ YLeft ].isVisible == m_scaleData[ YRight ].isVisible;
     }
 }
 
@@ -213,6 +215,8 @@ namespace
     {
       public:
         LayoutHintData( const QwtPlot* plot );
+
+        int alignedSize( const QwtAxisId ) const;
 
         inline int yAxesWidth() const
         {
@@ -238,7 +242,7 @@ namespace
             return qMax( axesWidth( XTop ), axesWidth( XBottom ) );
         }
 
-        int alignedSize( const QwtAxisId ) const;
+      private:
 
         struct ScaleData
         {
@@ -255,9 +259,6 @@ namespace
 
         };
 
-        int canvasBorder[ QwtAxis::AxisCount];
-
-      private:
         const ScaleData& axisData( QwtAxisId axisId ) const
         {
             return m_scaleData[ axisId ];
@@ -278,6 +279,7 @@ namespace
             return m_scaleData[axisPos].h;
         }
 
+        int m_canvasBorder[ QwtAxis::AxisCount];
         ScaleData m_scaleData[ QwtAxis::AxisCount ];
     };
 
@@ -295,7 +297,7 @@ namespace
 
         for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
         {
-            canvasBorder[axisPos] = contentsMargins[axisPos] +
+            m_canvasBorder[axisPos] = contentsMargins[axisPos] +
                 plot->plotLayout()->canvasMargin( axisPos ) + 1;
             {
                 const QwtAxisId axisId( axisPos );
@@ -344,14 +346,14 @@ namespace
 
             if ( const int leftW = axesWidth( YLeft ) )
             {
-                const int shiftLeft = sd.minLeft - canvasBorder[YLeft];
+                const int shiftLeft = sd.minLeft - m_canvasBorder[YLeft];
                 if ( shiftLeft > 0 )
                     w -= qMin( shiftLeft, leftW );
             }
 
             if ( const int rightW = axesWidth( YRight ) )
             {
-                const int shiftRight = sd.minRight - canvasBorder[YRight];
+                const int shiftRight = sd.minRight - m_canvasBorder[YRight];
                 if ( shiftRight > 0 )
                     w -= qMin( shiftRight, rightW );
             }
@@ -365,14 +367,14 @@ namespace
 
             if ( axesHeight( XBottom ) )
             {
-                const int shiftBottom = sd.minLeft - canvasBorder[XBottom];
+                const int shiftBottom = sd.minLeft - m_canvasBorder[XBottom];
                 if ( shiftBottom > 0 )
                     h -= qMin( shiftBottom, axisData( XBottom ).tickOffset );
             }
 
             if ( axesHeight( XTop ) )
             {
-                const int shiftTop = sd.minRight - canvasBorder[XTop];
+                const int shiftTop = sd.minRight - m_canvasBorder[XTop];
                 if ( shiftTop > 0 )
                     h -= qMin( shiftTop, axisData( XTop ).tickOffset );
             }
