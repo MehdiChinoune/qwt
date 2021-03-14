@@ -383,6 +383,11 @@ namespace
                 return dimAxes[ axisId ];
             }
 
+            void setDimAxis( QwtAxisId axisId, int dim )
+            {
+                dimAxes[ axisId ] = dim;
+            }
+
             inline int dimYAxes() const
             {
                 return dimAxis( QwtAxis::YLeft ) + dimAxis( QwtAxis::YRight );
@@ -395,6 +400,8 @@ namespace
 
             int dimTitle;
             int dimFooter;
+
+          private:
             int dimAxes[QwtAxis::AxisCount];
         };
 
@@ -631,13 +638,13 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                         length = rect.width() - dimensions.dimYAxes();
                         length -= scaleData.start + scaleData.end;
 
-                        if ( dimensions.dimAxes[YRight] > 0 )
+                        if ( dimensions.dimAxis( YRight ) > 0 )
                             length -= 1;
 
-                        length += qMin( dimensions.dimAxes[YLeft],
+                        length += qMin( dimensions.dimAxis( YLeft ),
                             scaleData.start - backboneOffset[YLeft] );
 
-                        length += qMin( dimensions.dimAxes[YRight],
+                        length += qMin( dimensions.dimAxis( YRight ),
                             scaleData.end - backboneOffset[YRight] );
                     }
                     else // y axis
@@ -646,10 +653,10 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                         length -= scaleData.start + scaleData.end;
                         length -= 1;
 
-                        if ( dimensions.dimAxes[XBottom] <= 0 )
+                        if ( dimensions.dimAxis( XBottom ) <= 0 )
                             length -= 1;
 
-                        if ( dimensions.dimAxes[XTop] <= 0 )
+                        if ( dimensions.dimAxis( XTop ) <= 0 )
                             length -= 1;
 
                         /*
@@ -657,14 +664,14 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                            backbone/ticks of the x axes - but we have to take care,
                            that the labels don't overlap.
                          */
-                        if ( dimensions.dimAxes[XBottom] > 0 )
+                        if ( dimensions.dimAxis( XBottom ) > 0 )
                         {
                             length += qMin(
                                 layoutData.scaleData[XBottom].tickOffset,
                                 double( scaleData.start - backboneOffset[XBottom] ) );
                         }
 
-                        if ( dimensions.dimAxes[XTop] > 0 )
+                        if ( dimensions.dimAxis( XTop ) > 0 )
                         {
                             length += qMin(
                                 layoutData.scaleData[XTop].tickOffset,
@@ -682,9 +689,9 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                     }
 
 
-                    if ( d > dimensions.dimAxes[axisId] )
+                    if ( d > dimensions.dimAxis( axisId ) )
                     {
-                        dimensions.dimAxes[axisId] = d;
+                        dimensions.setDimAxis( axisId, d );
                         done = false;
                     }
                 }
@@ -1538,7 +1545,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // if only one of the y axes is missing we align
             // the title centered to the canvas
 
-            labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
+            labelRect.setX( rect.left() + dimensions.dimAxis( YLeft ) );
             labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
         }
     }
@@ -1557,14 +1564,14 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
 
-            labelRect.setX( rect.left() + dimensions.dimAxes[YLeft] );
+            labelRect.setX( rect.left() + dimensions.dimAxis( YLeft ) );
             labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
         }
     }
 
     m_data->canvasRect.setRect(
-        rect.x() + dimensions.dimAxes[YLeft],
-        rect.y() + dimensions.dimAxes[XTop],
+        rect.x() + dimensions.dimAxis( YLeft ),
+        rect.y() + dimensions.dimAxis( XTop ),
         rect.width() - dimensions.dimYAxes(),
         rect.height() - dimensions.dimXAxes() );
 
@@ -1576,9 +1583,9 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         {
             const QwtAxisId axis( axisPos );
 
-            if ( dimensions.dimAxes[axis] )
+            if ( dimensions.dimAxis( axis ) )
             {
-                const int dim = dimensions.dimAxes[axis];
+                const int dim = dimensions.dimAxis( axis );
 
                 const QRectF& canvasRect = m_data->canvasRect;
 
