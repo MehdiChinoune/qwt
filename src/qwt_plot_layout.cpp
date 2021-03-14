@@ -282,24 +282,29 @@ namespace
 
         const int fw = plot->canvas()->contentsMargins().left();
 
-        for ( int axis = 0; axis < AxisCount; axis++ )
+        for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
         {
-            if ( plot->isAxisVisible( axis ) )
             {
-                const QwtScaleWidget* scl = plot->axisWidget( axis );
-                const QSize hint = scl->minimumSizeHint();
+                const QwtAxisId axisId( axisPos );
 
-                ScaleData& sd = axisData( axis );
-                sd.w = hint.width();
-                sd.h = hint.height();
-                scl->getBorderDistHint( sd.minLeft, sd.minRight );
+                if ( plot->isAxisVisible( axisId ) )
+                {
+                    const QwtScaleWidget* scl = plot->axisWidget( axisId );
 
-                sd.tickOffset = scl->margin();
-                if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
-                    sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
+                    const QSize hint = scl->minimumSizeHint();
+
+                    ScaleData& sd = axisData( axisId );
+                    sd.w = hint.width();
+                    sd.h = hint.height();
+                    scl->getBorderDistHint( sd.minLeft, sd.minRight );
+
+                    sd.tickOffset = scl->margin();
+                    if ( scl->scaleDraw()->hasComponent( QwtAbstractScaleDraw::Ticks ) )
+                        sd.tickOffset += qwtCeil( scl->scaleDraw()->maxTickLength() );
+                }
             }
 
-            canvasBorder[axis] = fw + plot->plotLayout()->canvasMargin( axis ) + 1;
+            canvasBorder[axisPos] = fw + plot->plotLayout()->canvasMargin( axisPos ) + 1;
         }
 
         for ( int axis = 0; axis < AxisCount; axis++ )
