@@ -140,7 +140,7 @@ namespace
             NumLabels
         };
 
-        void init( const QwtPlot* );
+        LayoutData( const QwtPlot* );
         bool hasSymmetricYAxes() const;
 
         inline ScaleData& axisData( QwtAxisId axisId )
@@ -169,7 +169,7 @@ namespace
     /*
        Extract all layout relevant data from the plot components
      */
-    void LayoutData::init( const QwtPlot* plot )
+    LayoutData::LayoutData( const QwtPlot* plot )
     {
         legendData.init( plot->legend() );
         labelData[ Title ].init( plot->titleLabel() );
@@ -1027,7 +1027,6 @@ class QwtPlotLayout::PrivateData
     QRectF canvasRect;
 
     LayoutEngine engine;
-    LayoutData layoutData;
 };
 
 /*!
@@ -1516,8 +1515,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // We extract all layout relevant parameters from the widgets,
     // and save them to m_data->layoutData.
 
-    LayoutData& layoutData = m_data->layoutData;
-    layoutData.init( plot );
+    LayoutData layoutData( plot );
 
     QSize legendHint;
 
