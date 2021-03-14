@@ -576,17 +576,13 @@ void QwtPlot::replot()
  */
 void QwtPlot::updateLayout()
 {
-    m_data->layout->activate( this, contentsRect() );
+    QwtPlotLayout* layout = m_data->layout;
+    layout->activate( this, contentsRect() );
 
-    QRect titleRect = m_data->layout->titleRect().toRect();
-    QRect footerRect = m_data->layout->footerRect().toRect();
-
-    QRect scaleRect[QwtAxis::AxisCount];
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
-        scaleRect[axisPos] = m_data->layout->scaleRect( axisPos ).toRect();
-
-    QRect legendRect = m_data->layout->legendRect().toRect();
-    QRect canvasRect = m_data->layout->canvasRect().toRect();
+    const QRect titleRect = layout->titleRect().toRect();
+    const QRect footerRect = layout->footerRect().toRect();
+    const QRect legendRect = layout->legendRect().toRect();
+    const QRect canvasRect = layout->canvasRect().toRect();
 
     // resize and show the visible widgets
 
@@ -619,9 +615,11 @@ void QwtPlot::updateLayout()
 
             if ( isAxisVisible( axisId ) )
             {
-                if ( scaleRect[axisId] != scaleWidget->geometry() )
+                const QRect scaleRect = layout->scaleRect( axisId ).toRect();
+
+                if ( scaleRect != scaleWidget->geometry() )
                 {
-                    scaleWidget->setGeometry( scaleRect[axisId] );
+                    scaleWidget->setGeometry( scaleRect );
 
                     int startDist, endDist;
                     scaleWidget->getBorderDistHint( startDist, endDist );
