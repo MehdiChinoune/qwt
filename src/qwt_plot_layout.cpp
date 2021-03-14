@@ -182,7 +182,8 @@ namespace
 
                 if ( plot->isAxisVisible( axisId ) )
                 {
-                    scaleData.init( plot->axisWidget( axisId ) );
+                    const QwtScaleWidget* scaleWidget = plot->axisWidget( axisId );
+                    scaleData.init( scaleWidget );
                 }
                 else
                 {
@@ -1522,7 +1523,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     using namespace QwtAxis;
 
     const LayoutEngine::Dimensions dimensions =
-        m_data->engine.layoutDimensions( options, m_data->layoutData, rect );
+        m_data->engine.layoutDimensions( options, layoutData, rect );
 
     if ( dimensions.dimTitle > 0 )
     {
@@ -1645,7 +1646,6 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         // the complete plot - if possible.
 
         m_data->legendRect = m_data->engine.alignLegend(
-            layoutData.legendData.hint,
-            m_data->canvasRect, m_data->legendRect );
+            layoutData.legendData.hint, m_data->canvasRect, m_data->legendRect );
     }
 }
