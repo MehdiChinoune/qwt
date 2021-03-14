@@ -402,6 +402,15 @@ namespace
                 return dimAxis( QwtAxis::XTop ) + dimAxis( QwtAxis::XBottom );
             }
 
+            inline QRectF centered( const QRectF& rect, const QRectF& labelRect ) const
+            {
+                QRectF r = labelRect;
+                r.setX( rect.left() + dimAxes( QwtAxis::YLeft ) );
+                r.setWidth( rect.width() - dimYAxes() );
+
+                return r;
+            }
+
             inline QRectF innerRect( const QRectF& rect ) const
             {
                 QRectF r(
@@ -1571,8 +1580,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // if only one of the y axes is missing we align
             // the title centered to the canvas
 
-            labelRect.setX( rect.left() + dimensions.dimAxis( YLeft ) );
-            labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
+            labelRect = dimensions.centered( rect, labelRect );
         }
     }
 
@@ -1590,8 +1598,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
             // if only one of the y axes is missing we align
             // the footer centered to the canvas
 
-            labelRect.setX( rect.left() + dimensions.dimAxis( YLeft ) );
-            labelRect.setWidth( rect.width() - dimensions.dimYAxes() );
+            labelRect = dimensions.centered( rect, labelRect );
         }
     }
 
