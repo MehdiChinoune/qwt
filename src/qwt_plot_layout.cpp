@@ -723,14 +723,14 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                         if ( dimensions.dimAxes( XBottom ) > 0 )
                         {
                             length += qMin(
-                                layoutData.scaleData[XBottom].tickOffset,
+                                layoutData.tickOffset( XBottom ),
                                 double( scaleData.start - backboneOffset[XBottom] ) );
                         }
 
-                        if ( dimensions.dimAxis( XTop ) > 0 )
+                        if ( dimensions.dimAxes( XTop ) > 0 )
                         {
                             length += qMin(
-                                layoutData.scaleData[XTop].tickOffset,
+                                layoutData.tickOffset( XTop ),
                                 double( scaleData.end - backboneOffset[XTop] ) );
                         }
 
@@ -885,7 +885,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
                     else
                     {
                         const double maxBottom = bottomScaleRect.top() +
-                            layoutData.scaleData[XBottom].tickOffset;
+                            layoutData.tickOffset( XBottom );
                         const double bottom = axisRect.bottom() - bottomOffset;
                         axisRect.setBottom( qwtMinF( bottom, maxBottom ) );
                     }
@@ -922,7 +922,7 @@ void LayoutEngine::alignScales( QwtPlotLayout::Options options,
                     else
                     {
                         const double minTop = topScaleRect.bottom() -
-                            layoutData.scaleData[XTop].tickOffset;
+                            layoutData.tickOffset( XTop );
 
                         const double top = axisRect.top() + topOffset;
                         axisRect.setTop( qwtMaxF( top, minTop ) );
@@ -1408,22 +1408,22 @@ void QwtPlotLayout::invalidate()
  */
 QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
 {
-    using namespace QwtAxis;
-
     LayoutHintData hintData( plot );
+
+    const int xAxesWidth = hintData.xAxesWidth();
+    const int yAxesHeight = hintData.yAxesHeight();
 
     const QWidget* canvas = plot->canvas();
 
     const QMargins m = canvas->contentsMargins();
-
     const QSize minCanvasSize = canvas->minimumSize();
 
     int w = hintData.yAxesWidth();
-    int cw = hintData.xAxesWidth() + m.left() + 1 + m.right() + 1;
+    int cw = xAxesWidth + m.left() + 1 + m.right() + 1;
     w += qMax( cw, minCanvasSize.width() );
 
     int h = hintData.xAxesHeight();
-    int ch = hintData.yAxesHeight() + m.top() + 1 + m.bottom() + 1;
+    int ch = yAxesHeight + m.top() + 1 + m.bottom() + 1;
     h += qMax( ch, minCanvasSize.height() );
 
     const QwtTextLabel* labels[2];
@@ -1436,8 +1436,8 @@ QSize QwtPlotLayout::minimumSizeHint( const QwtPlot* plot ) const
         if ( label && !label->text().isEmpty() )
         {
             // we center on the plot canvas.
-            const bool centerOnCanvas = !( plot->isAxisVisible( YLeft )
-                && plot->isAxisVisible( YRight ) );
+            const bool centerOnCanvas = !( plot->isAxisVisible( QwtAxis::YLeft )
+                && plot->isAxisVisible( QwtAxis::YRight ) );
 
             int labelW = w;
             if ( centerOnCanvas )
