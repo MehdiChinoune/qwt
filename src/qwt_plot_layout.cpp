@@ -375,19 +375,23 @@ namespace
             {
                 dimTitle = dimFooter = 0;
                 for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
-                    dimAxes[axisPos] = 0;
+                    m_dimAxes[axisPos] = 0;
             }
 
             inline int dimAxis( QwtAxisId axisId ) const
             {
-                return dimAxes[ axisId ];
+                return m_dimAxes[ axisId ];
             }
 
             void setDimAxis( QwtAxisId axisId, int dim )
             {
-                dimAxes[ axisId ] = dim;
+                m_dimAxes[ axisId ] = dim;
             }
 
+            inline int dimAxes( int axisPos ) const
+            {
+                return m_dimAxes[ axisPos ];
+            }
             inline int dimYAxes() const
             {
                 return dimAxis( QwtAxis::YLeft ) + dimAxis( QwtAxis::YRight );
@@ -402,7 +406,7 @@ namespace
             int dimFooter;
 
           private:
-            int dimAxes[QwtAxis::AxisCount];
+            int m_dimAxes[QwtAxis::AxisCount];
         };
 
         LayoutEngine()
@@ -638,13 +642,13 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                         length = rect.width() - dimensions.dimYAxes();
                         length -= scaleData.start + scaleData.end;
 
-                        if ( dimensions.dimAxis( YRight ) > 0 )
+                        if ( dimensions.dimAxes( YRight ) > 0 )
                             length -= 1;
 
-                        length += qMin( dimensions.dimAxis( YLeft ),
+                        length += qMin( dimensions.dimAxes( YLeft ),
                             scaleData.start - backboneOffset[YLeft] );
 
-                        length += qMin( dimensions.dimAxis( YRight ),
+                        length += qMin( dimensions.dimAxes( YRight ),
                             scaleData.end - backboneOffset[YRight] );
                     }
                     else // y axis
@@ -653,10 +657,10 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                         length -= scaleData.start + scaleData.end;
                         length -= 1;
 
-                        if ( dimensions.dimAxis( XBottom ) <= 0 )
+                        if ( dimensions.dimAxes( XBottom ) <= 0 )
                             length -= 1;
 
-                        if ( dimensions.dimAxis( XTop ) <= 0 )
+                        if ( dimensions.dimAxes( XTop ) <= 0 )
                             length -= 1;
 
                         /*
@@ -664,7 +668,7 @@ LayoutEngine::Dimensions LayoutEngine::layoutDimensions( QwtPlotLayout::Options 
                            backbone/ticks of the x axes - but we have to take care,
                            that the labels don't overlap.
                          */
-                        if ( dimensions.dimAxis( XBottom ) > 0 )
+                        if ( dimensions.dimAxes( XBottom ) > 0 )
                         {
                             length += qMin(
                                 layoutData.scaleData[XBottom].tickOffset,
@@ -1581,15 +1585,15 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
 
         const int pos = 0;
         {
-            const QwtAxisId axis( axisPos );
+            const QwtAxisId axisId( axisPos );
 
-            if ( dimensions.dimAxis( axis ) )
+            if ( dimensions.dimAxis( axisId ) )
             {
-                const int dim = dimensions.dimAxis( axis );
+                const int dim = dimensions.dimAxis( axisId );
 
                 const QRectF& canvasRect = m_data->canvasRect;
 
-                QRectF& scaleRect = m_data->scaleRects[axis];
+                QRectF& scaleRect = m_data->scaleRects[axisId];
                 scaleRect = canvasRect;
 
                 switch ( axisPos )
