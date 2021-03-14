@@ -314,22 +314,18 @@ namespace
         {
             int w = sd.w;
 
-            if ( ( sd.minLeft > canvasBorder[YLeft] ) && axisData( YLeft ).w )
+            if ( const int leftW = axisData( YLeft ).w )
             {
-                int shiftLeft = sd.minLeft - canvasBorder[YLeft];
-                if ( shiftLeft > axisData( YLeft ).w )
-                    shiftLeft = axisData( YLeft ).w;
-
-                w -= shiftLeft;
+                const int shiftLeft = sd.minLeft - canvasBorder[YLeft];
+                if ( shiftLeft > 0 )
+                    w -= qMin( shiftLeft, leftW );
             }
 
-            if ( ( sd.minRight > canvasBorder[YRight] ) && axisData( YRight ).w )
+            if ( const int rightW = axisData( YRight ).w )
             {
-                int shiftRight = sd.minRight - canvasBorder[YRight];
-                if ( shiftRight > axisData( YRight ).w )
-                    shiftRight = axisData( YRight ).w;
-
-                w -= shiftRight;
+                const int shiftRight = sd.minRight - canvasBorder[YRight];
+                if ( shiftRight > 0 )
+                    w -= qMin( shiftRight, rightW );
             }
 
             return w;
