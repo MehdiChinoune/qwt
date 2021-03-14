@@ -279,8 +279,8 @@ namespace
             return m_scaleData[axisPos].h;
         }
 
-        int m_canvasBorder[ QwtAxis::AxisCount];
-        ScaleData m_scaleData[ QwtAxis::AxisCount ];
+        int m_canvasBorder[QwtAxis::AxisCount];
+        ScaleData m_scaleData[QwtAxis::AxisCount];
     };
 
     LayoutHintData::LayoutHintData( const QwtPlot* plot )
