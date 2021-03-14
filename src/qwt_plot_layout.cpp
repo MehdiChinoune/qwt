@@ -153,6 +153,11 @@ namespace
             return scaleData[ axisId ];
         }
 
+        inline double tickOffset( int axisPos ) const
+        {
+            return axisData( axisPos ).tickOffset;
+        }
+
         LegendData legendData;
         LabelData labelData[ NumLabels ];
         ScaleData scaleData[ QwtAxis::AxisCount ];
