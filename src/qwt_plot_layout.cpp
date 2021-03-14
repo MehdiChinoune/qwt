@@ -140,7 +140,7 @@ namespace
             NumLabels
         };
 
-        void init( const QwtPlot*, const QRectF& rect );
+        void init( const QwtPlot* );
         bool hasSymmetricYAxes() const;
 
         inline ScaleData& axisData( QwtAxisId axisId )
@@ -169,14 +169,9 @@ namespace
     /*
        Extract all layout relevant data from the plot components
      */
-    void LayoutData::init( const QwtPlot* plot, const QRectF& rect )
+    void LayoutData::init( const QwtPlot* plot )
     {
-        if ( plot->legend() )
-        {
-            legendData.init( plot->legend() );
-            legendData.hint = legendData.legendHint( plot->legend(), rect );
-        }
-
+        legendData.init( plot->legend() );
         labelData[ Title ].init( plot->titleLabel() );
         labelData[ Footer ].init( plot->footerLabel() );
 
@@ -1522,14 +1517,14 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     // and save them to m_data->layoutData.
 
     LayoutData& layoutData = m_data->layoutData;
-    layoutData.init( plot, rect );
+    layoutData.init( plot );
 
     QSize legendHint;
 
     if ( !( options & IgnoreLegend )
         && plot->legend() && !plot->legend()->isEmpty() )
     {
-        legendHint = layoutData.legendData.hint;
+        legendHint = layoutData.legendData.legendHint( plot->legend(), rect );
 
         m_data->legendRect = m_data->engine.layoutLegend(
             options, layoutData.legendData, rect, legendHint );
