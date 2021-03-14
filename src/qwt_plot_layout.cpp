@@ -402,6 +402,28 @@ namespace
                 return dimAxis( QwtAxis::XTop ) + dimAxis( QwtAxis::XBottom );
             }
 
+            inline QRectF innerRect( const QRectF& rect ) const
+            {
+                QRectF r(
+                    rect.x() + dimAxes( QwtAxis::YLeft ),
+                    rect.y() + dimAxes( QwtAxis::XTop ),
+                    rect.width() - dimYAxes(),
+                    rect.height() - dimXAxes() );
+
+                if ( r.width() < 0 )
+                {
+                    r.setX( rect.center().x() );
+                    r.setWidth( 0 );
+                }
+                if ( r.height() < 0 )
+                {
+                    r.setY( rect.center().y() );
+                    r.setHeight( 0 );
+                }
+
+                return r;
+            }
+
             int dimTitle;
             int dimFooter;
 
@@ -1573,11 +1595,7 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         }
     }
 
-    m_data->canvasRect.setRect(
-        rect.x() + dimensions.dimAxis( YLeft ),
-        rect.y() + dimensions.dimAxis( XTop ),
-        rect.width() - dimensions.dimYAxes(),
-        rect.height() - dimensions.dimXAxes() );
+    m_data->canvasRect = dimensions.innerRect( rect );
 
     for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
     {
