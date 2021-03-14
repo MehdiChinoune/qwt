@@ -337,26 +337,16 @@ namespace
 
             if ( axisData( XBottom ).h )
             {
-                if ( sd.minLeft > canvasBorder[XBottom] )
-                {
-                    int shiftBottom = sd.minLeft - canvasBorder[XBottom];
-                    if ( shiftBottom > axisData( XBottom ).tickOffset )
-                        shiftBottom = axisData( XBottom ).tickOffset;
-
-                    h -= shiftBottom;
-                }
+                const int shiftBottom = sd.minLeft - canvasBorder[XBottom];
+                if ( shiftBottom > 0 )
+                    h -= qMin( shiftBottom, axisData( XBottom ).tickOffset );
             }
 
             if ( axisData( XTop ).h )
             {
-                if ( sd.minLeft > canvasBorder[XTop] )
-                {
-                    int shiftTop = sd.minRight - canvasBorder[XTop];
-                    if ( shiftTop > axisData( XTop ).tickOffset )
-                        shiftTop = axisData( XTop ).tickOffset;
-
-                    h -= shiftTop;
-                }
+                const int shiftTop = sd.minRight - canvasBorder[XTop];
+                if ( shiftTop > 0 )
+                    h -= qMin( shiftTop, axisData( XTop ).tickOffset );
             }
 
             return h;
