@@ -471,7 +471,7 @@ namespace
         }
 
         QRectF layoutLegend( QwtPlotLayout::Options,
-            const LayoutData::LegendData&, const QRectF& ) const;
+            const LayoutData::LegendData&, const QRectF&, const QSize& ) const;
 
         QRectF alignLegend( const QSize& legendHint,
             const QRectF& canvasRect, const QRectF& legendRect ) const;
@@ -513,10 +513,9 @@ namespace
 }
 
 QRectF LayoutEngine::layoutLegend( QwtPlotLayout::Options options,
-    const LayoutData::LegendData& legendData, const QRectF& rect ) const
+    const LayoutData::LegendData& legendData,
+    const QRectF& rect, const QSize& legendHint ) const
 {
-    const QSize legendHint( legendData.hint );
-
     int dim;
     if ( m_legendPos == QwtPlot::LeftLegend
         || m_legendPos == QwtPlot::RightLegend )
@@ -1525,11 +1524,15 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
     LayoutData& layoutData = m_data->layoutData;
     layoutData.init( plot, rect );
 
+    QSize legendHint;
+
     if ( !( options & IgnoreLegend )
         && plot->legend() && !plot->legend()->isEmpty() )
     {
+        legendHint = layoutData.legendData.hint;
+
         m_data->legendRect = m_data->engine.layoutLegend(
-            options, layoutData.legendData, rect );
+            options, layoutData.legendData, rect, legendHint );
 
         // subtract m_data->legendRect from rect
 
@@ -1705,6 +1708,6 @@ void QwtPlotLayout::activate( const QwtPlot* plot,
         // the complete plot - if possible.
 
         m_data->legendRect = m_data->engine.alignLegend(
-            layoutData.legendData.hint, m_data->canvasRect, m_data->legendRect );
+            legendHint, m_data->canvasRect, m_data->legendRect );
     }
 }
