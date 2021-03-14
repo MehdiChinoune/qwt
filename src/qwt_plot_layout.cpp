@@ -209,28 +209,28 @@ namespace
       public:
         LayoutHintData( const QwtPlot* plot );
 
-        int yAxesWidth() const
+        inline int yAxesWidth() const
         {
             using namespace QwtAxis;
-            return m_scaleData[ YLeft ].w + m_scaleData[ YRight ].w;
+            return axesWidth( YLeft ) + axesWidth( YRight );
         }
 
-        int yAxesHeight() const
+        inline int yAxesHeight() const
         {
             using namespace QwtAxis;
-            return qMax( m_scaleData[ YLeft ].h, m_scaleData[ YRight ].h );
+            return qMax( axesHeight( YLeft ), axesHeight( YRight ) );
         }
 
-        int xAxesHeight() const
+        inline int xAxesHeight() const
         {
             using namespace QwtAxis;
-            return m_scaleData[ XTop ].h + m_scaleData[ XBottom ].h;
+            return axesHeight( XTop ) + axesHeight( XBottom );
         }
 
-        int xAxesWidth() const
+        inline int xAxesWidth() const
         {
             using namespace QwtAxis;
-            return qMax( m_scaleData[ XTop ].w, m_scaleData[ XBottom ].w );
+            return qMax( axesWidth( XTop ), axesWidth( XBottom ) );
         }
 
         int alignedSize( const QwtAxisId ) const;
@@ -261,6 +261,16 @@ namespace
         ScaleData& axisData( QwtAxisId axisId )
         {
             return m_scaleData[ axisId ];
+        }
+
+        inline int axesWidth( int axisPos ) const
+        {
+            return m_scaleData[axisPos].w;
+        }
+
+        inline int axesHeight( int axisPos ) const
+        {
+            return m_scaleData[axisPos].h;
         }
 
         ScaleData m_scaleData[ QwtAxis::AxisCount ];
