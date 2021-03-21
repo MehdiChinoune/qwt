@@ -16,7 +16,7 @@
    \brief A spline with G1 continuity
 
    QwtSplinePleasing is some sort of cardinal spline, with
-   non C1 continous extra rules for narrow angles. It has a locality of 2.
+   non C1 continuous extra rules for narrow angles. It has a locality of 2.
 
    \note The algorithm is the one offered by a popular office package.
  */

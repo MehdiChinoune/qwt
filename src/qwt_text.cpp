@@ -684,7 +684,7 @@ void QwtText::draw( QPainter* painter, const QRectF& rect ) const
    returns true. If there is none QwtPlainTextEngine is returned.
 
    If no text engine is registered for the format QwtPlainTextEngine
-   is returnd.
+   is returned.
 
    \param text Text, needed in case of AutoText
    \param format Text format

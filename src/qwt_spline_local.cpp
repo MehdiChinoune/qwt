@@ -542,7 +542,7 @@ QVector< QwtSplinePolynomial > QwtSplineLocal::polynomials( const QPolygonF& poi
 
 /*!
    The locality of an spline interpolation identifies how many adjacent
-   polynoms are affected, when changing the position of one point.
+   polynomials are affected, when changing the position of one point.
 
    The Cardinal, ParabolicBlending and PChip algorithms have a locality of 1,
    while the Akima interpolation has a locality of 2.
@@ -555,14 +555,14 @@ uint QwtSplineLocal::locality() const
     {
         case Akima:
         {
-            // polynoms: 2 left, 2 right
+            // polynomials: 2 left, 2 right
             return 2;
         }
         case Cardinal:
         case ParabolicBlending:
         case PChip:
         {
-            // polynoms: 1 left, 1 right
+            // polynomials: 1 left, 1 right
             return 1;
         }
     }

@@ -117,7 +117,7 @@ bool QwtPlotOpenGLCanvas::event( QEvent* event )
     {
         // In opposite to non OpenGL widgets receive pointless
         // early repaints. As we always have a QEvent::PolishRequest
-        // followed by QEvent::Paint, we can ignore all thos repaints.
+        // followed by QEvent::Paint, we can ignore all these repaints.
 
         m_data->isPolished = true;
     }

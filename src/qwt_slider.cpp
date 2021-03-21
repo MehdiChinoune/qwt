@@ -851,7 +851,7 @@ void QwtSlider::layoutSlider( bool update_geometry )
 /*!
    En/Disable the trough
 
-   The slider can be cutomized by showing a trough for the
+   The slider can be customized by showing a trough for the
    handle.
 
    \param on When true, the groove is visible
@@ -869,7 +869,7 @@ void QwtSlider::setTrough( bool on )
 }
 
 /*!
-   \return True, when the trough is visisble
+   \return True, when the trough is visible
    \sa setTrough(), hasGroove()
  */
 bool QwtSlider::hasTrough() const
@@ -880,7 +880,7 @@ bool QwtSlider::hasTrough() const
 /*!
    En/Disable the groove
 
-   The slider can be cutomized by showing a groove for the
+   The slider can be customized by showing a groove for the
    handle.
 
    \param on When true, the groove is visible
@@ -898,7 +898,7 @@ void QwtSlider::setGroove( bool on )
 }
 
 /*!
-   \return True, when the groove is visisble
+   \return True, when the groove is visible
    \sa setGroove(), hasTrough()
  */
 bool QwtSlider::hasGroove() const

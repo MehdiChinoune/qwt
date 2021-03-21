@@ -49,7 +49,7 @@ class QWT_EXPORT QwtLegendData
         Checkable
     };
 
-    //! Identifier how to interprete a QVariant
+    //! Identifier how to interpret a QVariant
     enum Role
     {
         // The value is a Mode

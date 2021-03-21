@@ -555,7 +555,7 @@ QDate QwtDate::dateOfWeek0( int year, Week0Type type )
     if ( type == QwtDate::FirstThursday )
     {
         // according to ISO 8601 the first week is defined
-        // by the first thursday.
+        // by the first Thursday.
 
         int d = Qt::Thursday - firstDayOfWeek;
         if ( d < 0 )

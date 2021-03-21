@@ -1129,7 +1129,7 @@ QVector< double > QwtSplineCubic::curvatures( const QPolygonF& points ) const
  */
 QPainterPath QwtSplineCubic::painterPath( const QPolygonF& points ) const
 {
-    // as QwtSplineCubic can calcuate slopes directly we can
+    // as QwtSplineCubic can calculate slopes directly we can
     // use the implementation of QwtSplineC1 without any performance loss.
 
     return QwtSplineC1::painterPath( points );
@@ -1148,7 +1148,7 @@ QPainterPath QwtSplineCubic::painterPath( const QPolygonF& points ) const
  */
 QVector< QLineF > QwtSplineCubic::bezierControlLines( const QPolygonF& points ) const
 {
-    // as QwtSplineCubic can calcuate slopes directly we can
+    // as QwtSplineCubic can calculate slopes directly we can
     // use the implementation of QwtSplineC1 without any performance loss.
 
     return QwtSplineC1::bezierControlLines( points );

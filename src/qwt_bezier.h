@@ -19,7 +19,7 @@ class QPolygonF;
    \brief An implementation of the de Casteljau’s Algorithm for interpolating
          Bézier curves
 
-   The flatness criterion for terminating the subdivison is based on
+   The flatness criterion for terminating the subdivision is based on
    "Piecewise Linear Approximation of Bézier Curves" by
    Roger Willcocks ( http://www.rops.org )
 
@@ -50,7 +50,7 @@ class QWT_EXPORT QwtBezier
 };
 
 /*!
-   \return Tolerance, that is used as criterion for the subdivisn
+   \return Tolerance, that is used as criterion for the subdivision
    \sa setTolerance()
  */
 inline double QwtBezier::tolerance() const

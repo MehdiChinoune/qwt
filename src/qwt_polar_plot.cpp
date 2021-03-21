@@ -155,7 +155,7 @@ QwtTextLabel* QwtPolarPlot::titleLabel()
     return m_data->titleLabel;
 }
 
-//! \return the plot's titel label.
+//! \return the plot's title label.
 const QwtTextLabel* QwtPolarPlot::titleLabel() const
 {
     return m_data->titleLabel;
@@ -175,11 +175,11 @@ const QwtTextLabel* QwtPolarPlot::titleLabel() const
 
    \param legend Legend
    \param pos The legend's position. For top/left position the number
-             of colums will be limited to 1, otherwise it will be set to
+             of columns will be limited to 1, otherwise it will be set to
              unlimited.
 
    \param ratio Ratio between legend and the bounding rect
-               of title, canvas and axes. The legend will be shrinked
+               of title, canvas and axes. The legend will be shrunk
                if it would need more space than the given ratio.
                The ratio is limited to ]0.0 .. 1.0]. In case of <= 0.0
                it will be reset to the default ratio.
@@ -639,7 +639,7 @@ double QwtPolarPlot::azimuthOrigin() const
 
    In zoom mode the zoom position is in the center of the
    canvas. The radius of the circle depends on the size of the plot canvas,
-   that is devided by the zoom factor. Thus a factor < 1.0 zoom in.
+   that is divided by the zoom factor. Thus a factor < 1.0 zoom in.
 
    Setting an invalid zoom position disables zooming.
 

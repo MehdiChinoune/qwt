@@ -26,7 +26,7 @@
    but as the interpolated curve is not known in advance an approximation
    needs to be used.
 
-   The values are calculated by cummulating increments, that are provided
+   The values are calculated by cumulating increments, that are provided
    by QwtSplineParametrization. As the curve parameters need to be
    montonically increasing, each increment need to be positive.
 

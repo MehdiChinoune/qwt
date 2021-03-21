@@ -686,7 +686,7 @@ double QwtAbstractSlider::incrementedValue(
         QwtScaleMap map = scaleMap();
         map.setPaintInterval( 0, m_data->totalSteps );
 
-        // we need equidant steps according to
+        // we need equidistant steps according to
         // paint device coordinates
         const double range = transformation->transform( maximum() )
             - transformation->transform( minimum() );

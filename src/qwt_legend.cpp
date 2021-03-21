@@ -548,7 +548,7 @@ int QwtLegend::heightForWidth( int width ) const
 
 
 /*!
-   Handle QEvent::ChildRemoved andQEvent::LayoutRequest events
+   Handle QEvent::ChildRemoved and QEvent::LayoutRequest events
    for the contentsWidget().
 
    \param object Object to be filtered

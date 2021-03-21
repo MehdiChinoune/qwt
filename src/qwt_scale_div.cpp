@@ -117,7 +117,7 @@ QwtInterval QwtScaleDiv::interval() const
    Set the first boundary
 
    \param lowerBound First boundary
-   \sa lowerBiound(), setUpperBound()
+   \sa lowerBound(), setUpperBound()
  */
 void QwtScaleDiv::setLowerBound( double lowerBound  )
 {

@@ -453,7 +453,7 @@ void QwtPlotMultiBarChart::drawSample( QPainter* painter,
    \param yMap y map
    \param canvasRect Contents rectangle of the canvas
    \param index Index of the sample to be painted
-   \param sampleWidth Boundng width for all bars of the smaple
+   \param sampleWidth Bounding width for all bars of the sample
    \param sample Sample
 
    \sa drawSeries(), sampleWidth()
