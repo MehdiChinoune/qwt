@@ -183,7 +183,7 @@ void QwtPlotRescaler::setExpandingDirection(
 void QwtPlotRescaler::setExpandingDirection(
     QwtAxisId axisId, ExpandingDirection direction )
 {
-    if ( AxisData* axisData = m_data->axisData( axisId ))
+    if ( AxisData* axisData = m_data->axisData( axisId ) )
         axisData->expandingDirection = direction;
 }
 
@@ -261,7 +261,7 @@ double QwtPlotRescaler::aspectRatio( QwtAxisId axisId ) const
 void QwtPlotRescaler::setIntervalHint( QwtAxisId axisId,
     const QwtInterval& interval )
 {
-    if ( AxisData* axisData = m_data->axisData( axisId ))
+    if ( AxisData* axisData = m_data->axisData( axisId ) )
         axisData->intervalHint = interval;
 }
 

@@ -95,7 +95,7 @@ namespace
         }
 
         SignalData& values()
-        {   
+        {
             return SignalData::instance();
         }
 

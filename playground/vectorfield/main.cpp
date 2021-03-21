@@ -104,7 +104,7 @@ namespace
 #else
             setAxisScale( QwtAxis::YLeft, r.bottom() + 1.0, r.top() - 1.0 );
 #endif
-        }    
+        }
     };
 }
 

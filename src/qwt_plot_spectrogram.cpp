@@ -217,7 +217,7 @@ const QwtColorMap* QwtPlotSpectrogram::colorMap() const
     \param numColors Number of colors. 0 means not using a color table
     \note The colorTableSize has no effect when using a color table
           of QwtColorMap::Indexed, where the size is always 256.
-    
+
 
     \sa QwtColorMap::colorTable(), colorTableSize()
  */

@@ -13,8 +13,8 @@
 #include "qwt_global.h"
 
 /*!
-  Enums and methods for axes
-*/
+   Enums and methods for axes
+ */
 namespace QwtAxis
 {
     //! \brief Axis position

@@ -50,7 +50,7 @@ namespace
     {
       public:
         ValueBar( Qt::Orientation orientation,
-                const QString& text, double value )
+            const QString& text, double value )
         {
             QLabel* label = new QLabel( text );
             label->setFont( QFont( "Helvetica", 10 ) );
@@ -95,7 +95,7 @@ namespace
             const int spacing = 5;
 
             const QBoxLayout::Direction dir = ( orientation == Qt::Vertical )
-                ? QBoxLayout::TopToBottom : QBoxLayout::LeftToRight; 
+                ? QBoxLayout::TopToBottom : QBoxLayout::LeftToRight;
 
             QBoxLayout* layout = new QBoxLayout( dir, this );
             layout->setContentsMargins( margin, margin, margin, margin );

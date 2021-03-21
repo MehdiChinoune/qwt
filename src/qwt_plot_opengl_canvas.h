@@ -19,10 +19,10 @@ class QwtPlot;
 
 /*!
    \brief An alternative canvas for a QwtPlot derived from QOpenGLWidget
-    
+
    Even if QwtPlotOpenGLCanvas is not derived from QFrame it imitates
    its API. When using style sheets it supports the box model - beside
-   backgrounds with rounded borders. 
+   backgrounds with rounded borders.
 
    \sa QwtPlot::setCanvas(), QwtPlotCanvas, QwtPlotCanvas::OpenGLBuffer
 

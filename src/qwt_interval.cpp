@@ -12,7 +12,7 @@
 namespace
 {
     static const struct RegisterQwtInterval
-    { 
+    {
         inline RegisterQwtInterval() { qRegisterMetaType< QwtInterval >(); }
 
     } qwtRegisterQwtInterval;

@@ -408,7 +408,7 @@ QwtPlotVectorField::IndicatorOrigin QwtPlotVectorField::indicatorOrigin() const
 
    The length of the arrow in screen coordinate units is calculated by
    scaling the magnitude by the magnitudeScaleFactor.
-s
+
    \param factor Scale factor
 
    \sa magnitudeScaleFactor(), arrowLength()
@@ -432,7 +432,7 @@ void QwtPlotVectorField::setMagnitudeScaleFactor( double factor )
    Default implementation simply scales the vector using the magnitudeScaleFactor
    property.  Re-implement this function to provide special handling for
    zero/non-zero magnitude arrows, or impose minimum/maximum arrow length limits.
-    
+
    \return Length of arrow to be drawn in dependence of vector magnitude.
    \sa magnitudeScaleFactor
    \note Has no effect when QwtPlotVectorField::MagnitudeAsLength is not enabled
@@ -526,8 +526,8 @@ void QwtPlotVectorField::setSymbol( QwtVectorFieldSymbol* symbol )
 }
 
 /*!
-  \return arrow symbol
-  \sa setSymbol(), drawSymbol()
+   \return arrow symbol
+   \sa setSymbol(), drawSymbol()
  */
 const QwtVectorFieldSymbol* QwtPlotVectorField::symbol() const
 {

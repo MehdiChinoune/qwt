@@ -17,14 +17,14 @@ class PlotBox : public QWidget
 
   public:
     PlotBox( QWidget* parent = nullptr );
-    
+
   private Q_SLOTS:
     void enableZoomMode( bool on );
     void printDocument();
     void exportDocument();
-    
+
   private:
     Plot* m_plot;
     QwtPolarPanner* m_panner;
     QwtPolarMagnifier* m_zoomer;
-}; 
+};

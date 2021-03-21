@@ -1,7 +1,7 @@
 /*****************************************************************************
-* Qwt Examples - Copyright (C) 2002 Uwe Rathmann
-* This file may be used under the terms of the 3-clause BSD License
-*****************************************************************************/
+ * Qwt Examples - Copyright (C) 2002 Uwe Rathmann
+ * This file may be used under the terms of the 3-clause BSD License
+ *****************************************************************************/
 
 #include "CockpitGrid.h"
 #include "AttitudeIndicator.h"
@@ -65,7 +65,7 @@ namespace
             QTimer* timer = new QTimer( this );
             timer->connect( timer, SIGNAL(timeout()), this, SLOT(setCurrentTime()) );
             timer->start( 1000 );
-        } 
+        }
     };
 
     class Speedo : public SpeedoMeter

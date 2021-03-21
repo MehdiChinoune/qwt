@@ -23,6 +23,6 @@ class Plot : public QwtPlot
   Q_SIGNALS:
     void resized( double xRatio, double yRatio );
 
-private:
+  private:
     RectItem* m_rectItem;
 };

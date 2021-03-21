@@ -16,7 +16,7 @@ static QwtPointPolar qwtPointToPolar( const QPointF& point )
     return QwtPointPolar( point );
 }
 
-#endif 
+#endif
 
 namespace
 {
@@ -29,7 +29,7 @@ namespace
 #if QT_VERSION >= 0x050200
             QMetaType::registerConverter< QPointF, QwtPointPolar >( qwtPointToPolar );
             QMetaType::registerConverter< QwtPointPolar, QPointF >( &QwtPointPolar::toPoint );
-#endif 
+#endif
         }
 
     } qwtRegisterQwtPointPolar;

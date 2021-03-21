@@ -15,7 +15,7 @@
 ScalePicker::ScalePicker( QwtPlot* plot )
     : QObject( plot )
 {
-    for ( uint axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         QwtScaleWidget* scaleWidget = plot->axisWidget( axisPos );
         if ( scaleWidget )
