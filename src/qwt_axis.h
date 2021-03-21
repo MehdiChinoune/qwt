@@ -34,7 +34,7 @@ namespace QwtAxis
     };
 
     //! \brief Number of axis positions
-    enum { AxisCount = XTop + 1 };
+    enum { AxisPositions = XTop + 1 };
 
     bool isValid( int axisPos );
     bool isYAxis( int axisPos );
@@ -44,7 +44,7 @@ namespace QwtAxis
 //! \return true, when axisPos is in the valid range [ YLeft, XTop ]
 inline bool QwtAxis::isValid( int axisPos )
 {
-    return ( axisPos >= 0 && axisPos < AxisCount );
+    return ( axisPos >= 0 && axisPos < AxisPositions );
 }
 
 //! \return true, when axisPos is XBottom or XTop

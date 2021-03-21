@@ -15,9 +15,9 @@
 ScalePicker::ScalePicker( QwtPlot* plot )
     : QObject( plot )
 {
-    for ( uint i = 0; i < QwtAxis::AxisCount; i++ )
+    for ( uint axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
-        QwtScaleWidget* scaleWidget = plot->axisWidget( i );
+        QwtScaleWidget* scaleWidget = plot->axisWidget( axisPos );
         if ( scaleWidget )
             scaleWidget->installEventFilter( this );
     }

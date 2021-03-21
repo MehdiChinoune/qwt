@@ -56,7 +56,7 @@ class QwtPlotRescaler::PrivateData
     mutable int inReplot;
 
   private:
-    QwtPlotRescaler::AxisData m_axisData[QwtAxis::AxisCount];
+    QwtPlotRescaler::AxisData m_axisData[QwtAxis::AxisPositions];
 };
 
 /*!
@@ -169,7 +169,7 @@ QwtAxisId QwtPlotRescaler::referenceAxis() const
 void QwtPlotRescaler::setExpandingDirection(
     ExpandingDirection direction )
 {
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisPositions; axis++ )
         setExpandingDirection( axis, direction );
 }
 
@@ -211,7 +211,7 @@ QwtPlotRescaler::expandingDirection( QwtAxisId axisId ) const
  */
 void QwtPlotRescaler::setAspectRatio( double ratio )
 {
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisPositions; axis++ )
         setAspectRatio( axis, ratio );
 }
 
@@ -370,8 +370,8 @@ void QwtPlotRescaler::rescale(
     if ( newSize.isEmpty() )
         return;
 
-    QwtInterval intervals[QwtAxis::AxisCount];
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    QwtInterval intervals[QwtAxis::AxisPositions];
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         const QwtAxisId axisId( axisPos );
         intervals[axisPos] = interval( axisId );
@@ -380,7 +380,7 @@ void QwtPlotRescaler::rescale(
     const QwtAxisId refAxis = referenceAxis();
     intervals[refAxis] = expandScale( refAxis, oldSize, newSize );
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         const QwtAxisId axisId( axisPos );
         if ( aspectRatio( axisId ) > 0.0 && axisId != refAxis )
@@ -432,7 +432,7 @@ QwtInterval QwtPlotRescaler::expandScale( QwtAxisId axisId,
         case Fitting:
         {
             double dist = 0.0;
-            for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+            for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
             {
                 const QwtAxisId axisId( axisPos );
                 const double d = pixelDist( axisId, newSize );
@@ -586,7 +586,7 @@ double QwtPlotRescaler::pixelDist( QwtAxisId axisId, const QSize& size ) const
    \param intervals Scale intervals
  */
 void QwtPlotRescaler::updateScales(
-    QwtInterval intervals[QwtAxis::AxisCount] ) const
+    QwtInterval intervals[QwtAxis::AxisPositions] ) const
 {
     if ( m_data->inReplot >= 5 )
     {
@@ -598,7 +598,7 @@ void QwtPlotRescaler::updateScales(
     const bool doReplot = plt->autoReplot();
     plt->setAutoReplot( false );
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );

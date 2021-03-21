@@ -118,8 +118,8 @@ class RectItem : public QwtPlotItem
 Plot::Plot( QWidget* parent, const QwtInterval& interval )
     : QwtPlot( parent )
 {
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        setAxisScale( axis, interval.minValue(), interval.maxValue() );
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
+        setAxisScale( axisPos, interval.minValue(), interval.maxValue() );
 
     setCanvasBackground( QColor( Qt::darkBlue ) );
     plotLayout()->setAlignCanvasToScales( true );

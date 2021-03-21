@@ -24,8 +24,8 @@ Plot::Plot( QWidget* parent )
     // we want to have the axis scales like a frame around the
     // canvas
     plotLayout()->setAlignCanvasToScales( true );
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        axisWidget( axis )->setMargin( 0 );
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
+        axisWidget( axisPos )->setMargin( 0 );
 
     QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setAutoFillBackground( false );

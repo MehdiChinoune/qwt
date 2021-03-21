@@ -75,7 +75,7 @@ static qreal qwtScalePenWidth( const QwtPlot* plot )
 {
     qreal pw = 0.0;
 
-    for ( int axisId = 0; axisId < QwtAxis::AxisCount; axisId++ )
+    for ( int axisId = 0; axisId < QwtAxis::AxisPositions; axisId++ )
     {
         if ( plot->isAxisVisible( axisId ) )
             pw = qMax( pw, plot->axisScaleDraw( axisId )->penWidthF() );
@@ -513,10 +513,10 @@ void QwtPlotRenderer::render( QwtPlot* plot,
 
     QwtPlotLayout* layout = plot->plotLayout();
 
-    int baseLineDists[QwtAxis::AxisCount];
-    int canvasMargins[QwtAxis::AxisCount];
+    int baseLineDists[QwtAxis::AxisPositions];
+    int canvasMargins[QwtAxis::AxisPositions];
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         canvasMargins[axisPos] = layout->canvasMargin( axisPos );
 
@@ -587,7 +587,7 @@ void QwtPlotRenderer::render( QwtPlot* plot,
 
     // canvas
 
-    QwtScaleMap maps[QwtAxis::AxisCount];
+    QwtScaleMap maps[QwtAxis::AxisPositions];
     buildCanvasMaps( plot, layout->canvasRect(), maps );
     if ( updateCanvasMargins( plot, layout->canvasRect(), maps ) )
     {
@@ -623,7 +623,7 @@ void QwtPlotRenderer::render( QwtPlot* plot,
         renderLegend( plot, painter, layout->legendRect() );
     }
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );
@@ -645,7 +645,7 @@ void QwtPlotRenderer::render( QwtPlot* plot,
     painter->restore();
 
     // restore all setting to their original attributes.
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         if ( m_data->layoutFlags & FrameWithScales )
         {
@@ -969,7 +969,7 @@ void QwtPlotRenderer::renderCanvas( const QwtPlot* plot,
 void QwtPlotRenderer::buildCanvasMaps( const QwtPlot* plot,
     const QRectF& canvasRect, QwtScaleMap maps[] ) const
 {
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );
@@ -1028,12 +1028,12 @@ bool QwtPlotRenderer::updateCanvasMargins( QwtPlot* plot,
 {
     using namespace QwtAxis;
 
-    double margins[AxisCount];
+    double margins[AxisPositions];
     plot->getCanvasMarginsHint( maps, canvasRect,
         margins[YLeft], margins[XTop], margins[YRight], margins[XBottom] );
 
     bool marginsChanged = false;
-    for ( int axisId = 0; axisId < AxisCount; axisId++ )
+    for ( int axisId = 0; axisId < AxisPositions; axisId++ )
     {
         if ( margins[axisId] >= 0.0 )
         {

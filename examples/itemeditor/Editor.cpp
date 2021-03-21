@@ -259,7 +259,7 @@ QwtPlotShapeItem* Editor::itemAt( const QPoint& pos ) const
 
     using namespace QwtAxis;
 
-    double coords[ AxisCount ];
+    double coords[ AxisPositions ];
 
     coords[ XBottom ] = plot->canvasMap( XBottom ).invTransform( pos.x() );
     coords[ XTop ] = plot->canvasMap( XTop ).invTransform( pos.x() );

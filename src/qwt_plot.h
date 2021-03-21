@@ -229,7 +229,7 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
     virtual bool eventFilter( QObject*, QEvent* ) QWT_OVERRIDE;
 
     virtual void drawItems( QPainter*, const QRectF&,
-        const QwtScaleMap maps[ QwtAxis::AxisCount ] ) const;
+        const QwtScaleMap maps[ QwtAxis::AxisPositions ] ) const;
 
     virtual QVariant itemToInfo( QwtPlotItem* ) const;
     virtual QwtPlotItem* infoToItem( const QVariant& ) const;
@@ -237,13 +237,13 @@ class QWT_EXPORT QwtPlot : public QFrame, public QwtPlotDict
 #if QWT_AXIS_COMPAT
     enum Axis
     {
-        yLeft = QwtAxis::YLeft,
-        yRight = QwtAxis::YRight,
+        yLeft   = QwtAxis::YLeft,
+        yRight  = QwtAxis::YRight,
         xBottom = QwtAxis::XBottom,
-        xTop = QwtAxis::XTop,
-        axisCnt = QwtAxis::AxisCount
-    };
+        xTop    = QwtAxis::XTop,
 
+        axisCnt = QwtAxis::AxisPositions
+    };
 
     void enableAxis( int axisId, bool on = true )
     {

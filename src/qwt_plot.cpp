@@ -482,7 +482,7 @@ QSize QwtPlot::sizeHint() const
     int dw = 0;
     int dh = 0;
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );
@@ -606,7 +606,7 @@ void QwtPlot::updateLayout()
         m_data->footerLabel->hide();
     }
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );
@@ -682,7 +682,7 @@ void QwtPlot::getCanvasMarginsHint(
         {
             using namespace QwtAxis;
 
-            double m[ AxisCount ];
+            double m[ AxisPositions ];
             item->getCanvasMarginHint(
                 maps[ item->xAxis() ], maps[ item->yAxis() ],
                 canvasRect, m[YLeft], m[XTop], m[YRight], m[XBottom] );
@@ -707,16 +707,16 @@ void QwtPlot::updateCanvasMargins()
 {
     using namespace QwtAxis;
 
-    QwtScaleMap maps[ AxisCount ];
-    for ( int axisId = 0; axisId < AxisCount; axisId++ )
+    QwtScaleMap maps[ AxisPositions ];
+    for ( int axisId = 0; axisId < AxisPositions; axisId++ )
         maps[axisId] = canvasMap( axisId );
 
-    double margins[AxisCount];
+    double margins[AxisPositions];
     getCanvasMarginsHint( maps, canvas()->contentsRect(),
         margins[YLeft], margins[XTop], margins[YRight], margins[XBottom] );
 
     bool doUpdate = false;
-    for ( int axisPos = 0; axisPos < AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < AxisPositions; axisPos++ )
     {
         if ( margins[axisPos] >= 0.0 )
         {
@@ -741,8 +741,8 @@ void QwtPlot::updateCanvasMargins()
  */
 void QwtPlot::drawCanvas( QPainter* painter )
 {
-    QwtScaleMap maps[ QwtAxis::AxisCount ];
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    QwtScaleMap maps[ QwtAxis::AxisPositions ];
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
         maps[axisPos] = canvasMap( axisPos );
 
     drawItems( painter, m_data->canvas->contentsRect(), maps );
@@ -762,7 +762,7 @@ void QwtPlot::drawCanvas( QPainter* painter )
  */
 
 void QwtPlot::drawItems( QPainter* painter, const QRectF& canvasRect,
-    const QwtScaleMap maps[ QwtAxis::AxisCount ] ) const
+    const QwtScaleMap maps[ QwtAxis::AxisPositions ] ) const
 {
     const QwtPlotItemList& itmList = itemList();
     for ( QwtPlotItemIterator it = itmList.begin();

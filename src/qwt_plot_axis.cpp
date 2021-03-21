@@ -101,7 +101,7 @@ class QwtPlot::ScaleData
     }
 
   private:
-    AxisData m_axisData[ QwtAxis::AxisCount ];
+    AxisData m_axisData[ QwtAxis::AxisPositions ];
 };
 
 void QwtPlot::initAxesData()
@@ -668,7 +668,7 @@ void QwtPlot::updateAxes()
     // Find bounding interval of the item data
     // for all axes, where autoscaling is enabled
 
-    QwtInterval boundingIntervals[QwtAxis::AxisCount];
+    QwtInterval boundingIntervals[QwtAxis::AxisPositions];
 
     const QwtPlotItemList& itmList = itemList();
 
@@ -697,7 +697,7 @@ void QwtPlot::updateAxes()
 
     // Adjust scales
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );

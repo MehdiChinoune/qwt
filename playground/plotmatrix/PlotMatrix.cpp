@@ -64,7 +64,7 @@ class PlotMatrix::PrivateData
         isAxisEnabled[QwtAxis::YRight] = false;
     }
 
-    bool isAxisEnabled[QwtAxis::AxisCount];
+    bool isAxisEnabled[QwtAxis::AxisPositions];
     QVector< QwtPlot* > plotWidgets;
     mutable bool inScaleSync;
 };
@@ -86,9 +86,9 @@ PlotMatrix::PlotMatrix( int numRows, int numColumns, QWidget* parent )
 
             layout->addWidget( plot, row, col );
 
-            for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+            for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
             {
-                connect( plot->axisWidget( axis ),
+                connect( plot->axisWidget( axisPos ),
                     SIGNAL(scaleDivChanged()), SLOT(scaleDivChanged()),
                     Qt::QueuedConnection );
             }
@@ -197,12 +197,12 @@ void PlotMatrix::scaleDivChanged()
             QwtPlot* p = plotAt( row, col );
             if ( p )
             {
-                for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+                for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
                 {
-                    if ( p->axisWidget( axis ) == sender() )
+                    if ( p->axisWidget( axisPos ) == sender() )
                     {
                         plt = p;
-                        axisId = axis;
+                        axisId = axisPos;
                         rowOrColumn = QwtAxis::isXAxis( axisId ) ? col : row;
                     }
                 }
@@ -255,14 +255,14 @@ void PlotMatrix::updateLayout()
             QwtPlot* p = plotAt( row, col );
             if ( p )
             {
-                bool showAxis[AxisCount];
+                bool showAxis[AxisPositions];
 
                 showAxis[XBottom] = isAxisVisible( XBottom ) && row == numRows() - 1;
                 showAxis[XTop] = isAxisVisible( XTop ) && row == 0;
                 showAxis[YLeft] = isAxisVisible( YLeft ) && col == 0;
                 showAxis[YRight] = isAxisVisible( YRight ) && col == numColumns() - 1;
 
-                for ( int axis = 0; axis < AxisCount; axis++ )
+                for ( int axis = 0; axis < AxisPositions; axis++ )
                 {
                     enablePlotAxis( p, axis, showAxis[axis] );
                 }

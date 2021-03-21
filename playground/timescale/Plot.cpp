@@ -30,7 +30,7 @@ Plot::Plot( QWidget* parent )
     QwtPlotPanner* panner = new QwtPlotPanner( canvas() );
     QwtPlotMagnifier* magnifier = new QwtPlotMagnifier( canvas() );
 
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisPositions; axis++ )
     {
         const bool on = QwtAxis::isYAxis( axis );
 

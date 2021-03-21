@@ -73,8 +73,8 @@ Plot* MainWindow::createPlot( QWidget* parent )
     m_rescaler->setAspectRatio( QwtAxis::YRight, 0.0 );
     m_rescaler->setAspectRatio( QwtAxis::XTop, 0.0 );
 
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        m_rescaler->setIntervalHint( axis, QwtInterval( 0.0, 1000.0 ) );
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
+        m_rescaler->setIntervalHint( axisPos, QwtInterval( 0.0, 1000.0 ) );
 
     connect( plot, SIGNAL(resized(double,double)),
         SLOT(showRatio(double,double)) );
@@ -135,7 +135,7 @@ void MainWindow::setRescaleMode( int mode )
 
     m_rescaleInfo->setText( info );
     m_rescaler->setEnabled( doEnable );
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
         m_rescaler->setExpandingDirection( direction );
 
     if ( doEnable )

@@ -126,7 +126,7 @@ class QWT_EXPORT QwtPlotRescaler : public QObject
         QwtAxisId, const QwtInterval& reference, const QSize& size ) const;
 
     virtual void updateScales(
-        QwtInterval intervals[QwtAxis::AxisCount] ) const;
+        QwtInterval intervals[QwtAxis::AxisPositions] ) const;
 
     Qt::Orientation orientation( QwtAxisId ) const;
     QwtInterval interval( QwtAxisId ) const;

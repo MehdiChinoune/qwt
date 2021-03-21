@@ -95,13 +95,13 @@ void Plot::alignScales()
     // the canvas frame, but is also a good example demonstrating
     // why the spreaded API needs polishing.
 
-    for ( int i = 0; i < QwtAxis::AxisCount; i++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
-        QwtScaleWidget* scaleWidget = axisWidget( i );
+        QwtScaleWidget* scaleWidget = axisWidget( axisPos );
         if ( scaleWidget )
             scaleWidget->setMargin( 0 );
 
-        QwtScaleDraw* scaleDraw = axisScaleDraw( i );
+        QwtScaleDraw* scaleDraw = axisScaleDraw( axisPos );
         if ( scaleDraw )
             scaleDraw->enableComponent( QwtAbstractScaleDraw::Backbone, false );
     }

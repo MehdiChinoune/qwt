@@ -74,7 +74,7 @@ Plot::Plot( QWidget* parent )
     populate();
 
     updateAxes();
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+    for ( int axis = 0; axis < QwtAxis::AxisPositions; axis++ )
         setAxisAutoScale( axis, false );
 
     m_editor = new Editor( this );

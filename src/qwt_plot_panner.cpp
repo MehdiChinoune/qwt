@@ -109,11 +109,11 @@ class QwtPlotPanner::PrivateData
   public:
     PrivateData()
     {
-        for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
+        for ( int axis = 0; axis < QwtAxis::AxisPositions; axis++ )
             isAxisEnabled[axis] = true;
     }
 
-    bool isAxisEnabled[QwtAxis::AxisCount];
+    bool isAxisEnabled[QwtAxis::AxisPositions];
 };
 
 /*!
@@ -225,7 +225,7 @@ void QwtPlotPanner::moveCanvas( int dx, int dy )
     const bool doAutoReplot = plot->autoReplot();
     plot->setAutoReplot( false );
 
-    for ( int axisPos = 0; axisPos < QwtAxis::AxisCount; axisPos++ )
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
     {
         {
             const QwtAxisId axisId( axisPos );

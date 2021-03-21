@@ -35,8 +35,8 @@ Plot::Plot( QWidget* parent )
        hide the axes.
      */
     plotLayout()->setCanvasMargin( 0 );
-    for ( int axis = 0; axis < QwtAxis::AxisCount; axis++ )
-        setAxisVisible( axis, false );
+    for ( int axisPos = 0; axisPos < QwtAxis::AxisPositions; axisPos++ )
+        setAxisVisible( axisPos, false );
 #endif
 
     /*

@@ -360,7 +360,7 @@ void Plot::setAlpha( int alpha )
 }
 
 void Plot::drawItems( QPainter* painter, const QRectF& canvasRect,
-    const QwtScaleMap maps[QwtAxis::AxisCount] ) const
+    const QwtScaleMap maps[QwtAxis::AxisPositions] ) const
 {
     QwtPlot::drawItems( painter, canvasRect, maps );
 
