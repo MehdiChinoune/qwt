@@ -550,14 +550,14 @@ QwtSpline::~QwtSpline()
 
 /*!
    The locality of an spline interpolation identifies how many adjacent
-   polynoms are affected, when changing the position of one point.
+   polynomials are affected, when changing the position of one point.
 
    A locality of 'n' means, that changing the coordinates of a point
-   has an effect on 'n' leading and 'n' following polynoms.
-   Those polynoms can be calculated from a local subpolygon.
+   has an effect on 'n' leading and 'n' following polynomials.
+   Those polynomials can be calculated from a local subpolygon.
 
    A value of 0 means, that the interpolation is not local and any modification
-   of the polygon requires to recalculate all polynoms ( f.e cubic splines ).
+   of the polygon requires to recalculate all polynomials ( f.e cubic splines ).
 
    \return Order of locality
  */
@@ -570,7 +570,7 @@ uint QwtSpline::locality() const
    Define the parametrization for a parametric spline approximation
    The default setting is a chordal parametrization.
 
-   \param type Type of parametrization, ususally one of QwtSplineParametrization::Type
+   \param type Type of parametrization, usually one of QwtSplineParametrization::Type
    \sa parametrization()
  */
 void QwtSpline::setParametrization( int type )
@@ -695,7 +695,7 @@ double QwtSpline::boundaryValue( BoundaryPosition position ) const
    \param valueEnd Used for the condition at the end of te spline
 
    \sa BoundaryCondition, QwtSplineC2::BoundaryCondition,
-      tsetBoundaryCondition(), setBoundaryValue()
+      testBoundaryCondition(), setBoundaryValue()
  */
 void QwtSpline::setBoundaryConditions(
     int condition, double valueBegin, double valueEnd )

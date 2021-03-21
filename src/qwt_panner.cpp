@@ -218,7 +218,7 @@ void QwtPanner::setOrientations( Qt::Orientations o )
     m_data->orientations = o;
 }
 
-//! Return the orientation, where paning is enabled
+//! Return the orientation, where panning is enabled
 Qt::Orientations QwtPanner::orientations() const
 {
     return m_data->orientations;

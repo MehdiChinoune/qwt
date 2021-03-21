@@ -407,7 +407,7 @@ QwtPlotVectorField::IndicatorOrigin QwtPlotVectorField::indicatorOrigin() const
    \brief Set the magnitudeScaleFactor
 
    The length of the arrow in screen coordinate units is calculated by
-   scaling the maginute by the magnitudeScaleFactor.
+   scaling the magnitude by the magnitudeScaleFactor.
 s
    \param factor Scale factor
 
@@ -424,10 +424,10 @@ void QwtPlotVectorField::setMagnitudeScaleFactor( double factor )
 }
 
 /*!
-   \return Scale factor used to calculate the arrow length from the magnized
+   \return Scale factor used to calculate the arrow length from the magnitude
 
    The length of the arrow in screen coordinate units is calculated by
-   scaling the maginute by the magnitudeScaleFactor.
+   scaling the magnitude by the magnitudeScaleFactor.
 
    Default implementation simply scales the vector using the magnitudeScaleFactor
    property.  Re-implement this function to provide special handling for
@@ -760,7 +760,7 @@ QRectF QwtPlotVectorField::boundingRect() const
 }
 
 /*!
-   \return Icon representing the vector fiels on the legend
+   \return Icon representing the vector fields on the legend
 
    \param index Index of the legend entry ( ignored as there is only one )
    \param size Icon size
@@ -965,7 +965,7 @@ void QwtPlotVectorField::drawSymbols( QPainter* painter,
 }
 
 /*!
-   Draw a arrow/symbols at a specfic position
+   Draw a arrow/symbols at a specific position
 
    x, y, are paint device coordinates, while vx, vy are from
    the corresponding sample.

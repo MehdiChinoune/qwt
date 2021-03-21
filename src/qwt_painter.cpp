@@ -482,7 +482,7 @@ void QwtPainter::drawText( QPainter* painter, const QRectF& rect,
    Draw a text document into a rectangle
 
    \param painter Painter
-   \param rect Traget rectangle
+   \param rect Target rectangle
    \param flags Alignments/Text flags, see QPainter::drawText()
    \param text Text document
  */
@@ -1200,7 +1200,7 @@ void QwtPainter::drawRoundedFrame( QPainter* painter,
    \param interval Value range
    \param scaleMap Scale map
    \param orientation Orientation
-   \param rect Traget rectangle
+   \param rect Target rectangle
  */
 void QwtPainter::drawColorBar( QPainter* painter,
     const QwtColorMap& colorMap, const QwtInterval& interval,
@@ -1445,7 +1445,7 @@ qreal QwtPainter::horizontalAdvance(
    \param paintDevice Paint device providing a DPI value. If paintDevice == null
                      the DPI value of the primary screen will be used
 
-   \return Font being adjustes to the DPI value of the paint device
+   \return Font being adjusted to the DPI value of the paint device
  */
 QFont QwtPainter::scaledFont( const QFont& font, const QPaintDevice* paintDevice )
 {

@@ -753,7 +753,7 @@ void QwtPlotAbstractCanvas::drawStyled( QPainter* painter, bool hackStyledBackgr
         // When the border is painted before the plot items
         // these colors are interpolated for the canvas
         // and the plot items need to be clipped excluding
-        // the anialiased pixels. In situations, where
+        // the antialiased pixels. In situations, where
         // the plot items fill the area at the rounded
         // borders this is noticeable.
         // The only way to avoid these annoying "artefacts"

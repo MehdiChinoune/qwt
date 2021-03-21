@@ -259,7 +259,7 @@ void QwtScaleEngine::setTransformation( QwtTransform* transform )
    of the engine. When the engine has no special transformation
    NULL is returned, indicating no transformation.
 
-   \return A clone of the transfomation
+   \return A clone of the transformation
    \sa setTransformation()
  */
 QwtTransform* QwtScaleEngine::transformation() const
@@ -386,7 +386,7 @@ QList< double > QwtScaleEngine::strip( const QList< double >& ticks,
    \brief Build an interval around a value
 
    In case of v == 0.0 the interval is [-0.5, 0.5],
-   otherwide it is [0.5 * v, 1.5 * v]
+   otherwise it is [0.5 * v, 1.5 * v]
 
    \param value Initial value
    \return Calculated interval
@@ -643,8 +643,7 @@ void QwtLinearScaleEngine::buildTicks(
     {
         ticks[i] = strip( ticks[i], interval );
 
-        // ticks very close to 0.0 are
-        // explicitely set to 0.0
+        // ticks very close to 0.0 are explicitly set to 0.0
 
         for ( int j = 0; j < ticks[i].count(); j++ )
         {

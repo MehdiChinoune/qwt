@@ -47,7 +47,7 @@ class QWT_EXPORT QwtMatrixRasterData : public QwtRasterData
         BilinearInterpolation,
 
         /*!
-           Interpolate the value from the 16 sorrounding values in the
+           Interpolate the value from the 16 surrounding values in the
            matrix using hermite bicubic interpolation
          */
         BicubicInterpolation

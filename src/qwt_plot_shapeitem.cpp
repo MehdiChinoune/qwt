@@ -403,7 +403,7 @@ void QwtPlotShapeItem::draw( QPainter* painter,
     if ( ( br.left() > cr.right() ) || ( br.right() < cr.left() )
         || ( br.top() > cr.bottom() ) || ( br.bottom() < cr.top() ) )
     {
-        // outside the visisble area
+        // outside the visible area
         return;
     }
 

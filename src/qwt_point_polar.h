@@ -128,7 +128,7 @@ inline void QwtPointPolar::setRadius( double radius )
     m_radius = radius;
 }
 
-//! Sets the atimuth to atimuth.
+//! Sets the azimuth to azimuth.
 inline void QwtPointPolar::setAzimuth( double azimuth )
 {
     m_azimuth = azimuth;

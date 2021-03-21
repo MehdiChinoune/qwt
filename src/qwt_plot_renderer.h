@@ -41,7 +41,7 @@ class QWT_EXPORT QwtPlotRenderer : public QObject
     Q_OBJECT
 
   public:
-    //! Disard flags
+    //! Discard flags
     enum DiscardFlag
     {
         //! Render all components of the plot

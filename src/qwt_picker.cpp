@@ -902,7 +902,7 @@ bool QwtPicker::eventFilter( QObject* object, QEvent* event )
 
                 /*
                    Adding/deleting additional event filters inside of an event filter
-                   is not safe dues to the implementation in Qt ( changing alist while iterating ).
+                   is not safe dues to the implementation in Qt ( changing list while iterating ).
                    So we create the overlays in a way, that they don't install en event filter
                    ( parent set to NULL ) and do the resizing here.
                  */

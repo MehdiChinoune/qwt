@@ -35,7 +35,7 @@ template< typename T > class QVector;
 
    - Geometric Continuity
 
-    - G0: polynamials are joined
+    - G0: polynomials are joined
     - G1: first derivatives are proportional at the join point
           The curve tangents thus have the same direction, but not necessarily the
           same magnitude. i.e., C1'(1) = (a,b,c) and C2'(0) = (k*a, k*b, k*c).
@@ -98,10 +98,10 @@ class QWT_EXPORT QwtSpline
      */
     enum BoundaryPosition
     {
-        //! the condiation is at the beginning of the polynomial
+        //! the condition is at the beginning of the polynomial
         AtBeginning,
 
-        //! the condiation is at the end of the polynomial
+        //! the condition is at the end of the polynomial
         AtEnd
     };
 
@@ -211,7 +211,7 @@ class QWT_EXPORT QwtSplineInterpolating : public QwtSpline
 
 /*!
    \brief Base class for spline interpolations providing a
-         first order geometric continuity ( G1 ) between adjoing curves
+         first order geometric continuity ( G1 ) between adjoining curves
  */
 class QWT_EXPORT QwtSplineG1 : public QwtSplineInterpolating
 {
@@ -222,7 +222,7 @@ class QWT_EXPORT QwtSplineG1 : public QwtSplineInterpolating
 
 /*!
    \brief Base class for spline interpolations providing a
-         first order parametric continuity ( C1 ) between adjoing curves
+         first order parametric continuity ( C1 ) between adjoining curves
 
    All interpolations with C1 continuity are based on rules for finding
    the 1. derivate at some control points.
@@ -254,7 +254,7 @@ class QWT_EXPORT QwtSplineC1 : public QwtSplineG1
 
 /*!
    \brief Base class for spline interpolations providing a
-         second order parametric continuity ( C2 ) between adjoing curves
+         second order parametric continuity ( C2 ) between adjoining curves
 
    All interpolations with C2 continuity are based on rules for finding
    the 2. derivate at some control points.

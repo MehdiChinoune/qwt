@@ -227,17 +227,17 @@ inline double qwtFastAtan2( double y, double x )
 }
 
 /* !
-   \brief Calculate a value of a cubic polynom
+   \brief Calculate a value of a cubic polynomial
 
    \param x Value
    \param a Cubic coefficient
    \param b Quadratic coefficient
    \param c Linear coefficient
-   \param d Connstant offset
+   \param d Constant offset
 
    \return Value of the polyonom for x
  */
-inline double qwtCubicPolynom( double x,
+inline double qwtCubicPolynomial( double x,
     double a, double b, double c, double d )
 {
     return ( ( ( a * x ) + b ) * x + c ) * x + d;

@@ -131,7 +131,7 @@ void QwtPolarCurve::setLegendAttribute( LegendAttribute attribute, bool on )
 }
 
 /*!
-    \brief Test if a lefend attribute is enables
+    \brief Test if a legend attribute is enabled
 
     \param attribute Legend attribute
 
@@ -218,7 +218,7 @@ const QPen& QwtPolarCurve::pen() const
    Initialize data with a pointer to QwtSeriesData<QwtPointPolar>.
 
    The x-values of the data object represent the azimuth,
-   the y-value respresent the radius.
+   the y-value represents the radius.
 
    \param data Data
  */

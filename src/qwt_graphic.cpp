@@ -1038,7 +1038,7 @@ void QwtGraphic::drawPixmap( const QRectF& rect,
 /*!
    \brief Store a image command in the command list
 
-   \param rect traget rectangle
+   \param rect target rectangle
    \param image Image to be painted
    \param subRect Reactangle of the pixmap to be painted
    \param flags Image conversion flags

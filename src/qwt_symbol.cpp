@@ -960,7 +960,7 @@ QwtSymbol::CachePolicy QwtSymbol::cachePolicy() const
 
    \param path Painter path
 
-   \note The style is implicitely set to QwtSymbol::Path.
+   \note The style is implicitly set to QwtSymbol::Path.
    \sa path(), setSize()
  */
 void QwtSymbol::setPath( const QPainterPath& path )

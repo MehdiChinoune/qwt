@@ -206,7 +206,7 @@ class QWT_EXPORT QwtHueColorMap : public QwtColorMap
    \brief QwtSaturationValueColorMap varies the saturation and/or value for a given
          hue in the HSV color model.
 
-   Value and saturation are in the range of 0 to 255 while hue is inthe range
+   Value and saturation are in the range of 0 to 255 while hue is in the range
    of 0 to 259.
 
    \sa QwtHueColorMap

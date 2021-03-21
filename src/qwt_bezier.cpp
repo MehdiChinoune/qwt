@@ -20,7 +20,7 @@ namespace
       public:
         inline BezierData()
         {
-            // default constructor with unitialized points
+            // default constructor with uninitialized points
         }
 
         inline BezierData( const QPointF& p1, const QPointF& cp1,
@@ -39,7 +39,7 @@ namespace
         static inline double minFlatness( double tolerance )
         {
             // we can simplify the tolerance criterion check in
-            // the subdivison loop, by precalculating some
+            // the subdivision loop, by precalculating some
             // flatness value.
 
             return 16 * ( tolerance * tolerance );
@@ -129,9 +129,9 @@ QwtBezier::~QwtBezier()
 
    The tolerance is a measurement for the flatness of a curve.
    A curve with a flatness below the tolerance is considered as being flat
-   terminating the subdivision algorith.
+   terminating the subdivision algorithm.
 
-   When interpolating a Betier curve to render it as a sequence of lines
+   When interpolating a Bezier curve to render it as a sequence of lines
    to some sort of raster ( f.e to screen ) a value of 0.5 of the pixel size
    is a good value for the tolerance.
 
@@ -171,7 +171,7 @@ QPolygonF QwtBezier::toPolygon( const QPointF& p1,
 /*!
    \brief Interpolate a Bézier curve by a polygon
 
-   appendToPolygon() is tailored for cummulating points from a sequence
+   appendToPolygon() is tailored for cumulating points from a sequence
    of bezier curves like being created by a spline interpolation.
 
    \param p1 Start point

@@ -55,7 +55,7 @@ class QWT_EXPORT QwtPlotVectorField
     enum PaintAttribute
     {
         /*
-            FilterVectors calculetes an average sample from all samples
+            FilterVectors calculates an average sample from all samples
             that lie in the same cell of a grid that is determined by
             setting the rasterSize().
 
