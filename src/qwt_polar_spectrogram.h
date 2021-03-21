@@ -19,7 +19,7 @@ class QwtColorMap;
 /*!
    \brief An item, which displays a spectrogram
 
-   A spectrogram displays threedimensional data, where the 3rd dimension
+   A spectrogram displays 3-dimensional data, where the 3rd dimension
    ( the intensity ) is displayed using colors. The colors are calculated
    from the values using a color map.
 
