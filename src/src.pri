@@ -11,8 +11,6 @@
 HEADERS += \
     qwt.h \
     qwt_abstract_scale_draw.h \
-    qwt_axis.h \
-    qwt_axis_id.h \
     qwt_bezier.h \
     qwt_clipper.h \
     qwt_color_map.h \
@@ -106,6 +104,8 @@ SOURCES += \
 contains(QWT_CONFIG, QwtPlot) {
 
     HEADERS += \
+        qwt_axis.h \
+        qwt_axis_id.h \
         qwt_curve_fitter.h \
         qwt_spline_curve_fitter.h \
         qwt_weeding_curve_fitter.h \
