@@ -12,6 +12,7 @@ HEADERS += \
     qwt.h \
     qwt_abstract_scale_draw.h \
     qwt_axis.h \
+    qwt_axis_id.h \
     qwt_bezier.h \
     qwt_clipper.h \
     qwt_color_map.h \
