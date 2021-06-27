@@ -57,7 +57,7 @@ bool CanvasPicker::eventFilter( QObject* object, QEvent* event )
 // Select the point at a position. If there is no point
 // deselect the selected point
 
-void CanvasPicker::select( const QPoint& pos )
+void CanvasPicker::select( const QPointF& pos )
 {
     QwtPlotCurve* curve = NULL;
     double dist = 10e10;
@@ -95,7 +95,7 @@ void CanvasPicker::select( const QPoint& pos )
 }
 
 // Move the selected point
-void CanvasPicker::move( const QPoint& pos )
+void CanvasPicker::move( const QPointF& pos )
 {
     if ( m_selectedCurve == 0 || m_selectedPoint < 0  )
         return;
