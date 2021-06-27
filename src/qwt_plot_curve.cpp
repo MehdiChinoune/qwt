@@ -1048,7 +1048,7 @@ double QwtPlotCurve::baseline() const
    \note closestPoint() implements a dumb algorithm, that iterates
         over all points
  */
-int QwtPlotCurve::closestPoint( const QPoint& pos, double* dist ) const
+int QwtPlotCurve::closestPoint( const QPointF& pos, double* dist ) const
 {
     const size_t numSamples = dataSize();
 
