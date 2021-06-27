@@ -669,7 +669,7 @@ void QwtPlotCurve::drawDots( QPainter* painter,
     {
         mapper.setFlag( QwtPointMapper::WeedOutPoints, false );
 
-        QPolygonF points = mapper.toPointsF(
+        QPolygonF points = mapper.toPolygonF(
             xMap, yMap, data(), from, to );
 
         QwtPainter::drawPoints( painter, points );
