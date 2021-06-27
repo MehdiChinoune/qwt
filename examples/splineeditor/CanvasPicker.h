@@ -8,7 +8,7 @@
 #include <QwtGlobal>
 #include <QObject>
 
-class QPoint;
+class QPointF;
 class QwtPlot;
 class QwtPlotCurve;
 
