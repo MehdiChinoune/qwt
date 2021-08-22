@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: @PROJECT_NAME@
+Description: @PROJECT_DESCRIPTION@
+Version: @PROJECT_VERSION@
+
+Libs: -L${libdir} -lqwt@QWT_NAME_SUFFIX@
+Cflags: -I${includedir}/qwt@QWT_NAME_SUFFIX@ @QWT_COMPILE_DEFINITIONS@
+Requires: @QT_LIBRARIES@
