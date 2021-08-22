@@ -1,0 +1,17 @@
+
+@PACKAGE_INIT@
+
+include ( "${CMAKE_CURRENT_LIST_DIR}/@QWT_CONFIG_NAME@Targets.cmake" )
+
+set(QWT_INCLUDE_DIRS ${PACKAGE_PREFIX_DIR}/include/qwt@QWT_NAME_SUFFIX@)
+
+if(TARGET Qwt::Qwt_SHARED)
+  add_library(Qwt::Qwt ALIAS Qwt::Qwt_SHARED)
+else()
+  add_library(Qwt::Qwt ALIAS Qwt::Qwt_STATIC)
+endif()
+
+set(QT_LIBRARIES @QT_LIBRARIES@)
+foreach(qt_lib ${QT_LIBRARIES})
+  find_package(${qt_lib} @QT_VERSION@ REQUIRED)
+endforeach()
