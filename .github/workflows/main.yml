@@ -1,0 +1,216 @@
+name: CI Tests
+
+on: [pull_request,push]
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-${{ matrix.ubuntu_version }}
+    name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [20.04, 22.04]
+        qt_version: [5.12.12, 5.15.2, 6.6.2]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ matrix.qt_version }}
+          cache: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. \
+            -DQWT_STATIC=${{ matrix.static }} \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
+
+      - name: Building
+        run: |
+          make -j$(nproc) -C build
+
+  containers:
+    runs-on: ubuntu-22.04
+    container: ubuntu:${{ matrix.ubuntu_version }}
+    name: Ubuntu-${{ matrix.ubuntu_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: ["20.04", "22.04", "24.04"]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install prerequisties
+        shell: bash
+        run: |
+          apt update
+          DEBIAN_FRONTEND=noninteractive \
+          apt install -y -q --no-install-recommends \
+            g++ \
+            ninja-build \
+            qtbase5-dev \
+            libqt5svg5-dev \
+            libqt5opengl5-dev \
+            qttools5-dev \
+            wget \
+            ca-certificates \
+            cmake
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja \
+            -DQWT_STATIC=${{ matrix.static }} \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
+
+      - name: Building
+        run: |
+         ninja -C build
+
+  MSVC:
+    name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    runs-on: windows-${{ matrix.win_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        win_version: [2019, 2022]
+        qt_version: [5.12.12, 5.15.2, 6.6.2]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ matrix.qt_version }}
+          cache: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
+          archives: qtbase qtsvg qttools
+
+      - name: Configuring
+        run: |
+          mkdir build; cd build
+          cmake .. `
+            -DQWT_STATIC=${{ matrix.static }} `
+            -DQWT_BUILD_TESTS=ON `
+            -DQWT_BUILD_PLAYGROUND=ON `
+            -DQWT_BUILD_EXAMPLES=ON
+
+      - name: Building
+        run: |
+          cmake --build build --config Release -- -maxCpuCount
+
+  MinGW-w64:
+    runs-on: windows-2022
+    name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [5, 6]
+        msystem: [UCRT64, CLANG64]
+        static: [ON, OFF]
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install MinGW-w64 packages
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.msystem }}
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja \
+            -DQWT_STATIC=${{ matrix.static }} \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
+
+      - name: Building
+        run: |
+          ninja -C build
+
+  macos:
+    runs-on: macos-${{ matrix.macos_version }}
+    name: macos-${{ matrix.macos_version }}-Qt-${{ matrix.qt_version }}-static-${{ matrix.static }}
+    strategy:
+      fail-fast: false
+      matrix:
+        macos_version: [12, 13]
+        qt_version: [5.12.12, 5.15.2, 6.6.2]
+        static: [ON, OFF]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ matrix.qt_version }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
+          archives: qtbase qtsvg qttools
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. \
+            -DQWT_STATIC=${{ matrix.static }} \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
+
+      - name: Building
+        run: |
+          make -j$(sysctl -n hw.logicalcpu) -C build
