@@ -1,0 +1,195 @@
+name: CI Tests
+
+on: [pull_request,push]
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-${{ matrix.ubuntu_version }}
+    name: Ubuntu-${{ matrix.ubuntu_version }}-Qt-${{ matrix.qt_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [18.04, 20.04]
+        qt_version: [5.12.12, 5.15.2, 6.3.0]
+        exclude:
+        - ubuntu_version: 18.04
+          qt_version: 6.3.0
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake ..
+
+      - name: Building
+        run: |
+          make -j$(nproc) -C build
+
+  containers:
+    runs-on: ubuntu-20.04
+    container: ubuntu:${{ matrix.ubuntu_version }}
+    name: Ubuntu-${{ matrix.ubuntu_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ubuntu_version: [16.04, 18.04, 20.04, 22.04]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install prerequisties
+        shell: bash
+        run: |
+          apt update
+          DEBIAN_FRONTEND=noninteractive \
+          apt install -y -q --no-install-recommends \
+            g++ \
+            ninja-build \
+            qtbase5-dev \
+            libqt5svg5-dev \
+            libqt5opengl5-dev \
+            qttools5-dev \
+            wget \
+            ca-certificates
+          if [[ "${{ matrix.ubuntu_version }}" < "20.04" ]]; then
+            wget https://apt.kitware.com/kitware-archive.sh
+            chmod +x kitware-archive.sh
+            ./kitware-archive.sh
+          fi
+          apt install -y --no-install-recommends cmake
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja
+
+      - name: Building
+        run: |
+         ninja -C build
+
+  MSVC:
+    name: windows-${{ matrix.win_version }}-Qt-${{ matrix.qt_version }}
+    runs-on: windows-${{ matrix.win_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        win_version: [2019, 2022]
+        qt_version: [5.12.12, 5.15.2, 6.3.0]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Configuring
+        run: |
+          mkdir build; cd build
+          cmake ..
+
+      - name: Building
+        run: |
+          cmake --build build --config Release -- -maxCpuCount
+
+  MinGW-w64:
+    runs-on: windows-2022
+    name: msys2-${{ matrix.msystem }}-Qt-${{ matrix.qt_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        qt_version: [5, 6]
+        msystem: [MINGW64, CLANG64]
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install MinGW-w64 packages
+        uses: msys2/setup-msys2@v2
+        with:
+          release: false
+          update: true
+          pacboy: >-
+            cc:p
+            cmake:p
+            ninja:p
+            qt${{ matrix.qt_version }}-base:p
+            qt${{ matrix.qt_version }}-svg:p
+            qt${{ matrix.qt_version }}-tools:p
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake .. -GNinja
+
+      - name: Building
+        run: |
+          ninja -C build
+
+  macos:
+    runs-on: macos-${{ matrix.macos_version }}
+    name: macos-${{ matrix.macos_version }}-Qt-${{ matrix.qt_version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        macos_version: [10.15, 11]
+        qt_version: [5.12.12, 5.15.2, 6.3.0]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_version }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake ..
+
+      - name: Building
+        run: |
+          make -j$(sysctl -n hw.logicalcpu) -C build
