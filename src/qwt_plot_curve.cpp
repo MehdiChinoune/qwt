@@ -1050,15 +1050,19 @@ double QwtPlotCurve::baseline() const
  */
 int QwtPlotCurve::closestPoint( const QPointF& pos, double* dist ) const
 {
-    const size_t numSamples = dataSize();
+    const QwtPlot* plot = this->plot();
 
-    if ( plot() == NULL || numSamples <= 0 )
+    if ( ( plot == NULL ) || !plot->isAxisValid( xAxis() ) || !plot->isAxisValid( yAxis() ) )
+        return -1;
+
+    const size_t numSamples = dataSize();
+    if ( numSamples <= 0 )
         return -1;
 
     const QwtSeriesData< QPointF >* series = data();
 
-    const QwtScaleMap xMap = plot()->canvasMap( xAxis() );
-    const QwtScaleMap yMap = plot()->canvasMap( yAxis() );
+    const QwtScaleMap xMap = plot->canvasMap( xAxis() );
+    const QwtScaleMap yMap = plot->canvasMap( yAxis() );
 
     int index = -1;
     double dmin = 1.0e10;
