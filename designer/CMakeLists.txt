@@ -16,8 +16,6 @@ endif()
 
 target_link_libraries(qwt_designer_plugin PUBLIC Qt${QT_VERSION_MAJOR}::Designer)
 
-target_include_directories(qwt_designer_plugin PRIVATE ${CMAKE_SOURCE_DIR}/src)
-
 set_target_properties(qwt_designer_plugin PROPERTIES
   AUTOMOC ON
   AUTORCC ON
