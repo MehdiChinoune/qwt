@@ -285,8 +285,7 @@ endif()
 
 add_library(qwt_objects OBJECT ${SOURCES} ${HEADERS})
 
-add_library(qwt $<TARGET_OBJECTS:qwt_objects>)
-target_link_libraries(qwt PUBLIC qwt_objects)
+target_include_directories(qwt_objects PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(qwt_objects PUBLIC
   Qt${QT_VERSION_MAJOR}::Core
@@ -336,6 +335,10 @@ if(WIN32 AND BUILD_SHARED_LIBS)
     PRIVATE QWT_MAKEDLL
   )
 endif()
+
+add_library(qwt $<TARGET_OBJECTS:qwt_objects>)
+
+target_link_libraries(qwt PUBLIC qwt_objects)
 
 if(BUILD_SHARED_LIBS AND NOT APPLE AND NOT MSVC)
   set_target_properties(qwt PROPERTIES
