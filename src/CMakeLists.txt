@@ -340,6 +340,8 @@ add_library(qwt $<TARGET_OBJECTS:qwt_objects>)
 
 target_link_libraries(qwt PUBLIC qwt_objects)
 
+target_include_directories(qwt PUBLIC ${CMAKE_SOURCE_DIR}/classincludes)
+
 if(BUILD_SHARED_LIBS AND NOT APPLE AND NOT MSVC)
   set_target_properties(qwt PROPERTIES
     VERSION ${PROJECT_VERSION}
