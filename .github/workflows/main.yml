@@ -9,40 +9,41 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: [18.04, 20.04]
+        ubuntu_version: [20.04, 22.04]
         qt_version: [5.12.12, 5.15.2, 6.3.0]
-        exclude:
-        - ubuntu_version: 18.04
-          qt_version: 6.3.0
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
-          path: ../Qt
-          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
 
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake ..
+          cmake .. \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
 
       - name: Building
         run: |
           make -j$(nproc) -C build
 
   containers:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     container: ubuntu:${{ matrix.ubuntu_version }}
     name: Ubuntu-${{ matrix.ubuntu_version }}
     strategy:
@@ -52,7 +53,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install prerequisties
         shell: bash
@@ -78,7 +79,10 @@ jobs:
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake .. -GNinja
+          cmake .. -GNinja \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
 
       - name: Building
         run: |
@@ -95,25 +99,29 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
-          path: ../Qt
-          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
 
       - name: Configuring
         run: |
           mkdir build; cd build
-          cmake ..
+          cmake .. `
+            -DQWT_BUILD_TESTS=ON `
+            -DQWT_BUILD_PLAYGROUND=ON `
+            -DQWT_BUILD_EXAMPLES=ON
 
       - name: Building
         run: |
@@ -133,11 +141,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install MinGW-w64 packages
         uses: msys2/setup-msys2@v2
         with:
+          msystem: ${{ matrix.msystem }}
           release: false
           update: true
           pacboy: >-
@@ -151,7 +160,10 @@ jobs:
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake .. -GNinja
+          cmake .. -GNinja \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
 
       - name: Building
         run: |
@@ -163,32 +175,34 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        macos_version: [10.15, 11]
+        macos_version: [11, 12]
         qt_version: [5.12.12, 5.15.2, 6.3.0]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Cache Qt
         id: cache-qt
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
-          path: ../Qt
-          key: ${{ runner.os }}-QtCache-${{ matrix.qt_version }}
+          path: ${{ github.workspace }}/Qt
+          key: ${{ runner.os }}-Qt-Cache-${{ matrix.qt_version }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
           version: ${{ matrix.qt_version }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          dir: ${{ github.workspace }}/Qt
 
       - name: Configuring
         run: |
           mkdir build && cd build
-          cmake ..
+          cmake .. \
+            -DQWT_BUILD_TESTS=ON \
+            -DQWT_BUILD_PLAYGROUND=ON \
+            -DQWT_BUILD_EXAMPLES=ON
 
       - name: Building
         run: |
