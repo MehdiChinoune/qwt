@@ -27,9 +27,20 @@ include(GNUInstallDirs)
 
 option(QWT_DLL "Build shared library" ON)
 if(QWT_DLL)
-  set(BUILD_SHARED_LIBS ON CACHE BOOL "Build Shared by default" FORCE)
+  set(BUILD_SHARED_LIBS ON)
 else()
-  set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build Shared by default" FORCE)
+  set(BUILD_SHARED_LIBS OFF)
+endif()
+
+option(QWT_STATIC "Build static library" OFF)
+if(QWT_STATIC)
+  set(BUILD_STATIC_LIBS ON)
+else()
+  set(BUILD_STATIC_LIBS OFF)
+endif()
+
+if(NOT QWT_DLL AND NOT QWT_STATIC)
+  message(FATAL_ERROR "Building shared and static library are both disabled!")
 endif()
 
 option(QWT_PLOT "Enable QwtPlot widget" ON)
@@ -49,7 +60,7 @@ if(WIN32)
 endif()
 
 if(APPLE)
-  option( QWT_FRAMEWORK "Build Qwt as a framework" ON)
+  option(QWT_FRAMEWORK "Build Qwt as a framework" ON)
 endif()
 
 option(QWT_BUILD_PLAYGROUND "Build the applications in playground" OFF)

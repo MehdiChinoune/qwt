@@ -336,26 +336,57 @@ if(WIN32 AND BUILD_SHARED_LIBS)
   )
 endif()
 
-add_library(qwt $<TARGET_OBJECTS:qwt_objects>)
+if(BUILD_SHARED_LIBS)
+  add_library(qwt_shared SHARED $<TARGET_OBJECTS:qwt_objects>)
+  target_link_libraries(qwt_shared PUBLIC qwt_objects)
+  target_include_directories(qwt_shared PUBLIC ${CMAKE_SOURCE_DIR}/classincludes)
+  set_target_properties(qwt_shared PROPERTIES OUTPUT_NAME qwt)
+endif()
 
-target_link_libraries(qwt PUBLIC qwt_objects)
+if(BUILD_STATIC_LIBS)
+  add_library(qwt_static STATIC $<TARGET_OBJECTS:qwt_objects>)
+  target_link_libraries(qwt_static PUBLIC qwt_objects)
+  target_include_directories(qwt_static PUBLIC ${CMAKE_SOURCE_DIR}/classincludes)
+  if(NOT (MSVC AND BUILD_SHARED_LIBS))
+    set_target_properties(qwt_static PROPERTIES OUTPUT_NAME qwt)
+  endif()
+endif()
 
-target_include_directories(qwt PUBLIC ${CMAKE_SOURCE_DIR}/classincludes)
+if(BUILD_SHARED_LIBS)
+  add_library(qwt ALIAS qwt_shared)
+else()
+  add_library(qwt ALIAS qwt_static)
+endif()
 
 if(BUILD_SHARED_LIBS AND NOT APPLE AND NOT MSVC)
-  set_target_properties(qwt PROPERTIES
+  set_target_properties(qwt_shared PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
   )
 endif()
 
 if(APPLE AND QWT_FRAMEWORK)
-  set_target_properties(qwt PROPERTIES FRAMEWORK TRUE)
+  if(BUILD_SHARED_LIBS)
+    set_target_properties(qwt_shared PROPERTIES FRAMEWORK TRUE)
+  endif()
+  if(BUILD_STATIC_LIBS)
+    set_target_properties(qwt_static PROPERTIES FRAMEWORK TRUE)
+  endif()
 endif()
 
-install(TARGETS qwt
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+if(BUILD_SHARED_LIBS)
+  install(TARGETS qwt_shared
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
+
+if(BUILD_STATIC_LIBS)
+  install(TARGETS qwt_static
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
