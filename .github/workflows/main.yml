@@ -34,6 +34,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake .. \
+            -DQWT_STATIC=ON \
             -DQWT_BUILD_TESTS=ON \
             -DQWT_BUILD_PLAYGROUND=ON \
             -DQWT_BUILD_EXAMPLES=ON
@@ -80,6 +81,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake .. -GNinja \
+            -DQWT_STATIC=ON \
             -DQWT_BUILD_TESTS=ON \
             -DQWT_BUILD_PLAYGROUND=ON \
             -DQWT_BUILD_EXAMPLES=ON
@@ -119,6 +121,7 @@ jobs:
         run: |
           mkdir build; cd build
           cmake .. `
+            -DQWT_STATIC=ON `
             -DQWT_BUILD_TESTS=ON `
             -DQWT_BUILD_PLAYGROUND=ON `
             -DQWT_BUILD_EXAMPLES=ON
@@ -161,6 +164,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake .. -GNinja \
+            -DQWT_STATIC=ON \
             -DQWT_BUILD_TESTS=ON \
             -DQWT_BUILD_PLAYGROUND=ON \
             -DQWT_BUILD_EXAMPLES=ON
@@ -200,6 +204,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake .. \
+            -DQWT_STATIC=ON \
             -DQWT_BUILD_TESTS=ON \
             -DQWT_BUILD_PLAYGROUND=ON \
             -DQWT_BUILD_EXAMPLES=ON
