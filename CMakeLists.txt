@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(Qwt
   VERSION 6.2.0
-  DESCRIPTION "Qwt Widget Library"
+  DESCRIPTION "Qt Widgets for Technical Applications"
   HOMEPAGE_URL "https://qwt.sourceforge.io"
   LANGUAGES CXX
 )
@@ -84,10 +84,6 @@ if(QWT_OPENGL)
   if(${QT_VERSION_MAJOR} VERSION_GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGLWidgets REQUIRED)
   endif()
-endif()
-
-if(QWT_WIDGETS)
-  find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 endif()
 
 if(QWT_SVG)
