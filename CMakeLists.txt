@@ -23,6 +23,12 @@ else()
   add_compile_definitions(QT_STRICT_ITERATORS)
 endif()
 
+include(CheckPIESupported)
+check_pie_supported(OUTPUT_VARIABLE PIE_MESSAGE LANGUAGES CXX)
+if(CMAKE_CXX_LINK_PIE_SUPPORTED)
+  set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+endif()
+
 include(GNUInstallDirs)
 
 option(QWT_DLL "Build shared library" ON)
