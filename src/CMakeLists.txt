@@ -397,21 +397,9 @@ install(FILES ${HEADERS}
 
 set(QWT_PKGCONFIG_FILE Qt${QT_VERSION_MAJOR}Qwt6.pc)
 
-set(QT_LIBRARIES
-  Qt${QT_VERSION_MAJOR}Widgets
-  Qt${QT_VERSION_MAJOR}Concurrent
-  Qt${QT_VERSION_MAJOR}PrintSupport
-)
-if(QWT_SVG)
-  list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}Svg)
-endif()
-if(QWT_OPENGL)
-  list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}OpenGL)
-  if(QT_VERSION_MAJOR VERSION_EQUAL 6)
-    list(APPEND QT_LIBRARIES Qt${QT_VERSION_MAJOR}OpenGLWidgets)
-  endif()
-endif()
+get_target_property(QT_LIBRARIES qwt_objects INTERFACE_LINK_LIBRARIES)
 string(JOIN " " QT_LIBRARIES ${QT_LIBRARIES})
+string(REPLACE "::" "" QT_LIBRARIES ${QT_LIBRARIES})
 
 configure_file(qwt.pc.in ${QWT_PKGCONFIG_FILE} @ONLY)
 

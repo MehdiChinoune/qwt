@@ -75,7 +75,13 @@ option(QWT_BUILD_TESTS "Build Tests" OFF)
 
 option(QWT_BUILD_EXAMPLES "Build Examples" OFF)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt6 COMPONENTS Core QUIET)
+if(Qt6_FOUND)
+  set(QT_VERSION_MAJOR 6)
+else()
+  find_package(Qt5 COMPONENTS Core REQUIRED)
+  set(QT_VERSION_MAJOR 5)
+endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS PrintSupport Concurrent Widgets REQUIRED)
 
