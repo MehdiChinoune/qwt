@@ -81,7 +81,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS PrintSupport Concurrent Widgets RE
 
 if(QWT_OPENGL)
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGL REQUIRED)
-  if(${QT_VERSION_MAJOR} VERSION_GREATER_EQUAL 6)
+  if(QT_VERSION_MAJOR VERSION_GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS OpenGLWidgets REQUIRED)
   endif()
 endif()
