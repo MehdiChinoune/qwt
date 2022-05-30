@@ -11,16 +11,22 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /permissive-")
-else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wcast-qual \
-    -Wcast-align -Wredundant-decls -Wformat -Wshadow -Woverloaded-virtual \
-    -fno-math-errno -funsafe-math-optimizations")
-  if(CMAKE_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wlogical-op")
+if(CMAKE_VERSION VERSION_LESS "3.21" AND "${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
+  set(PROJECT_IS_TOP_LEVEL TRUE)
+endif()
+
+if(PROJECT_IS_TOP_LEVEL)
+  if(MSVC)
+    string(REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /permissive-")
+  else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wcast-qual \
+      -Wcast-align -Wredundant-decls -Wformat -Wshadow -Woverloaded-virtual \
+      -fno-math-errno -funsafe-math-optimizations")
+    if(CMAKE_COMPILER_ID STREQUAL "GNU")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wlogical-op")
+    endif()
   endif()
-  add_compile_definitions(QT_STRICT_ITERATORS)
 endif()
 
 include(CheckPIESupported)
@@ -81,6 +87,7 @@ if(Qt6_FOUND)
 else()
   find_package(Qt5 COMPONENTS Core REQUIRED)
   set(QT_VERSION_MAJOR 5)
+  add_compile_definitions(QT_STRICT_ITERATORS)
 endif()
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS PrintSupport Concurrent Widgets REQUIRED)
