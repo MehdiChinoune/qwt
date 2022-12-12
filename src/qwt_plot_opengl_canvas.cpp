@@ -186,7 +186,7 @@ void QwtPlotOpenGLCanvas::paintGL()
     if ( testPaintAttribute( QwtPlotOpenGLCanvas::BackingStore ) &&
         QOpenGLFramebufferObject::hasOpenGLFramebufferBlit() )
     {
-        const qreal pixelRatio = QwtPainter::devicePixelRatio( NULL );
+        const qreal pixelRatio = QwtPainter::devicePixelRatio( this );
         const QSize fboSize = size() * pixelRatio;
 
         if ( hasFocusIndicator )
