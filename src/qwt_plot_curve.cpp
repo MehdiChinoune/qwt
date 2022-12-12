@@ -23,6 +23,8 @@
 #include <qpainter.h>
 #include <qpainterpath.h>
 
+#include <climits>
+
 static inline QRectF qwtIntersectedClipRect( const QRectF& rect, QPainter* painter )
 {
     QRectF clipRect = rect;
@@ -943,7 +945,7 @@ void QwtPlotCurve::closePolyline( QPainter* painter,
             baseline = yMap.transformation()->bounded( baseline );
 
         double refY = yMap.transform( baseline );
-        if ( doAlign )
+        if ( doAlign && qAbs( refY ) < std::numeric_limits< int >::max() )
             refY = qRound( refY );
 
         polygon += QPointF( polygon.last().x(), refY );
@@ -955,7 +957,7 @@ void QwtPlotCurve::closePolyline( QPainter* painter,
             baseline = xMap.transformation()->bounded( baseline );
 
         double refX = xMap.transform( baseline );
-        if ( doAlign )
+        if ( doAlign && qAbs( refX ) < std::numeric_limits< int >::max() )
             refX = qRound( refX );
 
         polygon += QPointF( refX, polygon.last().y() );
