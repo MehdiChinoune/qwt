@@ -197,3 +197,21 @@ RCC_DIR      = resources
     # are built in the release and debug subdirectories
     OBJECTS_DIR       = obj
 }
+
+######################################################################
+# including local settings ( optionally )
+######################################################################
+
+LOCAL_PRI=$$(QWT_LOCAL_PRI)
+
+if ( !isEmpty( LOCAL_PRI ) ) {
+
+    if ( exists( $${LOCAL_PRI} ) ) {
+
+        # When not working with the Qt/Creator it is often more convenient
+        # to include the specific options of your local build, than passing
+        # them all on the command line
+
+        include( $${LOCAL_PRI} )
+    }
+}
