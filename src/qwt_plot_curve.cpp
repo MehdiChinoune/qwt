@@ -1044,7 +1044,7 @@ double QwtPlotCurve::baseline() const
 
    \param pos Position, where to look for the closest curve point
    \param dist If dist != NULL, closestPoint() returns the distance between
-              the position and the closest curve point
+              the position and the closest curve point in paint device coordinates
    \return Index of the closest curve point, or -1 if none can be found
           ( f.e when the curve has no points )
    \note closestPoint() implements a dumb algorithm, that iterates
@@ -1087,6 +1087,127 @@ int QwtPlotCurve::closestPoint( const QPointF& pos, double* dist ) const
         *dist = std::sqrt( dmin );
 
     return index;
+}
+
+/*!
+   Find the curve point with the smallest coordinate larger than a specific value
+   The coordinates have to be monotonic in direction of the orientation.
+    
+   \param orientation Qt::Horizontal corresponds to x, Qt::Vertical to y coordinates
+   \param value x or y coordinate, depending on the orientation
+
+   \return Index of the curve point with the smalles coordinate above value
+           or -1 if there is none.
+
+   \note The implementation uses a binary search algorithm and requires the
+         points being ordered in direction of the orientation.
+
+   \sa qwtUpperSampleIndex()
+ */
+int QwtPlotCurve::adjacentPoint( Qt::Orientation orientation, qreal value ) const
+{
+    const QwtSeriesData< QPointF >* data = this->data();
+    if ( data == nullptr )
+        return -1;
+
+    if ( orientation == Qt::Horizontal )
+    {
+        struct compareX
+        {
+            inline bool operator()( const double x, const QPointF& pos ) const
+            {
+                return ( x < pos.x() );
+            }
+        };
+
+        return qwtUpperSampleIndex< QPointF >( *data, value, compareX() );
+    }
+    else
+    {
+        struct compareY
+        {
+            inline bool operator()( const double y, const QPointF& pos ) const
+            {
+                return ( y < pos.y() );
+            }
+        };
+
+        return qwtUpperSampleIndex< QPointF >( *data, value, compareY() );
+    }
+
+    return -1;
+}
+
+/*!
+   Calculate a fictive curve point by interpolating between the adjacent
+   points. The curve points have to be monotonic in direction of the orientation.
+    
+   \param orientation For Qt::Horizontal value is a x coordinate and a y coordinate
+                      is returned. For Qt::Vertical value is a x coordinate
+   \param value x or y coordinate, depending on the orientation
+
+   \return Interpolated coordinate or qQNaN() if value is outside the bounding
+           rectangle of the curve
+
+   \note The implementation uses a binary search algorithm and requires the
+         points being ordered in direction of the orientation.
+
+   \sa adjacentPoint()
+ */
+qreal QwtPlotCurve::interpolatedValueAt( Qt::Orientation orientation, double value ) const
+{
+    const QRectF br = boundingRect();
+    if ( br.width() <= 0.0 )
+        return qQNaN();
+
+    double v;
+
+    if ( orientation == Qt::Horizontal )
+    {
+        if ( value < br.left() || value > br.right() )
+            return qQNaN();
+
+        const int index = adjacentPoint( orientation, value );
+
+        if ( index == -1 )
+        {
+            const QPointF last = sample( dataSize() - 1 );
+
+            if ( value != last.x() )
+                return qQNaN();
+
+            v = last.y();
+        }
+        else
+        {
+            const QLineF line( sample( index - 1 ), sample( index ) );
+            v = line.pointAt( ( value - line.p1().x() ) / line.dx() ).y();
+        }
+    }
+    else
+    {
+        if ( value < br.top() || value > br.bottom() )
+            return qQNaN();
+
+        const int index = adjacentPoint( orientation, value );
+
+        if ( index == -1 )
+        {
+            const QPointF last = sample( dataSize() - 1 );
+
+            if ( value != last.y() )
+                return qQNaN();
+
+            v = last.x();
+        }
+        else
+        {
+            const QLineF line( sample( index - 1 ), sample( index ) );
+            v = line.pointAt( ( value - line.p1().y() ) / line.dy() ).x();
+        }
+    }
+
+    return v;
 }
 
 /*!
