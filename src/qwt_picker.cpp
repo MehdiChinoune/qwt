@@ -825,9 +825,26 @@ QRect QwtPicker::trackerRect( const QFont& font ) const
         return QRect();
 
     const QSizeF textSize = text.textSize( font );
-    QRect textRect( 0, 0, qwtCeil( textSize.width() ), qwtCeil( textSize.height() ) );
 
+    const int w = qwtCeil( textSize.width() );
+    const int h = qwtCeil( textSize.height() );
+
+    return trackerRect( QSize( w, h ) );
+}
+
+/*! 
+   Calculate the geometry of the tracker that is needed to display
+   information of a specific size at the tracker position
+    
+   \param size Size 
+   \return Bounding rectangle of the tracker
+    
+   \sa trackerPosition()
+ */
+QRect QwtPicker::trackerRect( const QSize& size ) const
+{
     const QPoint& pos = m_data->trackerPosition;
+    QRect infoRect( 0, 0, size.width(), size.height() );
 
     int alignment = 0;
     if ( isActive() && m_data->pickedPoints.count() > 1
@@ -840,13 +857,15 @@ QRect QwtPicker::trackerRect( const QFont& font ) const
         alignment |= ( pos.y() > last.y() ) ? Qt::AlignBottom : Qt::AlignTop;
     }
     else
+    {
         alignment = Qt::AlignTop | Qt::AlignRight;
+    }
 
     const int margin = 5;
 
     int x = pos.x();
     if ( alignment & Qt::AlignLeft )
-        x -= textRect.width() + margin;
+        x -= infoRect.width() + margin;
     else if ( alignment & Qt::AlignRight )
         x += margin;
 
@@ -854,21 +873,21 @@ QRect QwtPicker::trackerRect( const QFont& font ) const
     if ( alignment & Qt::AlignBottom )
         y += margin;
     else if ( alignment & Qt::AlignTop )
-        y -= textRect.height() + margin;
+        y -= infoRect.height() + margin;
 
-    textRect.moveTopLeft( QPoint( x, y ) );
+    infoRect.moveTopLeft( QPoint( x, y ) );
 
     const QRect pickRect = pickArea().boundingRect().toRect();
 
-    int right = qMin( textRect.right(), pickRect.right() - margin );
-    int bottom = qMin( textRect.bottom(), pickRect.bottom() - margin );
-    textRect.moveBottomRight( QPoint( right, bottom ) );
+    int right = qMin( infoRect.right(), pickRect.right() - margin );
+    int bottom = qMin( infoRect.bottom(), pickRect.bottom() - margin );
+    infoRect.moveBottomRight( QPoint( right, bottom ) );
 
-    int left = qMax( textRect.left(), pickRect.left() + margin );
-    int top = qMax( textRect.top(), pickRect.top() + margin );
-    textRect.moveTopLeft( QPoint( left, top ) );
+    int left = qMax( infoRect.left(), pickRect.left() + margin );
+    int top = qMax( infoRect.top(), pickRect.top() + margin );
+    infoRect.moveTopLeft( QPoint( left, top ) );
 
-    return textRect;
+    return infoRect;
 }
 
 /*!
