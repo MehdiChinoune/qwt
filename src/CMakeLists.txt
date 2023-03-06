@@ -285,6 +285,8 @@ endif()
 
 add_library(qwt_objects OBJECT ${SOURCES} ${HEADERS})
 
+target_compile_features(qwt_objects PUBLIC cxx_std_11)
+
 target_include_directories(qwt_objects INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/classincludes>
