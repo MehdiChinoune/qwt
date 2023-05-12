@@ -582,7 +582,7 @@ static void testDuplicates()
     testPaths( "Last point twice", spline, points, points4 );
 }
 
-int main()
+int main( int, char*[] )
 {
     testSplines();
     testDuplicates();
