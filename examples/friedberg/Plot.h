@@ -27,6 +27,14 @@ class Plot : public QwtPlot
         Tube
     };
 
+    enum Direction
+    {
+        LeftToRight,
+        RightToLeft,
+        TopToBottom,
+        BottomToTop
+    };
+
     Plot( QWidget* = NULL );
 
   public Q_SLOTS:
@@ -46,4 +54,6 @@ class Plot : public QwtPlot
 
     QwtPlotIntervalCurve* m_intervalCurve;
     QwtPlotCurve* m_curve;
+
+    const Direction m_direction; // time
 };
