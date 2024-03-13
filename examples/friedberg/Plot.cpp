@@ -30,7 +30,7 @@ static inline bool isHorizontal( Plot::Direction direction )
 static inline bool isInverted( Plot::Direction direction )
 {
     return ( direction == Plot::RightToLeft )
-        || ( direction == Plot::BottomToTop );
+        || ( direction == Plot::TopToBottom );
 }
 
 namespace
@@ -108,9 +108,8 @@ Plot::Plot( QWidget* parent )
 
     setAxisTitle( valueAxis,
         QString( "Temperature [%1C]" ).arg( QChar( 0x00B0 ) ) );
-#if 0
-    axisScaleEngine( valueAxis )->setAttribute( QwtScaleEngine::Inverted, true );
-#endif
+
+    setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
 
     QwtPlotCanvas* canvas = new QwtPlotCanvas();
     canvas->setPalette( Qt::darkGray );
