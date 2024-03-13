@@ -74,6 +74,18 @@ class QwtSeriesData
 #endif
 
     /*!
+        Returns the first sample in the list.
+        \warning This function assumes that the list isn't empty.
+     */
+    inline T firstSample() const { return sample( 0 ); }
+
+    /*!
+        Returns the first sample in the list.
+        \warning This function assumes that the list isn't empty.
+     */
+    inline T lastSample() const { return sample( size() - 1 ); }
+
+    /*!
        Calculate the bounding rect of all samples
 
        The bounding rect is necessary for autoscaling and can be used
