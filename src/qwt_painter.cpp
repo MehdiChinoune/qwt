@@ -110,27 +110,17 @@ static inline void qwtDrawPolyline( QPainter* painter,
     const T* points, int pointCount, bool polylineSplitting )
 {
     bool doSplit = false;
-    if ( polylineSplitting && pointCount > 3 )
+    if ( polylineSplitting )
     {
         const QPaintEngine* pe = painter->paintEngine();
         if ( pe && pe->type() == QPaintEngine::Raster )
         {
-            if ( painter->pen().width() <= 1 )
-            {
-                // work around a bug with short lines below 2 pixels difference
-                // in height and width
-
-                doSplit = qwtIsRasterPaintEngineBuggy();
-            }
-            else
-            {
-                /*
-                   Raster paint engine is much faster when splitting
-                   the polygon, but of course we might see some issues where
-                   the pieces are joining
-                 */
-                doSplit = true;
-            }
+            /*
+               Raster paint engine is much faster when splitting
+               the polygon, but of course we might see some issues where
+               the pieces are joining
+             */
+            doSplit = true;
         }
     }
 
