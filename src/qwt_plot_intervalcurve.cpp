@@ -44,6 +44,114 @@ static inline bool qwtIsVSampleInside( const QwtIntervalSample& sample,
     return !isOffScreen;
 }
 
+static void qwtDrawTube(
+    const QwtPlotIntervalCurve* curve, QPainter* painter,
+    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
+    const QRectF& canvasRect, int from, int to )
+{
+    const bool doAlign = QwtPainter::roundingAlignment( painter );
+
+    painter->save();
+
+    const size_t size = to - from + 1;
+    QPolygonF polygon( 2 * size );
+    QPointF* points = polygon.data();
+
+    for ( uint i = 0; i < size; i++ )
+    {
+        QPointF& minValue = points[i];
+        QPointF& maxValue = points[2 * size - 1 - i];
+
+        const QwtIntervalSample intervalSample = curve->sample( from + i );
+        if ( curve->orientation() == Qt::Vertical )
+        {
+            double x = xMap.transform( intervalSample.value );
+            double y1 = yMap.transform( intervalSample.interval.minValue() );
+            double y2 = yMap.transform( intervalSample.interval.maxValue() );
+
+            if ( doAlign )
+            {
+                x = qRound( x );
+                y1 = qRound( y1 );
+                y2 = qRound( y2 );
+            }
+
+            minValue.rx() = x;
+            minValue.ry() = y1;
+            maxValue.rx() = x;
+            maxValue.ry() = y2;
+        }
+        else
+        {
+            double y = yMap.transform( intervalSample.value );
+            double x1 = xMap.transform( intervalSample.interval.minValue() );
+            double x2 = xMap.transform( intervalSample.interval.maxValue() );
+
+            if ( doAlign )
+            {
+                y = qRound( y );
+                x1 = qRound( x1 );
+                x2 = qRound( x2 );
+            }
+
+            minValue.rx() = x1;
+            minValue.ry() = y;
+            maxValue.rx() = x2;
+            maxValue.ry() = y;
+        }
+    }
+
+    const bool doClip = curve->testPaintAttribute( QwtPlotIntervalCurve::ClipPolygons );
+
+    if ( curve->brush().style() != Qt::NoBrush )
+    {
+        painter->setPen( QPen( Qt::NoPen ) );
+        painter->setBrush( curve->brush() );
+
+        if ( doClip )
+        {
+            const qreal m = 1.0;
+            const QPolygonF p = QwtClipper::clippedPolygonF(
+                canvasRect.adjusted( -m, -m, m, m ), polygon, true );
+
+            QwtPainter::drawPolygon( painter, p );
+        }
+        else
+        {
+            QwtPainter::drawPolygon( painter, polygon );
+        }
+    }
+
+    if ( curve->pen().style() != Qt::NoPen )
+    {
+        painter->setPen( curve->pen() );
+        painter->setBrush( Qt::NoBrush );
+
+        if ( doClip )
+        {
+            qreal pw = QwtPainter::effectivePenWidth( painter->pen() );
+            const QRectF clipRect = canvasRect.adjusted( -pw, -pw, pw, pw );
+
+            QPolygonF p( size );
+
+            std::memcpy( p.data(), points, size * sizeof( QPointF ) );
+            QwtPainter::drawPolyline( painter,
+                QwtClipper::clippedPolygonF( clipRect, p ) );
+
+            std::memcpy( p.data(), points + size, size * sizeof( QPointF ) );
+            QwtPainter::drawPolyline( painter,
+                QwtClipper::clippedPolygonF( clipRect, p ) );
+        }
+        else
+        {
+            QwtPainter::drawPolyline( painter, points, size );
+            QwtPainter::drawPolyline( painter, points + size, size );
+        }
+    }
+
+    painter->restore();
+}
+
 class QwtPlotIntervalCurve::PrivateData
 {
   public:
@@ -332,16 +440,8 @@ void QwtPlotIntervalCurve::drawSeries( QPainter* painter,
     if ( from > to )
         return;
 
-    switch ( m_data->style )
-    {
-        case Tube:
-            drawTube( painter, xMap, yMap, canvasRect, from, to );
-            break;
-
-        case NoCurve:
-        default:
-            break;
-    }
+    if ( m_data->style == Tube )
+        drawTube( painter, xMap, yMap, canvasRect, from, to );
 
     if ( m_data->symbol &&
         ( m_data->symbol->style() != QwtIntervalSymbol::NoSymbol ) )
@@ -368,107 +468,17 @@ void QwtPlotIntervalCurve::drawSeries( QPainter* painter,
 
    \sa drawSeries(), drawSymbols()
  */
-void QwtPlotIntervalCurve::drawTube( QPainter* painter,
-    const QwtScaleMap& xMap, const QwtScaleMap& yMap,
-    const QRectF& canvasRect, int from, int to ) const
+void QwtPlotIntervalCurve::drawTube(
+    QPainter* painter, const QwtScaleMap& xMap,
+    const QwtScaleMap& yMap, const QRectF& canvasRect, int from, int to) const
 {
-    const bool doAlign = QwtPainter::roundingAlignment( painter );
-
-    painter->save();
-
-    const size_t size = to - from + 1;
-    QPolygonF polygon( 2 * size );
-    QPointF* points = polygon.data();
-
-    for ( uint i = 0; i < size; i++ )
+    if ( ( m_data->pen.style() == Qt::NoPen ) &&
+        ( m_data->brush.style() == Qt::NoBrush ) )
     {
-        QPointF& minValue = points[i];
-        QPointF& maxValue = points[2 * size - 1 - i];
-
-        const QwtIntervalSample intervalSample = sample( from + i );
-        if ( orientation() == Qt::Vertical )
-        {
-            double x = xMap.transform( intervalSample.value );
-            double y1 = yMap.transform( intervalSample.interval.minValue() );
-            double y2 = yMap.transform( intervalSample.interval.maxValue() );
-            if ( doAlign )
-            {
-                x = qRound( x );
-                y1 = qRound( y1 );
-                y2 = qRound( y2 );
-            }
-
-            minValue.rx() = x;
-            minValue.ry() = y1;
-            maxValue.rx() = x;
-            maxValue.ry() = y2;
-        }
-        else
-        {
-            double y = yMap.transform( intervalSample.value );
-            double x1 = xMap.transform( intervalSample.interval.minValue() );
-            double x2 = xMap.transform( intervalSample.interval.maxValue() );
-            if ( doAlign )
-            {
-                y = qRound( y );
-                x1 = qRound( x1 );
-                x2 = qRound( x2 );
-            }
-
-            minValue.rx() = x1;
-            minValue.ry() = y;
-            maxValue.rx() = x2;
-            maxValue.ry() = y;
-        }
+        return;
     }
 
-    if ( m_data->brush.style() != Qt::NoBrush )
-    {
-        painter->setPen( QPen( Qt::NoPen ) );
-        painter->setBrush( m_data->brush );
-
-        if ( m_data->paintAttributes & ClipPolygons )
-        {
-            const qreal m = 1.0;
-            const QPolygonF p = QwtClipper::clippedPolygonF(
-                canvasRect.adjusted( -m, -m, m, m ), polygon, true );
-
-            QwtPainter::drawPolygon( painter, p );
-        }
-        else
-        {
-            QwtPainter::drawPolygon( painter, polygon );
-        }
-    }
-
-    if ( m_data->pen.style() != Qt::NoPen )
-    {
-        painter->setPen( m_data->pen );
-        painter->setBrush( Qt::NoBrush );
-
-        if ( m_data->paintAttributes & ClipPolygons )
-        {
-            qreal pw = QwtPainter::effectivePenWidth( painter->pen() );
-            const QRectF clipRect = canvasRect.adjusted( -pw, -pw, pw, pw );
-
-            QPolygonF p( size );
-
-            std::memcpy( p.data(), points, size * sizeof( QPointF ) );
-            QwtPainter::drawPolyline( painter,
-                QwtClipper::clippedPolygonF( clipRect, p ) );
-
-            std::memcpy( p.data(), points + size, size * sizeof( QPointF ) );
-            QwtPainter::drawPolyline( painter,
-                QwtClipper::clippedPolygonF( clipRect, p ) );
-        }
-        else
-        {
-            QwtPainter::drawPolyline( painter, points, size );
-            QwtPainter::drawPolyline( painter, points + size, size );
-        }
-    }
-
-    painter->restore();
+    qwtDrawTube( this, painter, xMap, yMap, canvasRect, from, to );
 }
 
 /*!
