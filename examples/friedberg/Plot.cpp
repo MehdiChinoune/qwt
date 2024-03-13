@@ -248,6 +248,17 @@ void Plot::setMode( int style )
     replot();
 }
 
+void Plot::setUseLines()
+{
+    const bool useLines = !m_intervalCurve->testPaintAttribute( 
+        QwtPlotIntervalCurve::TubeAsLines );
+
+    m_intervalCurve->setPaintAttribute( QwtPlotIntervalCurve::TubeAsLines, useLines );
+    replot();
+
+    qDebug() << useLines;
+}
+
 void Plot::exportPlot()
 {
     QwtPlotRenderer renderer;

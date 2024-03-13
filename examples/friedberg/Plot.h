@@ -40,6 +40,7 @@ class Plot : public QwtPlot
   public Q_SLOTS:
     void setMode( int );
     void exportPlot();
+    void setUseLines();
 
   private:
     void insertCurve( const QString& title,
