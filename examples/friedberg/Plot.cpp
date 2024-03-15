@@ -20,6 +20,7 @@
 #include <QwtPlotRenderer>
 
 #include <QLocale>
+#include <QDebug>
 
 static inline bool isHorizontal( Plot::Direction direction )
 {

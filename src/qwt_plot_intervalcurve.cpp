@@ -16,6 +16,7 @@
 #include "qwt_text.h"
 
 #include <qpainter.h>
+#include <qmath.h>
 #include <cstring>
 
 static inline bool qwtIsHSampleInside( const QwtIntervalSample& sample,
